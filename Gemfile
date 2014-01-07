@@ -39,6 +39,9 @@ group :development, :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'coveralls', require: false
+  gem 'guard-rspec'
+  gem 'guard-cucumber'
+  gem 'guard-bundler'
 end
 
 # Use ActiveModel has_secure_password
