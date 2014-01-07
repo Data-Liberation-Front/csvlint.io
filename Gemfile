@@ -38,6 +38,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
+  gem 'coveralls', require: false
 end
 
 # Use ActiveModel has_secure_password
