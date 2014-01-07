@@ -4,3 +4,6 @@
 require File.expand_path('../config/application', __FILE__)
 
 Csvlint::Application.load_tasks
+
+task :default do
+end
