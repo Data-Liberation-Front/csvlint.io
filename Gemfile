@@ -34,6 +34,8 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+gem 'foreman'
+
 group :production do
   gem 'thin'
 end
