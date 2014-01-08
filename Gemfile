@@ -34,6 +34,10 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+group :production do
+  gem 'thin'
+end
+
 group :development, :test do
   gem 'rspec-rails'
   gem 'cucumber-rails', require: false
