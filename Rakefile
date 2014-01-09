@@ -5,7 +5,9 @@ require File.expand_path('../config/application', __FILE__)
 
 Csvlint::Application.load_tasks
 
-require 'coveralls/rake/task'
-Coveralls::RakeTask.new
+unless ENV['RACK_ENV'] == 'production'
+  require 'coveralls/rake/task'
+  Coveralls::RakeTask.new
 
-task :default => [:spec, :cucumber, 'coveralls:push']
+  task :default => [:spec, :cucumber, 'coveralls:push']
+end
