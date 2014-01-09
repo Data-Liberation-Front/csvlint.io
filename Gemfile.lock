@@ -143,6 +143,7 @@ GEM
     multi_json (1.8.2)
     multi_test (0.0.3)
     multipart-post (1.2.0)
+    mysql2 (0.3.14)
     net-http-persistent (2.9)
     net-http-pipeline (1.0.1)
     nokogiri (1.6.1)
@@ -282,6 +283,7 @@ DEPENDENCIES
   guard-rspec
   jbuilder (~> 1.2)
   jquery-rails
+  mysql2
   rack-google-analytics
   rails (~> 4.0.2)
   rspec-rails
