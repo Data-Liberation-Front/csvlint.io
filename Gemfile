@@ -48,6 +48,7 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'guard-cucumber'
   gem 'guard-bundler'
+  gem 'webmock', require: false
 end
 
 group :development do

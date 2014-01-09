@@ -3,6 +3,9 @@ Feature: CSV Validation
   As a data publisher
   I want to make sure that my CSV files are valid
   
+  Background:
+    Given the fixture "csvs/test.csv" is available at the URL "http://example.org/test.csv"
+    
   Scenario: Enter a URL for validation
     When I go to the homepage
     And I enter "http://example.org/test.csv" in the "url" field
