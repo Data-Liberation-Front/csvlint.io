@@ -2,4 +2,8 @@
 
 <p><%= @url %></p>
 
-<p><%= @validator.valid? ? "VALID" : "INVALID" %>
+<% if @validator.valid? %>
+<div class="alert alert-success">VALID</div>
+<% else %>
+<div class="alert alert-danger">INVALID</div>
+<% end %>
