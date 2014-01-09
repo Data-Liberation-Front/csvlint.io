@@ -36,6 +36,7 @@ describe ValidationController do
     end
 
     it "returns http success if a sensible url is supplied" do
+      stub_request(:get, "http://example.com/test.csv").to_return(body: load_fixture('csvs/test.csv'))
       get 'validate', url: 'http://example.com/test.csv'
       response.should be_success
     end

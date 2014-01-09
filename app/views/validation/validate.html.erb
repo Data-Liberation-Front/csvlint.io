@@ -1,3 +1,9 @@
 <h1>Validation Results</h1>
 
 <p><%= @url %></p>
+
+<% if @validator.valid? %>
+  <%= image_tag 'http://b.adge.me/:CSV%20-%20valid-green.svg' %>
+<% else %>
+  <%= image_tag 'http://b.adge.me/:CSV%20-%20invalid-red.svg' %>
+<% end %>
