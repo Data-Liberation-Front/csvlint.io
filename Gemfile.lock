@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/theodi/csvlint.rb.git
+  revision: 6002f1f4f4b04b31a747419327c5b7145b57f37e
+  specs:
+    csvlint (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -256,6 +262,7 @@ PLATFORMS
 DEPENDENCIES
   coffee-rails (~> 4.0.0)
   coveralls
+  csvlint!
   cucumber-rails
   database_cleaner
   foreman

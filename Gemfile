@@ -67,3 +67,5 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'rack-google-analytics'
+
+gem 'csvlint', github: 'theodi/csvlint.rb'
