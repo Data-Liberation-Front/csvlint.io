@@ -1,5 +1,11 @@
 require 'spec_helper'
 
 describe "validation/index.html.erb" do
-  pending "add some examples to (or delete) #{__FILE__}"
+  
+  it "should contain a URL entry box" do
+    render
+    rendered.should include "Enter CSV URL"
+    rendered.should include %{<input id="url" name="url" type="text" />}
+  end
+  
 end
