@@ -3,7 +3,7 @@
 <p><%= @url %></p>
 
 <% if @validator.valid? %>
-<div class="alert alert-success">VALID</div>
+  <%= image_tag 'http://b.adge.me/:CSV%20-%20valid-green.svg' %>
 <% else %>
-<div class="alert alert-danger">INVALID</div>
+  <%= image_tag 'http://b.adge.me/:CSV%20-%20invalid-red.svg' %>
 <% end %>
