@@ -4,7 +4,7 @@
 [![Dependency Status](https://gemnasium.com/theodi/csvlint.png)](https://gemnasium.com/theodi/csvlint)
 [![License](http://img.shields.io/license/mit.png?color=green)](http://theodi.mit-license.org/)
 
-== CSVLint
+# CSVLint
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
