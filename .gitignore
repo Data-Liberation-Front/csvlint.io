@@ -16,3 +16,7 @@
 /tmp
 
 /coverage/
+
+.chef
+.idea
+.vagrant
