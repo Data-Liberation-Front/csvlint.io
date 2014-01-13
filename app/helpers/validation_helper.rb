@@ -14,4 +14,20 @@ module ValidationHelper
     end
   end
 
+  def badge_markdown(url)
+    %{[![#{t(:csv_status)}](#{validate_url(url: url, format: 'svg')})](#{validate_url(url: url)})}
+  end
+  
+  def badge_textile(url)
+    %{!#{validate_url(url: url, format: 'svg')}(#{t(:csv_status)})!:#{validate_url(url: url)}}
+  end
+
+  def badge_rdoc(url)
+    %{{<img src="#{validate_url(url: url, format: 'svg')}" alt="#{t(:csv_status)}" />}[#{validate_url(url: url)}]}
+  end
+
+  def badge_html(url)
+    %{<a href='#{validate_url(url: url)}'><img src="#{validate_url(url: url, format: 'svg')}" alt="#{t(:csv_status)}" /></a>}
+  end
+
 end

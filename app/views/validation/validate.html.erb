@@ -3,9 +3,9 @@
 <p><%= @url %></p>
 
 <% if @validator.valid? %>
-  <%= image_tag 'http://b.adge.me/:CSV%20-%20valid-green.svg' %>
+  <%= image_tag 'http://b.adge.me/:CSV%20-%20valid-green.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
 <% else %>
-  <%= image_tag 'http://b.adge.me/:CSV%20-%20invalid-red.svg' %>
+  <%= image_tag 'http://b.adge.me/:CSV%20-%20invalid-red.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
 <% end %>
 
 <%= error_and_warning_count(@errors, @warnings, wrapper: :h2) %>
@@ -13,3 +13,5 @@
 <%= render :partial => 'errors' unless @errors.empty? %>
 
 <%= render :partial => 'warnings' unless @warnings.empty? %>
+
+<%= render 'badge_modal'%>
