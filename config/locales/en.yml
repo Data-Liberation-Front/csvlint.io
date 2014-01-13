@@ -20,6 +20,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
-  error: "Error"
-  warning: "Warning"
+  error: "error"
+  warning: "warning"
+  results: "validation results"
+  enter_csv_url: "Enter CSV URL"
+  validate: "validate"
+  site_title: "CSVLint"
