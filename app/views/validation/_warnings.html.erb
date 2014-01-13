@@ -1,0 +1,9 @@
+<h2><%= pluralize @warnings.count, "Warning" %></h2>
+
+<% @warnings.each do |warning| %>
+
+  <div class="alert alert-warning">
+    <%= render partial: 'message', locals: {message: warning} %>
+  </div>
+
+<% end %>

@@ -7,3 +7,7 @@
 <% else %>
   <%= image_tag 'http://b.adge.me/:CSV%20-%20invalid-red.svg' %>
 <% end %>
+
+<%= render :partial => 'errors' unless @errors.empty? %>
+
+<%= render :partial => 'warnings' unless @warnings.empty? %>
