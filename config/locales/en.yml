@@ -27,6 +27,7 @@ en:
   validate: "validate"
   site_title: "CSVLint"
   encoding: "incorrect encoding"
+  no_encoding: "no encoding"
   extension: "incorrect file extension"
   content_type: "incorrect content type"
   check_options: "check options"
