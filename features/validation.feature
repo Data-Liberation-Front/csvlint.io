@@ -4,7 +4,7 @@ Feature: CSV Validation
   I want to make sure that my CSV files are valid
   
   Background:
-    Given the fixture "csvs/test.csv" is available at the URL "http://example.org/test.csv"
+    Given the fixture "csvs/valid.csv" is available at the URL "http://example.org/test.csv"
     
   Scenario: Enter a URL for validation
     When I go to the homepage
