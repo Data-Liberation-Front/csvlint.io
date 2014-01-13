@@ -26,6 +26,7 @@ en:
   enter_csv_url: "Enter CSV URL"
   validate: "validate"
   site_title: "CSVLint"
+  whitespace: "unexpected whitespace"
   encoding: "incorrect encoding"
   no_encoding: "no encoding"
   extension: "incorrect file extension"
