@@ -21,3 +21,5 @@
 
 en:
   hello: "Hello world"
+  error: "Error"
+  warning: "Warning"
