@@ -1,7 +1,7 @@
-<%= t(message[:type]).capitalize %>
-<% if message[:row] %>
-  on row <%= message[:row] %>
+<%= t(message.type).capitalize %>
+<% if message.row %>
+  on row <%= message.row %>
 <% end %>
-<% if message[:content] %>
-  <%= content_tag :pre, message[:content] %>
+<% if message.content %>
+  <%= content_tag :pre, message.content %>
 <% end %>

@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/theodi/csvlint.rb.git
-  revision: d6b5b4aaa50e204a781e557fa4b0e6f08b66e1fa
+  revision: 1deedcfe58ac88cfe8ad15a9891d92db56b4307b
   specs:
     csvlint (0.0.1)
       mime-types
