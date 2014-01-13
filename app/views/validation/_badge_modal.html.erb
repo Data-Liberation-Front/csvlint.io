@@ -1,0 +1,20 @@
+<div class="modal fade" id="badgeModal" tabindex="-1" role="dialog" aria-labelledby="badgeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="badgeModalLabel">README Badges</h4>
+      </div>
+      <div class="modal-body badge-code">
+        <table>
+          <% [:markdown, :textile, :rdoc, :html].each do |format| %>
+            <tr>
+              <td><strong><%= t(format) %></strong></td>
+              <td><%= text_area_tag format, send("badge_#{format}", params[:url]), readonly: true %></td>
+            </tr>          
+          <% end %>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
