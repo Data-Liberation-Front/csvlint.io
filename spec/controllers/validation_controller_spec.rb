@@ -36,9 +36,86 @@ describe ValidationController do
     end
 
     it "returns http success if a sensible url is supplied" do
-      stub_request(:get, "http://example.com/test.csv").to_return(body: load_fixture('csvs/test.csv'))
+      mock_csv("http://example.com/test.csv", 'csvs/valid.csv')
       get 'validate', url: 'http://example.com/test.csv'
       response.should be_success
+    end
+
+  end
+
+  describe "GET 'validate' HTML" do
+    
+    it "has no warnings or errors for valid CSV" do
+      mock_csv("http://example.com/test.csv", 'csvs/valid.csv')
+      get 'validate', url: 'http://example.com/test.csv'
+      response.should be_success
+      assigns(:warnings).should be_empty
+      assigns(:errors).should be_empty
+    end
+    
+    it "has warnings or errors for warning CSV" do
+      mock_csv("http://example.com/test.csv", 'csvs/warnings.csv')
+      get 'validate', url: 'http://example.com/test.csv'
+      response.should be_success
+      assigns(:warnings).should_not be_empty
+      assigns(:errors).should be_empty
+    end
+    
+    it "has errors for error CSV" do
+      mock_csv("http://example.com/test.csv", 'csvs/errors.csv')
+      get 'validate', url: 'http://example.com/test.csv'
+      response.should be_success
+      assigns(:errors).should_not be_empty
+    end
+    
+  end
+
+  describe "GET 'validate' PNG" do
+
+    it "returns valid image for a good CSV" do
+      mock_csv("http://example.com/test.csv", 'csvs/valid.csv')
+      get 'validate', url: 'http://example.com/test.csv', format: :png
+      response.should be_success
+      response.body.length.should == 1588
+    end
+
+    it "returns invalid image for a CSV with errors" do
+      mock_csv("http://example.com/test.csv", 'csvs/errors.csv')
+      get 'validate', url: 'http://example.com/test.csv', format: :png
+      response.should be_success
+      response.body.length.should == 1760
+    end
+
+    it "returns warning image for a CSV with warnings" do
+      mock_csv("http://example.com/test.csv", 'csvs/warnings.csv')
+      get 'validate', url: 'http://example.com/test.csv', format: :png
+      response.should be_success
+      response.body.length.should == 2099
+    end
+
+  end
+
+  describe "GET 'validate' SVG" do
+
+    it "returns valid image for a good CSV" do
+      mock_csv("http://example.com/test.csv", 'csvs/valid.csv')
+      get 'validate', url: 'http://example.com/test.csv', format: :svg
+      response.should be_success
+      response.body.should include(">valid<")
+    end
+
+    it "returns invalid image for a CSV with errors" do
+      mock_csv("http://example.com/test.csv", 'csvs/errors.csv')
+      get 'validate', url: 'http://example.com/test.csv', format: :svg
+      response.should be_success
+      response.body.should include(">invalid<")
+    end
+
+    it "returns warning image for a CSV with warnings" do
+      mock_csv("http://example.com/test.csv", 'csvs/warnings.csv')
+      get 'validate', url: 'http://example.com/test.csv', format: :svg
+      response.should be_success
+      response.body.should include(">warnings<")
     end
 
   end

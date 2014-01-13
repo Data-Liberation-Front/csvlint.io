@@ -25,6 +25,16 @@ class ValidationController < ApplicationController
     @validator = Csvlint::Validator.new( @url.to_s )
     @warnings = @validator.warnings
     @errors = @validator.errors
+    state = "valid"
+    state = "warnings" unless @warnings.empty?
+    state = "invalid" unless @errors.empty?
+    # Responses
+    respond_to do |wants|
+      wants.html
+      wants.png { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{state}.png"), disposition: 'inline' }
+      wants.svg { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{state}.svg"), disposition: 'inline' }
+    end
+
   end
 
 end
