@@ -1,4 +1,4 @@
-<%= message[:type] %>
+<%= t(message[:type]).capitalize %>
 <% if message[:position] %>
   at <%= message[:position] %>
 <% end %>

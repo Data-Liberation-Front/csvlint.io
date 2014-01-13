@@ -26,3 +26,11 @@ en:
   enter_csv_url: "Enter CSV URL"
   validate: "validate"
   site_title: "CSVLint"
+  encoding: "incorrect encoding"
+  extension: "incorrect file extension"
+  content_type: "incorrect content type"
+  check_options: "check options"
+  inconsistent_values: "inconsistent value"
+  ragged_rows: "ragged row"
+  blank_rows: "blank row"
+  
