@@ -1,0 +1,7 @@
+<% @warnings.each do |warning| %>
+
+  <div class="alert alert-warning">
+    <%= render partial: 'message', locals: {message: warning} %>
+  </div>
+
+<% end %>

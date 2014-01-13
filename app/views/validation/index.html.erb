@@ -1,6 +1,6 @@
 <%= form_tag '/validate' do %>
   <div class="input-group">  
-    <%= url_field_tag 'url', '', class: 'form-control', placeholder: 'Enter CSV URL'%>
-    <span class="input-group-btn"><%= submit_tag 'Validate', class: 'btn btn-primary' %></span>
+    <%= url_field_tag 'url', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
+    <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary' %></span>
   </div>
 <% end %>

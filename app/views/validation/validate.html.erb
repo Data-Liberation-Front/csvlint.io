@@ -1,4 +1,4 @@
-<h1>Validation Results</h1>
+<h1><%= t(:results).titleize %></h1>
 
 <p><%= @url %></p>
 
@@ -7,3 +7,9 @@
 <% else %>
   <%= image_tag 'http://b.adge.me/:CSV%20-%20invalid-red.svg' %>
 <% end %>
+
+<%= error_and_warning_count(@errors, @warnings, wrapper: :h2) %>
+
+<%= render :partial => 'errors' unless @errors.empty? %>
+
+<%= render :partial => 'warnings' unless @warnings.empty? %>

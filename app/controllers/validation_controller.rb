@@ -23,6 +23,8 @@ class ValidationController < ApplicationController
     redirect_to root_path and return unless ['http', 'https'].include?(@url.scheme)
     # Validate
     @validator = Csvlint::Validator.new( @url.to_s )
+    @warnings = @validator.warnings
+    @errors = @validator.errors
   end
 
 end
