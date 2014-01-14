@@ -2,20 +2,30 @@
 <html>
 <head>
   <title><%= t(:site_title) %></title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= csrf_meta_tags %>
-  <%= stylesheet_link_tag "//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" %>
 </head>
+
 <body>
+  
+  <div id='wrapper'>
+    <% if content_for?(:title) %>
+      <header class="page-title">
+          <div class="container">
+              <h1><%= yield :title %></h1>
+          </div>
+      </header>
+    <% end %>
+  
+    <%= yield :hero %>
 
-  <div class='container'>
-    <div class='well'>
-      <%= yield %>
+    <div class="container">
+        <div class="row">
+          <%= yield %>
+        </div>
     </div>
+
   </div>
-
-  <%= javascript_include_tag "//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js" %>
-
+  
 </body>
 </html>
