@@ -4,6 +4,7 @@ ruby "2.1.0"
 #ruby-gemset=csvlint
 
 gem 'rails', '~> 4.0.2'
+gem 'dotenv-rails'
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -69,5 +70,7 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'rack-google-analytics'
+gem 'plek'
+gem 'slimmer'
 
 gem 'csvlint', github: 'theodi/csvlint.rb'
