@@ -1,7 +1,7 @@
 <% @errors.each do |error| %>
 
   <div class="alert alert-danger">
-    <%= render partial: 'message', locals: {message: error} %>
+    <%= render partial: 'message', locals: {message: error, validator: @validator} %>
   </div>
 
 <% end %>
