@@ -30,5 +30,7 @@ module Csvlint
       config.middleware.use("Rack::GoogleAnalytics", :tracker => ENV['CSVLINT_ANALYTICS_KEY'])
     end    
     
+    config.middleware.use("Slimmer::App", :asset_host => Plek.new.find("static"))
+    
   end
 end

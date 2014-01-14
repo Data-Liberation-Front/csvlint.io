@@ -1,6 +1,7 @@
 require 'uri'
 
 class ValidationController < ApplicationController
+  slimmer_template :csvlint
 
   def index
   end
