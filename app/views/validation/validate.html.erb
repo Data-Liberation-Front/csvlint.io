@@ -1,4 +1,6 @@
-<h1><%= t(:results).titleize %></h1>
+<% content_for :title do %>
+  <%= t(:results).titleize %>
+<% end %>
 
 <%= form_tag '/validate', :id => 'result_form' do %>
   <div class="input-group">  
