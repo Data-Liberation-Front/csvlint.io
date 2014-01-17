@@ -1,11 +1,29 @@
-<h1><%= t(:results).titleize %></h1>
+<% content_for :title do %>
+  <%= t(:results).titleize %>
+<% end %>
 
-<p><%= @url %></p>
+<%= form_tag '/validate', :id => 'result_form' do %>
+  <div class="input-group">  
+    <%= url_field_tag 'url', @url, class: 'form-control' %>
+    <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary' %></span>
+  </div>
+<% end %>
 
 <% if @validator.valid? %>
-  <%= image_tag 'http://b.adge.me/:CSV%20-%20valid-green.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
+  <div class="alert alert-success" id="result">
+    <% if @warnings.count == 0 %>
+      <%= image_tag 'http://b.adge.me/:CSV%20-%20valid-green.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
+      <p><%= t(:valid_html) %></p>
+    <% else %>
+      <%= image_tag 'http://b.adge.me/:CSV%20-%20warnings-yellow.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
+      <p><%= t(:valid_html) %> <%= t(:valid_with_warnings) %></p>
+    <% end %>
+  </div>
 <% else %>
-  <%= image_tag 'http://b.adge.me/:CSV%20-%20invalid-red.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
+  <div class="alert alert-danger" id="result">
+    <%= image_tag 'http://b.adge.me/:CSV%20-%20invalid-red.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
+    <p><%= t(:invalid_html) %></p>
+  </div>
 <% end %>
 
 <%= error_and_warning_count(@errors, @warnings, wrapper: :h2) %>

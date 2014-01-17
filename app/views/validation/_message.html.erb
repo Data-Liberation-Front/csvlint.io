@@ -1,7 +1,10 @@
-<%= t(message.type).capitalize %>
+<p><strong><%= t(message.type).capitalize %>
 <% if message.row %>
   on row <%= message.row %>
-<% end %>
+<% end %></strong></p>
 <% if message.content %>
   <%= content_tag :pre, message.content %>
+<% end %>
+<% if i18n_set?("#{message.type}_guidance_html") %>
+  <p><%= t("#{message.type}_guidance_html", :encoding => validator.encoding) %></p>
 <% end %>

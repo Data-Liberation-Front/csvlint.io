@@ -1,3 +1,7 @@
+<% content_for :title do %>
+  Home
+<% end %>
+
 <%= form_tag '/validate' do %>
   <div class="input-group">  
     <%= url_field_tag 'url', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
