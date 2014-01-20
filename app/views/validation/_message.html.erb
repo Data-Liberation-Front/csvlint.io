@@ -1,6 +1,9 @@
 <p><strong><%= t(message.type).capitalize %>
 <% if message.row %>
-  on row <%= message.row %>
+  on row <%= message.row %>  
+<% end %>
+<% if message.column %>
+  in column <%= message.column %>
 <% end %></strong></p>
 <% if message.content %>
   <%= content_tag :pre, message.content %>
