@@ -40,7 +40,7 @@ en:
   wrong_content_type: "Incorrect content type"
   wrong_content_type_guidance_html: "The URL your CSV is referenced at appears to be sending the wrong <code>Content-Type</code> header. We recommend that you configure your server to send the <code>text/csv</code> content-type header"
   no_content_type: "no content type"
-  no_content_type_guidance_html: "The URL your CSV is referenced at does not appear to be sending a content-type header. We recommend that you configure your server to send the <code>text/csv</code> content-type header"
+  no_content_type_guidance_html: "The URL your CSV is referenced at does not appear to be sending a <code>Content-Type</code> header. We recommend that you configure your server to send the <code>text/csv</code> content-type header"
   check_options: "Check Options"
   inconsistent_values: "Inconsistent value"
   ragged_rows: "Ragged row"
