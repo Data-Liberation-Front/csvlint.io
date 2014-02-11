@@ -34,6 +34,13 @@ Feature: CSV Validation
 
   Scenario: Upload a file for validation
     When I go to the homepage
-    And I attach the file "valid.csv" to the file field
+    And I attach the file "csvs/valid.csv" to the "file" field
     And I press "Upload and validate"
     Then I should see a page of validation results
+    
+  Scenario: Upload a file and a schema for validation
+    When I go to the homepage
+    And I attach the file "csvs/valid.csv" to the "file" field
+    And I attach the file "schemas/valid.json" to the "schema_file" field
+    And I press "Upload and validate"
+    Then I should see a page of validation results    

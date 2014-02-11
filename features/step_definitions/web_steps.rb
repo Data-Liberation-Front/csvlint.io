@@ -11,8 +11,8 @@ When(/^I press "(.*?)"$/) do |name|
   click_button name
 end
 
-When(/^I attach the file "(.*?)" to the file field$/) do |file|
-  attach_file(:file, File.join(Rails.root, 'fixtures', 'csvs', file))
+When(/^I attach the file "(.*?)" to the "(.*?)" field$/) do |file, field_name|
+  attach_file(field_name.to_sym, File.join(Rails.root, 'fixtures', file))
 end
 
 Then(/^I should see "(.*?)"$/) do |text|
