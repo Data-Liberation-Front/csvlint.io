@@ -20,34 +20,104 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  #General labelling
+  
   error: "Error"
   warning: "Warning"
+  validate: "Validate"  
   results: "Validation results"
   enter_csv_url: "Enter CSV URL"
-  validate: "Validate"
   site_title: "CSVLint"
+  csv_status: "CSV Validation"
+
+  #  
+  # Validation Summary
+  #
   valid_html: "<strong>Congratulations!</strong> Your CSV is valid!"
   valid_with_warnings: "However, there are some issues that you may want to address to make is as easy as possible to reuse your data"
   invalid_html: "<strong>Sorry</strong>, your CSV did not pass validation. Please review the errors and warnings below:"
-  whitespace: "Unexpected whitespace"
+
+  #
+  # Validation Detail
+  #
+  blank_rows: "Empty row"
+  blank_rows_guidance_html: |
+    Remove the empty row from your CSV file.  
+    If you were not expecting any empty rows then this may indicate a problem with your data
+  
+  check_options: "Check CSV parsing options"
+  check_options_guidance_html: |
+    Your CSV file appears to only contain a single column. This may indicate that it is being incorrectly parsed.<br>
+    We recommend using commas as delimiters and escaping values in columns where necessary.
+
   encoding: "Incorrect Encoding"
-  encoding_guidance_html: "Your CSV appears to be encoded in <code>%{encoding}</code>. We recommend you use <code>UTF-8</code>."
-  no_encoding: "No encoding"
-  no_encoding_guidance_html: "The URL your CSV is referenced at appears to not be sending an encoding header with its content-type."
-  invalid_encoding: "Invalid Encoding"
-  invalid_encoding_guidance_html: "Your CSV appears to be encoded in <code>%{encoding}</code>, but invalid characters were found. This can often be caused by copying and pasting data from a different source."
-  extension: "Incorrect File Extension"
-  wrong_content_type: "Incorrect content type"
-  wrong_content_type_guidance_html: "The URL your CSV is referenced at appears to be sending the wrong <code>Content-Type</code> header. We recommend that you configure your server to send the <code>text/csv</code> content-type header"
-  no_content_type: "no content type"
-  no_content_type_guidance_html: "The URL your CSV is referenced at does not appear to be sending a <code>Content-Type</code> header. We recommend that you configure your server to send the <code>text/csv</code> content-type header"
-  check_options: "Check Options"
+  encoding_guidance_html: |
+     Your CSV appears to be encoded in <code>%{encoding}</code>. We recommend you use <code>UTF-8</code>.	
+
+  excel: "Misleading File Extension"
+  excel_guidance_html: |
+     Your CSV file is being delivered without a <code>Content-Type</code> header and has a filename ending in <code>.xls</code>.
+     Check that you are publishing an actual CSV file and not an Excel spreadsheet. Also ensure that the file is delivered with 
+     the correct <code>Content-Type</code>.
+     
   inconsistent_values: "Inconsistent value"
-  ragged_rows: "Ragged row"
-  blank_rows: "Blank row"
-  csv_status: "CSV Validation"
-  quoting: "Bad quoting"
+  inconsistent_values_guidance_html: |
+      The data in column %{column} is inconsistent with others values in the same column.
+
+  invalid_encoding: "Invalid Encoding"
+  invalid_encoding_guidance_html: |
+      Your CSV appears to be encoded in <code>%{encoding}</code>, but invalid characters were found.
+      This can often be caused by copying and pasting data from a different source.
+
+  line_breaks: "Line Breaks"
+  line_breaks_guidance_html: |
+      Your CSV appears is using non-standard line-breaks. We recommend publishing CSV files with a line ending of 
+      CR-LF (a carriage-return and line-feed pair, e.g. <code>\r\n</code>).
+      This may be labelled as "Windows line endings" on some systems
+      
+  no_content_type: "no content type"
+  no_content_type_guidance_html: |
+      Your CSV file is being delivered without a <code>Content-Type</code> header.<br>
+      We recommend that you configure your server to deliver CSV files with a <code>Content-Type</code> header of <code>text/csv; charset=utf-8</code>
+
+  no_encoding: "No encoding"
+  no_encoding_guidance_html: |
+     The encoding of your CSV file is not being declared in the HTTP response.<br>
+     We recommend that you configure your server to deliver CSV files with a <code>Content-Type</code> header of <code>text/csv; charset=utf-8</code><br>
+     If you are using a different encoding, then use an appropriate value for the <code>charset</code> parameter.
+     
   not_found: "404 Not Found"
   not_found_guidance_html: "Please check you are supplying the correct URL"
+
+  old_content_type_guidance_html: |
+      <strong>Note</strong>: %{content_type} is an old Content Type for CSV that only appeared in a draft RFC. It should no longer be used.
+  
   quoting: "Incorrect quoting"
+  quoting_guidance_html: |
+     One or more values in the row have been incorrectly quoted. E.g. a comma has not been escaped, or a quoted field has not been properly escaped<br>
+     Check the values in the column and ensure that quoting has been correctly applied.
+
+  ragged_rows: "Missing Columns"
+  ragged_rows_guidance_html: |
+     Row %{row} contains a different number of columns to the first row in the CSV file.<br>
+     This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br>
+  
+  unknown_error: "Unknown Error"
+  unknown_error_guidance_html: |
+     An unexpected error was encountered when trying to parse row %{row}. Check the data and ensure that columns are properly formatted.<br>
+     This problem may also be caused by an invalid character encoding in the data.
+       
+  s3_upload_guidance_html: |
+     <strong>Note</strong>: It appears that your are using Amazon S3 to deliver your data. You must set the content type of the object when uploading 
+     the data to S3 to ensure that it is delivered correctly.
+             
+  whitespace: "Unexpected whitespace"
+  whitespace_guidance_html: |
+     Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+     Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+
+  wrong_content_type: "Incorrect content type"
+  wrong_content_type_guidance_html: |
+      Your CSV file is being delivered with an incorrect <code>Content-Type</code> of <code>%{header_content_type}</code>. <br>
+      We recommend that you configure your server to deliver CSV files with a <code>Content-Type</code> header of <code>text/csv; charset=utf-8</code>
   
