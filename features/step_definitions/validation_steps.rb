@@ -5,3 +5,7 @@ end
 Then(/^I should see my URL$/) do
   page.body.should include(@url)
 end
+
+Then(/^I should see my schema URL$/) do
+  page.body.should include(@schema_url)
+end
