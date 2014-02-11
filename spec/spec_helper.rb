@@ -47,7 +47,7 @@ RSpec.configure do |config|
 end
 
 def load_fixture(filename)
-  File.read(File.join(Rails.root, 'fixtures', filename)).gsub("\n", "\r\n")
+  File.read(File.join(Rails.root, 'fixtures', filename))
 end
 
 def mock_csv(url, file)

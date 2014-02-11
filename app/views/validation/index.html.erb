@@ -23,8 +23,15 @@
         Browse... <%= file_field_tag 'file' %>
       </span>
       <%= text_field_tag 'filename', 'No file chosen', class: 'form-control', readonly: '' %>
-      <span class="input-group-btn"><%= submit_tag t(:upload_and_validate), class: 'btn btn-primary' %></span>
     </div>
+    <div class="input-group">  
+      <span class="input-group-btn btn btn-primary btn-file">
+        Browse... <%= file_field_tag 'schema_file' %>
+      </span>
+      <%= text_field_tag 'schema_filename', 'No schema file chosen', class: 'form-control', readonly: '' %>
+    </div>
+    <br/>
+    <span class="input-group-btn"><%= submit_tag t(:upload_and_validate), class: 'btn btn-primary' %></span>
   </div>
 </div>
 <% end %>
