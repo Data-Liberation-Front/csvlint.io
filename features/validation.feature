@@ -11,3 +11,10 @@ Feature: CSV Validation
     And I enter "http://example.org/test.csv" in the "url" field
     And I press "Validate"
     Then I should see a page of validation results
+    And I should see my URL
+    
+  Scenario: Upload a file for validation
+    When I go to the homepage
+    And I attach the file "valid.csv" to the file field
+    And I press "Upload and validate"
+    Then I should see a page of validation results

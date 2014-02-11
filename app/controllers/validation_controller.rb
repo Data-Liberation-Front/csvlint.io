@@ -7,13 +7,25 @@ class ValidationController < ApplicationController
   end
 
   def redirect
-    redirect_to validate_path(url: params["url"])
+    if !params["url"].blank? 
+      redirect_to validate_path(url: params["url"])
+    elsif !params["file"].blank? 
+      validate_csv(File.new(params[:file].tempfile))
+      @file = File.new(params[:file].tempfile)
+      respond_to do |wants|
+        wants.html { render "validation/validate"  }
+        wants.png { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{state}.png"), disposition: 'inline' }
+        wants.svg { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{state}.svg"), disposition: 'inline' }
+      end
+    else
+      redirect_to root_path and return 
+    end
   end
 
   def validate
     # Check we have a URL
     @url = params[:url]
-    redirect_to root_path and return if @url.nil?
+    redirect_to root_path and return if @url.nil? && @file.nil?
     # Check it's valid
     @url = begin
       URI.parse(@url)
@@ -22,13 +34,7 @@ class ValidationController < ApplicationController
     end
     # Check scheme
     redirect_to root_path and return unless ['http', 'https'].include?(@url.scheme)
-    # Validate
-    @validator = Csvlint::Validator.new( @url.to_s )
-    @warnings = @validator.warnings
-    @errors = @validator.errors
-    state = "valid"
-    state = "warnings" unless @warnings.empty?
-    state = "invalid" unless @errors.empty?
+    validate_csv(@url.to_s)
     # Responses
     respond_to do |wants|
       wants.html
@@ -37,5 +43,17 @@ class ValidationController < ApplicationController
     end
 
   end
+  
+  private
+  
+    def validate_csv(io)
+      # Validate
+      @validator = Csvlint::Validator.new( io )
+      @warnings = @validator.warnings
+      @errors = @validator.errors
+      state = "valid"
+      state = "warnings" unless @warnings.empty?
+      state = "invalid" unless @errors.empty?
+    end
 
 end
