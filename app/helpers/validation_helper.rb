@@ -14,6 +14,32 @@ module ValidationHelper
     end
   end
 
+  def message_variables(validator, message)
+    variables = {
+      :encoding => validator.encoding,
+      :content_type => validator.content_type,
+      :extension => validator.extension,
+      :row => message.row,
+      :column => message.column,
+      :type => message.type,
+      :content => message.content
+    }
+    if validator.headers
+      validator.headers.each do |k,v|
+        key = "header_#{k.gsub("-", "_")}".to_sym
+        variables[key] = v
+      end
+    end
+    variables
+  end
+  
+  def extra_guidance(validator, message)
+    extra = []
+    extra << :old_content_type if message.type == :wrong_content_type && validator.content_type == "text/comma-separated-values"
+    extra << :s3_upload if message.type == :wrong_content_type && validator.headers["Server"] = "AmazonS3"
+    return extra
+  end
+  
   def badge_markdown(url)
     %{[![#{t(:csv_status)}](#{validate_url(url: url, format: 'svg')})](#{validate_url(url: url)})}
   end
