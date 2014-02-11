@@ -10,10 +10,11 @@
 <%= form_tag '/validate', multipart: true do %>
 <div class="tab-content">
   <div class="tab-pane active" id="url">
-    <div class="input-group">  
-      <%= url_field_tag 'url', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
-      <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary' %></span>
-    </div>
+    <%= url_field_tag 'url', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
+    <br/>
+    <%= url_field_tag 'schema_url', '', class: 'form-control', placeholder: t(:enter_schema_url)%>
+    <br/>
+    <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary btn-block btn-lg' %></span>
   </div>
 
   <div class="tab-pane" id="file">

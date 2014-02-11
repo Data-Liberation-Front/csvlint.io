@@ -28,6 +28,7 @@ en:
   upload_and_validate: "Upload and validate"
   results: "Validation results"
   enter_csv_url: "Enter CSV URL"
+  enter_schema_url: "Enter optional schema URL"
   site_title: "CSVLint"
   csv_status: "CSV Validation"
 
