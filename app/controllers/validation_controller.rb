@@ -8,7 +8,7 @@ class ValidationController < ApplicationController
 
   def redirect
     if !params["url"].blank? 
-      redirect_to validate_path(url: params["url"])
+      redirect_to validate_path(url: params["url"], schema: params[:schema_url])
     elsif !params["file"].blank? 
       validate_csv(File.new(params[:file].tempfile))
       @file = File.new(params[:file].tempfile)
@@ -34,7 +34,7 @@ class ValidationController < ApplicationController
     end
     # Check scheme
     redirect_to root_path and return unless ['http', 'https'].include?(@url.scheme)
-    validate_csv(@url.to_s)
+    validate_csv(@url.to_s, params[:schema])
     # Responses
     respond_to do |wants|
       wants.html
@@ -46,9 +46,13 @@ class ValidationController < ApplicationController
   
   private
   
-    def validate_csv(io)
+    def validate_csv(io, schema)
+      # Load schema if set
+      if schema
+        @schema = Csvlint::Schema.load_from_json_table(schema)
+      end
       # Validate
-      @validator = Csvlint::Validator.new( io )
+      @validator = Csvlint::Validator.new( io, nil, @schema )
       @warnings = @validator.warnings
       @errors = @validator.errors
       @state = "valid"

@@ -12,6 +12,11 @@
   <div class="tab-pane active" id="url">
     <div class="input-group">  
       <%= url_field_tag 'url', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
+    </div>
+    <div class="input-group">  
+      <%= url_field_tag 'schema_url', '', class: 'form-control', placeholder: t(:enter_schema_url)%>
+    </div>
+    <div class="input-group">  
       <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary' %></span>
     </div>
   </div>
