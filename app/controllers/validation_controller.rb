@@ -47,11 +47,9 @@ class ValidationController < ApplicationController
   
   private
   
-    def validate_csv(io, schema)
+    def validate_csv(io, schema = nil)
       # Load schema if set
-      if schema
-        @schema = Csvlint::Schema.load_from_json_table(schema)
-      end
+      @schema = Csvlint::Schema.load_from_json_table(schema) if schema
       # Validate
       @validator = Csvlint::Validator.new( io, nil, @schema )
       @warnings = @validator.warnings
