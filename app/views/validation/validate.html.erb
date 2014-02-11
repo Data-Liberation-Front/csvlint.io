@@ -4,10 +4,11 @@
 
 <% unless @url.nil? %>
   <%= form_tag '/validate', :id => 'result_form' do %>
-    <div class="input-group">  
-      <%= url_field_tag 'url', @url, class: 'form-control' %>
-      <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary' %></span>
-    </div>
+    <%= url_field_tag 'url', @url, class: 'form-control', placeholder: t(:enter_csv_url)%>
+    <br/>
+    <%= url_field_tag 'schema_url', @schema_url, class: 'form-control', placeholder: t(:enter_schema_url)%>
+    <br/>
+    <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary btn-block btn-lg' %></span>
   <% end %>
 <% end %>
 

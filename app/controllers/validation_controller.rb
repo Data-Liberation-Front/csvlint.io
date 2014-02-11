@@ -25,6 +25,7 @@ class ValidationController < ApplicationController
   def validate
     # Check we have a URL
     @url = params[:url]
+    @schema_url = params[:schema]
     redirect_to root_path and return if @url.nil? && @file.nil?
     # Check it's valid
     @url = begin
@@ -34,7 +35,7 @@ class ValidationController < ApplicationController
     end
     # Check scheme
     redirect_to root_path and return unless ['http', 'https'].include?(@url.scheme)
-    validate_csv(@url.to_s, params[:schema])
+    validate_csv(@url.to_s, @schema_url)
     # Responses
     respond_to do |wants|
       wants.html
