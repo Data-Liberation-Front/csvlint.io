@@ -2,9 +2,52 @@
   Home
 <% end %>
 
-<%= form_tag '/validate' do %>
-  <div class="input-group">  
-    <%= url_field_tag 'url', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
-    <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary' %></span>
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#url" data-toggle="tab">From URL</a></li>
+  <li><a href="#file" data-toggle="tab">From file</a></li>
+</ul>
+
+<%= form_tag '/validate', multipart: true do %>
+<div class="tab-content">
+  <div class="tab-pane active" id="url">
+    <div class="input-group">  
+      <%= url_field_tag 'url', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
+      <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary' %></span>
+    </div>
   </div>
+
+  <div class="tab-pane" id="file">
+    <div class="input-group">  
+      <span class="input-group-btn btn btn-primary btn-file">
+        Browse... <%= file_field_tag 'file' %>
+      </span>
+      <%= text_field_tag 'filename', 'No file chosen', class: 'form-control', readonly: '' %>
+      <span class="input-group-btn"><%= submit_tag t(:upload_and_validate), class: 'btn btn-primary' %></span>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<% content_for :extra_javascript do %>
+
+<script type="text/javascript">
+	$(document)
+		.on('change', '.btn-file :file', function() {
+			var input = $(this),
+			numFiles = input.get(0).files ? input.get(0).files.length : 1,
+			label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+			input.trigger('fileselect', [numFiles, label]);
+	});
+	
+	$(document).ready( function() {
+		$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+			
+			var input = $(this).parents('.input-group').find(':text'),
+				log = numFiles > 1 ? numFiles + ' files selected' : label;
+			
+			input.val(log);
+		});
+	});		
+</script>
+
 <% end %>

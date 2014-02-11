@@ -25,6 +25,7 @@ en:
   error: "Error"
   warning: "Warning"
   validate: "Validate"  
+  upload_and_validate: "Upload and validate"
   results: "Validation results"
   enter_csv_url: "Enter CSV URL"
   site_title: "CSVLint"

@@ -2,11 +2,13 @@
   <%= t(:results).titleize %>
 <% end %>
 
-<%= form_tag '/validate', :id => 'result_form' do %>
-  <div class="input-group">  
-    <%= url_field_tag 'url', @url, class: 'form-control' %>
-    <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary' %></span>
-  </div>
+<% unless @url.nil? %>
+  <%= form_tag '/validate', :id => 'result_form' do %>
+    <div class="input-group">  
+      <%= url_field_tag 'url', @url, class: 'form-control' %>
+      <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary' %></span>
+    </div>
+  <% end %>
 <% end %>
 
 <% if @validator.valid? %>
