@@ -12,8 +12,12 @@ class ValidationController < ApplicationController
     elsif !params["file"].blank? 
       @schema = nil
       if params[:schema_file]
-        schema_json = JSON.parse( File.new( params[:schema_file].tempfile ).read() )
-        @schema = Csvlint::Schema.from_json_table( nil, schema_json )
+        begin
+          schema_json = JSON.parse( File.new( params[:schema_file].tempfile ).read() )
+          @schema = Csvlint::Schema.from_json_table( nil, schema_json )
+        rescue
+          @schema = nil
+        end
       end
       validate_csv(File.new(params[:file].tempfile), @schema)
       @file = File.new(params[:file].tempfile)
