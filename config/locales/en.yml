@@ -30,6 +30,11 @@ en:
   site_title: "CSVLint"
   csv_status: "CSV Validation"
 
+  # Validation message categories
+  structure: Structural problem
+  context: Context problem
+  schema: Schema problem
+  
   #  
   # Validation Summary
   #
