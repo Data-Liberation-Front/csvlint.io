@@ -7,7 +7,7 @@
   <li><a href="#file" data-toggle="tab">From file</a></li>
 </ul>
 
-<%= form_tag '/validate' do %>
+<%= form_tag '/validate', multipart: true do %>
 <div class="tab-content">
   <div class="tab-pane active" id="url">
     <div class="input-group">  
