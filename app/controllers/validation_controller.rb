@@ -49,11 +49,20 @@ class ValidationController < ApplicationController
   
     def validate_csv(io, schema = nil)
       # Load schema if set
-      @schema = Csvlint::Schema.load_from_json_table(schema) if schema
+      if schema
+        @schema = Csvlint::Schema.load_from_json_table(schema) 
+        if @schema.nil? || @schema.fields.empty?
+          @schema_error = Csvlint::ErrorMessage.new(
+            type: :invalid_schema,
+            category: :schema
+          )
+        end
+      end
       # Validate
       @validator = Csvlint::Validator.new( io, nil, @schema )
       @warnings = @validator.warnings
       @errors = @validator.errors
+      @errors.prepend(@schema_error) if @schema_error
       @state = "valid"
       @state = "warnings" unless @warnings.empty?
       @state = "invalid" unless @errors.empty?

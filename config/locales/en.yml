@@ -128,3 +128,6 @@ en:
       Your CSV file is being delivered with an incorrect <code>Content-Type</code> of <code>%{header_content_type}</code>. <br>
       We recommend that you configure your server to deliver CSV files with a <code>Content-Type</code> header of <code>text/csv; charset=utf-8</code>
   
+  invalid_schema: "Invalid schema"
+  invalid_schema_guidance_html: |
+      We couldn't load the schema you specified. Please make sure you have entered the correct URL, and that it is in JSON Table Schema format.
