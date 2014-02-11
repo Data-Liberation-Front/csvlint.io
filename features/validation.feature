@@ -12,9 +12,19 @@ Feature: CSV Validation
     And I press "Validate"
     Then I should see a page of validation results
     And I should see my URL
+    And my url should be persisted in the database
     
   Scenario: Upload a file for validation
     When I go to the homepage
     And I attach the file "valid.csv" to the file field
     And I press "Upload and validate"
     Then I should see a page of validation results
+    And my file should be persisted in the database
+  
+  Scenario: Upload a file with warnings
+    When I go to the homepage
+    And I attach the file "warnings.csv" to the file field
+    And I press "Upload and validate"
+    Then I should see a page of validation results
+    And my file should be persisted in the database
+    And the database record should have the type "ragged_rows"

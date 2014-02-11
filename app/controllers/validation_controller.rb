@@ -10,7 +10,7 @@ class ValidationController < ApplicationController
     if !params["url"].blank? 
       redirect_to validate_path(url: params["url"])
     elsif !params["file"].blank? 
-      validate_csv(File.new(params[:file].tempfile))
+      validate_csv(File.new(params[:file].tempfile), params[:file].original_filename)
       @file = File.new(params[:file].tempfile)
       respond_to do |wants|
         wants.html { render "validation/validate"  }
@@ -46,7 +46,7 @@ class ValidationController < ApplicationController
   
   private
   
-    def validate_csv(io)
+    def validate_csv(io, filename = nil)
       # Validate
       @validator = Csvlint::Validator.new( io )
       @warnings = @validator.warnings
@@ -54,6 +54,34 @@ class ValidationController < ApplicationController
       @state = "valid"
       @state = "warnings" unless @warnings.empty?
       @state = "invalid" unless @errors.empty?
+      
+      if io.class == String
+        # It's a url!
+        url = io
+        filename = File.basename(URI.parse(url).path)
+      else
+        # It's a file!
+        url = nil
+      end
+            
+      w = @warnings.map do |warning|
+        w = {}
+        warning.instance_variables.each { |i| w[i.to_s.delete("@")] = warning.instance_variable_get(i) }
+        w
+      end
+            
+      e = @errors.map do |error|
+        e = {}
+        error.instance_variables.each { |i| e[i.to_s.delete("@")] = error.instance_variable_get(i) }
+        e
+      end
+      
+      Artefact.create(
+        :url => url,
+        :filename => filename,
+        :warning_messages => w,
+        :error_messages => e
+      )
     end
 
 end

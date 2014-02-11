@@ -12,5 +12,6 @@ When(/^I press "(.*?)"$/) do |name|
 end
 
 When(/^I attach the file "(.*?)" to the file field$/) do |file|
-  attach_file(:file, File.join(Rails.root, 'fixtures', 'csvs', file))
+  @file = File.join(Rails.root, 'fixtures', 'csvs', file)
+  attach_file(:file, @file)
 end
