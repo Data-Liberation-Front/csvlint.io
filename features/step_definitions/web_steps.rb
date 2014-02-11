@@ -14,3 +14,7 @@ end
 When(/^I attach the file "(.*?)" to the file field$/) do |file|
   attach_file(:file, File.join(Rails.root, 'fixtures', 'csvs', file))
 end
+
+Then(/^I should see "(.*?)"$/) do |text|
+  page.body.should include(text)
+end
