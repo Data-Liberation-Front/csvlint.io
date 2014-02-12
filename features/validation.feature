@@ -54,4 +54,13 @@ Feature: CSV Validation
     Then I should see a page of validation results
     And my file should be persisted in the database
     And the database record should have a "warning" of the type "check_options"
-    Then I should see a page of validation results    
+    And I should see a page of validation results  
+
+  Scenario: Upload a file with errors
+    When I go to the homepage
+    And I attach the file "csvs/errors.csv" to the "file" field
+    And I press "Upload and validate"
+    Then I should see a page of validation results
+    And my file should be persisted in the database
+    And the database record should have a "error" of the type "ragged_rows"
+    And I should see a page of validation results  
