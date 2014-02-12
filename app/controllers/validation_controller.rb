@@ -61,20 +61,18 @@ class ValidationController < ApplicationController
       # Load schema if set
       unless params[:schema_url].blank?
         if schema.nil? || schema.fields.empty?
-          @schema_error = Csvlint::ErrorMessage.new(
+          schema_error = Csvlint::ErrorMessage.new(
             type: :invalid_schema,
             category: :schema
           )
         end
       end
       # Validate
-      @validator = Csvlint::Validator.new( io, nil, schema )
-      @warnings = @validator.warnings
-      @errors = @validator.errors
-      @errors.prepend(@schema_error) if @schema_error
-      @state = "valid"
-      @state = "warnings" unless @warnings.empty?
-      @state = "invalid" unless @errors.empty?
+      validator = Csvlint::Validator.new( io, nil, schema )
+      validator.errors.prepend(schema_error) if schema_error
+      state = "valid"
+      state = "warnings" unless validator.warnings.empty?
+      state = "invalid" unless validator.errors.empty?
       
       if io.class == String
         # It's a url!
@@ -83,25 +81,15 @@ class ValidationController < ApplicationController
       else
         # It's a file!
         url = nil
+        validator.remove_instance_variable(:@source)
       end
             
-      w = @warnings.map do |warning|
-        w = {}
-        warning.instance_variables.each { |i| w[i.to_s.delete("@")] = warning.instance_variable_get(i) }
-        w
-      end
-            
-      e = @errors.map do |error|
-        e = {}
-        error.instance_variables.each { |i| e[i.to_s.delete("@")] = error.instance_variable_get(i) }
-        e
-      end
-      
-      Artefact.create(
+      Validation.create(
         :url => url,
+        :schema_url => @schema_url,
         :filename => filename,
-        :warning_messages => w,
-        :error_messages => e
+        :state => state,
+        :result => Marshal.dump(validator)
       )
     end
 
