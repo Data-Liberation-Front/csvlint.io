@@ -104,7 +104,7 @@ class ValidationController < ApplicationController
         :schema_url => @schema_url,
         :filename => filename,
         :state => state,
-        :result => Marshal.dump(validator)
+        :result => Marshal.dump(validator).force_encoding("UTF-8")
       )
     end
 
