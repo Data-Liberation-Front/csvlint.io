@@ -77,3 +77,8 @@ Feature: CSV Validation
     When I load the validation by URL
     Then I should see a page of validation results
     And I should see my URL 
+
+  Scenario: Find a CSV badge by url
+    Given I have already validated the URL "http://example.org/test.csv"
+    When I load the validation badge by URL in "png" format
+    Then I should get a badge in "png" format
