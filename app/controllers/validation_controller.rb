@@ -56,6 +56,14 @@ class ValidationController < ApplicationController
       wants.svg { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@state}.svg"), disposition: 'inline' }
     end
   end
+  
+  def find_by_url
+    validator = Validation.where(:url => params[:url]).first
+    unless validator.nil?
+      redirect_to validation_path(validator, format: params[:format])
+    else
+      raise ActionController::RoutingError.new('Not Found')
+    end
   end
   
   private

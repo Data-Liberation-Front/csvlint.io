@@ -70,4 +70,10 @@ Feature: CSV Validation
     Then I should see a page of validation results
     And my file should be persisted in the database
     And the database record should have a "error" of the type "ragged_rows"
-    And I should see a page of validation results  
+    And I should see a page of validation results 
+  
+  Scenario: Find a CSV by url
+    Given I have already validated the URL "http://example.org/test.csv"
+    When I load the validation by URL
+    Then I should see a page of validation results
+    And I should see my URL 
