@@ -7,21 +7,21 @@ Then(/^I should see my URL$/) do
 end
 
 Then(/^my file should be persisted in the database$/) do
-  Artefact.count.should == 1
-  Artefact.first.filename.should == File.basename(@file)
+  Validation.count.should == 1
+  Validation.first.filename.should == File.basename(@file)
 end
 
 Then(/^my url should be persisted in the database$/) do
-  Artefact.count.should == 1
-  Artefact.first.url.should == @url
+  Validation.count.should == 1
+  Validation.first.url.should == @url
   filename = File.basename(URI.parse(@url).path)
-  Artefact.first.filename.should == filename
+  Validation.first.filename.should == filename
 end
 
 
 Then(/^the database record should have a "(.*?)" of the type "(.*?)"$/) do |category, type|
-  category = "#{category}_messages"
-  Artefact.first.send(category).first['type'].should == type.to_sym
+  result = Marshal.load(Validation.first.result)
+  result.send(category.pluralize).first.type.should == type.to_sym
 end
 
 Then(/^I should see my schema URL$/) do
