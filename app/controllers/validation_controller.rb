@@ -6,9 +6,23 @@ class ValidationController < ApplicationController
   def index
   end
 
-  def redirect
+  def create
     if !params["url"].blank? 
-      redirect_to validate_path(url: params["url"], schema_url: params[:schema_url])
+      # Check we have a URL
+      @url = params[:url]
+      redirect_to root_path and return if @url.nil? && @file.nil?
+      # Check it's valid
+      @url = begin
+        URI.parse(@url)
+      rescue URI::InvalidURIError
+        redirect_to root_path and return
+      end
+      # Check scheme
+      redirect_to root_path and return unless ['http', 'https'].include?(@url.scheme)
+      @schema_url = params[:schema_url]
+      schema = Csvlint::Schema.load_from_json_table(@schema_url) 
+      validation = validate_csv(@url.to_s, schema)
+      redirect_to validation_path(validation)
     elsif !params["file"].blank? 
       @schema = nil
       if params[:schema_file]
@@ -19,40 +33,29 @@ class ValidationController < ApplicationController
           @schema = nil
         end
       end
-      validate_csv(File.new(params[:file].tempfile), @schema, params[:file].original_filename)
+      validation = validate_csv(File.new(params[:file].tempfile), @schema, params[:file].original_filename)
       @file = File.new(params[:file].tempfile)
-      respond_to do |wants|
-        wants.html { render "validation/validate"  }
-        wants.png { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@state}.png"), disposition: 'inline' }
-        wants.svg { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@state}.svg"), disposition: 'inline' }
-      end
+      redirect_to validation_path(validation)
     else
       redirect_to root_path and return 
     end
   end
 
-  def validate
-    # Check we have a URL
-    @url = params[:url]
-    redirect_to root_path and return if @url.nil? && @file.nil?
-    # Check it's valid
-    @url = begin
-      URI.parse(@url)
-    rescue URI::InvalidURIError
-      redirect_to root_path and return
-    end
-    # Check scheme
-    redirect_to root_path and return unless ['http', 'https'].include?(@url.scheme)
-    @schema_url = params[:schema_url]
-    schema = Csvlint::Schema.load_from_json_table(@schema_url) 
-    validate_csv(@url.to_s, schema)
+  def show
+    v = Validation.find(params[:id])
+    @validator = Marshal.load(v.result)
+    @warnings = @validator.warnings
+    @errors = @validator.errors
+    @url = v.url
+    @schema_url = v.schema_url
+    @state = v.state
     # Responses
     respond_to do |wants|
       wants.html
       wants.png { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@state}.png"), disposition: 'inline' }
       wants.svg { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@state}.svg"), disposition: 'inline' }
     end
-
+  end
   end
   
   private

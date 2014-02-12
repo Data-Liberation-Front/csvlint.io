@@ -1,7 +1,8 @@
 Csvlint::Application.routes.draw do
   
   root :to => 'validation#index'
-  post '/validate' => 'validation#redirect'
-  get '/validate' => 'validation#validate', :as => 'validation'
+  
+  resources :validation 
+  get 'validation/by_url', to: 'validation#url'
   
 end
