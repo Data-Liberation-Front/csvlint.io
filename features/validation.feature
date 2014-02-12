@@ -49,7 +49,7 @@ Feature: CSV Validation
   
   Scenario: Upload a file with warnings
     When I go to the homepage
-    And I attach the file "csvs/valid.csv" to the "file" field
+    And I attach the file "csvs/warnings.csv" to the "file" field
     And I press "Upload and validate"
     Then I should see a page of validation results
     And my file should be persisted in the database
