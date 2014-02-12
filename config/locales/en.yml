@@ -131,3 +131,8 @@ en:
   invalid_schema: "Invalid schema"
   invalid_schema_guidance_html: |
       We couldn't load the schema you specified. Please make sure you have entered the correct URL, and that it is in JSON Table Schema format.
+  
+  #
+  # Validation list
+  #
+  list: "Recent validations"

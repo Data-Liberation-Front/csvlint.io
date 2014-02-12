@@ -66,6 +66,10 @@ class ValidationController < ApplicationController
     end
   end
   
+  def list
+    @validations = Kaminari.paginate_array(Validation.where(:url.ne => nil).uniq{ |v| v.url }).page(params[:page])
+  end
+  
   private
   
     def validate_csv(io, schema = nil, filename = nil)

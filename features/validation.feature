@@ -82,3 +82,9 @@ Feature: CSV Validation
     Given I have already validated the URL "http://example.org/test.csv"
     When I load the validation badge by URL in "png" format
     Then I should get a badge in "png" format
+    
+  Scenario: List validations
+    Given there are 30 validations in the database
+    And I visit the list page
+    Then I should see 25 validations listed
+    And I should see a paginator

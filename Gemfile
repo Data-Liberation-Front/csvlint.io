@@ -75,5 +75,7 @@ gem 'plek'
 gem 'slimmer'
 gem 'mongoid', github: 'mongoid/mongoid'
 gem 'bson_ext'
+gem 'kaminari'
+gem 'bootstrap-kaminari-views'
 
 gem 'csvlint', github: 'theodi/csvlint.rb'

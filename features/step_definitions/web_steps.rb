@@ -23,3 +23,15 @@ end
 Then(/^I should not see "(.*?)"$/) do |text|
   page.body.should_not include(text)
 end
+
+Given(/^I visit the list page$/) do
+  visit list_url
+end
+
+Then(/^I should see (\d+) validations listed$/) do |count|
+  page.all("table tbody tr").count.should eql(count.to_i)
+end
+
+Then(/^I should see a paginator$/) do
+  page.find('.pagination').should be_true
+end
