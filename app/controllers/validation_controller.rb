@@ -59,7 +59,7 @@ class ValidationController < ApplicationController
   
     def validate_csv(io, schema = nil)
       # Load schema if set
-      if params[:schema_url]
+      unless params[:schema_url].blank?
         if schema.nil? || schema.fields.empty?
           @schema_error = Csvlint::ErrorMessage.new(
             type: :invalid_schema,

@@ -18,3 +18,7 @@ end
 Then(/^I should see "(.*?)"$/) do |text|
   page.body.should include(text)
 end
+
+Then(/^I should not see "(.*?)"$/) do |text|
+  page.body.should_not include(text)
+end

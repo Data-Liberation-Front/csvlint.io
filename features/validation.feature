@@ -32,6 +32,13 @@ Feature: CSV Validation
     Then I should see a page of validation results
     And I should see "Invalid schema"
 
+  Scenario: Don't show schema error if no schema specified
+    When I go to the homepage
+    And I enter "http://example.org/test.csv" in the "url" field
+    And I press "Validate"
+    Then I should see a page of validation results
+    And I should not see "Invalid schema"
+
   Scenario: Upload a file for validation
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
