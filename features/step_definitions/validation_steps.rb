@@ -21,3 +21,7 @@ end
 Then(/^the database record should have the type "(.*?)"$/) do |arg1|
   pending
 end
+
+Then(/^I should see my schema URL$/) do
+  page.body.should include(@schema_url)
+end

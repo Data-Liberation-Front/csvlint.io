@@ -10,10 +10,11 @@
 <%= form_tag '/validate', multipart: true do %>
 <div class="tab-content">
   <div class="tab-pane active" id="url">
-    <div class="input-group">  
-      <%= url_field_tag 'url', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
-      <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary' %></span>
-    </div>
+    <%= url_field_tag 'url', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
+    <br/>
+    <%= url_field_tag 'schema_url', '', class: 'form-control', placeholder: t(:enter_schema_url)%>
+    <br/>
+    <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary btn-block btn-lg' %></span>
   </div>
 
   <div class="tab-pane" id="file">
@@ -22,8 +23,15 @@
         Browse... <%= file_field_tag 'file' %>
       </span>
       <%= text_field_tag 'filename', 'No file chosen', class: 'form-control', readonly: '' %>
-      <span class="input-group-btn"><%= submit_tag t(:upload_and_validate), class: 'btn btn-primary' %></span>
     </div>
+    <div class="input-group">  
+      <span class="input-group-btn btn btn-primary btn-file">
+        Browse... <%= file_field_tag 'schema_file' %>
+      </span>
+      <%= text_field_tag 'schema_filename', 'No schema file chosen', class: 'form-control', readonly: '' %>
+    </div>
+    <br/>
+    <span class="input-group-btn"><%= submit_tag t(:upload_and_validate), class: 'btn btn-primary' %></span>
   </div>
 </div>
 <% end %>

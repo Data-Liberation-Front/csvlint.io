@@ -8,9 +8,18 @@ class ValidationController < ApplicationController
 
   def redirect
     if !params["url"].blank? 
-      redirect_to validate_path(url: params["url"])
+      redirect_to validate_path(url: params["url"], schema_url: params[:schema_url])
     elsif !params["file"].blank? 
-      validate_csv(File.new(params[:file].tempfile), params[:file].original_filename)
+      @schema = nil
+      if params[:schema_file]
+        begin
+          schema_json = JSON.parse( File.new( params[:schema_file].tempfile ).read() )
+          @schema = Csvlint::Schema.from_json_table( nil, schema_json )
+        rescue
+          @schema = nil
+        end
+      end
+      validate_csv(File.new(params[:file].tempfile), @schema, params[:file].original_filename)
       @file = File.new(params[:file].tempfile)
       respond_to do |wants|
         wants.html { render "validation/validate"  }
@@ -34,7 +43,9 @@ class ValidationController < ApplicationController
     end
     # Check scheme
     redirect_to root_path and return unless ['http', 'https'].include?(@url.scheme)
-    validate_csv(@url.to_s)
+    @schema_url = params[:schema_url]
+    schema = Csvlint::Schema.load_from_json_table(@schema_url) 
+    validate_csv(@url.to_s, schema)
     # Responses
     respond_to do |wants|
       wants.html
@@ -46,11 +57,21 @@ class ValidationController < ApplicationController
   
   private
   
-    def validate_csv(io, filename = nil)
+    def validate_csv(io, schema = nil, filename = nil)
+      # Load schema if set
+      if params[:schema_url]
+        if schema.nil? || schema.fields.empty?
+          @schema_error = Csvlint::ErrorMessage.new(
+            type: :invalid_schema,
+            category: :schema
+          )
+        end
+      end
       # Validate
-      @validator = Csvlint::Validator.new( io )
+      @validator = Csvlint::Validator.new( io, nil, schema )
       @warnings = @validator.warnings
       @errors = @validator.errors
+      @errors.prepend(@schema_error) if @schema_error
       @state = "valid"
       @state = "warnings" unless @warnings.empty?
       @state = "invalid" unless @errors.empty?
