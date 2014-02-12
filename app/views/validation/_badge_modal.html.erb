@@ -10,7 +10,7 @@
           <% [:markdown, :textile, :rdoc, :html].each do |format| %>
             <tr>
               <td><strong><%= t(format) %></strong></td>
-              <td><%= text_area_tag format, send("badge_#{format}", params[:url]), readonly: true %></td>
+              <td><%= text_area_tag format, send("badge_#{format}", params[:id]), readonly: true %></td>
             </tr>          
           <% end %>
         </table>

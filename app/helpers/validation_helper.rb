@@ -40,20 +40,20 @@ module ValidationHelper
     return extra
   end
   
-  def badge_markdown(url)
-    %{[![#{t(:csv_status)}](#{validate_url(url: url, format: 'svg')})](#{validate_url(url: url)})}
+  def badge_markdown(id)
+    %{[![#{t(:csv_status)}](#{validation_url(id: id, format: 'svg')})](#{validation_url(id: id)})}
   end
   
-  def badge_textile(url)
-    %{!#{validate_url(url: url, format: 'svg')}(#{t(:csv_status)})!:#{validate_url(url: url)}}
+  def badge_textile(id)
+    %{!#{validation_url(id: id, format: 'svg')}(#{t(:csv_status)})!:#{validation_url(id: id)}}
   end
 
-  def badge_rdoc(url)
-    %{{<img src="#{validate_url(url: url, format: 'svg')}" alt="#{t(:csv_status)}" />}[#{validate_url(url: url)}]}
+  def badge_rdoc(id)
+    %{{<img src="#{validation_url(id: id, format: 'svg')}" alt="#{t(:csv_status)}" />}[#{validation_url(id: id)}]}
   end
 
-  def badge_html(url)
-    %{<a href='#{validate_url(url: url)}'><img src="#{validate_url(url: url, format: 'svg')}" alt="#{t(:csv_status)}" /></a>}
+  def badge_html(id)
+    %{<a href='#{validation_url(id: id)}'><img src="#{validation_url(id: id, format: 'svg')}" alt="#{t(:csv_status)}" /></a>}
   end
 
 end
