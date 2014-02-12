@@ -18,8 +18,10 @@ Then(/^my url should be persisted in the database$/) do
   Artefact.first.filename.should == filename
 end
 
-Then(/^the database record should have the type "(.*?)"$/) do |type|
-  Artefact.first.warning_messages.first['type'].should == type.to_sym
+
+Then(/^the database record should have a "(.*?)" of the type "(.*?)"$/) do |category, type|
+  category = "#{category}_messages"
+  Artefact.first.send(category).first['type'].should == type.to_sym
 end
 
 Then(/^I should see my schema URL$/) do

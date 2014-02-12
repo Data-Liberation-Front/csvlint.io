@@ -53,5 +53,5 @@ Feature: CSV Validation
     And I press "Upload and validate"
     Then I should see a page of validation results
     And my file should be persisted in the database
-    And the database record should have the type "check_options"
+    And the database record should have a "warning" of the type "check_options"
     Then I should see a page of validation results    
