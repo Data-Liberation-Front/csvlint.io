@@ -71,6 +71,6 @@ end
 
 gem 'rack-google-analytics'
 gem 'plek'
-gem 'slimmer'
+gem 'slimmer', '~> 3.25.0'
 
 gem 'csvlint', github: 'theodi/csvlint.rb'
