@@ -31,8 +31,10 @@
 
 <%= error_and_warning_count(@errors, @warnings, wrapper: :h2) %>
 
-<%= render :partial => 'errors' unless @errors.empty? %>
+<%= render :partial => 'errors' %>
 
-<%= render :partial => 'warnings' unless @warnings.empty? %>
+<%= render :partial => 'warnings' %>
+
+<%= render :partial => 'info_messages' %>
 
 <%= render 'badge_modal'%>

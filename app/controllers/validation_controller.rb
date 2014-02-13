@@ -23,6 +23,7 @@ class ValidationController < ApplicationController
   def show
     v = Validation.fetch_validation(params[:id])
     @validator = Marshal.load(v.result)
+    @info_messages = @validator.info_messages
     @warnings = @validator.warnings
     @errors = @validator.errors
     @url = v.url
