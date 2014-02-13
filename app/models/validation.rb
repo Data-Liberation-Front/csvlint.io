@@ -57,10 +57,10 @@ class Validation
     v = self.find(id)
     unless v.url.blank?
       begin
-        open(v.url, "If-Modified-Since" => v.updated_at.rfc2822 )
-        v = v.update_validation
-      rescue OpenURI::HTTPError => e
-        raise unless e.message.include?("304")
+        RestClient.head(v.url, if_modified_since: v.updated_at.rfc2822 ) if v.updated_at
+        v = v.update_validation 
+      rescue RestClient::NotModified
+        nil
       end
     end
     v

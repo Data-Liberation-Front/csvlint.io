@@ -333,6 +333,7 @@ DEPENDENCIES
   pry
   rack-google-analytics
   rails (~> 4.0.2)
+  rest-client
   rspec-rails
   sass-rails (~> 4.0.0)
   sdoc

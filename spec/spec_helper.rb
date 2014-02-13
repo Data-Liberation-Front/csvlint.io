@@ -51,5 +51,6 @@ end
 
 def mock_csv(url, file)
   stub_request(:get, url).to_return(body: load_fixture(file), headers: {"Content-Type" => "text/csv; charset=utf-8"})
+  stub_request(:head, url).to_return(:status => 200)
 end
   
