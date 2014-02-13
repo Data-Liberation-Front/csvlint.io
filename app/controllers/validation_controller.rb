@@ -12,12 +12,12 @@ class ValidationController < ApplicationController
 
     io = params[:url].presence || params[:file].presence
     
-    redirect_to root_path and return if validate_url(params[:url]) === false
-    redirect_to root_path and return if io.nil?
-    
-    validation = validate_csv(io, schema)
-    
-    redirect_to validation_path(validation)
+    if validate_url(params[:url]) === false || io.nil?
+      redirect_to root_path and return 
+    else    
+      validation = validate_csv(io, schema)
+      redirect_to validation_path(validation)
+    end
   end
 
   def show
