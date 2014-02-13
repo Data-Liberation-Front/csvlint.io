@@ -9,9 +9,9 @@ class ValidationController < ApplicationController
   def create  
     if !params["url"].blank? 
       @url = params[:url]
-      validate_url(@url)
+      redirect_to root_path and return if validate_url(@url) === false
       schema = load_schema(params[:schema_url])
-      validation = validate_csv(@url.to_s, schema)
+      validation = validate_csv(@url, schema)
       redirect_to validation_path(validation)
     elsif !params["file"].blank? 
       @schema = nil
@@ -86,7 +86,7 @@ class ValidationController < ApplicationController
             
       Validation.create(
         :url => url,
-        :schema_url => @schema_url,
+        :schema_url => params[:schema_url],
         :filename => filename,
         :state => state,
         :result => Marshal.dump(validator).force_encoding("UTF-8")
@@ -95,13 +95,13 @@ class ValidationController < ApplicationController
     
     def validate_url(url)
       # Check it's valid
-      @url = begin
+      url = begin
         URI.parse(url)
       rescue URI::InvalidURIError
-        redirect_to root_path and return
+        return false
       end
       # Check scheme
-      redirect_to root_path and return unless ['http', 'https'].include?(url.scheme)
+      return false unless ['http', 'https'].include?(url.scheme)
     end
     
     def load_schema(io)
