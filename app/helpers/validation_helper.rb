@@ -15,7 +15,13 @@ module ValidationHelper
   end
 
   def message_variables(validator, message)
+    line_break_strings = {
+      "\r" => "CR",
+      "\n" => "LF",
+      "\r\n" => "CR-LF",
+    }
     variables = {
+      :linebreak => line_break_strings[validator.line_breaks],
       :encoding => validator.encoding,
       :content_type => validator.content_type,
       :extension => validator.extension,
