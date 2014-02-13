@@ -5,6 +5,7 @@ Feature: CSV Validation
   
   Background:
     Given the fixture "csvs/valid.csv" is available at the URL "http://example.org/test.csv"
+    Given the fixture "csvs/info.csv" is available at the URL "http://example.org/info.csv"
     Given the fixture "schemas/valid.json" is available at the URL "http://example.org/schema.json"
     Given the fixture "schemas/invalid.json" is available at the URL "http://example.org/bad_schema.json"
     
@@ -14,6 +15,12 @@ Feature: CSV Validation
     And I press "Validate"
     Then I should see a page of validation results
     And I should see my URL
+    
+  Scenario: Validation with info messages
+    When I go to the homepage
+    And I enter "http://example.org/info.csv" in the "url" field
+    And I press "Validate"
+    Then I should see "Non-standard Line Breaks"
     
   Scenario: Enter a URL and a schema URL for validation
     When I go to the homepage
