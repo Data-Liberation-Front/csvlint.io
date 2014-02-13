@@ -69,6 +69,7 @@ class ValidationController < ApplicationController
       end
       # Validate
       @validator = Csvlint::Validator.new( io, nil, schema )
+      @info_messages = @validator.info_messages
       @warnings = @validator.warnings
       @errors = @validator.errors
       @errors.prepend(@schema_error) if @schema_error
