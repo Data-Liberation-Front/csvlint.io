@@ -88,3 +88,17 @@ Feature: CSV Validation
     And I visit the list page
     Then I should see 25 validations listed
     And I should see a paginator
+    
+  Scenario: Latest validations only should be listed
+    Given the fixture "csvs/errors.csv" is available at the URL "http://example.org/list-test.csv"
+    When I go to the homepage
+    And I enter "http://example.org/list-test.csv" in the "url" field
+    And I press "Validate"
+    And the fixture "csvs/valid.csv" is available at the URL "http://example.org/list-test.csv"
+    And I go to the homepage
+    And I enter "http://example.org/list-test.csv" in the "url" field
+    And I press "Validate"
+    When I visit the list page
+    Then my url should be displayed in the list
+    And my url should have a link to the latest report next to it
+    

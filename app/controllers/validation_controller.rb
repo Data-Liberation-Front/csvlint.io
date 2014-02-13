@@ -67,7 +67,9 @@ class ValidationController < ApplicationController
   end
   
   def list
-    @validations = Kaminari.paginate_array(Validation.where(:url.ne => nil).uniq{ |v| v.url }).page(params[:page])
+    validations = Validation.where(:url.ne => nil).sort_by{ |v| v.created_at }.reverse!
+    validations.uniq!{ |v| v.url }
+    @validations = Kaminari.paginate_array(validations).page(params[:page])
   end
   
   private
