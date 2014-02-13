@@ -2,9 +2,9 @@ language: ruby
 rvm:
 - 2.1.0
 after_success:
-- "[ \"$TRAVIS_BRANCH\" == \"master\" ] && curl -v -X DELETE -u $GITHUB_USER:$GITHUB_PASSWORD
+- "[ \"$TRAVIS_BRANCH\" == \"master\" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && curl -v -X DELETE -u $GITHUB_USER:$GITHUB_PASSWORD
   \"https://api.github.com/repos/$TRAVIS_REPO_SLUG/git/refs/tags/CURRENT\""
-- "[ \"$TRAVIS_BRANCH\" == \"master\" ] && curl -v -X POST -d '{\"ref\":\"refs/tags/CURRENT\",\"sha\":\"'$TRAVIS_COMMIT'\"}'
+- "[ \"$TRAVIS_BRANCH\" == \"master\" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && curl -v -X POST -d '{\"ref\":\"refs/tags/CURRENT\",\"sha\":\"'$TRAVIS_COMMIT'\"}'
   --header \"Content-Type:application/json\" -u $GITHUB_USER:$GITHUB_PASSWORD \"https://api.github.com/repos/$TRAVIS_REPO_SLUG/git/refs\""
 branches:
   except:
