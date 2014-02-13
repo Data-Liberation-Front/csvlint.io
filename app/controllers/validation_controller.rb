@@ -6,11 +6,9 @@ class ValidationController < ApplicationController
   def index
   end
 
-  def create
+  def create  
     if !params["url"].blank? 
-      # Check we have a URL
       @url = params[:url]
-      redirect_to root_path and return if @url.nil? && @file.nil?
       # Check it's valid
       @url = begin
         URI.parse(@url)
