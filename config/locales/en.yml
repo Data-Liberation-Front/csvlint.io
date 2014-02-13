@@ -84,8 +84,8 @@ en:
       
   nonrfc_line_breaks: "Non-standard Line Breaks"
   nonrfc_line_breaks_guidance_html: |
-      Your CSV appears to use non CR-LF line-breaks. While this will be fine in most cases, <a href="http://tools.ietf.org/html/rfc4180">RFC 4180</a> specifies that CSV files should
-      use CR-LF (a carriage-return and line-feed pair, e.g. <code>\r\n</code>). This may be labelled as "Windows line endings" on some systems.
+      Your CSV appears to use <code>%{linebreak}</code> line-breaks. While this will be fine in most cases, <a href="http://tools.ietf.org/html/rfc4180">RFC 4180</a> specifies that 
+      CSV files should use <code>CR-LF</code> (a carriage-return and line-feed pair, e.g. <code>\r\n</code>). This may be labelled as "Windows line endings" on some systems.
 
   no_content_type: "no content type"
   no_content_type_guidance_html: |

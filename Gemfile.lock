@@ -1,8 +1,9 @@
 GIT
   remote: git://github.com/theodi/csvlint.rb.git
-  revision: 5345099fab47cb747867ac290331dbd1ba15587f
+  revision: 8185d8b5270915fd18691f476d960e623eb5db78
   specs:
     csvlint (0.0.1)
+      colorize
       mime-types
 
 GEM
@@ -54,6 +55,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    colorize (0.6.0)
     coveralls (0.7.0)
       multi_json (~> 1.3)
       rest-client
