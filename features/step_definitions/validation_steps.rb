@@ -29,13 +29,11 @@ Then(/^I should see my schema URL$/) do
 end
 
 Then(/^the validation should be updated$/) do
-  validation = Validation.where(:url => @url).first
-  validation.should_receive(:update_attributes)
+  Validation.any_instance.should_receive(:update_attributes).once
 end
 
 Then(/^the validation should not be updated$/) do
-  validation = Validation.where(:url => @url).first
-  validation.should_not_receive(:update_attributes)
+  Validation.any_instance.should_not_receive(:update_attributes)
 end
 
 Given(/^it's two weeks in the future$/) do
