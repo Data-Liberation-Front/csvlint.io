@@ -8,7 +8,7 @@ nodes = 1
 
 Vagrant.configure("2") do |config|
 
-  config.butcher.knife_config_file = '.chef/knife.rb'
+#  config.butcher.knife_config_file = '.chef/knife.rb'
 
   nodes.times do |num|
     index = "%02d" % [
@@ -28,7 +28,8 @@ Vagrant.configure("2") do |config|
         rs.flavor          = /1GB/
         rs.image           = /Precise/
         rs.public_key_path = "./.chef/id_rsa.pub"
-        rs.auth_url        = "https://lon.identity.api.rackspacecloud.com/v2.0"
+#        rs.auth_url        = "https://lon.identity.api.rackspacecloud.com/v2.0"
+        rs.rackspace_region        = :lon
       end
 
       config.vm.provision :shell, :inline => "curl -L https://www.opscode.com/chef/install.sh | bash"
