@@ -21,7 +21,7 @@ class ValidationController < ApplicationController
   end
 
   def show
-    v = Validation.find(params[:id])
+    v = Validation.fetch_validation(params[:id])
     @validator = Marshal.load(v.result)
     @warnings = @validator.warnings
     @errors = @validator.errors
@@ -79,5 +79,5 @@ class ValidationController < ApplicationController
       end
       schema
     end
-
+  
 end

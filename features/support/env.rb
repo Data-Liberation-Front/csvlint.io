@@ -5,6 +5,8 @@
 # files.
 
 require 'cucumber/rails'
+require 'cucumber/rspec/doubles'
+require 'timecop'
 
 require 'coveralls'
 Coveralls.wear_merged!('rails')
@@ -53,6 +55,10 @@ end
 #     DatabaseCleaner.strategy = :transaction
 #   end
 #
+
+After('@timecop') do
+  Timecop.return
+end
 
 # Possible values are :truncation and :transaction
 # The :transaction strategy is faster, but might give you threading problems.

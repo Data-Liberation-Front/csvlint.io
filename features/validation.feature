@@ -101,4 +101,17 @@ Feature: CSV Validation
     When I visit the list page
     Then my url should be displayed in the list
     And my url should have a link to the latest report next to it
+  
+  Scenario: Updated CSVs should be revalidated
+    Given I have already validated the URL "http://example.org/test.csv"
+    And it's two weeks in the future
+    And I have updated the URL "http://example.org/test.csv"
+    Then the validation should be updated
+    When I load the validation by URL
+    
+  Scenario: Non-updated CSVs should not be revalidated
+    Given I have already validated the URL "http://example.org/test.csv"
+    And the CSV has not changed
+    Then the validation should not be updated
+    When I load the validation by URL
     

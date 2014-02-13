@@ -27,3 +27,17 @@ end
 Then(/^I should see my schema URL$/) do
   page.body.should include(@schema_url)
 end
+
+Then(/^the validation should be updated$/) do
+  validation = Validation.where(:url => @url).first
+  validation.should_receive(:update_attributes)
+end
+
+Then(/^the validation should not be updated$/) do
+  validation = Validation.where(:url => @url).first
+  validation.should_not_receive(:update_attributes)
+end
+
+Given(/^it's two weeks in the future$/) do
+  Timecop.freeze(2.weeks.from_now)
+end

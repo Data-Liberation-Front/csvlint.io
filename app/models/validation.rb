@@ -52,7 +52,30 @@ class Validation
     validation = validate(io, schema_url, schema)
     self.create(validation)
   end
-
   
+  def self.fetch_validation(id)
+    v = self.find(id)
+    unless v.url.blank?
+      begin
+        open(v.url, "If-Modified-Since" => v.updated_at.rfc2822 )
+        v = v.update_validation
+      rescue OpenURI::HTTPError => e
+        if e == "304 Use local copy"
+          nil
+        else
+          raise
+        end
+      end
+    end
+    v
+  end
+  
+  def update_validation
+    schema = Csvlint::Schema.load_from_json_table(self.schema_url) if self.schema_url
+    validation = Validation.validate(self.url, self.schema_url, schema)
+    self.update_attributes(validation)
+    self
+  end
+
 end
   

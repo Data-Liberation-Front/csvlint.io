@@ -15,3 +15,12 @@ Given(/^there are (\d+) validations in the database$/) do |num|
     }
   end
 end
+
+Given(/^I have updated the URL "(.*?)"$/) do |url|
+  body = File.read(File.join(Rails.root, 'fixtures', "csvs/valid.csv"))
+  stub_request(:get, url).to_return(body: body, headers: {"Content-Type" => "text/plain", "Last-Modified" => DateTime.now.rfc2822})
+end
+
+Given(/^the CSV has not changed$/) do
+  stub_request(:get, @url).to_return(:status => "304")
+end

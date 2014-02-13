@@ -52,6 +52,7 @@ group :development, :test do
   gem 'guard-bundler'
   gem 'webmock', require: false
   gem 'pry'
+  gem 'timecop'
 end
 
 group :development do
