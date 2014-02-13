@@ -6,22 +6,18 @@ class ValidationController < ApplicationController
   def index
   end
 
-  def create  
-    if !params["url"].blank? 
-      @url = params[:url]
-      redirect_to root_path and return if validate_url(@url) === false
-      schema = load_schema(params[:schema_url])
-      validation = validate_csv(@url, schema)
-      redirect_to validation_path(validation)
-    elsif !params["file"].blank? 
-      @schema = nil
-      @schema = load_schema(params[:schema_file]) if params[:schema_file]
-      validation = validate_csv(File.new(params[:file].tempfile), @schema, params[:file].original_filename)
-      @file = File.new(params[:file].tempfile)
-      redirect_to validation_path(validation)
-    else
-      redirect_to root_path and return 
-    end
+  def create
+    schema = params[:schema_url].presence || params[:schema_file].presence 
+    schema = load_schema(schema) if schema
+
+    io = params[:url].presence || params[:file].presence
+    
+    redirect_to root_path and return if validate_url(params[:url]) === false
+    redirect_to root_path and return if io.nil?
+    
+    validation = validate_csv(io, schema)
+    
+    redirect_to validation_path(validation)
   end
 
   def show
@@ -57,7 +53,7 @@ class ValidationController < ApplicationController
   
   private
   
-    def validate_csv(io, schema = nil, filename = nil)
+    def validate_csv(io, schema = nil)
       # Load schema if set
       unless params[:schema_url].blank?
         if schema.nil? || schema.fields.empty?
@@ -66,6 +62,10 @@ class ValidationController < ApplicationController
             category: :schema
           )
         end
+      end
+      if io.respond_to?(:tempfile)
+        filename = io.original_filename
+        io = File.new(io.tempfile)
       end
       # Validate
       validator = Csvlint::Validator.new( io, nil, schema )
@@ -94,14 +94,16 @@ class ValidationController < ApplicationController
     end
     
     def validate_url(url)
-      # Check it's valid
-      url = begin
-        URI.parse(url)
-      rescue URI::InvalidURIError
-        return false
+      unless url.blank?
+        # Check it's valid
+        url = begin
+          URI.parse(url)
+        rescue URI::InvalidURIError
+          return false
+        end
+        # Check scheme
+        return false unless ['http', 'https'].include?(url.scheme)
       end
-      # Check scheme
-      return false unless ['http', 'https'].include?(url.scheme)
     end
     
     def load_schema(io)
