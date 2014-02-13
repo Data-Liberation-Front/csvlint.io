@@ -9,28 +9,13 @@ class ValidationController < ApplicationController
   def create  
     if !params["url"].blank? 
       @url = params[:url]
-      # Check it's valid
-      @url = begin
-        URI.parse(@url)
-      rescue URI::InvalidURIError
-        redirect_to root_path and return
-      end
-      # Check scheme
-      redirect_to root_path and return unless ['http', 'https'].include?(@url.scheme)
-      @schema_url = params[:schema_url]
-      schema = Csvlint::Schema.load_from_json_table(@schema_url) 
+      validate_url(@url)
+      schema = load_schema(params[:schema_url])
       validation = validate_csv(@url.to_s, schema)
       redirect_to validation_path(validation)
     elsif !params["file"].blank? 
       @schema = nil
-      if params[:schema_file]
-        begin
-          schema_json = JSON.parse( File.new( params[:schema_file].tempfile ).read() )
-          @schema = Csvlint::Schema.from_json_table( nil, schema_json )
-        rescue
-          @schema = nil
-        end
-      end
+      @schema = load_schema(params[:schema_file]) if params[:schema_file]
       validation = validate_csv(File.new(params[:file].tempfile), @schema, params[:file].original_filename)
       @file = File.new(params[:file].tempfile)
       redirect_to validation_path(validation)
@@ -106,6 +91,31 @@ class ValidationController < ApplicationController
         :state => state,
         :result => Marshal.dump(validator).force_encoding("UTF-8")
       )
+    end
+    
+    def validate_url(url)
+      # Check it's valid
+      @url = begin
+        URI.parse(url)
+      rescue URI::InvalidURIError
+        redirect_to root_path and return
+      end
+      # Check scheme
+      redirect_to root_path and return unless ['http', 'https'].include?(url.scheme)
+    end
+    
+    def load_schema(io)
+      if io.class == String
+        schema = Csvlint::Schema.load_from_json_table(io) 
+      else
+        begin
+          schema_json = JSON.parse( File.new( params[:schema_file].tempfile ).read() )
+          schema = Csvlint::Schema.from_json_table( nil, schema_json )
+        rescue
+          schema = nil
+        end
+      end
+      schema
     end
 
 end
