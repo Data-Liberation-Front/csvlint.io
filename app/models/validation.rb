@@ -60,11 +60,7 @@ class Validation
         open(v.url, "If-Modified-Since" => v.updated_at.rfc2822 )
         v = v.update_validation
       rescue OpenURI::HTTPError => e
-        if e == "304 Use local copy"
-          nil
-        else
-          raise
-        end
+        raise unless e.message.include?("304")
       end
     end
     v
