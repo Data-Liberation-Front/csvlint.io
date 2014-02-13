@@ -104,8 +104,13 @@ en:
   old_content_type_guidance_html: |
       <strong>Note</strong>: %{content_type} is an old Content Type for CSV that only appeared in a draft RFC. It should no longer be used.
   
-  quoting: "Incorrect quoting"
-  quoting_guidance_html: |
+  stray_quote: "Stray quote"
+  stray_quote_guidance_html: |
+     One or more values in the row have been incorrectly quoted. E.g. a comma has not been escaped, or a quoted field has not been properly escaped<br>
+     Check the values in the column and ensure that quoting has been correctly applied.
+
+  unclosed_quote: "Unclosed quote"
+  unclosed_quote_guidance_html: |
      One or more values in the row have been incorrectly quoted. E.g. a comma has not been escaped, or a quoted field has not been properly escaped<br>
      Check the values in the column and ensure that quoting has been correctly applied.
 
