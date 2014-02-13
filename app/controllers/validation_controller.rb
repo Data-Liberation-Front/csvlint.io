@@ -15,7 +15,7 @@ class ValidationController < ApplicationController
     if validate_url(params[:url]) === false || io.nil?
       redirect_to root_path and return 
     else    
-      validation = validate_csv(io, schema)
+      validation = Validation.create_validation(io, params[:schema_url], schema)
       redirect_to validation_path(validation)
     end
   end
@@ -52,46 +52,6 @@ class ValidationController < ApplicationController
   end
   
   private
-  
-    def validate_csv(io, schema = nil)
-      # Load schema if set
-      unless params[:schema_url].blank?
-        if schema.nil? || schema.fields.empty?
-          schema_error = Csvlint::ErrorMessage.new(
-            type: :invalid_schema,
-            category: :schema
-          )
-        end
-      end
-      if io.respond_to?(:tempfile)
-        filename = io.original_filename
-        io = File.new(io.tempfile)
-      end
-      # Validate
-      validator = Csvlint::Validator.new( io, nil, schema )
-      validator.errors.prepend(schema_error) if schema_error
-      state = "valid"
-      state = "warnings" unless validator.warnings.empty?
-      state = "invalid" unless validator.errors.empty?
-      
-      if io.class == String
-        # It's a url!
-        url = io
-        filename = File.basename(URI.parse(url).path)
-      else
-        # It's a file!
-        url = nil
-        validator.remove_instance_variable(:@source)
-      end
-            
-      Validation.create(
-        :url => url,
-        :schema_url => params[:schema_url],
-        :filename => filename,
-        :state => state,
-        :result => Marshal.dump(validator).force_encoding("UTF-8")
-      )
-    end
     
     def validate_url(url)
       unless url.blank?
