@@ -96,6 +96,12 @@ Feature: CSV Validation
     Then I should see 25 validations listed
     And I should see a paginator
     
+  Scenario: List schemas
+    Given there are 30 schemas in the database
+    And I visit the schema list page
+    Then I should see 25 schemas listed
+    And I should see a paginator
+    
   Scenario: Latest validations only should be listed
     Given the fixture "csvs/errors.csv" is available at the URL "http://example.org/list-test.csv"
     When I go to the homepage

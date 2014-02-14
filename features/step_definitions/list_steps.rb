@@ -11,7 +11,11 @@ Given(/^I visit the list page$/) do
   visit list_url
 end
 
-Then(/^I should see (\d+) validations listed$/) do |count|
+Given(/^I visit the schema list page$/) do
+  visit schemas_path
+end
+
+Then(/^I should see (\d+) (validations|schemas) listed$/) do |count, model|
   page.all("table tbody tr").count.should eql(count.to_i)
 end
 

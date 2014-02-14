@@ -18,6 +18,12 @@ Given(/^there are (\d+) validations in the database$/) do |num|
   end
 end
 
+Given(/^there are (\d+) schemas in the database$/) do |num|
+  num.to_i.times do |n|
+    FactoryGirl.create :schema
+  end
+end
+
 Given(/^I have updated the URL "(.*?)"$/) do |url|
   stub_request(:head, url).to_return(:status => 200)
 end
