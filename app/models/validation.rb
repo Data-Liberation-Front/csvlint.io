@@ -4,9 +4,11 @@ class Validation
   
   field :filename, type: String
   field :url, type: String
-  field :schema_url, type: String
   field :state, type: String
   field :result, type: String
+  
+  belongs_to :schema
+  accepts_nested_attributes_for :schema
   
   def self.validate(io, schema_url = nil, schema = nil)
     #Load schema if set
@@ -41,7 +43,9 @@ class Validation
     
     {
       :url => url,
-      :schema_url => schema_url,
+      :schema => {
+        :url => schema_url,        
+      },
       :filename => filename,
       :state => state,
       :result => Marshal.dump(validator).force_encoding("UTF-8")
@@ -67,8 +71,8 @@ class Validation
   end
   
   def update_validation
-    schema = Csvlint::Schema.load_from_json_table(self.schema_url) if self.schema_url
-    validation = Validation.validate(self.url, self.schema_url, schema)
+    loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
+    validation = Validation.validate(self.url, schema.try(:url), loaded_schema)
     self.update_attributes(validation)
     self
   end

@@ -45,3 +45,12 @@ Feature: Sceham Validation
     And I visit the schema list page
     Then I should see 25 schemas listed
     And I should see a paginator
+    
+  Scenario: Store schema information when validating
+    When I go to the homepage
+    And I enter "http://example.org/test.csv" in the "url" field
+    And I enter "http://example.org/schema.json" in the "schema_url" field
+    And I press "Validate"
+    Then I should see a page of validation results
+    And I visit the schema list page
+    Then I should see "http://example.org/schema.json"

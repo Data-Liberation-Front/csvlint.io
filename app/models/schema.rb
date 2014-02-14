@@ -4,5 +4,7 @@ class Schema
   
   field :url, type: String
 
+  has_many :validations
+
 end
   
