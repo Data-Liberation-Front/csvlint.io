@@ -1,0 +1,22 @@
+<% content_for :title do %>
+  <%= t(:schema_list).titleize %>
+<% end %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Schema URL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @schemas.each do |schema| %>
+      <tr>
+        <td class="url"><%= link_to schema.url, schema.url %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= paginate @schemas, :theme => 'twitter-bootstrap-3' %>
+</div>
