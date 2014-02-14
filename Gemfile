@@ -53,6 +53,8 @@ group :development, :test do
   gem 'webmock', require: false
   gem 'pry'
   gem 'timecop'
+  gem 'factory_girl_rails'
+  gem 'faker'
 end
 
 group :development do
