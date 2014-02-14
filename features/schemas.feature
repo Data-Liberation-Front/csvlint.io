@@ -77,4 +77,11 @@ Feature: Sceham Validation
     And I visit the schema list page
     Then I should see 0 schemas listed
   
-  
+  Scenario: Don't store invalid schemas
+    When I go to the homepage
+    And I attach the file "csvs/valid.csv" to the "file" field
+    And I attach the file "schemas/invalid.json" to the "schema_file" field
+    And I press "Upload and validate"
+    Then I should see a page of validation results
+    And I visit the schema list page
+    Then I should see 0 schemas listed
