@@ -67,3 +67,14 @@ Feature: Sceham Validation
     And I visit the schema list page
     Then I should see 1 schema listed
     Then I should see "http://example.org/schema.json"
+    
+  Scenario: Don't store uploaded schemas
+    When I go to the homepage
+    And I attach the file "csvs/valid.csv" to the "file" field
+    And I attach the file "schemas/valid.json" to the "schema_file" field
+    And I press "Upload and validate"
+    Then I should see a page of validation results
+    And I visit the schema list page
+    Then I should see 0 schemas listed
+  
+  

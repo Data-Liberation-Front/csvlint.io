@@ -41,18 +41,20 @@ class Validation
       validator.remove_instance_variable(:@source)
     end
     
-    # Find matching schema if possible
-    schema = Schema.where(url: schema_url).first
-    
-    {
+    attributes = {
       :url => url,
-      :schema => schema || {
-        :url => schema_url,        
-      },
       :filename => filename,
       :state => state,
       :result => Marshal.dump(validator).force_encoding("UTF-8")
     }
+    
+    if schema_url.present?
+      # Find matching schema if possible
+      schema = Schema.where(url: schema_url).first
+      attributes[:schema] = schema || { :url => schema_url }
+    end
+    
+    attributes
   end 
   
   def self.create_validation(io, schema_url = nil, schema = nil)
