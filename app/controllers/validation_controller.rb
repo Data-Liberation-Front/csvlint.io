@@ -6,76 +6,79 @@ class ValidationController < ApplicationController
   def index
   end
 
-  def redirect
-    if !params["url"].blank? 
-      redirect_to validate_path(url: params["url"], schema_url: params[:schema_url])
-    elsif !params["file"].blank? 
-      @schema = nil
-      if params[:schema_file]
-        begin
-          schema_json = JSON.parse( File.new( params[:schema_file].tempfile ).read() )
-          @schema = Csvlint::Schema.from_json_table( nil, schema_json )
-        rescue
-          @schema = nil
-        end
-      end
-      validate_csv(File.new(params[:file].tempfile), @schema)
-      @file = File.new(params[:file].tempfile)
-      respond_to do |wants|
-        wants.html { render "validation/validate"  }
-        wants.png { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@state}.png"), disposition: 'inline' }
-        wants.svg { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@state}.svg"), disposition: 'inline' }
-      end
-    else
+  def create
+    schema = params[:schema_url].presence || params[:schema_file].presence 
+    schema = load_schema(schema) if schema
+
+    io = params[:url].presence || params[:file].presence
+    
+    if validate_url(params[:url]) === false || io.nil?
       redirect_to root_path and return 
+    else    
+      validation = Validation.create_validation(io, params[:schema_url], schema)
+      redirect_to validation_path(validation)
     end
   end
 
-  def validate
-    # Check we have a URL
-    @url = params[:url]
-    redirect_to root_path and return if @url.nil? && @file.nil?
-    # Check it's valid
-    @url = begin
-      URI.parse(@url)
-    rescue URI::InvalidURIError
-      redirect_to root_path and return
-    end
-    # Check scheme
-    redirect_to root_path and return unless ['http', 'https'].include?(@url.scheme)
-    @schema_url = params[:schema_url]
-    schema = Csvlint::Schema.load_from_json_table(@schema_url) 
-    validate_csv(@url.to_s, schema)
+  def show
+    v = Validation.fetch_validation(params[:id])
+    @validator = Marshal.load(v.result)
+    @info_messages = @validator.info_messages
+    @warnings = @validator.warnings
+    @errors = @validator.errors
+    @url = v.url
+    @schema_url = v.schema_url
+    @state = v.state
     # Responses
     respond_to do |wants|
       wants.html
       wants.png { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@state}.png"), disposition: 'inline' }
       wants.svg { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@state}.svg"), disposition: 'inline' }
     end
-
+  end
+  
+  def find_by_url
+    validator = Validation.where(:url => params[:url]).first
+    unless validator.nil?
+      redirect_to validation_path(validator, format: params[:format])
+    else
+      raise ActionController::RoutingError.new('Not Found')
+    end
+  end
+  
+  def list
+    validations = Validation.where(:url.ne => nil).sort_by{ |v| v.created_at }.reverse!
+    validations.uniq!{ |v| v.url }
+    @validations = Kaminari.paginate_array(validations).page(params[:page])
   end
   
   private
-  
-    def validate_csv(io, schema = nil)
-      # Load schema if set
-      unless params[:schema_url].blank?
-        if schema.nil? || schema.fields.empty?
-          @schema_error = Csvlint::ErrorMessage.new(
-            type: :invalid_schema,
-            category: :schema
-          )
+    
+    def validate_url(url)
+      unless url.blank?
+        # Check it's valid
+        url = begin
+          URI.parse(url)
+        rescue URI::InvalidURIError
+          return false
+        end
+        # Check scheme
+        return false unless ['http', 'https'].include?(url.scheme)
+      end
+    end
+    
+    def load_schema(io)
+      if io.class == String
+        schema = Csvlint::Schema.load_from_json_table(io) 
+      else
+        begin
+          schema_json = JSON.parse( File.new( params[:schema_file].tempfile ).read() )
+          schema = Csvlint::Schema.from_json_table( nil, schema_json )
+        rescue
+          schema = nil
         end
       end
-      # Validate
-      @validator = Csvlint::Validator.new( io, nil, schema )
-      @info_messages = @validator.info_messages
-      @warnings = @validator.warnings
-      @errors = @validator.errors
-      @errors.prepend(@schema_error) if @schema_error
-      @state = "valid"
-      @state = "warnings" unless @warnings.empty?
-      @state = "invalid" unless @errors.empty?
+      schema
     end
-
+  
 end

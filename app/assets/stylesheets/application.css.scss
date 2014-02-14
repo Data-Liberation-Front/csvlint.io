@@ -63,4 +63,13 @@
   input#filename {
     background-color: #fff;
   }
+  
+  .table {
+    .url {
+      max-width: 270px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
 }

@@ -51,6 +51,8 @@ group :development, :test do
   gem 'guard-cucumber'
   gem 'guard-bundler'
   gem 'webmock', require: false
+  gem 'pry'
+  gem 'timecop'
 end
 
 group :development do
@@ -72,7 +74,12 @@ end
 gem 'rack-google-analytics'
 gem 'plek'
 gem 'slimmer', '~> 3.25.0'
+gem 'mongoid', github: 'mongoid/mongoid'
+gem 'bson_ext'
+gem 'kaminari'
+gem 'bootstrap-kaminari-views'
 
 gem 'csvlint', github: 'theodi/csvlint.rb'
+gem 'rest-client'
 
 gem 'nokogiri', '~> 1.5'
