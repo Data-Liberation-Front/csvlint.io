@@ -146,3 +146,4 @@ en:
   # Validation list
   #
   list: "Recent validations"
+  schema_list: "Recent schemas"
