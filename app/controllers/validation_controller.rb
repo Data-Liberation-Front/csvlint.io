@@ -1,7 +1,6 @@
 require 'uri'
 
 class ValidationController < ApplicationController
-  slimmer_template :csvlint
 
   def index
   end
@@ -27,7 +26,7 @@ class ValidationController < ApplicationController
     @warnings = @validator.warnings
     @errors = @validator.errors
     @url = v.url
-    @schema_url = v.schema_url
+    @schema_url = v.schema.url if v.schema
     @state = v.state
     # Responses
     respond_to do |wants|
