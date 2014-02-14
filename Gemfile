@@ -74,3 +74,5 @@ gem 'plek'
 gem 'slimmer', '~> 3.25.0'
 
 gem 'csvlint', github: 'theodi/csvlint.rb'
+
+gem 'nokogiri', '~> 1.5'
