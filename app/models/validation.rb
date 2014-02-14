@@ -41,9 +41,12 @@ class Validation
       validator.remove_instance_variable(:@source)
     end
     
+    # Find matching schema if possible
+    schema = Schema.where(url: schema_url).first
+    
     {
       :url => url,
-      :schema => {
+      :schema => schema || {
         :url => schema_url,        
       },
       :filename => filename,
