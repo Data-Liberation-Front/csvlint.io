@@ -4,11 +4,12 @@
 require "yaml"
 y = YAML.load File.open ".chef/rackspace_secrets.yaml"
 
-nodes = 1
+nodes = 2
 
 Vagrant.configure("2") do |config|
 
-#  config.butcher.knife_config_file = '.chef/knife.rb'
+  config.butcher.enabled    = true
+  config.butcher.verify_ssl = false
 
   nodes.times do |num|
     index = "%02d" % [
@@ -28,11 +29,10 @@ Vagrant.configure("2") do |config|
         rs.flavor          = /1GB/
         rs.image           = /Precise/
         rs.public_key_path = "./.chef/id_rsa.pub"
-#        rs.auth_url        = "https://lon.identity.api.rackspacecloud.com/v2.0"
         rs.rackspace_region        = :lon
       end
 
-      config.vm.provision :shell, :inline => "curl -L https://www.opscode.com/chef/install.sh | bash"
+      config.vm.provision :shell, :inline => "wget https://opscode.com/chef/install.sh && bash install.sh"
 
       config.vm.provision :chef_client do |chef|
         chef.node_name              = "csvlint-#{index}"
