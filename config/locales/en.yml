@@ -147,3 +147,8 @@ en:
   #
   list: "Recent validations"
   schema_list: "Recent schemas"
+  schema_info: "Schema information"
+
+  # Constraints
+  constraint_required: Required
+  constraint_minLength: Minimum Length
