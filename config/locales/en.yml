@@ -152,3 +152,5 @@ en:
   # Constraints
   constraint_required: Required
   constraint_minLength: Minimum Length
+  constraint_maxLength: Maximum Length
+  constraint_pattern: Pattern
