@@ -34,9 +34,6 @@
     },
     {
       "name": "Password"
-    },
-    {
-      "name": "Email"
-    }    
+    }
   ]
 }
