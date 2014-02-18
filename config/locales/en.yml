@@ -151,6 +151,12 @@ en:
 
   # Constraints
   constraint_required: Required
+  constraint_unique: Unique
   constraint_minLength: Minimum Length
   constraint_maxLength: Maximum Length
   constraint_pattern: Pattern
+  constraint_type: Type
+  constraint_minimum: Minimum Value
+  constraint_maximum: Maximum Value
+  
+  
