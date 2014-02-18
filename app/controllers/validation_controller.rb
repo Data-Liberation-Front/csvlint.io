@@ -30,6 +30,7 @@ class ValidationController < ApplicationController
     @info_messages = @validator.info_messages
     @warnings = @validator.warnings
     @errors = @validator.errors
+    @dialect = @validator.dialect
     @url = v.url
     @schema_url = v.schema.url if v.schema
     @state = v.state
@@ -39,6 +40,19 @@ class ValidationController < ApplicationController
       wants.png { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@state}.png"), disposition: 'inline' }
       wants.svg { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@state}.svg"), disposition: 'inline' }
     end
+  end
+  
+  def update
+    dialect = {
+      "header" => params[:header],
+      "delimiter" => params[:delimiter],
+      "skipInitialSpace" => params[:skip_initial_space],
+      "lineTerminator" => params[:line_terminator],
+      "quoteChar" => params[:quote_char]
+    }
+    
+    v = Validation.find(parms[:id])
+    v.update_validation(dialect)
   end
   
   def list

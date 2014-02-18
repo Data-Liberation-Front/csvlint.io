@@ -10,7 +10,7 @@ class Validation
   belongs_to :schema
   accepts_nested_attributes_for :schema
   
-  def self.validate(io, schema_url = nil, schema = nil)
+  def self.validate(io, schema_url = nil, schema = nil, dialect = nil)
     #Load schema if set
     unless schema_url.blank?
       if schema.nil? || schema.fields.empty?
@@ -25,7 +25,7 @@ class Validation
       io = File.new(io.tempfile)
     end
     # Validate
-    validator = Csvlint::Validator.new( io, nil, schema && schema.fields.empty? ? nil : schema )
+    validator = Csvlint::Validator.new( io, dialect, schema && schema.fields.empty? ? nil : schema )
     validator.errors.prepend(schema_error) if schema_error
     state = "valid"
     state = "warnings" unless validator.warnings.empty?
@@ -75,9 +75,9 @@ class Validation
     v
   end
   
-  def update_validation
+  def update_validation(dialect = nil)
     loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
-    validation = Validation.validate(self.url, schema.try(:url), loaded_schema)
+    validation = Validation.validate(self.url, schema.try(:url), loaded_schema, dialect)
     self.update_attributes(validation)
     self
   end
