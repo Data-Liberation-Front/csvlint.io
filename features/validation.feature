@@ -96,3 +96,14 @@ Feature: CSV Validation
     And I press "Validate"
     Then I should see a page of validation results
     And I should be given the option to revalidate using a different dialect
+    
+  # Scenario: Revalidate CSV using new options
+  #   When I go to the homepage
+  #   And I enter "http://example.org/errors.csv" in the "url" field
+  #   And I press "Validate"
+  #   And I enter ";" in the "Field delimiter" field
+  #   And I enter "'" in the "Quote character" field
+  #   And I select "LF (\n)" from the "Line terminator" dropdown
+  #   And I press "Revalidate"
+  #   Then I should see a page of validation results
+  #   And I should see "<strong>Congratulations!</strong> Your CSV is valid!"
