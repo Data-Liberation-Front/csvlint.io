@@ -21,20 +21,21 @@ module ValidationHelper
       "\r\n" => "CR-LF",
     }
     variables = {
-      :linebreak        => line_break_strings[validator.line_breaks],
-      :encoding         => validator.encoding,
-      :content_type     => validator.content_type,
-      :extension        => validator.extension,
-      :row              => message.row,
-      :column           => message.column,
-      :type             => message.type,
-      :content          => message.content,
-      :max_length       => '',
-      :min_length       => '',
-      :value            => '',
-      :range_constraint => '',
-      :expected_header  => '',
-      :header           => message.column ? validator.schema.fields[message.column].try(:name) : nil,
+        :linebreak        => line_break_strings[validator.line_breaks],
+        :encoding         => validator.encoding,
+        :content_type     => validator.content_type,
+        :extension        => validator.extension,
+        :row              => message.row,
+        :column           => message.column,
+        :type             => message.type,
+        :min_length       => message.column ? validator.schema.fields[message.column].try(:constraints).try(:[], 'minLength') : nil,
+        :max_length       => message.column ? validator.schema.fields[message.column].try(:constraints).try(:[], 'maxLength') : nil,
+        :value            => message.content,
+        :range_constraint => message.column ? range_text(validator.schema.fields[message.column].try(:constraints).try(:[], 'minimum'), validator.schema.fields[message.column].try(:constraints).try(:[], 'maximum')) : nil,
+        :range_violation =>
+        :expected_header  => '',
+        :header           => message.column ? validator.schema.fields[message.column].try(:name) : nil,
+        :pattern          => message.column ? validator.schema.fields[message.column].try(:constraints).try(:[], 'pattern') : nil,
     }
     if validator.headers
       validator.headers.each do |k,v|
@@ -44,7 +45,13 @@ module ValidationHelper
     end
     variables
   end
-  
+
+  def range_text lower, upper
+    return t(:range_min_max, lower: lower, upper: upper) if lower && upper
+    return t(:range_min_only, lower: lower) if lower
+    return t(:range_max_only, upper: upper) if upper
+  end
+
   def extra_guidance(validator, message)
     extra = []
     extra << :old_content_type if message.type == :wrong_content_type && validator.content_type == "text/comma-separated-values"

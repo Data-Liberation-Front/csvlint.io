@@ -81,7 +81,7 @@ gem 'bson_ext'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
 
-gem 'csvlint', github: 'theodi/csvlint.rb'
+gem 'csvlint', github: 'theodi/csvlint.rb', branch: 'values-in-schema-validations'
 gem 'rest-client'
 
 gem 'nokogiri', '~> 1.5'

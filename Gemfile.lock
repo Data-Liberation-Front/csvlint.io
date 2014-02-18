@@ -10,7 +10,8 @@ GIT
 
 GIT
   remote: git://github.com/theodi/csvlint.rb.git
-  revision: 8d6015f0aa9fc65d961e9155501d677ba734b722
+  revision: a63db93586ca4cf4072c2463639a05de105bf131
+  branch: values-in-schema-validations
   specs:
     csvlint (0.0.1)
       colorize
@@ -151,7 +152,7 @@ GEM
     highline (1.6.20)
     hike (1.2.3)
     i18n (0.6.9)
-    jbuilder (2.0.2)
+    jbuilder (2.0.3)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
     jquery-rails (3.1.0)
@@ -195,7 +196,7 @@ GEM
     optionable (0.2.0)
     origin (2.1.0)
     plek (1.7.0)
-    polyglot (0.3.3)
+    polyglot (0.3.4)
     pry (0.9.12.6)
       coderay (~> 1.0)
       method_source (~> 0.8)
