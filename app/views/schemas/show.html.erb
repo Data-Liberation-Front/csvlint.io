@@ -1,0 +1,43 @@
+<% content_for :title do %>
+  <%= t(:schema_info).titleize %>
+<% end %>
+
+
+URI: <%= link_to @schema.uri, @schema.uri %>
+
+<h2>Fields</h2>
+
+<table id='fields' class='table table-striped'>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Format</th>
+    <th>Constraints</th>
+  </tr>
+  <% @schema.fields.each do |field| %>
+    <tr>
+      <td>
+        <%= field.name %>
+      </td>
+      <td>
+        <%#= field.type %>
+      </td>
+      <td>
+        <%#= field.title %>
+      </td>
+      <td>
+        <%#= field.description %>
+      </td>
+      <td>
+        <%#= field.format %>
+      </td>
+      <td>
+        <% field.constraints.each_pair do |key, value| %>
+          <%= t "constraint_#{key}".to_sym %>: <%= value %><br/>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>

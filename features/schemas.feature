@@ -85,3 +85,13 @@ Feature: Sceham Validation
     Then I should see a page of validation results
     And I visit the schema list page
     Then I should see 0 schemas listed
+
+  Scenario: Schema details page
+    Given "http://example.org/schema.json" has been previously used for validation 
+    And I visit the schema list page
+    And I click on "http://example.org/schema.json"
+    Then I should see a schema details page
+    And I should see 3 fields
+    And I should see "http://example.org/schema.json"
+    And I should see "Required: true"
+  

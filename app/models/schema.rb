@@ -6,5 +6,10 @@ class Schema
 
   has_many :validations
 
+  def to_param
+    id.to_s
+    #CGI.escape(url)
+  end
+
 end
   

@@ -25,7 +25,7 @@ class Validation
       io = File.new(io.tempfile)
     end
     # Validate
-    validator = Csvlint::Validator.new( io, nil, schema )
+    validator = Csvlint::Validator.new( io, nil, schema && schema.fields.empty? ? nil : schema )
     validator.errors.prepend(schema_error) if schema_error
     state = "valid"
     state = "warnings" unless validator.warnings.empty?

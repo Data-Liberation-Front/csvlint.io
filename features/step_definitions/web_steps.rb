@@ -23,3 +23,7 @@ end
 Then(/^I should not see "(.*?)"$/) do |text|
   page.body.should_not include(text)
 end
+
+Given(/^I click on "(.*?)"$/) do |link|
+  click_link link
+end
