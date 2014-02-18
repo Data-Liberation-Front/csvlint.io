@@ -172,11 +172,11 @@ en:
 
   unique: "Value must be unique"
   unique_guidance_html: |
-      Values in the %{column} column must be unique. <code>%{value}</code> has been used at least twice.
+      Values in the <code>%{column}</code> column must be unique. <code>%{value}</code> has been used at least twice.
 
   out_of_range: "Value out of range"
   out_of_range_guidance_html: |
-      Values in the %{column} column must be %{range_constraint}. <code>%{value}</code> is out of range.
+      Values in the <code>%{column}</code> column must be %{range_constraint}. <code>%{value}</code> is out of range.
   
   #
   # Validation list
