@@ -10,10 +10,8 @@ URI: <%= link_to @schema.uri, @schema.uri %>
 <table id='fields' class='table table-striped'>
   <tr>
     <th>Name</th>
-    <th>Type</th>
     <th>Title</th>
     <th>Description</th>
-    <th>Format</th>
     <th>Constraints</th>
   </tr>
   <% @schema.fields.each do |field| %>
@@ -22,16 +20,10 @@ URI: <%= link_to @schema.uri, @schema.uri %>
         <%= field.name %>
       </td>
       <td>
-        <%#= field.type %>
+        <%= field.title %>
       </td>
       <td>
-        <%#= field.title %>
-      </td>
-      <td>
-        <%#= field.description %>
-      </td>
-      <td>
-        <%#= field.format %>
+        <%= field.description %>
       </td>
       <td>
         <% field.constraints.each_pair do |key, value| %>
