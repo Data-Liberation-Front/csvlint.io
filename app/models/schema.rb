@@ -8,7 +8,6 @@ class Schema
 
   def to_param
     id.to_s
-    #CGI.escape(url)
   end
 
 end
