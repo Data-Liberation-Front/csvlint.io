@@ -174,12 +174,13 @@ en:
   unique_guidance_html: |
       Values in the <code>%{header}</code> column must be unique. <code>%{value}</code> has been used at least twice.
 
-  out_of_range: "Value out of range"
-  out_of_range_guidance_html: |
-      Values in the <code>%{header}</code> column must be %{range_constraint}. <code>%{value}</code> is %{range_violation}.
+  below_minimum: "Value below minimum"
+  below_minimum_guidance_html: |
+      Values in the <code>%{header}</code> column must be %{min_value} or above. <code>%{value}</code> is too low.
 
-  range_min_max:      'between %{lower} and %{upper} inclusive'
-
+  above_maximum: "Value above maximum"
+  above_maximum_guidance_html: |
+      Values in the <code>%{header}</code> column must be %{max_value} or below. <code>%{value}</code> is too high.
   
   #
   # Validation list

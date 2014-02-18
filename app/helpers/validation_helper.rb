@@ -30,9 +30,9 @@ module ValidationHelper
         :type             => message.type,
         :min_length       => message.column ? validator.schema.fields[message.column].try(:constraints).try(:[], 'minLength') : nil,
         :max_length       => message.column ? validator.schema.fields[message.column].try(:constraints).try(:[], 'maxLength') : nil,
+        :min_value        => message.column ? validator.schema.fields[message.column].try(:constraints).try(:[], 'minimum') : nil,
+        :max_value        => message.column ? validator.schema.fields[message.column].try(:constraints).try(:[], 'maximum') : nil,
         :value            => message.content,
-        :range_constraint => message.column ? range_text(validator.schema.fields[message.column].try(:constraints).try(:[], 'minimum'), validator.schema.fields[message.column].try(:constraints).try(:[], 'maximum')) : nil,
-        :range_violation =>
         :expected_header  => '',
         :header           => message.column ? validator.schema.fields[message.column].try(:name) : nil,
         :pattern          => message.column ? validator.schema.fields[message.column].try(:constraints).try(:[], 'pattern') : nil,
@@ -44,12 +44,6 @@ module ValidationHelper
       end
     end
     variables
-  end
-
-  def range_text lower, upper
-    return t(:range_min_max, lower: lower, upper: upper) if lower && upper
-    return t(:range_min_only, lower: lower) if lower
-    return t(:range_max_only, upper: upper) if upper
   end
 
   def extra_guidance(validator, message)
