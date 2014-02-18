@@ -6,6 +6,7 @@ Feature: CSV Validation
   Background:
     Given the fixture "csvs/valid.csv" is available at the URL "http://example.org/test.csv"
     Given the fixture "csvs/info.csv" is available at the URL "http://example.org/info.csv"
+    Given the fixture "csvs/errors.csv" is available at the URL "http://example.org/errors.csv"
     
   Scenario: Enter a URL for validation
     When I go to the homepage
@@ -89,3 +90,9 @@ Feature: CSV Validation
     Then the validation should not be updated
     When I load the validation by URL
     
+  Scenario: Give the option to revalidate if CSV is invalid
+    When I go to the homepage
+    And I enter "http://example.org/errors.csv" in the "url" field
+    And I press "Validate"
+    Then I should see a page of validation results
+    And I should be given the option to revalidate using a different dialect

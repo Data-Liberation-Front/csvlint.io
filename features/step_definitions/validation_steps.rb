@@ -39,3 +39,7 @@ end
 Given(/^it's two weeks in the future$/) do
   Timecop.freeze(2.weeks.from_now)
 end
+
+Then(/^I should be given the option to revalidate using a different dialect$/) do
+  page.body.should include("The CSV you have specified seems to be invalid. You can try resubmitting it using a different dialect using the form below:")
+end

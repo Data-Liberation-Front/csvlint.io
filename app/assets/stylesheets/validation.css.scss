@@ -17,3 +17,19 @@
   margin: 20px 0;
   display:inline-block;
 }
+
+
+#revalidate {
+  #delimiter, #quote_char {
+    width: 35px;
+  }
+  
+  .form-group {
+    margin-right: 10px;
+  }
+  
+  label {
+    font-weight: normal;
+    font-weight: 0.8em;
+  }
+}
