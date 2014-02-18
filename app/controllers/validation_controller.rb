@@ -51,7 +51,7 @@ class ValidationController < ApplicationController
       "quoteChar" => params[:quote_char]
     }
     
-    v = Validation.find(parms[:id])
+    v = Validation.find(params[:id])
     v.update_validation(dialect)
   end
   
