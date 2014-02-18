@@ -21,14 +21,20 @@ module ValidationHelper
       "\r\n" => "CR-LF",
     }
     variables = {
-      :linebreak => line_break_strings[validator.line_breaks],
-      :encoding => validator.encoding,
-      :content_type => validator.content_type,
-      :extension => validator.extension,
-      :row => message.row,
-      :column => message.column,
-      :type => message.type,
-      :content => message.content
+      :linebreak        => line_break_strings[validator.line_breaks],
+      :encoding         => validator.encoding,
+      :content_type     => validator.content_type,
+      :extension        => validator.extension,
+      :row              => message.row,
+      :column           => message.column,
+      :type             => message.type,
+      :content          => message.content,
+      :max_length       => '',
+      :min_length       => '',
+      :value            => '',
+      :range_constraint => '',
+      :expected_header  => '',
+      :header           => message.column ? validator.schema.fields[message.column].try(:name) : nil,
     }
     if validator.headers
       validator.headers.each do |k,v|

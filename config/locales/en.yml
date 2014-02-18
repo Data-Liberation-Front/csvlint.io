@@ -144,7 +144,7 @@ en:
 
   missing_value: "Missing value"
   missing_value_guidance_html: |
-      The schema says that a value must be provided in the <code>%{column}</code> column. Make sure this column has values in all the rows.
+      The schema says that a value must be provided in the <code>%{header}</code> column. Make sure this column has values in all the rows.
 
   min_length: "Value too short"
   min_length_guidance_html: |
