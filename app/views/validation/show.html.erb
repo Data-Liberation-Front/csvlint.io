@@ -2,36 +2,6 @@
   <%= t(:results).titleize %>
 <% end %>
 
-<% if @state == "invalid" %>
-  <p>The CSV you have specified seems to be invalid. You can try resubmitting it using a different dialect using the form below:</p> 
-  <%= form_tag validation_path(params[:id]), id: 'revalidate', class: 'form-inline' do %>
-    <%= hidden_field_tag 'url', @url, class: 'form-control', placeholder: t(:enter_csv_url)%>
-    <%= hidden_field_tag '_method', "put"%>
-    <%= hidden_field_tag 'schema_url', @schema_url, class: 'form-control', placeholder: t(:enter_schema_url)%>
-    <!-- Header on or off -->
-    <div class="form-group">
-      <%= label_tag :header, 'Header row?' %> <%= check_box_tag :header, true, @dialect["header"] %>
-    </div>
-    <!-- Delimiter -->
-    <div class="form-group">
-      <%= label_tag :delimiter, 'Field delimiter' %> <%= text_field_tag :delimiter, @dialect["delimiter"], class: 'form-control', maxlength: '1' %>
-    </div>
-    <!-- Line terminator -->
-    <div class="form-group">
-      <%= label_tag :delimiter, 'Line terminator' %> <%= select_tag :line_terminator,  options_for_select({'Autodetect' => :auto, 'LF (\n)' => '\n', 'CRLF (\r\n)' => '\r\n'}, @dialect["lineTerminator"]) %>
-    </div>
-    <!-- Skip initial space -->
-    <div class="form-group">
-      <%= label_tag :skip_initial_space, 'Skip initial space?' %> <%= check_box_tag :skip_initial_space, true, @dialect["skipInitialSpace"] %>
-    </div>
-    <!-- Quote char -->
-    <div class="form-group">
-      <%= label_tag :quote_char, 'Quote character' %> <%= text_field_tag :quote_char, @dialect["quoteChar"], class: 'form-control', maxlength: '1' %>
-    </div>
-    <%= submit_tag t(:revalidate).titleize, class: 'btn btn-primary btn-lg' %>
-  <% end %>
-<% end %>
-
 <% unless @url.nil? %>
   <%= form_tag validation_index_path, :id => 'result_form' do %>
     <%= url_field_tag 'url', @url, class: 'form-control', placeholder: t(:enter_csv_url)%>
@@ -56,6 +26,35 @@
   <div class="alert alert-danger" id="result">
     <%= image_tag 'http://b.adge.me/:CSV%20-%20invalid-red.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
     <p><%= t(:invalid_html) %></p>
+      
+    <p>You can also try resubmitting it using a different dialect:</p> 
+    <%= form_tag validation_path(params[:id]), id: 'revalidate', class: 'form-inline' do %>
+      <%= hidden_field_tag 'url', @url, class: 'form-control', placeholder: t(:enter_csv_url)%>
+      <%= hidden_field_tag '_method', "put"%>
+      <%= hidden_field_tag 'schema_url', @schema_url, class: 'form-control', placeholder: t(:enter_schema_url)%>
+      <!-- Header on or off -->
+      <div class="form-group">
+        <%= label_tag :header, 'Header row?' %> <%= check_box_tag :header, true, @dialect["header"] %>
+      </div>
+      <!-- Delimiter -->
+      <div class="form-group">
+        <%= label_tag :delimiter, 'Field delimiter' %> <%= text_field_tag :delimiter, @dialect["delimiter"], class: 'form-control', maxlength: '1' %>
+      </div>
+      <!-- Line terminator -->
+      <div class="form-group">
+        <%= label_tag :delimiter, 'Line terminator' %> <%= select_tag :line_terminator,  options_for_select({'Autodetect' => :auto, 'LF (\n)' => '\n', 'CRLF (\r\n)' => '\r\n'}, @dialect["lineTerminator"]) %>
+      </div>
+      <!-- Skip initial space -->
+      <div class="form-group">
+        <%= label_tag :skip_initial_space, 'Skip initial space?' %> <%= check_box_tag :skip_initial_space, true, @dialect["skipInitialSpace"] %>
+      </div>
+      <!-- Quote char -->
+      <div class="form-group">
+        <%= label_tag :quote_char, 'Quote character' %> <%= text_field_tag :quote_char, @dialect["quoteChar"], class: 'form-control', maxlength: '1' %>
+      </div>
+      <%= submit_tag t(:revalidate).titleize, class: 'btn btn-primary' %>
+    <% end %>
+          
   </div>
 <% end %>
 
