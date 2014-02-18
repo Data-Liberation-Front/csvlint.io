@@ -43,7 +43,7 @@
       </div>
       <!-- Line terminator -->
       <div class="form-group">
-        <%= label_tag :delimiter, t(:line_terminator) %> <%= select_tag :line_terminator,  options_for_select({'Autodetect' => :auto, 'LF (\n)' => '\n', 'CRLF (\r\n)' => '\r\n'}, @dialect["lineTerminator"]) %>
+        <%= label_tag :line_terminator, t(:line_terminator) %> <%= select_tag :line_terminator,  options_for_select({'Autodetect' => :auto, 'LF (\n)' => '\n', 'CRLF (\r\n)' => '\r\n'}, @dialect["lineTerminator"]) %>
       </div>
       <!-- Skip initial space -->
       <div class="form-group">
