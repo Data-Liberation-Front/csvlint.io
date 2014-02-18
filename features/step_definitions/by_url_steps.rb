@@ -8,11 +8,11 @@ Given(/^I have already validated the URL "(.*?)"$/) do |url|
 end
 
 When(/^I load the validation by URL$/) do
-  visit find_by_url_path(url: @url)
+  visit validation_index_path(uri: @url)
 end
 
 When(/^I load the validation badge by URL in "(.*?)" format$/) do |format|
-  visit find_by_url_path(url: @url, format: format)
+  visit validation_index_path(uri: @url, format: format)
 end
 
 Then(/^I should get a badge in "(.*?)" format$/) do |format|
