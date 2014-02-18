@@ -27,8 +27,9 @@
     <%= image_tag 'http://b.adge.me/:CSV%20-%20invalid-red.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
     <p><%= t(:invalid_html) %></p>
       
-    <p><%= t(:resubmit) %></p> 
     <%= form_tag validation_path(params[:id]), id: 'revalidate', class: 'form-inline' do %>
+      <p><%= t(:resubmit) %></p> 
+      
       <%= hidden_field_tag 'url', @url, class: 'form-control', placeholder: t(:enter_csv_url)%>
       <%= hidden_field_tag '_method', "put"%>
       <%= hidden_field_tag 'schema_url', @schema_url, class: 'form-control', placeholder: t(:enter_schema_url)%>
