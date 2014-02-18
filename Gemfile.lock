@@ -10,8 +10,8 @@ GIT
 
 GIT
   remote: git://github.com/theodi/csvlint.rb.git
-  revision: a63db93586ca4cf4072c2463639a05de105bf131
-  branch: values-in-schema-validations
+  revision: 53b174a0b8dda5a03ecf9dbfb5ce204f57df58c2
+  branch: include-col-name-in-message
   specs:
     csvlint (0.0.1)
       colorize
