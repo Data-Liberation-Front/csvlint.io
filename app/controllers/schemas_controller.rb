@@ -2,6 +2,8 @@ class SchemasController < ApplicationController
 
   def index
     if params[:uri]
+      schema = Schema.where(url: params[:uri]).first
+      render status: 404 and return if schema.nil?
       redirect_to Schema.where(url: params[:uri]).first, status: 303
     else
       schemas = Schema.all
