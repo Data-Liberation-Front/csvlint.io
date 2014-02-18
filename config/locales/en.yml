@@ -45,6 +45,16 @@ en:
   valid_html: "<strong>Congratulations!</strong> Your CSV is valid!"
   valid_with_warnings: "However, there are some issues that you may want to address to make is as easy as possible to reuse your data"
   invalid_html: "<strong>Sorry</strong>, your CSV did not pass validation. Please review the errors and warnings below:"
+  
+  #
+  # Resubmission Form
+  #
+  resubmit: "You can also try resubmitting it using a different dialect"
+  header: "Header row?"
+  field_delimiter: "Field delimiter"
+  line_terminator: "Line terminator"
+  skip_initial_space: "Skip initial space?"
+  quote_character: "Quote character"
 
   #
   # Validation Detail
