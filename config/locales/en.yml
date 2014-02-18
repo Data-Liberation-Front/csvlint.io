@@ -141,6 +141,42 @@ en:
   invalid_schema: "Invalid schema"
   invalid_schema_guidance_html: |
       We couldn't load the schema you specified. Please make sure you have entered the correct URL, and that it is in JSON Table Schema format.
+
+  missing_value: "Missing value"
+  missing_value_guidance_html: |
+      The schema says that a value must be provided in the <code>%{column}</code> column. Make sure this column has values in all the rows.
+
+  min_length: "Value too short"
+  min_length_guidance_html: |
+      The schema says that <code>%{column}</code> must be at least %{min_length} characters long. Your value, <code>%{value}</code>, is not long enough.
+
+  max_length: "Value too long"
+  max_length_guidance_html: |
+      The schema says that <code>%{column}</code> must be at most %{max_length} characters long. Your value, <code>%{value}</code>, is too long.
+
+  pattern: "Value did not match pattern"
+  pattern_guidance_html: |
+      The schema says that values in <code>%{column}</code> must match <code>%{pattern}</code>. Your value, <code>%{value}</code>, does not.
+
+  header_name: "Mismatched column header"
+  header_name_guidance_html: |
+      We expected to see the header <code>%{expected_header}</code>, but got <code>%{header}</code>.
+
+  missing_column: "Missing column"
+  missing_column_guidance_html: |
+      According to the schema, we expected to see the column <code>%{column}</code>, but it wasn't there.
+
+  extra_column: "Extra column"
+  extra_column_guidance_html: |
+      We did not expect to see the column <code>%{column}</code>, given the schema you used.
+
+  unique: "Value must be unique"
+  unique_guidance_html: |
+      Values in the %{column} column must be unique. <code>%{value}</code> has been used at least twice.
+
+  out_of_range: "Value out of range"
+  out_of_range_guidance_html: |
+      Values in the %{column} column must be %{range_constraint}. <code>%{value}</code> is out of range.
   
   #
   # Validation list
