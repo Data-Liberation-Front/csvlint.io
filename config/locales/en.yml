@@ -49,7 +49,7 @@ en:
   #
   # Resubmission Form
   #
-  resubmit: "You can also try resubmitting it using a different dialect"
+  resubmit: "Your CSV file appears to only contain a single column. This may indicate that it is being incorrectly parsed. You can try resubmitting it using a different dialect."
   header: "Header row?"
   field_delimiter: "Field delimiter"
   line_terminator: "Line terminator"

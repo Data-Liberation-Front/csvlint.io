@@ -26,37 +26,39 @@
   <div class="alert alert-danger" id="result">
     <%= image_tag 'http://b.adge.me/:CSV%20-%20invalid-red.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
     <p><%= t(:invalid_html) %></p>
-      
-    <%= form_tag validation_path(params[:id]), id: 'revalidate', class: 'form-inline' do %>
-      <p><%= t(:resubmit) %></p> 
-      
-      <%= hidden_field_tag 'url', @url, class: 'form-control', placeholder: t(:enter_csv_url)%>
-      <%= hidden_field_tag '_method', "put"%>
-      <%= hidden_field_tag 'schema_url', @schema_url, class: 'form-control', placeholder: t(:enter_schema_url)%>
-      <!-- Header on or off -->
-      <div class="form-group">
-        <%= label_tag :header, t(:header) %> <%= check_box_tag :header, true, @dialect["header"] %>
-      </div>
-      <!-- Delimiter -->
-      <div class="form-group">
-        <%= label_tag :delimiter, t(:field_delimiter)  %> <%= text_field_tag :delimiter, @dialect["delimiter"], class: 'form-control', maxlength: '1' %>
-      </div>
-      <!-- Line terminator -->
-      <div class="form-group">
-        <%= label_tag :line_terminator, t(:line_terminator) %> <%= select_tag :line_terminator,  options_for_select({'Autodetect' => :auto, 'LF (\n)' => '\n', 'CRLF (\r\n)' => '\r\n'}, @dialect["lineTerminator"]) %>
-      </div>
-      <!-- Skip initial space -->
-      <div class="form-group">
-        <%= label_tag :skip_initial_space, t(:skip_inital_space) %> <%= check_box_tag :skip_initial_space, true, @dialect["skipInitialSpace"] %>
-      </div>
-      <!-- Quote char -->
-      <div class="form-group">
-        <%= label_tag :quote_char, t(:quote_character) %> <%= text_field_tag :quote_char, @dialect["quoteChar"], class: 'form-control', maxlength: '1' %>
-      </div>
-      <%= submit_tag t(:revalidate).titleize, class: 'btn btn-primary' %>
-    <% end %>
           
   </div>
+<% end %>
+
+<% if @warnings.select { |warning| warning.type == :check_options  } %>
+  <%= form_tag validation_path(params[:id]), id: 'revalidate', class: 'form-inline' do %>
+    <p><%= t(:resubmit) %></p> 
+  
+    <%= hidden_field_tag 'url', @url, class: 'form-control', placeholder: t(:enter_csv_url)%>
+    <%= hidden_field_tag '_method', "put"%>
+    <%= hidden_field_tag 'schema_url', @schema_url, class: 'form-control', placeholder: t(:enter_schema_url)%>
+    <!-- Header on or off -->
+    <div class="form-group">
+      <%= label_tag :header, t(:header) %> <%= check_box_tag :header, true, @dialect["header"] %>
+    </div>
+    <!-- Delimiter -->
+    <div class="form-group">
+      <%= label_tag :delimiter, t(:field_delimiter)  %> <%= text_field_tag :delimiter, @dialect["delimiter"], class: 'form-control', maxlength: '1' %>
+    </div>
+    <!-- Line terminator -->
+    <div class="form-group">
+      <%= label_tag :line_terminator, t(:line_terminator) %> <%= select_tag :line_terminator,  options_for_select({'Autodetect' => :auto, 'LF (\n)' => '\n', 'CRLF (\r\n)' => '\r\n'}, @dialect["lineTerminator"]) %>
+    </div>
+    <!-- Skip initial space -->
+    <div class="form-group">
+      <%= label_tag :skip_initial_space, t(:skip_inital_space) %> <%= check_box_tag :skip_initial_space, true, @dialect["skipInitialSpace"] %>
+    </div>
+    <!-- Quote char -->
+    <div class="form-group">
+      <%= label_tag :quote_char, t(:quote_character) %> <%= text_field_tag :quote_char, @dialect["quoteChar"], class: 'form-control', maxlength: '1' %>
+    </div>
+    <%= submit_tag t(:revalidate).titleize, class: 'btn btn-primary' %>
+  <% end %>
 <% end %>
 
 <%= error_and_warning_count(@errors, @warnings, wrapper: :h2) %>
