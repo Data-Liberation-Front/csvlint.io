@@ -24,14 +24,14 @@ Feature: CSV Validation
   Scenario: Upload a file for validation
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
-    And I press "Upload and validate"
+    And I press "Validate"
     Then I should see a page of validation results
     And my file should be persisted in the database
   
   Scenario: Upload a file with warnings
     When I go to the homepage
     And I attach the file "csvs/warnings.csv" to the "file" field
-    And I press "Upload and validate"
+    And I press "Validate"
     Then I should see a page of validation results
     And my file should be persisted in the database
     And the database record should have a "warning" of the type "check_options"
@@ -40,7 +40,7 @@ Feature: CSV Validation
   Scenario: Upload a file with errors
     When I go to the homepage
     And I attach the file "csvs/errors.csv" to the "file" field
-    And I press "Upload and validate"
+    And I press "Validate"
     Then I should see a page of validation results
     And my file should be persisted in the database
     And the database record should have a "error" of the type "ragged_rows"

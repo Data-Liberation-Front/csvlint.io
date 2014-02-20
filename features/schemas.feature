@@ -1,4 +1,4 @@
-Feature: Sceham Validation
+Feature: Schema Validation
   In order to make sure my CSV files are usable by others
   As a data publisher
   I want to make sure that my CSV files are valid with respect to a schema
@@ -37,7 +37,21 @@ Feature: Sceham Validation
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
     And I attach the file "schemas/valid.json" to the "schema_file" field
-    And I press "Upload and validate"
+    And I press "Validate"
+    Then I should see a page of validation results
+
+  Scenario: Upload a file and a schema URL for validation
+    When I go to the homepage
+    And I attach the file "csvs/valid.csv" to the "file" field
+    And I enter "http://example.org/schema.json" in the "schema_url" field
+    And I press "Validate"
+    Then I should see a page of validation results
+
+  Scenario: Enter a URL and upload a schema for validation
+    When I go to the homepage
+    And I enter "http://example.org/test.csv" in the "url" field
+    And I attach the file "schemas/valid.json" to the "schema_file" field
+    And I press "Validate"
     Then I should see a page of validation results
   
   Scenario: List schemas
@@ -72,7 +86,7 @@ Feature: Sceham Validation
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
     And I attach the file "schemas/valid.json" to the "schema_file" field
-    And I press "Upload and validate"
+    And I press "Validate"
     Then I should see a page of validation results
     And I visit the schema list page
     Then I should see 0 schemas listed
@@ -81,7 +95,7 @@ Feature: Sceham Validation
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
     And I attach the file "schemas/invalid.json" to the "schema_file" field
-    And I press "Upload and validate"
+    And I press "Validate"
     Then I should see a page of validation results
     And I visit the schema list page
     Then I should see 0 schemas listed
