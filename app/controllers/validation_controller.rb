@@ -43,24 +43,7 @@ class ValidationController < ApplicationController
   end
   
   def update
-    line_terminator = params[:line_terminator]
-    if line_terminator == "auto"
-      line_terminator = line_terminator.to_sym
-    end
-    if line_terminator == "\\n"
-      line_terminator = "\n"
-    end
-    if line_terminator == "\\r\\n"
-      line_terminator = "\r\n"
-    end
-    dialect = {
-      "header" => params[:header],
-      "delimiter" => params[:delimiter],
-      "skipInitialSpace" => params[:skip_initial_space],
-      "lineTerminator" => line_terminator,
-      "quoteChar" => params[:quote_char]
-    }
-    
+    dialect = build_dialect(params)
     v = Validation.find(params[:id])
     v.update_validation(dialect)
     redirect_to validation_path(v)
@@ -99,6 +82,25 @@ class ValidationController < ApplicationController
         end
       end
       schema
+    end
+    
+    def build_dialect(params)
+      case params[:line_terminator]
+      when "auto"
+        line_terminator = line_terminator.to_sym
+      when "\\n"
+        line_terminator = "\n"
+      when "\\r\\n"
+        line_terminator = "\r\n"
+      end
+      
+      {
+        "header" => params[:header],
+        "delimiter" => params[:delimiter],
+        "skipInitialSpace" => params[:skip_initial_space],
+        "lineTerminator" => line_terminator,
+        "quoteChar" => params[:quote_char]
+      }
     end
   
 end
