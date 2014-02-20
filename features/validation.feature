@@ -91,9 +91,9 @@ Feature: CSV Validation
     Then the validation should not be updated
     When I load the validation by URL
     
-  Scenario: Give the option to revalidate if CSV is invalid
+  Scenario: Give the option to revalidate if CSV options seem incorrect
     When I go to the homepage
-    And I enter "http://example.org/errors.csv" in the "url" field
+    And I enter "http://example.org/revalidate.csv" in the "url" field
     And I press "Validate"
     Then I should see a page of validation results
     And I should be given the option to revalidate using a different dialect
