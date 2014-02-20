@@ -25,7 +25,8 @@ en:
   error: "Error"
   warning: "Warning"
   info: "Information"
-  validate: "Validate"  
+  validate: "Validate"
+  revalidate: "Revalidate"  
   upload_and_validate: "Upload and validate"
   results: "Validation results"
   enter_csv_url: "Enter CSV URL"
@@ -44,6 +45,16 @@ en:
   valid_html: "<strong>Congratulations!</strong> Your CSV is valid!"
   valid_with_warnings: "However, there are some issues that you may want to address to make is as easy as possible to reuse your data"
   invalid_html: "<strong>Sorry</strong>, your CSV did not pass validation. Please review the errors and warnings below:"
+  
+  #
+  # Resubmission Form
+  #
+  resubmit: "Your CSV file appears to only contain a single column. This may indicate that it is being incorrectly parsed. You can try resubmitting it using a different dialect."
+  header: "Header row?"
+  field_delimiter: "Field delimiter"
+  line_terminator: "Line terminator"
+  skip_initial_space: "Skip initial space?"
+  quote_character: "Quote character"
 
   #
   # Validation Detail
@@ -141,6 +152,10 @@ en:
   invalid_schema: "Invalid schema"
   invalid_schema_guidance_html: |
       We couldn't load the schema you specified. Please make sure you have entered the correct URL, and that it is in JSON Table Schema format.
+  
+  non_standard_dialect: "Non standard dialect"
+  non_standard_dialect_guidance_html: |
+      Although your CSV validates, to make it as easy as possible for your data to be reused, we recommend using commas as delimiters, double quotes to enclose fields, and autodetecting line endings.
   
   #
   # Validation list

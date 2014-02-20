@@ -87,6 +87,39 @@ describe ValidationController do
     end
     
   end
+  
+  describe "POST 'update'" do
+    
+    it "updates a CSV sucessfully" do
+       mock_csv("http://example.com/test.csv", 'csvs/valid.csv')
+       post 'create', url: 'http://example.com/test.csv'
+       Validation.any_instance.should_receive(:update_attributes).once
+       put 'update', id: Validation.first.id
+       response.should be_redirect
+    end
+    
+    it "updates a CSV with a new schema sucessfully" do
+       mock_csv("http://example.com/revalidate.csv", 'csvs/revalidate.csv')
+       post 'create', url: 'http://example.com/revalidate.csv'
+       
+       params = {
+         :id => Validation.first.id,
+         :header => "true",
+         :delimiter => ";",
+         :skip_initial_space => "true",
+         :line_terminator => "\\n",
+         :quote_char => "'"
+       }
+       
+       put 'update', params
+
+       validator = Marshal.load Validation.first.result
+       validator.warnings.select { |warning| warning.type == :check_options }.count.should == 0
+              
+       response.should be_redirect
+    end
+    
+  end
 
   describe "GET 'show' PNG" do
   
