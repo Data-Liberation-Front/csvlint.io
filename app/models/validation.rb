@@ -47,7 +47,7 @@ class Validation
       :state => state,
       :result => Marshal.dump(validator).force_encoding("UTF-8")
     }
-    
+        
     if schema_url.present?
       # Find matching schema if possible
       schema = Schema.where(url: schema_url).first
@@ -67,7 +67,8 @@ class Validation
     unless v.url.blank?
       begin
         RestClient.head(v.url, if_modified_since: v.updated_at.rfc2822 ) if v.updated_at
-        v = v.update_validation 
+        validator = Marshal.load(v.result)
+        v = v.update_validation (validator.dialect)
       rescue RestClient::NotModified
         nil
       end
@@ -77,7 +78,7 @@ class Validation
   
   def update_validation(dialect = nil)
     loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
-    validation = Validation.validate(self.url, schema.try(:url), loaded_schema, dialect)
+    validation = Validation.validate(self.url, schema.try(:url), loaded_schema, dialect)    
     self.update_attributes(validation)
     self
   end
