@@ -34,7 +34,7 @@
   <%= form_tag validation_path(params[:id]), id: 'revalidate', class: 'form-inline alert alert-warning' do %>
     <p><%= t(:resubmit) %></p> 
   
-    <%= hidden_field_tag 'url', @url, class: 'form-control', placeholder: t(:enter_csv_url)%>
+    <%= hidden_field_tag 'url', @url %>
     <%= hidden_field_tag '_method', "put"%>
     <%= hidden_field_tag 'schema_url', @schema_url, class: 'form-control', placeholder: t(:enter_schema_url)%>
     <!-- Header on or off -->
