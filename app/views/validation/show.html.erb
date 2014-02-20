@@ -4,6 +4,7 @@
 
 <% unless @url.nil? && @schema_url.nil? %>
   <%= form_tag validation_path(params[:id]), :id => 'result_form' do %>
+    <%= hidden_field_tag '_method', "put"%>
     <% unless @url.nil? %>
       <%= url_field_tag 'url', @url, class: 'form-control', placeholder: t(:enter_csv_url)%>
       <br/>
