@@ -25,20 +25,14 @@ class ValidationController < ApplicationController
   end
 
   def show
-    v = Validation.fetch_validation(params[:id])
-    @validator = Marshal.load(v.result)
-    @info_messages = @validator.info_messages
-    @warnings = @validator.warnings
-    @errors = @validator.errors
-    @dialect = @validator.dialect || Validation.standard_dialect
-    @url = v.url
-    @schema_url = v.schema.url if v.schema
-    @state = v.state
+    @validation = Validation.fetch_validation(params[:id])
+    @result = Marshal.load(@validation.result)
+    @dialect = @result.dialect || Validation.standard_dialect
     # Responses
     respond_to do |wants|
       wants.html
-      wants.png { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@state}.png"), disposition: 'inline' }
-      wants.svg { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@state}.svg"), disposition: 'inline' }
+      wants.png { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@validation.state}.png"), disposition: 'inline' }
+      wants.svg { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@validation.state}.svg"), disposition: 'inline' }
     end
   end
   

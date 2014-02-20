@@ -2,24 +2,24 @@
   <%= t(:results).titleize %>
 <% end %>
 
-<% unless @url.nil? && @schema_url.nil? %>
+<% unless @validation.url.nil? && @validation.schema.nil? %>
   <%= form_tag validation_path(params[:id]), :id => 'result_form' do %>
     <%= hidden_field_tag '_method', "put"%>
-    <% unless @url.nil? %>
-      <%= url_field_tag 'url', @url, class: 'form-control', placeholder: t(:enter_csv_url)%>
+    <% unless @validation.url.nil? %>
+      <%= url_field_tag 'url', @validation.url, class: 'form-control', placeholder: t(:enter_csv_url)%>
       <br/>
     <% end %>
-    <% unless @schema_url.nil? %>
-      <%= url_field_tag 'schema_url', @schema_url, class: 'form-control', placeholder: t(:enter_schema_url)%>
+    <% unless @validation.schema.nil? %>
+      <%= url_field_tag 'schema_url', @validation.schema.url, class: 'form-control', placeholder: t(:enter_schema_url)%>
       <br/>
     <% end %>
     <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary btn-block btn-lg' %></span>
   <% end %>
 <% end %>
 
-<% if @validator.valid? %>
+<% if @result.valid? %>
   <div class="alert alert-success" id="result">
-    <% if @warnings.count == 0 %>
+    <% if @result.warnings.count == 0 %>
       <%= image_tag 'http://b.adge.me/:CSV%20-%20valid-green.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
       <p><%= t(:valid_html) %></p>
     <% else %>
@@ -35,13 +35,15 @@
   </div>
 <% end %>
 
-<% if @warnings.select { |warning| warning.type == :check_options }.any? %>
+<% if @result.warnings.select { |warning| warning.type == :check_options }.any? %>
   <%= form_tag validation_path(params[:id]), id: 'revalidate', class: 'form-inline alert alert-warning' do %>
     <p><%= t(:resubmit) %></p> 
   
-    <%= hidden_field_tag 'url', @url %>
+    <%= hidden_field_tag 'url', @validation.url %>
     <%= hidden_field_tag '_method', "put"%>
-    <%= hidden_field_tag 'schema_url', @schema_url %>
+    <% unless @validation.schema.nil? %>
+      <%= hidden_field_tag 'schema_url', @validation.schema.url %>
+    <% end %>
     <!-- Header on or off -->
     <div class="form-group">
       <%= label_tag :header, t(:header) %> <%= check_box_tag :header, true, @dialect["header"] %>
@@ -66,7 +68,7 @@
   <% end %>
 <% end %>
 
-<%= error_and_warning_count(@errors, @warnings, wrapper: :h2) %>
+<%= error_and_warning_count(@result.errors, @result.warnings, wrapper: :h2) %>
 
 <%= render :partial => 'errors' %>
 
