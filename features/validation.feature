@@ -110,6 +110,7 @@ Feature: CSV Validation
     Then I should see a page of validation results
     And I should see "<strong>Congratulations!</strong> Your CSV is valid!"
     And I should not see "Check CSV parsing options"
+    And I should see "Non standard dialect"
 
   Scenario: Revalidate file using new options
     When I go to the homepage
@@ -122,3 +123,4 @@ Feature: CSV Validation
     Then I should see a page of validation results
     And I should see "<strong>Congratulations!</strong> Your CSV is valid!"
     And I should not see "Check CSV parsing options"
+    And I should see "Non standard dialect"

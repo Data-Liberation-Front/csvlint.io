@@ -36,7 +36,7 @@
   
     <%= hidden_field_tag 'url', @url %>
     <%= hidden_field_tag '_method', "put"%>
-    <%= hidden_field_tag 'schema_url', @schema_url, class: 'form-control', placeholder: t(:enter_schema_url)%>
+    <%= hidden_field_tag 'schema_url', @schema_url %>
     <!-- Header on or off -->
     <div class="form-group">
       <%= label_tag :header, t(:header) %> <%= check_box_tag :header, true, @dialect["header"] %>

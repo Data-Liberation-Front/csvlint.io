@@ -20,6 +20,7 @@ class Validation
     # Validate
     validator = Csvlint::Validator.new( io, dialect, schema && schema.fields.empty? ? nil : schema )
     check_schema(validator, schema) unless schema_url.blank?
+    check_dialect(validator, dialect) unless dialect.blank?
     state = "valid"
     state = "warnings" unless validator.warnings.empty?
     state = "invalid" unless validator.errors.empty?
@@ -81,6 +82,28 @@ class Validation
       )
     end
   end
+  
+  def self.check_dialect(validator, dialect)
+    if dialect != standard_dialect
+      validator.warnings.prepend(
+        Csvlint::ErrorMessage.new(
+          type: :non_standard_dialect,
+          category: :dialect
+        )
+      )
+    end
+  end
+  
+  def self.standard_dialect
+    {
+      "header" => true,
+      "delimiter" => ",",
+      "skipInitialSpace" => true,
+      "lineTerminator" => :auto,
+      "quoteChar" => '"'
+    }
+  end
+  
   def update_validation(dialect = nil)
     loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
     validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect)    

@@ -153,6 +153,10 @@ en:
   invalid_schema_guidance_html: |
       We couldn't load the schema you specified. Please make sure you have entered the correct URL, and that it is in JSON Table Schema format.
   
+  non_standard_dialect: "Non standard dialect"
+  non_standard_dialect_guidance_html: |
+      Although your CSV validates, to make it as easy as possible for your data to be reused, we recommend using commas as delimiters, double quotes to enclose fields, and autodetecting line endings.
+  
   #
   # Validation list
   #
