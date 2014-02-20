@@ -31,8 +31,8 @@ class ValidationController < ApplicationController
     # Responses
     respond_to do |wants|
       wants.html
-      wants.png { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@validation.state}.png"), disposition: 'inline' }
-      wants.svg { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@validation.state}.svg"), disposition: 'inline' }
+      wants.png { render_badge(@validation.state, "png") }
+      wants.svg { render_badge(@validation.state, "svg") }
     end
   end
   
@@ -95,6 +95,10 @@ class ValidationController < ApplicationController
         "lineTerminator" => line_terminator,
         "quoteChar" => params[:quote_char]
       }
+    end
+    
+    def render_badge(state, format)
+      send_file File.join(Rails.root, 'app', 'views', 'validation', "#{state}.#{format}"), disposition: 'inline'
     end
   
 end
