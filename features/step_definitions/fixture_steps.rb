@@ -1,6 +1,6 @@
 Given(/^the fixture "(.*?)" is available at the URL "(.*?)"$/) do |filename, url|
   body = File.read(File.join(Rails.root, 'fixtures', filename))
-  stub_request(:get, url).to_return(body: body, headers: {"Content-Type" => "text/plain"})  
+  stub_request(:get, url).to_return(body: body, headers: {"Content-Type" => "text/csv"})  
   stub_request(:head, url).to_return(:status => 200)
 end
 
