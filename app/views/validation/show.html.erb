@@ -2,12 +2,16 @@
   <%= t(:results).titleize %>
 <% end %>
 
-<% unless @url.nil? %>
-  <%= form_tag validation_index_path, :id => 'result_form' do %>
-    <%= url_field_tag 'url', @url, class: 'form-control', placeholder: t(:enter_csv_url)%>
-    <br/>
-    <%= url_field_tag 'schema_url', @schema_url, class: 'form-control', placeholder: t(:enter_schema_url)%>
-    <br/>
+<% unless @url.nil? && @schema_url.nil? %>
+  <%= form_tag validation_path(params[:id]), :id => 'result_form' do %>
+    <% unless @url.nil? %>
+      <%= url_field_tag 'url', @url, class: 'form-control', placeholder: t(:enter_csv_url)%>
+      <br/>
+    <% end %>
+    <% unless @schema_url.nil? %>
+      <%= url_field_tag 'schema_url', @schema_url, class: 'form-control', placeholder: t(:enter_schema_url)%>
+      <br/>
+    <% end %>
     <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary btn-block btn-lg' %></span>
   <% end %>
 <% end %>
