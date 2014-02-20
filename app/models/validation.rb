@@ -6,6 +6,7 @@ class Validation
   field :url, type: String
   field :state, type: String
   field :result, type: String
+  field :csv_id, type: String
   
   belongs_to :schema
   accepts_nested_attributes_for :schema
@@ -22,8 +23,9 @@ class Validation
     end
     if io.respond_to?(:tempfile)
       filename = io.original_filename
+      csv = File.new(io.tempfile)
       io = File.new(io.tempfile)
-    end
+    end 
     # Validate
     validator = Csvlint::Validator.new( io, dialect, schema && schema.fields.empty? ? nil : schema )
     validator.errors.prepend(schema_error) if schema_error
@@ -35,6 +37,7 @@ class Validation
       # It's a url!
       url = io
       filename = File.basename(URI.parse(url).path)
+      csv = nil
     else
       # It's a file!
       url = nil
@@ -45,7 +48,8 @@ class Validation
       :url => url,
       :filename => filename,
       :state => state,
-      :result => Marshal.dump(validator).force_encoding("UTF-8")
+      :result => Marshal.dump(validator).force_encoding("UTF-8"),
+      :csv => csv
     }
         
     if schema_url.present?
@@ -81,6 +85,20 @@ class Validation
     validation = Validation.validate(self.url, schema.try(:url), loaded_schema, dialect)    
     self.update_attributes(validation)
     self
+  end
+  
+  def csv=(io)
+    unless io.nil?
+      stored_csv = Mongoid::GridFs.put(io)
+      self.csv_id = stored_csv.id
+    end
+  end
+  
+  def csv
+    unless self.csv_id.nil?
+      stored_csv = Mongoid::GridFs.get(self.csv_id)
+      Tempfile.new(stored_csv.data)
+    end
   end
 
 end

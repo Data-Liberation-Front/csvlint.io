@@ -29,6 +29,7 @@ Feature: CSV Validation
     And I press "Upload and validate"
     Then I should see a page of validation results
     And my file should be persisted in the database
+    And my file should be saved in the database
   
   Scenario: Upload a file with warnings
     When I go to the homepage
