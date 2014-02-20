@@ -30,7 +30,7 @@ class ValidationController < ApplicationController
     @info_messages = @validator.info_messages
     @warnings = @validator.warnings
     @errors = @validator.errors
-    @dialect = @validator.dialect
+    @dialect = @validator.dialect || Validation.standard_dialect
     @url = v.url
     @schema_url = v.schema.url if v.schema
     @state = v.state
