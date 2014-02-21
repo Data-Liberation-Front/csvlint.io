@@ -28,13 +28,13 @@ module ValidationHelper
         :row              => message.row,
         :column           => message.column,
         :type             => message.type,
-        :min_length       => message.column ? validator.schema.fields[message.column-1].try(:constraints).try(:[], 'minLength') : nil,
-        :max_length       => message.column ? validator.schema.fields[message.column-1].try(:constraints).try(:[], 'maxLength') : nil,
-        :min_value        => message.column ? validator.schema.fields[message.column-1].try(:constraints).try(:[], 'minimum') : nil,
-        :max_value        => message.column ? validator.schema.fields[message.column-1].try(:constraints).try(:[], 'maximum') : nil,
+        :min_length       => constraint(message, validator, "minLength"),
+        :max_length       => constraint(message, validator, 'maxLength'),
+        :min_value        => constraint(message, validator, 'minimum'),
+        :max_value        => constraint(message, validator, 'maximum'),
+        :pattern          => constraint(message, validator, 'pattern'),
+        :header           => schema_field(message, validator).try(:name),
         :value            => message.content,
-        :header           => message.column ? validator.schema.fields[message.column-1].try(:name) : nil,
-        :pattern          => message.column ? validator.schema.fields[message.column-1].try(:constraints).try(:[], 'pattern') : nil,
     }
     if validator.headers
       validator.headers.each do |k,v|
@@ -66,6 +66,14 @@ module ValidationHelper
 
   def badge_html(id)
     %{<a href='#{validation_url(id: id)}'><img src="#{validation_url(id: id, format: 'svg')}" alt="#{t(:csv_status)}" /></a>}
+  end
+
+  def schema_field(message, validator)
+    validator.schema.fields[message.column-1] rescue nil
+  end
+
+  def constraint(message, validator, name)
+    schema_field(message, validator).try(:constraints).try(:[], name)
   end
 
 end
