@@ -175,11 +175,11 @@ en:
 
   missing_column: "Missing column"
   missing_column_guidance_html: |
-      According to the schema, we expected to see the column <code>%{header}</code>, but it wasn't there.
+      There was a missing column on row <code>%{row}</code>. Make sure this row includes all the data that should be there.
 
   extra_column: "Extra column"
   extra_column_guidance_html: |
-      We did not expect to see the column <code>%{header}</code>, given the schema you used.
+      There was an unexpected column on row <code>%{row}</code>. Make sure that none of the fields contain commas, are correctly quoted, etc.
 
   unique: "Value must be unique"
   unique_guidance_html: |

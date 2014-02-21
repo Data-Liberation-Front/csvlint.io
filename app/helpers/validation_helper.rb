@@ -33,7 +33,6 @@ module ValidationHelper
         :min_value        => message.column ? validator.schema.fields[message.column-1].try(:constraints).try(:[], 'minimum') : nil,
         :max_value        => message.column ? validator.schema.fields[message.column-1].try(:constraints).try(:[], 'maximum') : nil,
         :value            => message.content,
-        :expected_header  => '',
         :header           => message.column ? validator.schema.fields[message.column-1].try(:name) : nil,
         :pattern          => message.column ? validator.schema.fields[message.column-1].try(:constraints).try(:[], 'pattern') : nil,
     }
