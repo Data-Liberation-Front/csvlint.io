@@ -82,7 +82,7 @@ gem 'bson_ext'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
 
-gem 'csvlint', github: 'theodi/csvlint.rb', branch: 'include-col-name-in-message'
+gem 'csvlint', github: 'theodi/csvlint.rb'
 gem 'rest-client'
 
 gem 'nokogiri', '~> 1.5'

@@ -18,8 +18,7 @@ GIT
 
 GIT
   remote: git://github.com/theodi/csvlint.rb.git
-  revision: 53b174a0b8dda5a03ecf9dbfb5ce204f57df58c2
-  branch: include-col-name-in-message
+  revision: 94df1a53b4eeafb613078a64f524ba7c3ed368ad
   specs:
     csvlint (0.0.1)
       colorize
