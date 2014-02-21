@@ -7,6 +7,19 @@ describe ValidationController do
       get 'index'
       response.should be_success
     end
+    
+    it "returns 303 redirect if validation is in DB" do
+      validation = FactoryGirl.create :validation, url: "http://data.com/data.csv"
+      get 'index', uri: "http://data.com/data.csv"
+      response.should be_redirect
+      response.code.should == "303"
+      response.location.should == "http://test.host/validation/#{validation.id}"
+    end
+
+    it "returns 404 if schema is not in DB" do
+      get 'index', uri: "http://data.com/data.csv"
+      response.should be_not_found
+    end
   end
 
   describe "POST 'create'" do
@@ -71,6 +84,39 @@ describe ValidationController do
       response.should be_redirect      
       validation = Marshal.load(Validation.first.result)
       validation.errors.should_not be_empty
+    end
+    
+  end
+  
+  describe "POST 'update'" do
+    
+    it "updates a CSV sucessfully" do
+       mock_csv("http://example.com/test.csv", 'csvs/valid.csv')
+       post 'create', url: 'http://example.com/test.csv'
+       Validation.any_instance.should_receive(:update_attributes).once
+       put 'update', id: Validation.first.id
+       response.should be_redirect
+    end
+    
+    it "updates a CSV with a new schema sucessfully" do
+       mock_csv("http://example.com/revalidate.csv", 'csvs/revalidate.csv')
+       post 'create', url: 'http://example.com/revalidate.csv'
+       
+       params = {
+         :id => Validation.first.id,
+         :header => "true",
+         :delimiter => ";",
+         :skip_initial_space => "true",
+         :line_terminator => "\\n",
+         :quote_char => "'"
+       }
+       
+       put 'update', params
+
+       validator = Marshal.load Validation.first.result
+       validator.warnings.select { |warning| warning.type == :check_options }.count.should == 0
+              
+       response.should be_redirect
     end
     
   end

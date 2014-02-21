@@ -1,7 +1,7 @@
-<% @info_messages.each do |message| %>
+<% @result.info_messages.each do |message| %>
 
   <div class="alert alert-info">
-    <%= render partial: 'message', locals: {message: message, validator: @validator} %>
+    <%= render partial: 'message', locals: {message: message, validator: @result} %>
   </div>
 
 <% end %>

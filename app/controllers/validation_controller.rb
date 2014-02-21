@@ -3,6 +3,11 @@ require 'uri'
 class ValidationController < ApplicationController
 
   def index
+    if params[:uri]
+      validator = Validation.where(:url => params[:uri]).first
+      render status: 404 and return if validator.nil?
+      redirect_to validation_path(validator, format: params[:format]), status: 303
+    end
   end
 
   def create
@@ -20,29 +25,22 @@ class ValidationController < ApplicationController
   end
 
   def show
-    v = Validation.fetch_validation(params[:id])
-    @validator = Marshal.load(v.result)
-    @info_messages = @validator.info_messages
-    @warnings = @validator.warnings
-    @errors = @validator.errors
-    @url = v.url
-    @schema_url = v.schema.url if v.schema
-    @state = v.state
+    @validation = Validation.fetch_validation(params[:id])
+    @result = Marshal.load(@validation.result)
+    @dialect = @result.dialect || Validation.standard_dialect
     # Responses
     respond_to do |wants|
       wants.html
-      wants.png { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@state}.png"), disposition: 'inline' }
-      wants.svg { send_file File.join(Rails.root, 'app', 'views', 'validation', "#{@state}.svg"), disposition: 'inline' }
+      wants.png { render_badge(@validation.state, "png") }
+      wants.svg { render_badge(@validation.state, "svg") }
     end
   end
   
-  def find_by_url
-    validator = Validation.where(:url => params[:url]).first
-    unless validator.nil?
-      redirect_to validation_path(validator, format: params[:format])
-    else
-      raise ActionController::RoutingError.new('Not Found')
-    end
+  def update
+    dialect = build_dialect(params)
+    v = Validation.find(params[:id])
+    v.update_validation(dialect)
+    redirect_to validation_path(v)
   end
   
   def list
@@ -78,6 +76,29 @@ class ValidationController < ApplicationController
         end
       end
       schema
+    end
+    
+    def build_dialect(params)
+      case params[:line_terminator]
+      when "auto"
+        line_terminator = line_terminator.to_sym
+      when "\\n"
+        line_terminator = "\n"
+      when "\\r\\n"
+        line_terminator = "\r\n"
+      end
+      
+      {
+        "header" => params[:header],
+        "delimiter" => params[:delimiter],
+        "skipInitialSpace" => params[:skip_initial_space],
+        "lineTerminator" => line_terminator,
+        "quoteChar" => params[:quote_char]
+      }
+    end
+    
+    def render_badge(state, format)
+      send_file File.join(Rails.root, 'app', 'views', 'validation', "#{state}.#{format}"), disposition: 'inline'
     end
   
 end

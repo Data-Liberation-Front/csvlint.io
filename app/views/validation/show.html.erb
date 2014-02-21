@@ -2,19 +2,24 @@
   <%= t(:results).titleize %>
 <% end %>
 
-<% unless @url.nil? %>
-  <%= form_tag '/validate', :id => 'result_form' do %>
-    <%= url_field_tag 'url', @url, class: 'form-control', placeholder: t(:enter_csv_url)%>
-    <br/>
-    <%= url_field_tag 'schema_url', @schema_url, class: 'form-control', placeholder: t(:enter_schema_url)%>
-    <br/>
+<% unless @validation.url.nil? && @validation.schema.nil? %>
+  <%= form_tag validation_path(params[:id]), :id => 'result_form' do %>
+    <%= hidden_field_tag '_method', "put"%>
+    <% unless @validation.url.nil? %>
+      <%= url_field_tag 'url', @validation.url, class: 'form-control', placeholder: t(:enter_csv_url)%>
+      <br/>
+    <% end %>
+    <% unless @validation.schema.nil? %>
+      <%= url_field_tag 'schema_url', @validation.schema.url, class: 'form-control', placeholder: t(:enter_schema_url)%>
+      <br/>
+    <% end %>
     <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary btn-block btn-lg' %></span>
   <% end %>
 <% end %>
 
-<% if @validator.valid? %>
+<% if @result.valid? %>
   <div class="alert alert-success" id="result">
-    <% if @warnings.count == 0 %>
+    <% if @result.warnings.count == 0 %>
       <%= image_tag 'http://b.adge.me/:CSV%20-%20valid-green.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
       <p><%= t(:valid_html) %></p>
     <% else %>
@@ -26,10 +31,44 @@
   <div class="alert alert-danger" id="result">
     <%= image_tag 'http://b.adge.me/:CSV%20-%20invalid-red.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
     <p><%= t(:invalid_html) %></p>
+          
   </div>
 <% end %>
 
-<%= error_and_warning_count(@errors, @warnings, wrapper: :h2) %>
+<% if @result.warnings.select { |warning| warning.type == :check_options }.any? %>
+  <%= form_tag validation_path(params[:id]), id: 'revalidate', class: 'form-inline alert alert-warning' do %>
+    <p><%= t(:resubmit) %></p> 
+  
+    <%= hidden_field_tag 'url', @validation.url %>
+    <%= hidden_field_tag '_method', "put"%>
+    <% unless @validation.schema.nil? %>
+      <%= hidden_field_tag 'schema_url', @validation.schema.url %>
+    <% end %>
+    <!-- Header on or off -->
+    <div class="form-group">
+      <%= label_tag :header, t(:header) %> <%= check_box_tag :header, true, @dialect["header"] %>
+    </div>
+    <!-- Delimiter -->
+    <div class="form-group">
+      <%= label_tag :delimiter, t(:field_delimiter)  %> <%= text_field_tag :delimiter, @dialect["delimiter"], class: 'form-control', maxlength: '1' %>
+    </div>
+    <!-- Line terminator -->
+    <div class="form-group">
+      <%= label_tag :line_terminator, t(:line_terminator) %> <%= select_tag :line_terminator,  options_for_select({'Autodetect' => :auto, 'LF (\n)' => '\n', 'CRLF (\r\n)' => '\r\n'}, @dialect["lineTerminator"]) %>
+    </div>
+    <!-- Skip initial space -->
+    <div class="form-group">
+      <%= label_tag :skip_initial_space, t(:skip_inital_space) %> <%= check_box_tag :skip_initial_space, true, @dialect["skipInitialSpace"] %>
+    </div>
+    <!-- Quote char -->
+    <div class="form-group">
+      <%= label_tag :quote_char, t(:quote_character) %> <%= text_field_tag :quote_char, @dialect["quoteChar"], class: 'form-control', maxlength: '1' %>
+    </div>
+    <%= submit_tag t(:revalidate).titleize, class: 'btn btn-primary' %>
+  <% end %>
+<% end %>
+
+<%= error_and_warning_count(@result.errors, @result.warnings, wrapper: :h2) %>
 
 <%= render :partial => 'errors' %>
 

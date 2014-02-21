@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/ahoward/mongoid-grid_fs.git
+  revision: 059012a2c2a9e0a5d6e67137752c3e918689c88a
+  specs:
+    mongoid-grid_fs (1.9.0)
+      mime-types (~> 1.19)
+      mongoid (>= 3.0, < 5.0)
+
+GIT
   remote: git://github.com/mongoid/mongoid.git
   revision: 5b0f031992cbec66d68c6cb288a4edb952ed5336
   specs:
@@ -347,6 +355,7 @@ DEPENDENCIES
   jquery-rails
   kaminari
   mongoid!
+  mongoid-grid_fs!
   mysql2
   nokogiri (~> 1.5)
   plek

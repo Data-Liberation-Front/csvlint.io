@@ -3,8 +3,8 @@ module ValidationHelper
   def error_and_warning_count(errors, warnings, options)
     # Generate string
     components = []
-    components << pluralize(@errors.count, t(:error).titleize) unless @errors.empty?
-    components << pluralize(@warnings.count, t(:warning).titleize) unless @warnings.empty?
+    components << pluralize(@result.errors.count, t(:error).titleize) unless @result.errors.empty?
+    components << pluralize(@result.warnings.count, t(:warning).titleize) unless @result.warnings.empty?
     if components.empty?
       ''
     else

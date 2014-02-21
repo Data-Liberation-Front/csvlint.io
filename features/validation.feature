@@ -6,6 +6,8 @@ Feature: CSV Validation
   Background:
     Given the fixture "csvs/valid.csv" is available at the URL "http://example.org/test.csv"
     Given the fixture "csvs/info.csv" is available at the URL "http://example.org/info.csv"
+    Given the fixture "csvs/errors.csv" is available at the URL "http://example.org/errors.csv"
+    Given the fixture "csvs/revalidate.csv" is available at the URL "http://example.org/revalidate.csv"
     
   Scenario: Enter a URL for validation
     When I go to the homepage
@@ -27,6 +29,7 @@ Feature: CSV Validation
     And I press "Upload and validate"
     Then I should see a page of validation results
     And my file should be persisted in the database
+    And my file should be saved in the database
   
   Scenario: Upload a file with warnings
     When I go to the homepage
@@ -89,3 +92,35 @@ Feature: CSV Validation
     Then the validation should not be updated
     When I load the validation by URL
     
+  Scenario: Give the option to revalidate if CSV options seem incorrect
+    When I go to the homepage
+    And I enter "http://example.org/revalidate.csv" in the "url" field
+    And I press "Validate"
+    Then I should see a page of validation results
+    And I should be given the option to revalidate using a different dialect
+    
+  Scenario: Revalidate CSV using new options
+    When I go to the homepage
+    And I enter "http://example.org/revalidate.csv" in the "url" field
+    And I press "Validate"
+    And I enter ";" in the "Field delimiter" field
+    And I enter "'" in the "Quote character" field
+    And I select "LF (\n)" from the "Line terminator" dropdown
+    And I press "Revalidate"
+    Then I should see a page of validation results
+    And I should see "<strong>Congratulations!</strong> Your CSV is valid!"
+    And I should not see "Check CSV parsing options"
+    And I should see "Non standard dialect"
+
+  Scenario: Revalidate file using new options
+    When I go to the homepage
+    And I attach the file "csvs/revalidate.csv" to the "file" field
+    And I press "Validate"
+    And I enter ";" in the "Field delimiter" field
+    And I enter "'" in the "Quote character" field
+    And I select "LF (\n)" from the "Line terminator" dropdown
+    And I press "Revalidate"
+    Then I should see a page of validation results
+    And I should see "<strong>Congratulations!</strong> Your CSV is valid!"
+    And I should not see "Check CSV parsing options"
+    And I should see "Non standard dialect"

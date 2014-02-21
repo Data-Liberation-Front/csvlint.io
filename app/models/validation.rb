@@ -6,27 +6,21 @@ class Validation
   field :url, type: String
   field :state, type: String
   field :result, type: String
+  field :csv_id, type: String
   
   belongs_to :schema
   accepts_nested_attributes_for :schema
   
-  def self.validate(io, schema_url = nil, schema = nil)
-    #Load schema if set
-    unless schema_url.blank?
-      if schema.nil? || schema.fields.empty?
-        schema_error = Csvlint::ErrorMessage.new(
-          type: :invalid_schema,
-          category: :schema
-        )
-      end
-    end
+  def self.validate(io, schema_url = nil, schema = nil, dialect = nil)
     if io.respond_to?(:tempfile)
       filename = io.original_filename
+      csv = File.new(io.tempfile)
       io = File.new(io.tempfile)
-    end
+    end 
     # Validate
-    validator = Csvlint::Validator.new( io, nil, schema && schema.fields.empty? ? nil : schema )
-    validator.errors.prepend(schema_error) if schema_error
+    validator = Csvlint::Validator.new( io, dialect, schema && schema.fields.empty? ? nil : schema )
+    check_schema(validator, schema) unless schema_url.blank?
+    check_dialect(validator, dialect) unless dialect.blank?
     state = "valid"
     state = "warnings" unless validator.warnings.empty?
     state = "invalid" unless validator.errors.empty?
@@ -35,6 +29,7 @@ class Validation
       # It's a url!
       url = io
       filename = File.basename(URI.parse(url).path)
+      csv = nil
     else
       # It's a file!
       url = nil
@@ -45,9 +40,10 @@ class Validation
       :url => url,
       :filename => filename,
       :state => state,
-      :result => Marshal.dump(validator).force_encoding("UTF-8")
+      :result => Marshal.dump(validator).force_encoding("UTF-8"),
+      :csv => csv
     }
-    
+        
     if schema_url.present?
       # Find matching schema if possible
       schema = Schema.where(url: schema_url).first
@@ -67,7 +63,8 @@ class Validation
     unless v.url.blank?
       begin
         RestClient.head(v.url, if_modified_since: v.updated_at.rfc2822 ) if v.updated_at
-        v = v.update_validation 
+        validator = Marshal.load(v.result)
+        v = v.update_validation (validator.dialect)
       rescue RestClient::NotModified
         nil
       end
@@ -75,11 +72,57 @@ class Validation
     v
   end
   
-  def update_validation
+  def self.check_schema(validator, schema)
+    if schema.nil? || schema.fields.empty?
+      validator.errors.prepend(
+        Csvlint::ErrorMessage.new(
+          type: :invalid_schema,
+          category: :schema
+        )
+      )
+    end
+  end
+  
+  def self.check_dialect(validator, dialect)
+    if dialect != standard_dialect
+      validator.warnings.prepend(
+        Csvlint::ErrorMessage.new(
+          type: :non_standard_dialect,
+          category: :dialect
+        )
+      )
+    end
+  end
+  
+  def self.standard_dialect
+    {
+      "header" => true,
+      "delimiter" => ",",
+      "skipInitialSpace" => true,
+      "lineTerminator" => :auto,
+      "quoteChar" => '"'
+    }
+  end
+  
+  def update_validation(dialect = nil)
     loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
-    validation = Validation.validate(self.url, schema.try(:url), loaded_schema)
+    validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect)    
     self.update_attributes(validation)
     self
+  end
+  
+  def csv=(io)
+    unless io.nil?
+      stored_csv = Mongoid::GridFs.put(io)
+      self.csv_id = stored_csv.id
+    end
+  end
+  
+  def csv
+    unless self.csv_id.nil?
+      stored_csv = Mongoid::GridFs.get(self.csv_id)
+      Tempfile.new(stored_csv.data)
+    end
   end
 
 end
