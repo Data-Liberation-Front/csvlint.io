@@ -21,14 +21,20 @@ module ValidationHelper
       "\r\n" => "CR-LF",
     }
     variables = {
-      :linebreak => line_break_strings[validator.line_breaks],
-      :encoding => validator.encoding,
-      :content_type => validator.content_type,
-      :extension => validator.extension,
-      :row => message.row,
-      :column => message.column,
-      :type => message.type,
-      :content => message.content
+        :linebreak        => line_break_strings[validator.line_breaks],
+        :encoding         => validator.encoding,
+        :content_type     => validator.content_type,
+        :extension        => validator.extension,
+        :row              => message.row,
+        :column           => message.column,
+        :type             => message.type,
+        :min_length       => constraint(message, validator, "minLength"),
+        :max_length       => constraint(message, validator, 'maxLength'),
+        :min_value        => constraint(message, validator, 'minimum'),
+        :max_value        => constraint(message, validator, 'maximum'),
+        :pattern          => constraint(message, validator, 'pattern'),
+        :header           => schema_field(message, validator).try(:name),
+        :value            => message.content,
     }
     if validator.headers
       validator.headers.each do |k,v|
@@ -38,7 +44,7 @@ module ValidationHelper
     end
     variables
   end
-  
+
   def extra_guidance(validator, message)
     extra = []
     extra << :old_content_type if message.type == :wrong_content_type && validator.content_type == "text/comma-separated-values"
@@ -60,6 +66,14 @@ module ValidationHelper
 
   def badge_html(id)
     %{<a href='#{validation_url(id: id)}'><img src="#{validation_url(id: id, format: 'svg')}" alt="#{t(:csv_status)}" /></a>}
+  end
+
+  def schema_field(message, validator)
+    validator.schema.fields[message.column-1] rescue nil
+  end
+
+  def constraint(message, validator, name)
+    schema_field(message, validator).try(:constraints).try(:[], name)
   end
 
 end

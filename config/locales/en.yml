@@ -152,6 +152,46 @@ en:
   invalid_schema: "Invalid schema"
   invalid_schema_guidance_html: |
       We couldn't load the schema you specified. Please make sure you have entered the correct URL, and that it is in JSON Table Schema format.
+
+  missing_value: "Missing value"
+  missing_value_guidance_html: |
+      The schema says that a value must be provided in the <code>%{header}</code> column. Make sure this column has values in all the rows.
+
+  min_length: "Value too short"
+  min_length_guidance_html: |
+      The schema says that <code>%{header}</code> must be at least %{min_length} characters long. Your value, <code>%{value}</code>, is not long enough.
+
+  max_length: "Value too long"
+  max_length_guidance_html: |
+      The schema says that <code>%{header}</code> must be at most %{max_length} characters long. Your value, <code>%{value}</code>, is too long.
+
+  pattern: "Value did not match pattern"
+  pattern_guidance_html: |
+      The schema says that values in <code>%{header}</code> must match <code>%{pattern}</code>. Your value, <code>%{value}</code>, does not.
+
+  header_name: "Mismatched column header"
+  header_name_guidance_html: |
+      We expected to see the header <code>%{header}</code>, but got <code>%{value}</code>.
+
+  missing_column: "Missing column"
+  missing_column_guidance_html: |
+      There was a missing column on row <code>%{row}</code>. Make sure this row includes all the data that should be there.
+
+  extra_column: "Extra column"
+  extra_column_guidance_html: |
+      There was an unexpected column on row <code>%{row}</code>. Make sure that none of the fields contain commas, are correctly quoted, etc.
+
+  unique: "Value must be unique"
+  unique_guidance_html: |
+      Values in the <code>%{header}</code> column must be unique. <code>%{value}</code> has been used at least twice.
+
+  below_minimum: "Value below minimum"
+  below_minimum_guidance_html: |
+      Values in the <code>%{header}</code> column must be %{min_value} or above. <code>%{value}</code> is too low.
+
+  above_maximum: "Value above maximum"
+  above_maximum_guidance_html: |
+      Values in the <code>%{header}</code> column must be %{max_value} or below. <code>%{value}</code> is too high.
   
   non_standard_dialect: "Non standard dialect"
   non_standard_dialect_guidance_html: |
@@ -166,6 +206,12 @@ en:
 
   # Constraints
   constraint_required: Required
+  constraint_unique: Unique
   constraint_minLength: Minimum Length
   constraint_maxLength: Maximum Length
   constraint_pattern: Pattern
+  constraint_type: Type
+  constraint_minimum: Minimum Value
+  constraint_maximum: Maximum Value
+  
+  

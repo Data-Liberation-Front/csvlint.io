@@ -20,6 +20,7 @@ describe "validation/_message.html.erb" do
       validator.stub(:extension) { ".csv" }
       validator.stub(:headers) { {"content-type" => "text/plain"} }
       validator.stub(:line_breaks) { "\n" }
+      validator.stub(:schema) { nil }
         
       validator 
       render :partial => "validation/message", :locals => { :message => message, :validator => validator }
