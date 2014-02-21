@@ -28,14 +28,14 @@ module ValidationHelper
         :row              => message.row,
         :column           => message.column,
         :type             => message.type,
-        :min_length       => message.column ? validator.schema.fields[message.column].try(:constraints).try(:[], 'minLength') : nil,
-        :max_length       => message.column ? validator.schema.fields[message.column].try(:constraints).try(:[], 'maxLength') : nil,
-        :min_value        => message.column ? validator.schema.fields[message.column].try(:constraints).try(:[], 'minimum') : nil,
-        :max_value        => message.column ? validator.schema.fields[message.column].try(:constraints).try(:[], 'maximum') : nil,
+        :min_length       => message.column ? validator.schema.fields[message.column-1].try(:constraints).try(:[], 'minLength') : nil,
+        :max_length       => message.column ? validator.schema.fields[message.column-1].try(:constraints).try(:[], 'maxLength') : nil,
+        :min_value        => message.column ? validator.schema.fields[message.column-1].try(:constraints).try(:[], 'minimum') : nil,
+        :max_value        => message.column ? validator.schema.fields[message.column-1].try(:constraints).try(:[], 'maximum') : nil,
         :value            => message.content,
         :expected_header  => '',
-        :header           => message.column ? validator.schema.fields[message.column].try(:name) : nil,
-        :pattern          => message.column ? validator.schema.fields[message.column].try(:constraints).try(:[], 'pattern') : nil,
+        :header           => message.column ? validator.schema.fields[message.column-1].try(:name) : nil,
+        :pattern          => message.column ? validator.schema.fields[message.column-1].try(:constraints).try(:[], 'pattern') : nil,
     }
     if validator.headers
       validator.headers.each do |k,v|
