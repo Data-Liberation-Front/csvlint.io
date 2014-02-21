@@ -2,19 +2,16 @@
   Home
 <% end %>
 
+<%= form_tag validation_index_path, multipart: true do %>
+
 <ul class="nav nav-tabs">
   <li class="active"><a href="#url" data-toggle="tab">From URL</a></li>
   <li><a href="#file" data-toggle="tab">From file</a></li>
 </ul>
 
-<%= form_tag validation_index_path, multipart: true do %>
 <div class="tab-content">
   <div class="tab-pane active" id="url">
     <%= url_field_tag 'url', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
-    <br/>
-    <%= url_field_tag 'schema_url', '', class: 'form-control', placeholder: t(:enter_schema_url)%>
-    <br/>
-    <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary btn-block btn-lg' %></span>
   </div>
 
   <div class="tab-pane" id="file">
@@ -24,16 +21,39 @@
       </span>
       <%= text_field_tag 'filename', 'No file chosen', class: 'form-control', readonly: '' %>
     </div>
-    <div class="input-group">  
-      <span class="input-group-btn btn btn-primary btn-file">
-        Browse... <%= file_field_tag 'schema_file' %>
-      </span>
-      <%= text_field_tag 'schema_filename', 'No schema file chosen', class: 'form-control', readonly: '' %>
-    </div>
-    <br/>
-    <span class="input-group-btn"><%= submit_tag t(:upload_and_validate), class: 'btn btn-primary' %></span>
+  </div>
+  
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" id="schema"> Add optional schema
+    </label>
   </div>
 </div>
+
+<div id="schemas" class="hidden">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#schemaurl" data-toggle="tab">From URL</a></li>
+    <li><a href="#schemafile" data-toggle="tab">From file</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="schemaurl">
+      <%= url_field_tag 'schema_url', '', class: 'form-control', placeholder: t(:enter_schema_url)%>
+    </div>
+
+    <div class="tab-pane" id="schemafile">
+      <div class="input-group">  
+        <span class="input-group-btn btn btn-primary btn-file">
+          Browse... <%= file_field_tag 'schema_file' %>
+        </span>
+        <%= text_field_tag 'schema_filename', 'No schema file chosen', class: 'form-control', readonly: '' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= submit_tag t(:validate).titleize, class: 'btn btn-primary btn-block btn-lg' %>
+
 <% end %>
 
 <% content_for :extra_javascript do %>
@@ -55,6 +75,10 @@
 			
 			input.val(log);
 		});
+		
+		$('#schema').click(function() {
+		  $('#schemas').toggleClass('hidden')
+		})
 	});		
 </script>
 
