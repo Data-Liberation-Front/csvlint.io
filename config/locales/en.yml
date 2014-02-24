@@ -204,14 +204,38 @@ en:
   schema_list: "Recent schemas"
   schema_info: "Schema information"
 
+  #Fields
+  field_index: Index
+  field_name: Column Heading
+  field_title: Title
+  field_description: Description
+  
   # Constraints
   constraint_required: Required
   constraint_unique: Unique
   constraint_minLength: Minimum Length
   constraint_maxLength: Maximum Length
   constraint_pattern: Pattern
+  constraint_datePattern: Date Pattern
   constraint_type: Type
   constraint_minimum: Minimum Value
   constraint_maximum: Maximum Value
+  constraint_value_constraints: Value Constraints
   
+  # Types
+  xsd_string: String
+  xsd_int: Integer
+  xsd_float: Float
+  xsd_double: Double
+  xsd_anyuri: URI
+  xsd_boolean: Boolean
+  xsd_nonpositiveinteger: Non-Positive Integer
+  xsd_negativeinteger: Negative Integer
+  xsd_nonnegativeinteger: Non-Negative Integer
+  xsd_positiveinteger: Positive Integer
+  xsd_datetime: DateTime
+  xsd_date: Date
+  xsd_time: Time
+  xsd_gyear: Year
+  xsd_gyearmonth: Year Month
   
