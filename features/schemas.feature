@@ -107,7 +107,7 @@ Feature: Schema Validation
     Then I should see a schema details page
     And I should see 3 fields
     And I should see "http://example.org/schema.json"
-    And I should see "Required: true"
+    And I should see "FirstName"
   
   Scenario: Show schema validation failure messages
     Given the fixture "csvs/all_constraints.csv" is available at the URL "http://example.org/all_constraints.csv"
