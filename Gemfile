@@ -86,3 +86,5 @@ gem 'csvlint', github: 'theodi/csvlint.rb'
 gem 'rest-client'
 
 gem 'nokogiri', '~> 1.5'
+
+gem 'airbrake'

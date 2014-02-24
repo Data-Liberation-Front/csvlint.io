@@ -54,6 +54,9 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     addressable (2.3.5)
+    airbrake (3.1.15)
+      builder
+      multi_json
     arel (4.0.2)
     atomic (1.1.14)
     backports (3.6.0)
@@ -336,6 +339,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  airbrake
   bootstrap-kaminari-views
   bson_ext
   coffee-rails (~> 4.0.0)
