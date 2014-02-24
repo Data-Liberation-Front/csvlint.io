@@ -6,7 +6,7 @@
   in column <%= message.column %>
 <% end %></strong></p>
 <% if message.content %>
-  <%= content_tag :pre, message.content %>
+  	<%= content_tag :pre, message.content.to_s.encode("utf-8", :invalid=>:replace, :undef=>:replace) %>
 <% end %>
 <% if i18n_set?("#{message.type}_guidance_html") %>
   <p><%= t("#{message.type}_guidance_html", message_variables(validator, message) ) %></p>
