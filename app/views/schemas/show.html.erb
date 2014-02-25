@@ -2,8 +2,9 @@
   <%= t(:schema_info).titleize %>
 <% end %>
 
-
-URI: <%= link_to @schema.uri, @schema.uri %>
+<div>
+  URI: <%= link_to @schema.uri, @schema.uri %>
+</div>
 
 <h2>Fields</h2>
 
@@ -58,3 +59,7 @@ URI: <%= link_to @schema.uri, @schema.uri %>
     </tr>
   <% end %>
 </table>
+
+<div>
+  <%= link_to '<i class="fa fa-cloud-download"></i> '.html_safe + t(:example_csv_download), schema_path(@db_schema, format: :csv), class: 'btn btn-primary' %>
+</div>

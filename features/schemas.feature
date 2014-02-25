@@ -127,6 +127,19 @@ Feature: Schema Validation
     And I should see "http://example.org/schema.json"
     And I should see "FirstName"
   
+  Scenario: Example CSV download
+    Given "http://example.org/schema.json" has been previously used for validation 
+    And I visit the schema list page
+    And I click on "http://example.org/schema.json"
+    Then I should see a schema details page
+    When I click on "Download Example CSV File"
+    Then a CSV file should be downloaded
+    And that CSV file should have a field "FirstName"
+    And that CSV file should have a field "LastName"
+    And that CSV file should have a field "Insult"
+    And that CSV file should have quoted fields
+    And that CSV file should use CRLF line endings
+
   Scenario: Show schema validation failure messages
     Given the fixture "csvs/all_constraints.csv" is available at the URL "http://example.org/all_constraints.csv"
     Given the fixture "schemas/all_constraints.json" is available at the URL "http://example.org/all_constraints.json"
