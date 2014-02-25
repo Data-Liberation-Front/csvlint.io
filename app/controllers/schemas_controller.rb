@@ -12,8 +12,20 @@ class SchemasController < ApplicationController
   end
   
   def show
-    db_schema = Schema.where(id: params[:id]).first
-    @schema = Csvlint::Schema.load_from_json_table(db_schema.url)
+    @db_schema = Schema.where(id: params[:id]).first
+    @schema = Csvlint::Schema.load_from_json_table(@db_schema.url)
+    respond_to do |wants|
+      wants.html
+      wants.csv { send_data example_csv(@schema), type: "text/csv; charset=utf-8", disposition: "attachment" }
+    end
+  end
+
+  private 
+  
+  def example_csv(schema)
+    CSV.generate(row_sep: "\r\n", encoding: "UTF-8", force_quotes: true) do |csv|
+      csv << schema.fields.map{|x| x.name }
+    end
   end
 
 end

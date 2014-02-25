@@ -33,6 +33,7 @@ en:
   enter_schema_url: "Enter optional schema URL"
   site_title: "CSVLint"
   csv_status: "CSV Validation"
+  example_csv_download: "Download Example CSV File"
 
   # Validation message categories
   structure: Structural problem
