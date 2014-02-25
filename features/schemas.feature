@@ -12,15 +12,26 @@ Feature: Schema Validation
   Scenario: Enter a URL and a schema URL for validation
     When I go to the homepage
     And I enter "http://example.org/test.csv" in the "url" field
+    And I check the "schema" checkbox
     And I enter "http://example.org/schema.json" in the "schema_url" field
     And I press "Validate"
     Then I should see a page of validation results
     And I should see my URL
     And I should see my schema URL
+  
+  Scenario: Enter a URL and a schema URL for validation without checking the schema checkbox
+    When I go to the homepage
+    And I enter "http://example.org/test.csv" in the "url" field
+    And I enter "http://example.org/schema.json" in the "schema_url" field
+    And I press "Validate"
+    Then I should see a page of validation results
+    And I should see my URL
+    And I should not see my schema URL
 
   Scenario: Bad schema
     When I go to the homepage
     And I enter "http://example.org/test.csv" in the "url" field
+    And I check the "schema" checkbox
     And I enter "http://example.org/bad_schema.json" in the "schema_url" field
     And I press "Validate"
     Then I should see a page of validation results
@@ -36,6 +47,7 @@ Feature: Schema Validation
   Scenario: Upload a file and a schema for validation
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
+    And I check the "schema" checkbox
     And I attach the file "schemas/valid.json" to the "schema_file" field
     And I press "Validate"
     Then I should see a page of validation results
@@ -43,6 +55,7 @@ Feature: Schema Validation
   Scenario: Upload a file and a schema URL for validation
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
+    And I check the "schema" checkbox
     And I enter "http://example.org/schema.json" in the "schema_url" field
     And I press "Validate"
     Then I should see a page of validation results
@@ -50,6 +63,7 @@ Feature: Schema Validation
   Scenario: Enter a URL and upload a schema for validation
     When I go to the homepage
     And I enter "http://example.org/test.csv" in the "url" field
+    And I check the "schema" checkbox
     And I attach the file "schemas/valid.json" to the "schema_file" field
     And I press "Validate"
     Then I should see a page of validation results
@@ -63,6 +77,7 @@ Feature: Schema Validation
   Scenario: Store schema information when validating
     When I go to the homepage
     And I enter "http://example.org/test.csv" in the "url" field
+    And I check the "schema" checkbox
     And I enter "http://example.org/schema.json" in the "schema_url" field
     And I press "Validate"
     Then I should see a page of validation results
@@ -72,6 +87,7 @@ Feature: Schema Validation
   Scenario: Share schemas between validations
     When I go to the homepage
     And I enter "http://example.org/test.csv" in the "url" field
+    And I check the "schema" checkbox
     And I enter "http://example.org/schema.json" in the "schema_url" field
     And I press "Validate"
     And I go to the homepage
@@ -85,6 +101,7 @@ Feature: Schema Validation
   Scenario: Don't store uploaded schemas
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
+    And I check the "schema" checkbox
     And I attach the file "schemas/valid.json" to the "schema_file" field
     And I press "Validate"
     Then I should see a page of validation results
@@ -94,6 +111,7 @@ Feature: Schema Validation
   Scenario: Don't store invalid schemas
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
+    And I check the "schema" checkbox
     And I attach the file "schemas/invalid.json" to the "schema_file" field
     And I press "Validate"
     Then I should see a page of validation results
@@ -114,6 +132,7 @@ Feature: Schema Validation
     Given the fixture "schemas/all_constraints.json" is available at the URL "http://example.org/all_constraints.json"
     When I go to the homepage
     And I enter "http://example.org/all_constraints.csv" in the "url" field
+    And I check the "schema" checkbox
     And I enter "http://example.org/all_constraints.json" in the "schema_url" field
     And I press "Validate"
     Then I should see a page of validation results
