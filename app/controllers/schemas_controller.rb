@@ -4,7 +4,7 @@ class SchemasController < ApplicationController
     if params[:uri]
       schema = Schema.where(url: params[:uri]).first
       render status: 404 and return if schema.nil?
-      redirect_to Schema.where(url: params[:uri]).first, status: 303
+      redirect_to schema, status: 303
     else
       schemas = Schema.all
       @schemas = Kaminari.paginate_array(schemas).page(params[:page])
