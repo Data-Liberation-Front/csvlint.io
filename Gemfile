@@ -81,6 +81,7 @@ gem 'mongoid-grid_fs', github: 'ahoward/mongoid-grid_fs'
 gem 'bson_ext'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
+gem 'data_kitten', github: 'theodi/data_kitten'
 
 gem 'csvlint', github: 'theodi/csvlint.rb'
 gem 'rest-client'

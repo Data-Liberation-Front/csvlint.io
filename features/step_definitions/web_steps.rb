@@ -31,3 +31,7 @@ end
 Given(/^I click on "(.*?)"$/) do |link|
   click_link link
 end
+
+Then(/^I should be redirected to the homepage$/) do
+  current_path.should == "/"
+end
