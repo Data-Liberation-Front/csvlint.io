@@ -11,18 +11,14 @@ class ValidationController < ApplicationController
   end
 
   def create
-    if params[:schema] == "1"
-      schema = params[:schema_url].presence || params[:schema_file].presence 
-      schema = load_schema(schema)
-      schema_url = params[:schema_url]
-    end
+    load_schema
 
     io = params[:url].presence || params[:file].presence
     
     if validate_url(params[:url]) === false || io.nil?
       redirect_to root_path and return 
     else    
-      validation = Validation.create_validation(io, schema_url, schema)
+      validation = Validation.create_validation(io, @schema_url, @schema)
       redirect_to validation_path(validation)
     end
   end
@@ -67,18 +63,23 @@ class ValidationController < ApplicationController
       end
     end
     
-    def load_schema(io)
+    def load_schema
+      # Check that schema checkbox is ticked
+      return unless params[:schema] == "1"
+      # Load schema
+      io = params[:schema_url].presence || params[:schema_file].presence 
       if io.class == String
-        schema = Csvlint::Schema.load_from_json_table(io) 
+        @schema = Csvlint::Schema.load_from_json_table(io) 
       else
         begin
           schema_json = JSON.parse( File.new( params[:schema_file].tempfile ).read() )
-          schema = Csvlint::Schema.from_json_table( nil, schema_json )
+          @schema = Csvlint::Schema.from_json_table( nil, schema_json )
         rescue
-          schema = nil
+          @schema = nil
         end
       end
-      schema
+      # Get schema URL from parameters
+      @schema_url = params[:schema_url]      
     end
     
     def build_dialect(params)

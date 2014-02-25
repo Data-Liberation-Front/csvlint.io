@@ -3,15 +3,13 @@ module ValidationHelper
   def error_and_warning_count(errors, warnings, options)
     # Generate string
     components = []
-    components << pluralize(@result.errors.count, t(:error).titleize) unless @result.errors.empty?
-    components << pluralize(@result.warnings.count, t(:warning).titleize) unless @result.warnings.empty?
-    if components.empty?
-      ''
-    else
-      # Wrap it up
-      wrapper = options[:wrapper] || :span
-      content_tag(wrapper, components.join(', '))
-    end
+    components << pluralize(errors.count, t(:error).titleize) unless errors.empty?
+    components << pluralize(warnings.count, t(:warning).titleize) unless warnings.empty?
+    # Do nothing if nothing to print
+    return '' if components.empty?
+    # Wrap it up
+    wrapper = options[:wrapper] || :span
+    content_tag(wrapper, components.join(', '))
   end
 
   def message_variables(validator, message)
