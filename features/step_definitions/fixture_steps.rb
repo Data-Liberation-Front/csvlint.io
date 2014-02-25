@@ -32,6 +32,10 @@ Given(/^the CSV has not changed$/) do
   stub_request(:head, @url).to_return(:status => 304)
 end
 
+Given(/^the server does not support If\-Modified\-Since$/) do
+  stub_request(:head, @url).to_return(:status => 200)
+end
+
 Given(/^"(.*?)" has been previously used for validation$/) do |url|
   FactoryGirl.create :schema, url: url
 end

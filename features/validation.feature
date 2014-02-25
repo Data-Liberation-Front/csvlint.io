@@ -92,6 +92,19 @@ Feature: CSV Validation
     Then the validation should not be updated
     When I load the validation by URL
     
+  Scenario: CSVs hosted on servers that don't support If-Modified-Since should not be revalidated every time
+    Given I have already validated the URL "http://example.org/test.csv"
+    And the server does not support If-Modified-Since
+    Then the validation should not be updated
+    When I load the validation by URL
+
+  Scenario: CSVs hosted on servers that don't support If-Modified-Since should not be revalidated after two weeks
+    Given I have already validated the URL "http://example.org/test.csv"
+    And the server does not support If-Modified-Since
+    And it's three hours in the future
+    Then the validation should be updated
+    When I load the validation by URL
+    
   Scenario: Give the option to revalidate if CSV options seem incorrect
     When I go to the homepage
     And I enter "http://example.org/revalidate.csv" in the "url" field
