@@ -28,10 +28,6 @@ Then(/^the database record should have a "(.*?)" of the type "(.*?)"$/) do |cate
   result.send(category.pluralize).first.type.should == type.to_sym
 end
 
-Then(/^I should see my schema URL$/) do
-  page.body.should include(@schema_url)
-end
-
 Then(/^the validation should be updated$/) do
   Validation.any_instance.should_receive(:update_attributes).once
 end

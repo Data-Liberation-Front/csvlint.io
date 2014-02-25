@@ -11,15 +11,18 @@ class ValidationController < ApplicationController
   end
 
   def create
-    schema = params[:schema_url].presence || params[:schema_file].presence 
-    schema = load_schema(schema) if schema
+    if params[:schema] == "1"
+      schema = params[:schema_url].presence || params[:schema_file].presence 
+      schema = load_schema(schema)
+      schema_url = params[:schema_url]
+    end
 
     io = params[:url].presence || params[:file].presence
     
     if validate_url(params[:url]) === false || io.nil?
       redirect_to root_path and return 
     else    
-      validation = Validation.create_validation(io, params[:schema_url], schema)
+      validation = Validation.create_validation(io, schema_url, schema)
       redirect_to validation_path(validation)
     end
   end
