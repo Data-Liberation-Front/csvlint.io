@@ -107,7 +107,7 @@ class ValidationController < ApplicationController
     def build_dialect(params)
       case params[:line_terminator]
       when "auto"
-        line_terminator = line_terminator.to_sym
+        line_terminator = :auto
       when "\\n"
         line_terminator = "\n"
       when "\\r\\n"
