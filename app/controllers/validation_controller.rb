@@ -16,7 +16,6 @@ class ValidationController < ApplicationController
     end
     
     package = check_for_datapackage
-    puts package.inspect
     
     io = params[:url].presence || params[:file].presence
     if package
