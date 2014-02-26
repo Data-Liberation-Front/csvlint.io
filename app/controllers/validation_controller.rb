@@ -15,15 +15,20 @@ class ValidationController < ApplicationController
       redirect_to root_path and return
     end
     
-    check_format
-    load_schema
-
+    package = check_for_datapackage
+    puts package.inspect
+    
     io = params[:url].presence || params[:file].presence
-    if io.nil?
-      redirect_to root_path and return 
-    else    
-      validation = Validation.create_validation(io, @schema_url, @schema)
-      redirect_to validation_path(validation)
+    if package
+      redirect_to package_path(package)
+    else
+      if io.nil?
+        redirect_to root_path and return 
+      else    
+        load_schema
+        validation = Validation.create_validation(io, @schema_url, @schema)
+        redirect_to validation_path(validation)
+      end
     end
   end
 
@@ -86,22 +91,10 @@ class ValidationController < ApplicationController
       @schema_url = params[:schema_url]      
     end
     
-    def check_format
-      return if params[:url].blank?
-      dataset = DataKitten::Dataset.new(access_url: params[:url])
-      load_datapackage(dataset) if dataset.publishing_format == :datapackage
+    def check_for_datapackage
+      Package.create_package( params[:url] )
     end
-    
-    def load_datapackage(dataset)
-      if dataset.distributions.first.format.extension == :csv
-        params[:url] = dataset.distributions.first.access_url
-        schema = dataset.distributions.first.schema
-        @schema = Csvlint::Schema.from_json_table(nil, schema) unless schema.nil?
-      else
-        params[:url] = nil
-      end
-    end
-    
+        
     def build_dialect(params)
       case params[:line_terminator]
       when "auto"

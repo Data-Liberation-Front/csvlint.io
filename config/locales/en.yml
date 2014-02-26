@@ -201,6 +201,7 @@ en:
   # Validation list
   #
   list: "Recent validations"
+  package: "Package validation"
   schema_list: "Recent schemas"
   schema_info: "Schema information"
 

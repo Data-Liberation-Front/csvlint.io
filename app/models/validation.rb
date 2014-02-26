@@ -7,9 +7,11 @@ class Validation
   field :state, type: String
   field :result, type: String
   field :csv_id, type: String
-  
+
   belongs_to :schema
   accepts_nested_attributes_for :schema
+  
+  belongs_to :package
   
   def self.validate(io, schema_url = nil, schema = nil, dialect = nil)
     if io.respond_to?(:tempfile)
