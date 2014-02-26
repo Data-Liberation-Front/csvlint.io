@@ -13,6 +13,7 @@ Feature: Load from datapackage
     And I enter "http://example.org/single-datapackage.json" in the "url" field
     And I press "Validate"
     Then I should be redirected to my package page
+    And I should see "We've noticed that you have submitted a URL that refers to a datapackage."
     And I should see "http://example.org/valid.csv"
     And my datapackage should be persisited in the database
     
@@ -21,6 +22,7 @@ Feature: Load from datapackage
     And I enter "http://example.org/multiple-datapackage.json" in the "url" field
     And I press "Validate"
     Then I should be redirected to my package page
+    And I should see "We've noticed that you have submitted a URL that refers to a datapackage."
     And I should see "http://example.org/valid.csv"
     And I should see "http://example.org/valid2.csv"
     And my datapackage should be persisited in the database

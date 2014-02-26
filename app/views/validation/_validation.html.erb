@@ -1,0 +1,5 @@
+<tr>
+  <td class="url"><%= link_to validation.url, validation.url %></td>
+  <td><%= image_tag validation_url(validation, format: :png) %></td>
+  <td><%= link_to "View report", validation_url(validation), title: "View report for #{validation.url}" %>
+</tr>
