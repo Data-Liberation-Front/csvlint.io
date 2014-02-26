@@ -125,6 +125,15 @@ Feature: CSV Validation
     And I should not see "Check CSV parsing options"
     And I should see "Non standard dialect"
 
+  Scenario: Revalidate CSV using same options should offer revalidation again
+    When I go to the homepage
+    And I enter "http://example.org/revalidate.csv" in the "url" field
+    And I press "Validate"
+    And I press "Revalidate"
+    Then I should see a page of validation results
+    And I should see "Check CSV parsing options"
+    And I should be given the option to revalidate using a different dialect
+    
   Scenario: Revalidate file using new options
     When I go to the homepage
     And I attach the file "csvs/revalidate.csv" to the "file" field
@@ -138,6 +147,15 @@ Feature: CSV Validation
     And I should not see "Check CSV parsing options"
     And I should see "Non standard dialect"
 
+  Scenario: Revalidate file using same options should offer revalidation again
+    When I go to the homepage
+    And I attach the file "csvs/revalidate.csv" to the "file" field
+    And I press "Validate"
+    And I press "Revalidate"
+    Then I should see a page of validation results
+    And I should see "Check CSV parsing options"
+    And I should be given the option to revalidate using a different dialect
+    
   Scenario: Standardised CSV download
     When I go to the homepage
     And I enter "http://example.org/revalidate.csv" in the "url" field
