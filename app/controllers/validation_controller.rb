@@ -11,11 +11,15 @@ class ValidationController < ApplicationController
   end
 
   def create
+    if validate_url(params[:url]) === false
+      redirect_to root_path and return
+    end
+    
+    check_format
     load_schema
 
     io = params[:url].presence || params[:file].presence
-    
-    if validate_url(params[:url]) === false || io.nil?
+    if io.nil?
       redirect_to root_path and return 
     else    
       validation = Validation.create_validation(io, @schema_url, @schema)
@@ -51,16 +55,16 @@ class ValidationController < ApplicationController
   private
     
     def validate_url(url)
-      unless url.blank?
-        # Check it's valid
-        url = begin
-          URI.parse(url)
-        rescue URI::InvalidURIError
-          return false
-        end
-        # Check scheme
+      return true if params[:file].presence
+      return false if url.blank?
+      # Check it's valid
+      begin
+        url = URI.parse(params[:url])
         return false unless ['http', 'https'].include?(url.scheme)
+      rescue URI::InvalidURIError
+        return false
       end
+      return true
     end
     
     def load_schema
@@ -80,6 +84,22 @@ class ValidationController < ApplicationController
       end
       # Get schema URL from parameters
       @schema_url = params[:schema_url]      
+    end
+    
+    def check_format
+      return if params[:url].blank?
+      dataset = DataKitten::Dataset.new(access_url: params[:url])
+      load_datapackage(dataset) if dataset.publishing_format == :datapackage
+    end
+    
+    def load_datapackage(dataset)
+      if dataset.distributions.first.format.extension == :csv
+        params[:url] = dataset.distributions.first.access_url
+        schema = dataset.distributions.first.schema
+        @schema = Csvlint::Schema.from_json_table(nil, schema) unless schema.nil?
+      else
+        params[:url] = nil
+      end
     end
     
     def build_dialect(params)

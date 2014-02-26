@@ -1,0 +1,70 @@
+{
+    "name": "test-package",
+    "title": "Test Package",
+    "description": "Description",
+    "homepage": "http://example.org",
+    "last_modified": "2013-12-05",
+    "version": "0.0.1",
+    "licenses": [{
+        "id": "odc-pddl",
+        "url": "http://opendatacommons.org/licenses/pddl/1.0/"    
+        }
+    ],
+    "datapackage_version": "1.0-beta.5",
+    "keywords": [ "test", "testing" ],
+    "resources": [
+        {
+            "name": "Test Data",
+            "url": "http://example.org/all_constraints.csv",
+            "format": "csv",
+            "mediatype": "text/csv",
+            "encoding": "UTF-8",
+            "dialect": {
+                "delimiter": ",",
+                "lineterminator": "\n",
+                "quotechar": "\"",
+                "doublequote": true,
+                "skipinitialspace": true
+            },
+            "schema": {
+                "fields": [
+                    {
+                        "name": "Username",
+                        "constraints": {
+                            "required": true,
+                            "unique": true,
+                            "minLength": 5,
+                            "maxLength": 10,
+                            "pattern": "^[A-Za-z0-9_]*$"
+                        }
+                    },
+                    {
+                        "name": "Age",
+                        "constraints": {
+                            "type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+                            "minimum": "13",
+                            "maximum": "99"
+                        }
+                    },
+                    {
+                        "name": "Height",
+                        "constraints": {
+                            "type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+                            "minimum": "20"
+                        }
+                    },
+                    {
+                        "name": "Weight",
+                        "constraints": {
+                            "type": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+                            "maximum": "500"
+                        }
+                    },
+                    {
+                        "name": "Password"
+                    }
+                ]
+            }
+        }
+    ]
+}
