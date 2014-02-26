@@ -137,7 +137,7 @@ Feature: Schema Validation
     And that CSV file should have a field "FirstName"
     And that CSV file should have a field "LastName"
     And that CSV file should have a field "Insult"
-    And that CSV file should have quoted fields
+    And that CSV file should have double-quoted fields
     And that CSV file should use CRLF line endings
 
   Scenario: Show schema validation failure messages

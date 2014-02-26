@@ -34,7 +34,8 @@ en:
   site_title: "CSVLint"
   csv_status: "CSV Validation"
   example_csv_download: "Download Example CSV File"
-
+  standardised_csv_download: "Download Standardised CSV File"
+  
   # Validation message categories
   structure: Structural problem
   context: Context problem

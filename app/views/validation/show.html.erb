@@ -77,3 +77,7 @@
 <%= render :partial => 'info_messages' %>
 
 <%= render 'badge_modal'%>
+
+<div>
+  <%= link_to '<i class="fa fa-cloud-download"></i> '.html_safe + t(:standardised_csv_download), validation_path(@validation, format: :csv), class: 'btn btn-primary' %>
+</div>

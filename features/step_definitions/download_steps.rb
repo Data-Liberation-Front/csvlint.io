@@ -6,7 +6,7 @@ When(/^that CSV file should use CRLF line endings$/) do
   page.body.should include "\r\n"
 end
 
-When(/^that CSV file should have quoted fields$/) do
+When(/^that CSV file should have double-quoted fields$/) do
   page.body.should_not match /[^\"],[^\"]/
 end
 

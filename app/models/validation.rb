@@ -121,7 +121,11 @@ class Validation
   def csv
     unless self.csv_id.nil?
       stored_csv = Mongoid::GridFs.get(self.csv_id)
-      Tempfile.new(stored_csv.data)
+      file = Tempfile.new('csv')
+      File.open(file, "w") do |f|
+        f.write stored_csv.data
+      end
+      file
     end
   end
 

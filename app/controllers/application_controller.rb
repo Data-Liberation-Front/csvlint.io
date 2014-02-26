@@ -6,4 +6,8 @@ class ApplicationController < ActionController::Base
 
   slimmer_template :csvlint
 
+  def standard_csv_options
+    {row_sep: "\r\n", encoding: "UTF-8", force_quotes: true}
+  end
+
 end
