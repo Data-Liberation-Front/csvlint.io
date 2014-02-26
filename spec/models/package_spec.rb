@@ -26,6 +26,25 @@ describe Package do
     package.validations.count.should == 2
   end
   
+  it "loads schema from a datapackage" do
+    url = 'http://example.org/schema-datapackage.json'
+    mock_datapackage(url, 'datapackages/datapackage-with-schema.json')
+    mock_csv("http://example.org/all_constraints.csv", 'csvs/all_constraints.csv')
+        
+    package = Package.create_package(url)
+    result = Marshal.load package.validations.first.result
+    
+    fields = result.schema.fields
+    
+    fields.count.should == 5
+    fields[0].name.should == "Username"
+    fields[1].name.should == "Age"
+    fields[2].name.should == "Height"
+    fields[3].name.should == "Weight"
+    fields[4].name.should == "Password"
+    fields[0].constraints["required"].should == true
+  end
+  
   context "with non-CSV resources" do
     
     it "returns nil if there are no CSVs" do
