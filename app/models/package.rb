@@ -10,7 +10,7 @@ class Package
   def self.parse_package(dataset)
     attributes = {
       :url => dataset.access_url,
-      :dataset => Marshal.dump(dataset).force_encoding("UTF-8"),
+      :dataset => Marshal.dump(dataset),
       :validations => []
     }
     
@@ -29,7 +29,7 @@ class Package
         schema_desc = distribution.schema
         schema = Csvlint::Schema.from_json_table(nil, schema_desc) unless schema_desc.nil?
         if distribution.access_url
-          package.validations.build( Validation.validate(distribution.access_url, nil, schema) )
+          package.validations << Validation.create_validation(distribution.access_url, nil, schema)
         end
       end
     end

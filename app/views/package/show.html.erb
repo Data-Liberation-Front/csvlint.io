@@ -1,0 +1,22 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>File URL</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @validations.each do |validation| %>
+      <tr>
+        <td class="url"><%= link_to validation.url, validation.url %></td>
+        <td><%= image_tag validation_url(validation, format: :png) %></td>
+        <td><%= link_to "View report", validation_url(validation), title: "View report for #{validation.url}" %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= paginate @validations, :theme => 'twitter-bootstrap-3' %>
+</div>
