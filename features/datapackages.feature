@@ -2,11 +2,11 @@ Feature: Load from datapackage
 
   Background:
     Given the fixture "datapackages/single-datapackage.json" is available at the URL "http://example.org/single-datapackage.json" 
-    Given the fixture "datapackages/non-csv-datapackage.json" is available at the URL "http://example.org/non-csv-datapackage.json" 
+    Given the fixture "datapackages/multiple-datapackage.json" is available at the URL "http://example.org/multiple-datapackage.json" 
     Given the fixture "datapackages/datapackage-with-schema.json" is available at the URL "http://example.org/schema-datapackage.json" 
     Given the fixture "csvs/valid.csv" is available at the URL "http://example.org/valid.csv"
+    Given the fixture "csvs/valid.csv" is available at the URL "http://example.org/valid2.csv"
     Given the fixture "csvs/all_constraints.csv" is available at the URL "http://example.org/all_constraints.csv"
-    Given the fixture "datapackages/datapackage-with-schema.json" is available at the URL "http://example.org/some-json.json" 
   
   Scenario: Load a single CSV from a datapackage url
     When I go to the homepage
@@ -14,6 +14,15 @@ Feature: Load from datapackage
     And I press "Validate"
     Then I should be redirected to my package page
     And I should see "http://example.org/valid.csv"
+    And my datapackage should be persisited in the database
+    
+  Scenario: Load multiple CSVs from a datapackage url
+    When I go to the homepage
+    And I enter "http://example.org/multiple-datapackage.json" in the "url" field
+    And I press "Validate"
+    Then I should be redirected to my package page
+    And I should see "http://example.org/valid.csv"
+    And I should see "http://example.org/valid2.csv"
     And my datapackage should be persisited in the database
     
   Scenario: Load schema from a datapackage url
