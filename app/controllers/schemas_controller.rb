@@ -23,7 +23,7 @@ class SchemasController < ApplicationController
   private 
   
   def example_csv(schema)
-    CSV.generate(row_sep: "\r\n", encoding: "UTF-8", force_quotes: true) do |csv|
+    CSV.generate(standard_csv_options) do |csv|
       csv << schema.fields.map{|x| x.name }
     end
   end

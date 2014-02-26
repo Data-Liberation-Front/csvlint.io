@@ -36,6 +36,8 @@ class ValidationController < ApplicationController
       wants.html
       wants.png { render_badge(@validation.state, "png") }
       wants.svg { render_badge(@validation.state, "svg") }
+      wants.csv { send_data standardised_csv(@validation), type: "text/csv; charset=utf-8", disposition: "attachment" }
+
     end
   end
   
@@ -123,6 +125,15 @@ class ValidationController < ApplicationController
     
     def render_badge(state, format)
       send_file File.join(Rails.root, 'app', 'views', 'validation', "#{state}.#{format}"), disposition: 'inline'
+    end
+  
+    def standardised_csv(validation)
+      data = Marshal.load(validation.result).data
+      CSV.generate(standard_csv_options) do |csv|
+        data.each do |row|
+          csv << row if row
+        end
+      end
     end
   
 end

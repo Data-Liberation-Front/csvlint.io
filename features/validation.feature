@@ -137,3 +137,20 @@ Feature: CSV Validation
     And I should see "<strong>Congratulations!</strong> Your CSV is valid!"
     And I should not see "Check CSV parsing options"
     And I should see "Non standard dialect"
+
+  Scenario: Standardised CSV download
+    When I go to the homepage
+    And I enter "http://example.org/revalidate.csv" in the "url" field
+    And I press "Validate"
+    And I enter ";" in the "Field delimiter" field
+    And I enter "'" in the "Quote character" field
+    And I select "LF (\n)" from the "Line terminator" dropdown
+    And I press "Revalidate"
+    Then I should see a page of validation results
+    When I click on "Download Standardised CSV File"
+    Then a CSV file should be downloaded
+    And that CSV file should have a field "firstname"
+    And that CSV file should have a field "lastname"
+    And that CSV file should have a field "status"
+    And that CSV file should have double-quoted fields
+    And that CSV file should use CRLF line endings
