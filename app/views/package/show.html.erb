@@ -1,6 +1,10 @@
 <% content_for :title do %>
-  <%= t(:list).titleize %>
+  <%= t(:package_results).titleize %>
 <% end %>
+
+<div class="alert alert-success">
+  <%= t(:package_notice, type: @dataset.publishing_format).html_safe %>
+</div>
 
 <table class="table">
   <thead>
@@ -12,7 +16,7 @@
   </thead>
   <tbody>
     <% @validations.each do |validation| %>
-      <%= render 'validation', validation: validation %>
+      <%= render 'validation/validation', validation: validation %>
     <% end %>
   </tbody>
 </table>

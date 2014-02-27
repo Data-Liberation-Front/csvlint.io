@@ -203,6 +203,7 @@ en:
   # Validation list
   #
   list: "Recent validations"
+  package: "Package validation"
   schema_list: "Recent schemas"
   schema_info: "Schema information"
 
@@ -240,4 +241,10 @@ en:
   xsd_time: Time
   xsd_gyear: Year
   xsd_gyearmonth: Year Month
+  
+  # Package
+  package_results: "Results"
+  package_notice: |
+    <p>We've noticed that you have submitted a URL that refers to a %{type}.</p>
+    <p>We've attempted to validate all of the CSVs in the package below:</p>
   

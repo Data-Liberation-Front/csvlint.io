@@ -2,32 +2,38 @@ Feature: Load from datapackage
 
   Background:
     Given the fixture "datapackages/single-datapackage.json" is available at the URL "http://example.org/single-datapackage.json" 
-    Given the fixture "datapackages/non-csv-datapackage.json" is available at the URL "http://example.org/non-csv-datapackage.json" 
+    Given the fixture "datapackages/multiple-datapackage.json" is available at the URL "http://example.org/multiple-datapackage.json" 
     Given the fixture "datapackages/datapackage-with-schema.json" is available at the URL "http://example.org/schema-datapackage.json" 
     Given the fixture "csvs/valid.csv" is available at the URL "http://example.org/valid.csv"
+    Given the fixture "csvs/valid.csv" is available at the URL "http://example.org/valid2.csv"
     Given the fixture "csvs/all_constraints.csv" is available at the URL "http://example.org/all_constraints.csv"
-    Given the fixture "datapackages/datapackage-with-schema.json" is available at the URL "http://example.org/some-json.json" 
   
   Scenario: Load a single CSV from a datapackage url
     When I go to the homepage
     And I enter "http://example.org/single-datapackage.json" in the "url" field
     And I press "Validate"
-    Then I should see a page of validation results
+    Then I should be redirected to my package page
+    And I should see "We've noticed that you have submitted a URL that refers to a datapackage."
     And I should see "http://example.org/valid.csv"
-    And the url "http://example.org/valid.csv" should be persisted in the database
+    And my datapackage should be persisited in the database
     
-  Scenario: Non-CSVs don't load
+  Scenario: Load multiple CSVs from a datapackage url
     When I go to the homepage
-    And I enter "http://example.org/non-csv-datapackage.json" in the "url" field
+    And I enter "http://example.org/multiple-datapackage.json" in the "url" field
     And I press "Validate"
-    Then I should be redirected to the homepage
+    Then I should be redirected to my package page
+    And I should see "We've noticed that you have submitted a URL that refers to a datapackage."
+    And I should see "http://example.org/valid.csv"
+    And I should see "http://example.org/valid2.csv"
+    And my datapackage should be persisited in the database
     
   Scenario: Load schema from a datapackage url
     When I go to the homepage
     And I enter "http://example.org/schema-datapackage.json" in the "url" field
     And I press "Validate"
-    Then I should see a page of validation results
-    And I should see "The schema says that a value must be provided in the <code>Username</code> column. Make sure this column has values in all the rows."
+    Then I should be redirected to my package page
+    When I click on the first report link
+    Then I should see "The schema says that a value must be provided in the <code>Username</code> column. Make sure this column has values in all the rows."
     And I should see "The schema says that <code>Username</code> must be at least 5 characters long. Your value, <code>derp</code>, is not long enough."
     And I should see "The schema says that <code>Username</code> must be at most 10 characters long. Your value, <code>derpderpington</code>, is too long."
     And I should see "The schema says that values in <code>Username</code> must match <code>^[A-Za-z0-9_]*$</code>. Your value, <code>derp-derp</code>, does not."
