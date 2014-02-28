@@ -7,6 +7,7 @@
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'timecop'
+require 'capybara/poltergeist'
 
 require 'coveralls'
 Coveralls.wear_merged!('rails')
@@ -56,6 +57,12 @@ end
 #   end
 #
 
+Capybara.register_driver :poltergeist do |app|
+    Capybara::Poltergeist::Driver.new(app, {debug: false})
+end
+
+Capybara.javascript_driver = :poltergeist
+
 After('@timecop') do
   Timecop.return
 end
@@ -64,4 +71,5 @@ end
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
+
 
