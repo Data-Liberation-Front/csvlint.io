@@ -11,7 +11,7 @@
 <table class="table">
   <thead>
     <tr>
-      <th>File URL</th>
+      <th><%= @package.type == "files" ? "Filename" : "File URL" %></th>
       <th>Status</th>
       <th></th>
     </tr>

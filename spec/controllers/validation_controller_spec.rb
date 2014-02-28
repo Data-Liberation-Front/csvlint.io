@@ -55,6 +55,31 @@ describe ValidationController do
       validation = Validation.first
       response.location.should == validation_url(validation)
     end
+    
+    it "supports multiple urls" do
+       mock_file("http://example.com/test.csv", 'csvs/valid.csv')
+       mock_file("http://example.com/test2.csv", 'csvs/valid.csv')
+       mock_file("http://example.com/test3.csv", 'csvs/valid.csv')
+       post 'create', urls: [
+                              'http://example.com/test.csv',
+                              'http://example.com/test2.csv',
+                              'http://example.com/test3.csv'
+                            ]
+       response.should be_redirect
+       package = Package.first
+       response.location.should == package_url(package)
+    end
+    
+    it "supports multiple files" do
+      post 'create', files: [
+                        mock_upload('csvs/valid.csv'),
+                        mock_upload('csvs/valid.csv'),
+                        mock_upload('csvs/valid.csv')
+                      ]
+      response.should be_redirect
+      package = Package.first
+      response.location.should == package_url(package)
+    end
 
   end
 

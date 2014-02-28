@@ -1,6 +1,7 @@
 require 'uri'
 
 class ValidationController < ApplicationController
+  before_filter :validate_urls, :only => :create
 
   def index
     if params[:uri]
@@ -10,18 +11,15 @@ class ValidationController < ApplicationController
     end
   end
 
-  def create
-    if validate_urls(params[:urls]) === false
-      redirect_to root_path and return
-    end    
-        
+  def create            
     load_schema
     package = check_for_package
     
-    io = params[:urls].first.presence || params[:file].presence
     if package
       redirect_to package_path(package)
     else
+      io = params[:urls].first.presence || params[:files].first.presence
+      
       if io.nil?
         redirect_to root_path and return 
       else    
@@ -60,22 +58,28 @@ class ValidationController < ApplicationController
   
   private
     
-    def validate_urls(urls)    
-      return true if params[:file].presence
-      return false if urls.blank?
-      urls.reject! { |url| url.blank? }
-      
-      urls.each do |url|
-        return false if url.blank?
+    def validate_urls
+      remove_blanks!
+      valid = true
+      return if params[:files].presence
+      redirect_to root_path and return if params[:urls].blank?
+    
+      params[:urls].each do |url|
+        valid = false if url.blank?
         # Check it's valid
         begin
           url = URI.parse(url)
-          return false unless ['http', 'https'].include?(url.scheme)
+          valid = false unless ['http', 'https'].include?(url.scheme)
         rescue URI::InvalidURIError
-          return false
+          valid = false
         end
       end
-      return true
+      
+      redirect_to root_path and return if valid === false
+    end
+    
+    def remove_blanks!
+      params[:urls].reject! { |url| url.blank? } unless params[:urls].blank?
     end
     
     def load_schema
@@ -98,9 +102,8 @@ class ValidationController < ApplicationController
     end
     
     def check_for_package
-      unless params[:file].presence
-        Package.create_package( params[:urls], params[:schema_url], @schema )
-      end
+      sources = params[:urls].presence || params[:files].presence
+      Package.create_package( sources, params[:schema_url], @schema )
     end
         
     def build_dialect(params)

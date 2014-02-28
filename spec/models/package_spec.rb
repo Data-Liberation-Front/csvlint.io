@@ -2,6 +2,8 @@ require "spec_helper"
 
 describe Package do
   
+  include ActionDispatch::TestProcess
+  
   context "with multiple URLs" do
     before :each do
       mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
@@ -22,6 +24,11 @@ describe Package do
       package.validations.count.should == 4
     end
     
+    it "sets the right type" do
+      package = Package.create_package(@urls)
+      package.type.should == "urls"
+    end
+    
     it "creates multiple validations with a schema" do
       schema_url = "http://example.org/schema.json"
       mock_file(schema_url, 'schemas/valid.json', 'application/javascript')
@@ -36,6 +43,43 @@ describe Package do
         result.schema.fields[2].name.should == "Insult"
       end
     end
+  end
+  
+  context "with multiple files" do
+    before :each do
+      @files = [
+          mock_upload('csvs/valid.csv'),
+          mock_upload('csvs/valid.csv'),
+          mock_upload('csvs/valid.csv'),
+          mock_upload('csvs/valid.csv')
+        ]
+    end
+    
+    it "creates multiple validations" do
+      package = Package.create_package(@files)
+      package.validations.count.should == 4
+    end
+    
+    it "sets the right type" do
+      package = Package.create_package(@files)
+      package.type.should == "files"
+    end
+    
+    it "creates multiple validations with a schema" do
+      schema_url = "http://example.org/schema.json"
+      mock_file(schema_url, 'schemas/valid.json', 'application/javascript')
+      
+      schema = Csvlint::Schema.load_from_json_table(schema_url) 
+      package = Package.create_package(@files, schema_url, schema)
+      
+      package.validations.each do |validation|
+        result = Marshal.load validation.result
+        result.schema.fields[0].name.should == "FirstName"
+        result.schema.fields[1].name.should == "LastName"
+        result.schema.fields[2].name.should == "Insult"
+      end
+    end
+    
   end
   
   context "with a datapackage" do

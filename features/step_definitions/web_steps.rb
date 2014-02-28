@@ -21,6 +21,7 @@ end
 
 When(/^I attach the file "(.*?)" to the "(.*?)" field$/) do |file, field_name|
   @file = file
+  field_name = "files[]" if field_name == "file"
   attach_file(field_name.to_sym, File.join(Rails.root, 'fixtures', @file))
 end
 
@@ -42,5 +43,4 @@ end
 
 When(/^I click the "(.*?)" tab$/) do |arg1|
   page.find('a[href="#schemafile"]').click
-  save_and_open_page
 end
