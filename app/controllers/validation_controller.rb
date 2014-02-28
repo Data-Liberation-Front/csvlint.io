@@ -1,7 +1,7 @@
 require 'uri'
 
 class ValidationController < ApplicationController
-  before_filter :validate_urls, :only => :create
+  before_filter :manage_urls, :only => :create
 
   def index
     if params[:uri]
@@ -14,19 +14,14 @@ class ValidationController < ApplicationController
   def create            
     load_schema
     package = check_for_package
+    redirect_to package_path(package) and return if package
     
-    if package
-      redirect_to package_path(package)
-    else
-      io = params[:urls].first.presence || params[:files].first.presence
-      
-      if io.nil?
-        redirect_to root_path and return 
-      else    
-        validation = Validation.create_validation(io, @schema_url, @schema)
-        redirect_to validation_path(validation)
-      end
-    end
+    io = params[:urls].first.presence || params[:files].first.presence
+    
+    redirect_to root_path and return if io.nil?
+          
+    validation = Validation.create_validation(io, @schema_url, @schema)
+    redirect_to validation_path(validation)
   end
 
   def show
@@ -39,7 +34,6 @@ class ValidationController < ApplicationController
       wants.png { render_badge(@validation.state, "png") }
       wants.svg { render_badge(@validation.state, "svg") }
       wants.csv { send_data standardised_csv(@validation), type: "text/csv; charset=utf-8", disposition: "attachment" }
-
     end
   end
   
@@ -58,24 +52,26 @@ class ValidationController < ApplicationController
   
   private
     
-    def validate_urls
+    def manage_urls
       remove_blanks!
-      valid = true
-      return if params[:files].presence
-      redirect_to root_path and return if params[:urls].blank?
+      unless params[:files].presence
+        redirect_to root_path and return unless urls_valid?
+      end
+    end
     
+    def urls_valid?
+      return false if params[:urls].blank?
       params[:urls].each do |url|
-        valid = false if url.blank?
+        return false if url.blank?
         # Check it's valid
         begin
           url = URI.parse(url)
-          valid = false unless ['http', 'https'].include?(url.scheme)
+          return false unless ['http', 'https'].include?(url.scheme)
         rescue URI::InvalidURIError
-          valid = false
+          return false
         end
       end
-      
-      redirect_to root_path and return if valid === false
+      return true
     end
     
     def remove_blanks!
