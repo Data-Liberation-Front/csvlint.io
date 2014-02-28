@@ -61,12 +61,12 @@ class ValidationController < ApplicationController
     def manage_urls
       remove_blanks!
       unless params[:files].presence
-        redirect_to root_path and return if params[:urls].blank?
         redirect_to root_path and return unless urls_valid?
       end
     end
     
     def urls_valid?
+      return false if params[:urls].blank?
       params[:urls].each do |url|
         return false if url.blank?
         # Check it's valid
