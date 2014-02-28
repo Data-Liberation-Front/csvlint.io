@@ -57,7 +57,7 @@ class Package
   
   def self.set_type(sources)
     return "files" if sources.first.respond_to?(:tempfile)
-    return "urls" if sources.first.class == "String"
+    return "urls" if sources.first.class == String
   end
   
 end
