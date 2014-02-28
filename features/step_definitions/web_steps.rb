@@ -1,5 +1,5 @@
 When(/^I go to the homepage$/) do
-  visit root_url
+  visit root_path
 end
 
 When(/^I enter "(.*?)" in the "(.*?)" field$/) do |text, field|
