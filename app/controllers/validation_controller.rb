@@ -18,12 +18,10 @@ class ValidationController < ApplicationController
     
     io = params[:urls].first.presence || params[:files].first.presence
     
-    if io.nil?
-      redirect_to root_path and return 
-    else    
-      validation = Validation.create_validation(io, @schema_url, @schema)
-      redirect_to validation_path(validation)
-    end
+    redirect_to root_path and return if io.nil?
+          
+    validation = Validation.create_validation(io, @schema_url, @schema)
+    redirect_to validation_path(validation)
   end
 
   def show
