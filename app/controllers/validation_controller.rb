@@ -11,6 +11,8 @@ class ValidationController < ApplicationController
   end
 
   def create
+    params[:urls].reject! { |url| url.blank? } unless params[:urls].blank?
+    
     if validate_urls(params[:urls]) === false
       redirect_to root_path and return
     end    
@@ -18,10 +20,11 @@ class ValidationController < ApplicationController
     load_schema
     package = check_for_package
     
-    io = params[:urls].first.presence || params[:file].presence
     if package
       redirect_to package_path(package)
     else
+      io = params[:urls].first.presence || params[:files].first.presence
+      
       if io.nil?
         redirect_to root_path and return 
       else    
@@ -61,9 +64,8 @@ class ValidationController < ApplicationController
   private
     
     def validate_urls(urls)    
-      return true if params[:file].presence
+      return true if params[:files].presence
       return false if urls.blank?
-      urls.reject! { |url| url.blank? }
       
       urls.each do |url|
         return false if url.blank?
@@ -98,9 +100,8 @@ class ValidationController < ApplicationController
     end
     
     def check_for_package
-      unless params[:file].presence
-        Package.create_package( params[:urls], params[:schema_url], @schema )
-      end
+      sources = params[:urls].presence || params[:files].presence
+      Package.create_package( sources, params[:schema_url], @schema )
     end
         
     def build_dialect(params)

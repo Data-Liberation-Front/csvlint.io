@@ -4,6 +4,7 @@ class Package
   
   field :url, type: String
   field :dataset, type: String
+  field :type, type: String
   
   has_many :validations
   
@@ -11,24 +12,25 @@ class Package
     attributes = {
       :url => dataset.access_url,
       :dataset => Marshal.dump(dataset),
-      :validations => []
+      :validations => [],
+      :type => "datapackage"
     }
     
     return attributes
   end
   
-  def self.create_package(urls, schema_url = nil, schema = nil)
-    return nil if urls.count == 0
-    
-    if urls.count == 1
-      check_datapackage(urls.first)
-    else
-      package = create
+  def self.create_package(sources, schema_url = nil, schema = nil)
+    return nil if sources.count == 0
+        
+    if sources.count == 1 && sources.first.class == String
+      check_datapackage(sources.first)
+    elsif sources.count > 1
+      package = create({ type: set_type(sources) })
       
-      urls.each do |url|
-        package.validations << Validation.create_validation(url, schema_url, schema)
+      sources.each do |source|
+        package.validations << Validation.create_validation(source, schema_url, schema)
       end
-      
+          
       package.save
       package
     end
@@ -51,6 +53,11 @@ class Package
     end
     package.save
     package
+  end
+  
+  def self.set_type(sources)
+    return "files" if sources.first.respond_to?(:tempfile)
+    return "urls" if sources.first.class == "String"
   end
   
 end
