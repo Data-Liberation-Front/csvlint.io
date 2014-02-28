@@ -1,7 +1,7 @@
 require 'uri'
 
 class ValidationController < ApplicationController
-  before_filter :validate_urls, :only => :create
+  before_filter :manage_urls, :only => :create
 
   def index
     if params[:uri]
@@ -58,24 +58,26 @@ class ValidationController < ApplicationController
   
   private
     
-    def validate_urls
+    def manage_urls
       remove_blanks!
-      valid = true
-      return if params[:files].presence
-      redirect_to root_path and return if params[:urls].blank?
+      unless params[:files].presence
+        redirect_to root_path and return if params[:urls].blank?
+        redirect_to root_path and return unless urls_valid?
+      end
+    end
     
+    def urls_valid?
       params[:urls].each do |url|
-        valid = false if url.blank?
+        return false if url.blank?
         # Check it's valid
         begin
           url = URI.parse(url)
-          valid = false unless ['http', 'https'].include?(url.scheme)
+          return false unless ['http', 'https'].include?(url.scheme)
         rescue URI::InvalidURIError
-          valid = false
+          return false
         end
       end
-      
-      redirect_to root_path and return if valid === false
+      return true
     end
     
     def remove_blanks!
