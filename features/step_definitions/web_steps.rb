@@ -4,7 +4,11 @@ end
 
 When(/^I enter "(.*?)" in the "(.*?)" field$/) do |text, field|
   instance_variable_set("@#{field.downcase.parameterize.underscore}", text)
-  fill_in field, with: text
+  if field == "url"
+    fill_in "url_0", with: text
+  else
+    fill_in field, with: text
+  end
 end
 
 When(/^I select "(.*?)" from the "(.*?)" dropdown$/) do |text, field|

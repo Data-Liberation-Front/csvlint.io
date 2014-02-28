@@ -17,8 +17,24 @@ class Package
     return attributes
   end
   
-  def self.create_package(url)
-    return nil if url.blank?
+  def self.create_package(urls, schema_url = nil, schema = nil)
+    return nil if urls.count == 0
+    
+    if urls.count == 1
+      check_datapackage(urls.first)
+    else
+      package = create
+      
+      urls.each do |url|
+        package.validations << Validation.create_validation(url, schema_url, schema)
+      end
+      
+      package.save
+      package
+    end
+  end
+  
+  def self.check_datapackage(url)
     dataset = DataKitten::Dataset.new(access_url: url)
     return nil unless dataset.publishing_format == :datapackage
     
@@ -35,7 +51,6 @@ class Package
     end
     package.save
     package
-    
   end
   
 end
