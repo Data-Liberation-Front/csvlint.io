@@ -19,3 +19,7 @@ Feature: Multiple CSV Validation
       |http://example.org/test4.csv|
     And I press "Validate"
     Then I should be redirected to my package page
+    And I should see "http://example.org/test.csv"
+    And I should see "http://example.org/test2.csv"
+    And I should see "http://example.org/test3.csv"
+    And I should see "http://example.org/test4.csv"
