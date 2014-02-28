@@ -23,7 +23,7 @@
   <div class="tab-pane" id="file">
     <div class="input-group">  
       <span class="input-group-btn btn btn-primary btn-file">
-        Browse... <%= file_field_tag 'file' %>
+        Browse... <%= file_field_tag 'files[]', multiple: true %>
       </span>
       <%= text_field_tag 'filename', 'No file chosen', class: 'form-control', readonly: '' %>
     </div>
