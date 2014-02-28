@@ -11,20 +11,20 @@ class ValidationController < ApplicationController
   end
 
   def create
-    if validate_url(params[:url]) === false
+    if validate_urls(params[:urls]) === false
       redirect_to root_path and return
-    end
+    end    
+        
+    load_schema
+    package = check_for_package
     
-    package = check_for_datapackage
-    
-    io = params[:url].presence || params[:file].presence
+    io = params[:urls].first.presence || params[:file].presence
     if package
       redirect_to package_path(package)
     else
       if io.nil?
         redirect_to root_path and return 
       else    
-        load_schema
         validation = Validation.create_validation(io, @schema_url, @schema)
         redirect_to validation_path(validation)
       end
@@ -60,15 +60,20 @@ class ValidationController < ApplicationController
   
   private
     
-    def validate_url(url)
+    def validate_urls(urls)    
       return true if params[:file].presence
-      return false if url.blank?
-      # Check it's valid
-      begin
-        url = URI.parse(params[:url])
-        return false unless ['http', 'https'].include?(url.scheme)
-      rescue URI::InvalidURIError
-        return false
+      return false if urls.blank?
+      urls.reject! { |url| url.blank? }
+      
+      urls.each do |url|
+        return false if url.blank?
+        # Check it's valid
+        begin
+          url = URI.parse(url)
+          return false unless ['http', 'https'].include?(url.scheme)
+        rescue URI::InvalidURIError
+          return false
+        end
       end
       return true
     end
@@ -92,8 +97,10 @@ class ValidationController < ApplicationController
       @schema_url = params[:schema_url]      
     end
     
-    def check_for_datapackage
-      Package.create_package( params[:url] )
+    def check_for_package
+      unless params[:file].presence
+        Package.create_package( params[:urls], params[:schema_url], @schema )
+      end
     end
         
     def build_dialect(params)

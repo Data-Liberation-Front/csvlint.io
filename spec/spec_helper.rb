@@ -50,13 +50,8 @@ def load_fixture(filename)
   File.read(File.join(Rails.root, 'fixtures', filename))
 end
 
-def mock_csv(url, file)
-  stub_request(:get, url).to_return(body: load_fixture(file), headers: {"Content-Type" => "text/csv; charset=utf-8"})
-  stub_request(:head, url).to_return(:status => 200)
-end
-
-def mock_datapackage(url, file)
-  stub_request(:get, url).to_return(body: load_fixture(file), headers: {"Content-Type" => "application/javascript; charset=utf-8"})
+def mock_file(url, file, content_type = "text/csv")
+  stub_request(:get, url).to_return(body: load_fixture(file), headers: {"Content-Type" => "#{content_type}; charset=utf-8"})
   stub_request(:head, url).to_return(:status => 200)
 end
   

@@ -2,9 +2,11 @@
   <%= t(:package_results).titleize %>
 <% end %>
 
-<div class="alert alert-success">
-  <%= t(:package_notice, type: @dataset.publishing_format).html_safe %>
-</div>
+<% if @dataset %>
+  <div class="alert alert-success">
+    <%= t(:package_notice, type: @dataset.publishing_format).html_safe %>
+  </div>
+<% end %>
 
 <table class="table">
   <thead>

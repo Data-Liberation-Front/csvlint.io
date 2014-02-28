@@ -39,6 +39,11 @@
     margin: 25px 7px;
   }
   
+  .url-group {
+    margin-top: 5px;
+    width: 100%;
+  }
+  
   .btn-file {
       position: relative;
       overflow: hidden;
@@ -50,7 +55,6 @@
       right: 0;
       min-width: 100%;
       min-height: 100%;
-      font-size: 999px;
       text-align: right;
       filter: alpha(opacity=0);
       opacity: 0;
