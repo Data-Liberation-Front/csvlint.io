@@ -39,3 +39,8 @@ end
 Then(/^I should be redirected to the homepage$/) do
   current_path.should == "/"
 end
+
+When(/^I click the "(.*?)" tab$/) do |arg1|
+  page.find('a[href="#schemafile"]').click
+  save_and_open_page
+end

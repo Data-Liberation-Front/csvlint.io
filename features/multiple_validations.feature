@@ -25,7 +25,7 @@ Feature: Multiple CSV Validation
     And I should see "http://example.org/test3.csv"
     And I should see "http://example.org/test4.csv"
     
-    Scenario: Enter multiple URLs with a schema
+    Scenario: Enter multiple URLs with a schema URL
       When I go to the homepage
       And I enter the following urls:
         |http://example.org/test.csv|
@@ -34,6 +34,20 @@ Feature: Multiple CSV Validation
         |http://example.org/test4.csv|
       And I check the "schema" checkbox
       And I enter "http://example.org/schema.json" in the "schema_url" field
+      And I press "Validate"
+      Then I should be redirected to my package page
+      And the package validations should have the correct schema
+
+    Scenario: Enter multiple URLs with a schema upload
+      When I go to the homepage
+      And I enter the following urls:
+        |http://example.org/test.csv|
+        |http://example.org/test2.csv|
+        |http://example.org/test3.csv|
+        |http://example.org/test4.csv|
+      And I check the "schema" checkbox
+      And I click the "From file" tab
+      And I attach the file "schemas/valid.json" to the "schema_file" field
       And I press "Validate"
       Then I should be redirected to my package page
       And the package validations should have the correct schema
