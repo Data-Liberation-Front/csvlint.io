@@ -4,7 +4,7 @@
 
 <% if @dataset %>
   <div class="alert alert-success">
-    <%= t(:package_notice, type: @dataset.publishing_format).html_safe %>
+    <%= t(:package_notice, type: package_type(@dataset.publishing_format)).html_safe %>
   </div>
 <% end %>
 
