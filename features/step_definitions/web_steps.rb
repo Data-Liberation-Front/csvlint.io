@@ -11,6 +11,11 @@ When(/^I enter "(.*?)" in the "(.*?)" field$/) do |text, field|
   end
 end
 
+When(/^I enter the CKAN repository "(.*?)" in the url field$/) do |url|
+  @url = url
+  fill_in "url_0", with: @url
+end
+
 When(/^I select "(.*?)" from the "(.*?)" dropdown$/) do |text, field|
   select text, from: field
 end
