@@ -1,3 +1,15 @@
+class LocalDataset < DataKitten::Dataset
+  extend DataKitten::PublishingFormats::Datapackage
+
+  def origin
+    :local
+  end
+  
+  def publishing_format
+    :datapackage
+  end
+end
+
 class Package
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -10,7 +22,7 @@ class Package
   
   def self.parse_package(dataset)
     attributes = {
-      :url => dataset.access_url,
+      :url => dataset.origin == :local ? nil : dataset.access_url,
       :dataset => Marshal.dump(dataset),
       :validations => [],
       :type => "datapackage"
@@ -24,6 +36,8 @@ class Package
         
     if sources.count == 1 && sources.first.class == String
       check_datapackage(sources.first)
+    elsif sources.count == 1 && sources.first.respond_to?(:tempfile) && sources.first.original_filename =~ /datapackage\.json/
+      check_datapackage(sources.first)
     elsif sources.count > 1
       package = create({ type: set_type(sources) })
       
@@ -36,8 +50,12 @@ class Package
     end
   end
   
-  def self.check_datapackage(url)
-    dataset = DataKitten::Dataset.new(access_url: url)
+  def self.check_datapackage(source)
+    if source.respond_to?(:tempfile)
+      dataset = LocalDataset.new(access_url: source.tempfile.path)
+    else
+      dataset = DataKitten::Dataset.new(access_url: source)
+    end
     return nil unless dataset.publishing_format == :datapackage
     
     package = create( parse_package(dataset) )

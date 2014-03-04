@@ -138,7 +138,7 @@ describe Package do
         package.should == nil
       end
     
-      it "ignores non-CSV resources" do
+      it "ignores non-CSV resources" do    
         url = 'http://example.org/mixed-datapackage.json'
         mock_file(url, 'datapackages/mixed-datapackage.json', 'application/javascript')
         mock_file("http://example.org/some-json.json", 'csvs/valid.csv')
@@ -150,5 +150,18 @@ describe Package do
     
     end
   end
+  
+  context "with a local datapackage" do
+    it "creates a validation for a datapackage with a single CSV" do
+      files = [ mock_upload('datapackages/single-datapackage.json') ]
+      mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
+      
+      package = Package.create_package(files)
+      package.validations.count.should == 1
+
+    end
+
+  end  
+  
   
 end
