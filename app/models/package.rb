@@ -34,10 +34,8 @@ class Package
   def self.create_package(sources, schema_url = nil, schema = nil)
     return nil if sources.count == 0
         
-    if sources.count == 1 
-      if sources.first.class == String || local_package?( sources.first )
-        check_datapackage(sources.first)
-      end
+    if sources.count == 1 && possible_package?(sources.first)
+      check_datapackage(sources.first)
     elsif sources.count > 1
       package = create({ type: set_type(sources) })
       
@@ -48,6 +46,10 @@ class Package
       package.save
       package
     end
+  end
+  
+  def self.possible_package?(source)
+    source.class == String || local_package?( source )
   end
   
   def self.local_package?(source)
@@ -68,18 +70,30 @@ class Package
     return nil unless dataset.publishing_format == :datapackage
     
     package = create( parse_package(dataset) )
-    
-    dataset.distributions.each do |distribution|
-      if distribution.format.extension == :csv
-        schema_desc = distribution.schema
-        schema = Csvlint::Schema.from_json_table(nil, schema_desc) unless schema_desc.nil?
-        if distribution.access_url
-          package.validations << Validation.create_validation(distribution.access_url, nil, schema)
-        end
-      end
-    end
+    add_validations(package, dataset)
+
     package.save
     package
+  end
+  
+  def self.add_validations(package, dataset)
+    dataset.distributions.each do |distribution|
+      if can_validate?(distribution)
+        package.validations << Validation.create_validation(distribution.access_url, nil, create_schema(distribution) )
+      end
+    end
+  end
+  
+  def self.can_validate?(distribution)
+    return false unless distribution.format.extension == :csv
+    return distribution.access_url && distribution.access_url =~ /^http(s?)/
+  end
+  
+  def self.create_schema(distribution)
+    unless distribution.schema.nil?
+      schema = Csvlint::Schema.from_json_table(nil, distribution.schema) 
+    end
+    return schema
   end
   
   def self.set_type(sources)

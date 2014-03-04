@@ -160,6 +160,15 @@ describe Package do
       package.validations.count.should == 1
 
     end
+    
+    it "ignores local CSV files" do
+      files = [ mock_upload('datapackages/local-and-remote-datapackage.json') ]
+      mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
+      
+      package = Package.create_package(files)
+      package.validations.count.should == 1
+
+    end
 
   end  
   
