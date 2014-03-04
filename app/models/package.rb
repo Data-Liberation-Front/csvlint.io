@@ -34,10 +34,10 @@ class Package
   def self.create_package(sources, schema_url = nil, schema = nil)
     return nil if sources.count == 0
         
-    if sources.count == 1 && sources.first.class == String
-      check_datapackage(sources.first)
-    elsif sources.count == 1 && sources.first.respond_to?(:tempfile) && sources.first.original_filename =~ /datapackage\.json/
-      check_datapackage(sources.first)
+    if sources.count == 1 
+      if sources.first.class == String || local_package?( sources.first )
+        check_datapackage(sources.first)
+      end
     elsif sources.count > 1
       package = create({ type: set_type(sources) })
       
@@ -50,12 +50,21 @@ class Package
     end
   end
   
-  def self.check_datapackage(source)
+  def self.local_package?(source)
+    source.respond_to?(:tempfile) && source.original_filename =~ /datapackage\.json/
+  end  
+  
+  def self.create_dataset(source)
     if source.respond_to?(:tempfile)
       dataset = LocalDataset.new(access_url: source.tempfile.path)
     else
       dataset = DataKitten::Dataset.new(access_url: source)
     end
+    dataset
+  end
+  
+  def self.check_datapackage(source)
+    dataset = create_dataset(source)
     return nil unless dataset.publishing_format == :datapackage
     
     package = create( parse_package(dataset) )
