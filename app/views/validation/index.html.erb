@@ -1,9 +1,16 @@
 <% content_for :title do %>
-  Home
+  Check your CSV files with CSVLint
 <% end %>
 
-<%= form_tag validation_index_path, multipart: true do %>
+<div class="row">
+  <p>CSV looks easy, but it can be hard to make a CSV file that other people can read easily. CSVLint helps you to check 
+  that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
 
+  <p>Just enter the location of the file you want to check, or upload it. If you have a schema which describes the 
+  contents of the CSV file, you can also give its URL or upload it. <a href="/about">Read more...</a></p>
+</div>
+
+<%= form_tag validation_index_path, multipart: true do %>
 <ul class="nav nav-tabs">
   <li class="active"><a href="#url" data-toggle="tab">From URL</a></li>
   <li><a href="#file" data-toggle="tab">From file</a></li>
@@ -11,6 +18,10 @@
 
 <div class="tab-content">
   <div class="tab-pane active" id="url">
+    <div>
+  	<p>Submitted urls are recorded in a public <a href="/validation/list">list of validation reports</a>. If you want to validate 
+  	private data then use the <a href="#" id="switch">From file</a> option.</p>
+  	</div>
     <div class="input-group url-template url-group hidden" style="margin-top: 5px"> 
       <%= url_field_tag 'urls[]', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
     </div>
@@ -19,6 +30,7 @@
       <span class="input-group-btn btn btn-primary btn-clone">+</span>
     </div>
   </div>
+   
 
   <div class="tab-pane" id="file">
     <div class="input-group">  
@@ -96,6 +108,12 @@
 		  $('.btn-clone:first').appendTo('.url-template:last');
 		  count = count + 1
 		})
+		
+   		$('#switch').click( function() {
+      		$('.nav-tabs > .active').next('li').find('a').trigger('click');
+      		return false;
+        });
+
 	});		
 </script>
 

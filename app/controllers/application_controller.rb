@@ -10,4 +10,7 @@ class ApplicationController < ActionController::Base
     {row_sep: "\r\n", encoding: "UTF-8", force_quotes: true}
   end
 
+  def about
+  end
+  
 end

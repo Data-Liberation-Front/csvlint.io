@@ -8,4 +8,6 @@ Csvlint::Application.routes.draw do
   resources :schemas
   resources :package
   
+  get 'about', to: 'application#about', as: 'about'
+    
 end
