@@ -3,77 +3,65 @@
 <% end %>
 
 <div class="row">
-  <p>CSV looks easy, but it can be hard to make a CSV file that other people can read easily. CSVLint helps you to check 
+  <div class="col-md-6">
+    <%= form_tag validation_index_path, multipart: true do %>
+    
+
+          <p>Submitted urls are recorded in a public <a href="/validation/list">list of validation reports</a>. If you want to validate 
+          private data then use the <a href="#" id="switch">From file</a> option.</p>
+        
+          <div class="input-group url-template url-group hidden" style="margin-top: 5px"> 
+            <%= url_field_tag 'urls[]', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
+          </div>
+          <div class="input-group url-group"> 
+            <%= url_field_tag 'urls[]', '', class: 'form-control', id: 'url_0', placeholder: t(:enter_csv_url) %>
+            <span class="input-group-btn btn btn-primary btn-clone">+</span>
+          </div>
+          <p>Or</p>
+       
+          <div class="input-group">  
+
+            <span class="input-group-btn btn btn-primary btn-file">
+              Browse... <%= file_field_tag 'files[]', multiple: true %>
+            </span>
+            <%= text_field_tag 'filename', 'No file chosen', class: 'form-control', readonly: '' %>
+          </div>
+        
+        
+        <div class="checkbox">
+          <label>
+            <%= check_box_tag 'schema' %>
+            <%= label_tag 'schema', 'Add optional schema'%>
+          </label>
+        </div>
+
+      <div id="schemas" class="hidden">
+       
+            <%= url_field_tag 'schema_url', '', class: 'form-control', placeholder: t(:enter_schema_url)%>
+            <p>Or</p>
+            <div class="input-group">  
+              <span class="input-group-btn btn btn-primary btn-file">
+                Browse... <%= file_field_tag 'schema_file' %>
+              </span>
+              <%= text_field_tag 'schema_filename', 'No schema file chosen', class: 'form-control', readonly: '' %>
+            </div>
+      </div>
+
+      <%= submit_tag t(:validate).titleize, class: 'btn btn-primary btn-block btn-lg' %>
+
+      <% end %>
+  </div>
+  <div class="col-md-6">
+    <p>CSV looks easy, but it can be hard to make a CSV file that other people can read easily. CSVLint helps you to check 
   that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
 
   <p>Just enter the location of the file you want to check, or upload it. If you have a schema which describes the 
   contents of the CSV file, you can also give its URL or upload it. <a href="/about">Read more...</a></p>
-</div>
-
-<%= form_tag validation_index_path, multipart: true do %>
-<ul class="nav nav-tabs">
-  <li class="active"><a href="#url" data-toggle="tab">From URL</a></li>
-  <li><a href="#file" data-toggle="tab">From file</a></li>
-</ul>
-
-<div class="tab-content">
-  <div class="tab-pane active" id="url">
-    <div>
-  	<p>Submitted urls are recorded in a public <a href="/validation/list">list of validation reports</a>. If you want to validate 
-  	private data then use the <a href="#" id="switch">From file</a> option.</p>
-  	</div>
-    <div class="input-group url-template url-group hidden" style="margin-top: 5px"> 
-      <%= url_field_tag 'urls[]', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
-    </div>
-    <div class="input-group url-group"> 
-      <%= url_field_tag 'urls[]', '', class: 'form-control', id: 'url_0', placeholder: t(:enter_csv_url) %>
-      <span class="input-group-btn btn btn-primary btn-clone">+</span>
-    </div>
-  </div>
-   
-
-  <div class="tab-pane" id="file">
-    <div class="input-group">  
-      <span class="input-group-btn btn btn-primary btn-file">
-        Browse... <%= file_field_tag 'files[]', multiple: true %>
-      </span>
-      <%= text_field_tag 'filename', 'No file chosen', class: 'form-control', readonly: '' %>
-    </div>
   </div>
   
-  <div class="checkbox">
-    <label>
-      <%= check_box_tag 'schema' %>
-      <%= label_tag 'schema', 'Add optional schema'%>
-    </label>
-  </div>
 </div>
 
-<div id="schemas" class="hidden">
-  <ul class="nav nav-tabs">
-    <li class="active"><a href="#schemaurl" data-toggle="tab">From URL</a></li>
-    <li><a href="#schemafile" data-toggle="tab">From file</a></li>
-  </ul>
 
-  <div class="tab-content">
-    <div class="tab-pane active" id="schemaurl">
-      <%= url_field_tag 'schema_url', '', class: 'form-control', placeholder: t(:enter_schema_url)%>
-    </div>
-
-    <div class="tab-pane" id="schemafile">
-      <div class="input-group">  
-        <span class="input-group-btn btn btn-primary btn-file">
-          Browse... <%= file_field_tag 'schema_file' %>
-        </span>
-        <%= text_field_tag 'schema_filename', 'No schema file chosen', class: 'form-control', readonly: '' %>
-      </div>
-    </div>
-  </div>
-</div>
-
-<%= submit_tag t(:validate).titleize, class: 'btn btn-primary btn-block btn-lg' %>
-
-<% end %>
 
 <% content_for :extra_javascript do %>
 

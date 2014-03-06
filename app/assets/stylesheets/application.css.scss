@@ -69,8 +69,12 @@
       display: block;
   }
   
-  input#filename {
+  input {
     background-color: #fff;
+    height: 60px;
+    font-size: 22px;
+    color: $odiGreyLight;
+
   }
   
   .table {

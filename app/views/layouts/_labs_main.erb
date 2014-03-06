@@ -30,38 +30,53 @@
 
 <body class="odi-<%= colour %>">
     <header class="site-header">
-      <%= render :partial => 'layouts/labs_navbar', :locals => { :mobile => false, :title => title, :status => status } %>
-      
-      <div class="collapse navbar-collapse">        
-        <div class="navbar navbar-static-top">
-          <div class="container">
-            <div class="pull-right">
-              <ul class="nav navbar-nav main-nav">
-                <% menus = get_menu(menu)%>
-                <% menus.each_index do |i| %>
-                    <% menu = menus[i] %>
-                    <li class="dropdown<%= ' last' if i == menus.length - 1 %>">
-                        <a href="<%= menu['link'] %>" <% if menu['items'] %> data-target="#" data-toggle="dropdown" <% end %>>
-                            <%= menu['title'] %>
-                            <% if menu['items'] %>
-                             <b class="caret"></b>
-                            <% end %>
-                         </a>
-                         <% if menu['items'] %>
-                            <ul class="dropdown-menu">
-                                <% menu['items'].each do |item| %>
-                                    <li><a href="<%= item['link'] %>"><%= item['title'] %></a></li>
-                                <% end %>
-                            </ul>
-                        <% end %>
-                    </li>
-                <% end %>
-              </ul>
-            </div>
-          </div>
-        </div>
+     
+     <div class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+      <div class="navbar-header">
         
-        <%= render :partial => 'layouts/labs_navbar', :locals => { :mobile => true, :title => title, :status => status } %>
+       <!-- Mobile nav toggle -->
+       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+           <span class="icon-bar"></span>
+           <span class="icon-bar"></span>
+           <span class="icon-bar"></span>
+       </button>
+       
+      <h1 class="site-title">
+        <a href="/"><%= title %></a>
+        <span class="label label-success status"><%= status.upcase %></span>
+      </h1>
+                
+      </div>
+
+        <div class="collapse navbar-collapse">        
+          <ul class="nav navbar-nav main-nav navbar-right">
+            <% menus = get_menu(menu)%>
+            <% menus.each_index do |i| %>
+                <% menu = menus[i] %>
+                <li class="dropdown<%= ' last' if i == menus.length - 1 %>">
+                    <a href="<%= menu['link'] %>" <% if menu['items'] %> data-target="#" data-toggle="dropdown" <% end %>>
+                        <%= menu['title'] %>
+                        <% if menu['items'] %>
+                         <b class="caret"></b>
+                        <% end %>
+                     </a>
+                     <% if menu['items'] %>
+                        <ul class="dropdown-menu">
+                            <% menu['items'].each do |item| %>
+                                <li><a href="<%= item['link'] %>"><%= item['title'] %></a></li>
+                            <% end %>
+                        </ul>
+                    <% end %>
+                </li>
+            <% end %>
+          </ul>
+        </div>
+    </div>
+      
+      
+        
+       
         
       </div>
 
