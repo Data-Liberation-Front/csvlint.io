@@ -90,3 +90,5 @@ gem 'rest-client'
 gem 'nokogiri', '~> 1.5'
 
 gem 'airbrake'
+
+gem 'font-awesome-rails'
