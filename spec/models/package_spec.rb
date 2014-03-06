@@ -96,10 +96,15 @@ describe Package do
     
       package = Package.check_datapackage(url)
       dataset = DataKitten::Dataset.new(access_url: url)
-          
+      package_dataset = Marshal.load(package.dataset)
+                
       package.url.should == url
-      package.dataset.should == Marshal.dump(dataset)
       package.validations.count.should == 1
+      
+      package_dataset.access_url.should == dataset.access_url
+      package_dataset.data_title.should == dataset.data_title
+      package_dataset.description.should == dataset.description
+      package_dataset.resources.should == dataset.resources
     end
   
     it "creates multiple validations for a datapackage with multiple CSVs" do
@@ -184,10 +189,15 @@ describe Package do
     
       package = Package.check_datapackage(url)
       dataset = DataKitten::Dataset.new(access_url: url)
+      package_dataset = Marshal.load(package.dataset)
     
       package.url.should == url
-      package.dataset.should == Marshal.dump(dataset)
       package.validations.count.should == 1
+      
+      package_dataset.access_url.should == dataset.access_url
+      package_dataset.data_title.should == dataset.data_title
+      package_dataset.description.should == dataset.description
+      package_dataset.resources.should == dataset.resources
     end
   
     it "creates multiple validations for a datapackage with multiple CSVs", :vcr do
