@@ -20,11 +20,11 @@ class Package
 
   has_many :validations
 
-  def self.parse_package(dataset)
+  def self.parse_package(dataset, validations)
     attributes = {
       :url => dataset.origin == :local ? nil : dataset.access_url,
       :dataset => Marshal.dump(dataset),
-      :validations => [],
+      :validations => validations,
       :type => dataset.publishing_format
     }
 
@@ -69,19 +69,24 @@ class Package
     dataset = create_dataset(source)
     return nil unless [:ckan, :datapackage].include? dataset.publishing_format
     
-    package = create( parse_package(dataset) )
-    add_validations(package, dataset)
+    validations = create_validations(dataset)
+    
+    return nil if validations.count == 0
+    
+    package = create( parse_package(dataset, validations) )
 
     package.save
     package
   end
   
-  def self.add_validations(package, dataset)
+  def self.create_validations(dataset)
+    validations = []
     dataset.distributions.each do |distribution|
       if can_validate?(distribution)
-        package.validations << Validation.create_validation(distribution.access_url, nil, create_schema(distribution) )
+        validations << Validation.create_validation(distribution.access_url, nil, create_schema(distribution) )
       end
     end
+    validations
   end
   
   def self.can_validate?(distribution)
