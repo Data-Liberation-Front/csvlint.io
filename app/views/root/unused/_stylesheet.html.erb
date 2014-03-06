@@ -1,0 +1,9 @@
+<link href="http://assets.theodi.org/css/odi-bootstrap-green.css" rel="stylesheet">
+<%
+  css_file = local_assigns[:css_file] || 'application'
+%>
+<script type="text/javascript">
+  (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
+</script>
+
+<%= stylesheet_link_tag css_file %>
