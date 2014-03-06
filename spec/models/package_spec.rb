@@ -4,6 +4,12 @@ describe Package do
   
   include ActionDispatch::TestProcess
   
+  before :each do       
+   stub_request(:get, "http://example.org/api/3/action/package_show?id=non-csv-data-package.json").
+     with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+     to_return(:status => 200, :body => "", :headers => {})
+  end
+  
   context "with multiple URLs" do
     before :each do
       mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
