@@ -1,0 +1,98 @@
+/*------------------------------------*\
+    GENERAL
+\*------------------------------------*/
+
+// Attempt to smooth resized images
+img { -ms-interpolation-mode: bicubic; }
+
+// Make text within hero blocks from displaying outside it
+.article-hero {
+
+    .hero { position: relative; }
+
+    .hero-label { left: 0; }
+
+}
+
+/*------------------------------------*\
+    MASONRY BLOCKS
+\*------------------------------------*/
+
+// Masonry not present below IE8, so float the blocks left
+.home-module { float: left; }
+
+// Two columns
+.home-module { width: 48%; }
+.people-team .home-module { width: 48%; }
+
+// Three columns
+@media (min-width: 992px) {
+
+    .home-module {
+
+        width: 31.33%;
+
+    }
+
+    .people-team .home-module {
+    
+        width: 31.33%;
+        
+    }
+
+
+}
+
+// Bring team names back inside people blocks
+.people-team .category { position: static !important; }
+
+/*------------------------------------*\
+    NAVIGATION
+\*------------------------------------*/
+
+// Form on main nav
+.site-header {
+
+    .navbar-form input {
+
+        &[type=text] {
+
+            border-bottom: 0;
+            height: auto;
+            padding-top: 5px;
+            padding-bottom: 8px;
+
+        }
+
+    }
+
+}
+
+// Close inexplicable gaps above nav items
+.main-nav > li { margin-top: -3px; }
+
+// Fix broken padding on the mobile nav
+@media (max-width:767px) {
+
+    .navbar .container { padding: 0; }
+    .navbar-nav { padding: 0 15px; }
+
+}
+/*------------------------------------*\
+    FOOTER
+\*------------------------------------*/
+
+// Get footer links back over to the right, but displaying in a vertical list
+.footer-nav {
+
+    width: 25% !important;
+    margin-right: 15px;
+
+    .list-inline > li {
+
+        display: block;
+        text-align: right;
+
+    }
+
+}

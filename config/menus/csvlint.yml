@@ -1,0 +1,9 @@
+-
+ title: "About"
+ link: "/about"
+-
+ title: "Recent validations"
+ link: "/validation/list"
+-
+ title: "Recent schemas"
+ link: "/schemas"
