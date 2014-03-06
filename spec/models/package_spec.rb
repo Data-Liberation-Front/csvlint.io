@@ -96,7 +96,7 @@ describe Package do
     
       package = Package.check_datapackage(url)
       dataset = DataKitten::Dataset.new(access_url: url)
-    
+          
       package.url.should == url
       package.dataset.should == Marshal.dump(dataset)
       package.validations.count.should == 1
@@ -177,6 +177,35 @@ describe Package do
     end
 
   end  
+  
+  context "with a CKAN URL" do
+    it "creates a validation for a CKAN package with a single CSV", :vcr do
+      url = 'http://data.gov.uk/dataset/uk-open-access-non-vosa-sites'
+    
+      package = Package.check_datapackage(url)
+      dataset = DataKitten::Dataset.new(access_url: url)
+    
+      package.url.should == url
+      package.dataset.should == Marshal.dump(dataset)
+      package.validations.count.should == 1
+    end
+  
+    it "creates multiple validations for a datapackage with multiple CSVs", :vcr do
+      url = 'http://data.gov.uk/dataset/uk-civil-service-high-earners'
+    
+      package = Package.check_datapackage(url)
+    
+      package.validations.count.should == 4
+    end
+    
+    it "returns nil if there are no CSVs", :vcr do
+      url = 'http://data.gov.uk/dataset/ratio-of-median-house-price-to-median-earnings'
+
+      package = Package.check_datapackage(url)
+      package.should == nil
+    end
+    
+  end
   
   
 end
