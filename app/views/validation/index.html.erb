@@ -15,13 +15,13 @@
           </div>
           <div class="input-group url-group"> 
             <%= url_field_tag 'urls[]', '', class: 'form-control', id: 'url_0', placeholder: t(:enter_csv_url) %>
-            <span class="input-group-btn btn btn-primary btn-clone">+</span>
+            <span class="input-group-btn btn btn-info btn-clone">+</span>
           </div>
-          <p>Or</p>
+          <p>Or upload a file:</p>
        
           <div class="input-group">  
 
-            <span class="input-group-btn btn btn-primary btn-file">
+            <span class="input-group-btn btn btn-info btn-file">
               Browse... <%= file_field_tag 'files[]', multiple: true %>
             </span>
             <%= text_field_tag 'filename', 'No file chosen', class: 'form-control', readonly: '' %>
@@ -38,9 +38,9 @@
       <div id="schemas" class="hidden">
        
             <%= url_field_tag 'schema_url', '', class: 'form-control', placeholder: t(:enter_schema_url)%>
-            <p>Or</p>
+            <p>Or upload a file:</p>
             <div class="input-group">  
-              <span class="input-group-btn btn btn-primary btn-file">
+              <span class="input-group-btn btn btn-info btn-file">
                 Browse... <%= file_field_tag 'schema_file' %>
               </span>
               <%= text_field_tag 'schema_filename', 'No schema file chosen', class: 'form-control', readonly: '' %>
