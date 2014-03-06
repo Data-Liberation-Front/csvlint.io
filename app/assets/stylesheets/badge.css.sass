@@ -1,0 +1,37 @@
+.open-data-node
+  position: relative
+
+  img
+    height: 60px
+
+  ul.open-data-node-details
+    display: none
+    position: absolute
+    left: 115px
+    top: -5px
+    z-index: 5000
+    min-width: 200px
+    text-align: left
+
+    li.open-data-node-title
+      font-size: 18px
+      display: inline-block
+      padding: 0 2px
+      color: black
+      text-transform: uppercase
+      margin-bottom: -5px
+    li
+      font-family: 'Helvetica Neue', Helvetica, sans-serif
+      font-size: 12px
+      display: block
+      margin: 1px 0
+      white-space: nowrap
+      overflow: hidden
+      span
+        display: inline-block
+        background-color: black
+        color: white
+        padding: 0 2px
+
+  &:hover ul.open-data-node-details
+    display: block
