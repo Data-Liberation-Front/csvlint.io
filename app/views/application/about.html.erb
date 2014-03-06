@@ -1,0 +1,324 @@
+<% content_for :title do %>
+  About
+<% end %>
+
+<p>CSV looks easy, but it can be hard to make a CSV file that other people can work with. <strong>CSVLint</strong> helps you to check that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
+
+<h2>How to Use CSVLint</h2>
+
+<p>Follow these three steps:</p>
+
+<ol>
+<li>Enter the location of the CSV file you want to check, or upload it if it's not on the web already.</li>
+<li>Do you have a schema? If you do, you can enter its location or upload it.</li>
+<li>Hit the big <strong>Validate</strong> button.</li>
+</ol>
+
+<p>You'll see a page that tells you how to improve your CSV file, if it needs improvement.</p>
+
+<ul>
+<li><strong>Errors</strong> are things you really need to fix, because they'll stop people from being able to use your data</li>
+<li><strong>Warnings</strong> are thing you should fix if you can because doing so will help people to use your data</li>
+<li><strong>Information</strong> messages are hints and tips of things that could make the data easier to use</li>
+</ul>
+
+<h3>Get a Badge</h3>
+
+<p>On the page that summarises the CSV, you'll also see a badge, which might look like this:</p>
+
+<p><img alt=":csv%20 %20warnings yellow" src="http://b.adge.me/:CSV%20-%20warnings-yellow.svg"></p>
+
+<p>If you click on that you'll get a pop-up that gives you some code for embedding the badge in your page. You can put that next to some CSV and it means you and other people will be able to see whether the CSV is valid or not.</p>
+
+<p>Wear your valid CSV badge with pride!</p>
+
+<h3>Fix that CSV</h3>
+
+<p>We can fix some of the errors that we find in CSV files, such as bad encodings. At the bottom of the page that shows you how to improve the file, you'll see a button that says <strong>Download Standardised CSV File</strong>.</p>
+
+<p>That won't fix all the problems: we won't delete empty lines or try to fix up values that are in the wrong format. We can't change the way your server provides CSV either, so you'll still be warned if it's not using the right <code>Content-Type</code> header.</p>
+
+<h3>See What Else People are Validating</h3>
+
+<p>The <a href="/validation/list">Recent validations</a> page gives a list of other files people have been validating recently. You might find something interesting there!</p>
+
+<h3>Find a Schema</h3>
+
+<p>The <a href="/schemas">Recent schemas</a> page gives a list of schemas that people have been using to validate their CSV files. See if there's a schema that you could use!</p>
+
+<h2>How to Write Good CSV</h2>
+
+<p>Good CSVs look like this:</p>
+
+<pre><code>OrganisationId,WeekDay,Times,IsOpen,OpeningTimeType
+1186,Monday,09:30-13:00,True,General
+1186,Monday,13:30-17:30,True,General
+...
+</code></pre>
+
+<p>for a table like this:</p>
+
+<table class="table">
+<thead>
+ <tr>
+   <th>OrganisationId</th>
+   <th>WeekDay</th>
+   <th>Times</th>
+   <th>IsOpen</th>
+   <th>OpeningTimeType</th>
+ </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>1186</td>
+    <td>Monday</td>
+    <td>09:30-13:00</td>
+    <td>True</td>
+    <td>General</td>
+  </tr>
+  <tr>
+    <td>1186</td>
+    <td>Monday</td>
+    <td>13:30-17:30</td>
+    <td>True</td>
+    <td>General</td>
+  </tr>
+  <tr>
+    <td colspan="5">...</td>
+  </tr>
+</tbody>
+</table>
+
+<p>The first row is a header row that contains the names of some columns.</p>
+
+<p>The rest of the rows are data rows that contain a number of fields.</p>
+
+<p>Line endings use <code>CRLF</code> (Windows line endings) and the column names and fields are separated by commas.</p>
+
+<p>If a field contains a comma, a line ending or a double quote then the field is escaped by wrapping it in double quotes. Within a field that's escaped like that, any double quotes are doubled up. For example:</p>
+
+<pre><code>OrganisationCode,OrganisationName,Address1,Address2,Address3,City,County,Postcode
+1-231076921,"Next Stage ""A Way Forward"" Ltd",Head Office,"HR House, 28 Manchester Road",Westhoughton,Bolton,Lancashire,BL5 3QJ
+...
+</code></pre>
+
+<p>for a table like this:</p>
+
+<table class="table">
+<thead>
+ <tr>
+   <th>OrganisationCode</th>
+   <th>OrganisationName</th>
+   <th>Address1</th>
+   <th>Address2</th>
+   <th>Address3</th>
+   <th>City</th>
+   <th>County</th>
+   <th>Postcode</th>         
+ </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>1-231076921</td>
+    <td>Next Stage "A Way Forward" Ltd</td>
+    <td>Head Office </td>
+    <td>HR House, 28 Manchester Road</td>
+    <td>Westhoughton</td>
+    <td>Bolton</td>
+    <td>Lancashire</td>
+    <td>BL5 3QJ</td>
+  </tr>
+  <tr>
+    <td colspan="7">...</td>
+  </tr>
+</tbody>
+</table>
+
+
+<h3>Common Errors</h3>
+
+<p>We check the following things about the CSV that you publish:</p>
+
+<ul>
+<li>that there are no encoding errors because of odd characters in the file</li>
+<li>all the line breaks should be the same</li>
+<li>there should be a header line</li>
+<li>all the columns should have a name</li>
+<li>all the column names should be different</li>
+<li>every row in the file should have the same number of columns</li>
+<li>none of the rows should be blank</li>
+<li>all the quotes should be matched up</li>
+<li>there shouldn't be any whitespace between commas and double quotes around fields</li>
+</ul>
+
+<p>If we get the CSV from a URL, then we also check:</p>
+
+<ul>
+<li>that the file exists (we don't get a <code>404 Not Found</code> response)</li>
+<li>that the content type isn't set to something other than <code>text/csv</code></li>
+</ul>
+
+<p>If you don't do all the things above, then you'll get an error message.</p>
+
+<h3>Common Warnings</h3>
+
+<p>We warn you if:</p>
+
+<ul>
+<li>you don't use UTF-8 as the encoding for the file</li>
+<li>the CSV file only contains a single comma-separated column; this usually means you're using a separator other than a comma</li>
+<li>any column contains inconsistent values, for example if most values in a column are numeric but there's a significant proportion that aren't</li>
+</ul>
+
+<p>and if we get the CSV from a URL, we also warn you if:</p>
+
+<ul>
+<li>you don't provide a <code>Content-Type</code> HTTP header</li>
+<li>you don't specify an encoding with a <code>charset</code> parameter</li>
+<li>it looks like you're serving an Excel file rather than CSV (because the suffix for the file is <code>.xls</code>)</li>
+</ul>
+
+<h3>Extra Information</h3>
+
+<p>We let you know if you use line breaks that aren't <code>CRLF</code> (Windows line endings). That's because <a href="http://tools.ietf.org/html/rfc4180">RFC4180</a>, which is the closest thing to standard CSV that there is, says that you should use <code>CRLF</code> line endings.</p>
+
+<h2>How to Write a Schema</h2>
+
+<p>We currently recognise schemas that use the <a href="http://dataprotocols.org/json-table-schema/">JSON Table Schema</a>, with a few modifications.</p>
+
+<p>An example schema for the first CSV shown above could be:</p>
+
+<pre><code>{
+    "fields": [
+        { 
+            "name": "OrganisationId", 
+            "title": "Organisation ID",
+            "constraints": { 
+                "required": true,
+                "type": "http://www.w3.org/TR/xmlschema-2/#int"
+            } 
+        },
+        { 
+            "name": "WeekDay", 
+            "title": "Day of the week",
+            "constraints": { 
+                "required": true, 
+                "pattern": "(Mon|Tue|Wednes|Thurs|Fri|Satur|Sun)day"
+            } 
+        },
+        { 
+            "name": "Times", 
+            "constraints": { 
+                "required": true, 
+                "pattern": "(0[0-9]|1[0-2]):[0-5][0-9]-(0[0-9]|1[0-2]):[0-5][0-9]" 
+            } 
+        },
+        {
+            "name": "IsOpen",
+            "title": "Open?",
+            "constraints": {
+                "required": true,
+                "pattern": "(True|False)"
+            }
+        },
+        {
+            "name": "OpeningTimeType",
+            "title": "General or additional opening",
+            "constraints": {
+                "required": true,
+                "pattern": "(General|Additional)"
+            }
+        }
+    ]
+}
+</code></pre>
+
+<p>The constraints that CSVLint checks for are shown in the following table:</p>
+
+<table class="table">
+<thead>
+ <tr>
+   <th>Constraint</th>
+   <th>Value type</th>
+   <th>Description</th>
+ </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>required</td>
+    <td>boolean</td>
+    <td>if true, there must be a value in this column on every row</td>
+  </tr>
+  <tr>
+    <td>unique</td>
+    <td>boolean</td>
+    <td>if true, each row should have a different value in this column</td>
+  </tr>
+  <tr>
+    <td>minLength</td>
+    <td>integer</td>
+    <td>every value must contain at least this number of characters</td>
+  </tr>
+  <tr>
+    <td>maxLength</td>
+    <td>integer</td>
+    <td>no value can have more than this number of characters</td>
+  </tr>
+  <tr>
+    <td>pattern</td>
+    <td>regexp</td>
+    <td>values must match this regular expression</td>
+  </tr>
+  <tr>
+    <td>type</td>
+    <td>URL</td>
+    <td>a URL for a data type which every value must adhere to (see below)</td>
+  </tr>
+  <tr>
+    <td>minimum</td>
+    <td>number or date/time</td>
+    <td>every value must be at least this value </td>
+  </tr>
+  <tr>
+    <td>maximum</td>
+    <td>number or date/time</td>
+    <td>no value should be more than this value</td>
+  </tr>
+  <tr>
+    <td>datePattern</td>
+    <td><a href="http://www.tutorialspoint.com/c_standard_library/c_function_strftime.htm">strftime</a></td>
+    <td>the format for date/time values in this column</td>
+  </tr>
+</tbody>
+</table>
+
+<p>The supported data types are currently:</p>
+
+<ul>
+<li>string &mdash; <code>http://www.w3.org/2001/XMLSchema#string</code> (the default)</li>
+<li>integer &mdash; <code>http://www.w3.org/2001/XMLSchema#int</code></li>
+<li>float &mdash; <code>http://www.w3.org/2001/XMLSchema#float</code></li>
+<li>double &mdash; <code>http://www.w3.org/2001/XMLSchema#double</code></li>
+<li>URL &mdash; <code>http://www.w3.org/2001/XMLSchema#anyURI</code></li>
+<li>boolean &mdash; <code>http://www.w3.org/2001/XMLSchema#boolean</code></li>
+<li>non-positive integer &mdash; <code>http://www.w3.org/2001/XMLSchema#nonPositiveInteger</code></li>
+<li>positive integer &mdash; <code>http://www.w3.org/2001/XMLSchema#positiveInteger</code></li>
+<li>non-negative integer &mdash; <code>http://www.w3.org/2001/XMLSchema#nonNegativeInteger</code></li>
+<li>negative integer &mdash; <code>http://www.w3.org/2001/XMLSchema#negativeInteger</code></li>
+<li>date &mdash; <code>http://www.w3.org/2001/XMLSchema#date</code></li>
+<li>date &amp; time &mdash; <code>http://www.w3.org/2001/XMLSchema#dateTime</code></li>
+<li>year &mdash; <code>http://www.w3.org/2001/XMLSchema#gYear</code></li>
+<li>year &amp; month &mdash; <code>http://www.w3.org/2001/XMLSchema#gYearMonth</code></li>
+<li>time &mdash; <code>http://www.w3.org/2001/XMLSchema#time</code></li>
+</ul>
+
+<p>Use of an unknown data type will result in the column failing to validate.</p>
+
+<p>CSVLint will give validation error messages if these constraints aren't met. In addition we check that each column name in the CSV file is the same as the name for the column in the same position in the schema.</p>
+
+<p>We also warn you if:</p>
+
+<ul>
+<li>a column specified in the schema is missing entirely</li>
+<li>there are additional columns in the CSV file</li>
+</ul>
