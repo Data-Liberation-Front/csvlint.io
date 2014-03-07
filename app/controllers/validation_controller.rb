@@ -14,7 +14,7 @@ class ValidationController < ApplicationController
 
   def create            
     load_schema
-    params[:files] = check_zipfile(params[:files])
+    params[:files] = check_zipfile(params[:files]) unless params[:files].nil?
     package = check_for_package
     redirect_to package_path(package) and return if package
     
