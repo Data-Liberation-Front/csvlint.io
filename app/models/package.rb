@@ -1,3 +1,5 @@
+require 'zip'
+
 class LocalDataset < DataKitten::Dataset
   extend DataKitten::PublishingFormats::Datapackage
 
@@ -33,6 +35,8 @@ class Package
 
   def self.create_package(sources, schema_url = nil, schema = nil)
     return nil if sources.count == 0
+    
+    sources = check_zipfile(sources)
         
     if sources.count == 1 && possible_package?(sources.first)
       check_datapackage(sources.first)
@@ -102,8 +106,42 @@ class Package
   end
 
   def self.set_type(sources)
-    return "files" if sources.first.respond_to?(:tempfile)
+    return "files" if sources.first.respond_to?(:tempfile) || sources.first.class == Tempfile
     return "urls" if sources.first.class == String
+  end
+  
+  def self.check_zipfile(sources)
+    files = []
+    sources.each do |source| 
+      if zipfile?(source)    
+        open_zipfile(source, files)
+      else
+        files << source 
+      end
+    end
+    files
+  end
+  
+  def self.zipfile?(source)
+    return source.content_type == "application/zip"
+  end
+  
+  def self.open_zipfile(source, files)
+    Zip::File.open(source.path) do |zipfile|
+      zipfile.each do |entry|
+        next if entry.name =~ /__MACOSX/ or entry.name =~ /\.DS_Store/
+        files << read_zipped_file(entry)
+      end
+    end
+  end
+  
+  def self.read_zipped_file(entry)
+    filename = entry.name
+    basename = File.basename(filename)
+    tempfile = Tempfile.new(basename)
+    tempfile.write(entry.get_input_stream.read)
+    tempfile.rewind
+    ActionDispatch::Http::UploadedFile.new(:filename => filename, :tempfile => tempfile)
   end
 
 end
