@@ -1,6 +1,6 @@
 Feature: CSV Validation
   
-  Scenario: Upload multiple zipped CSVs for validation
+  Scenario: Upload a zipped file with multiple CSVs for validation
     When I go to the homepage
     And I attach the file "csvs/multiple_files.zip" to the "file" field
     And I press "Validate"
@@ -17,7 +17,7 @@ Feature: CSV Validation
     Then I should see a page of validation results
     And "valid.csv" should be persisted in the database
     And my file should be saved in the database
-  
+
   Scenario: Validate multiple zipped CSVs from a URL
     Given the fixture "csvs/multiple_files.zip" is available at the URL "http://example.org/multiple_files.zip"
     When I go to the homepage

@@ -80,6 +80,30 @@ describe ValidationController do
       package = Package.first
       response.location.should == package_url(package)
     end
+    
+    it "supports multiple zip urls" do
+       mock_file("http://example.com/valid.zip", 'csvs/valid.zip')
+       mock_file("http://example.com/multiple_files.zip", 'csvs/multiple_files.zip')
+       post 'create', urls: [
+                              'http://example.com/valid.zip',
+                              'http://example.com/multiple_files.zip',
+                            ]
+       response.should be_redirect
+       package = Package.first
+       package.validations.count.should == 4
+       response.location.should == package_url(package)
+    end
+    
+    it "supports multiple zip files" do
+      post 'create', files: [
+                        mock_upload('csvs/valid.zip', 'application/zip'),
+                        mock_upload('csvs/multiple_files.zip', 'application/zip'),
+                      ]
+      response.should be_redirect
+      package = Package.first
+      package.validations.count.should == 4
+      response.location.should == package_url(package)
+    end
 
   end
 
