@@ -56,6 +56,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'poltergeist'
+  gem 'vcr'
 end
 
 group :development do

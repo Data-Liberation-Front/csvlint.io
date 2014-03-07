@@ -27,7 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/theodi/data_kitten.git
-  revision: d2e0472570cbcf06921db272a4881de0f614618f
+  revision: 03735214f354bb39d7447a3f896211643ca8bd65
   specs:
     data_kitten (0.0.1)
       curb
@@ -425,6 +425,7 @@ GEM
     uglifier (2.4.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    vcr (2.8.0)
     webmock (1.17.3)
       addressable (>= 2.2.7)
       crack (>= 0.3.2)
@@ -477,4 +478,5 @@ DEPENDENCIES
   travis
   turbolinks
   uglifier (>= 1.3.0)
+  vcr
   webmock

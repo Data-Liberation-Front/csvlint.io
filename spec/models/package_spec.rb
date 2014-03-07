@@ -4,6 +4,12 @@ describe Package do
   
   include ActionDispatch::TestProcess
   
+  before :each do       
+   stub_request(:get, "http://example.org/api/3/action/package_show?id=non-csv-data-package.json").
+     with(:headers => {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}).
+     to_return(:status => 200, :body => "", :headers => {})
+  end
+  
   context "with multiple URLs" do
     before :each do
       mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
@@ -90,10 +96,15 @@ describe Package do
     
       package = Package.check_datapackage(url)
       dataset = DataKitten::Dataset.new(access_url: url)
-    
+      package_dataset = Marshal.load(package.dataset)
+                
       package.url.should == url
-      package.dataset.should == Marshal.dump(dataset)
       package.validations.count.should == 1
+      
+      package_dataset.access_url.should == dataset.access_url
+      package_dataset.data_title.should == dataset.data_title
+      package_dataset.description.should == dataset.description
+      package_dataset.resources.should == dataset.resources
     end
   
     it "creates multiple validations for a datapackage with multiple CSVs" do
@@ -171,6 +182,40 @@ describe Package do
     end
 
   end  
+  
+  context "with a CKAN URL" do
+    it "creates a validation for a CKAN package with a single CSV", :vcr do
+      url = 'http://data.gov.uk/dataset/uk-open-access-non-vosa-sites'
+    
+      package = Package.check_datapackage(url)
+      dataset = DataKitten::Dataset.new(access_url: url)
+      package_dataset = Marshal.load(package.dataset)
+    
+      package.url.should == url
+      package.validations.count.should == 1
+      
+      package_dataset.access_url.should == dataset.access_url
+      package_dataset.data_title.should == dataset.data_title
+      package_dataset.description.should == dataset.description
+      package_dataset.resources.should == dataset.resources
+    end
+  
+    it "creates multiple validations for a datapackage with multiple CSVs", :vcr do
+      url = 'http://data.gov.uk/dataset/uk-civil-service-high-earners'
+    
+      package = Package.check_datapackage(url)
+    
+      package.validations.count.should == 4
+    end
+    
+    it "returns nil if there are no CSVs", :vcr do
+      url = 'http://data.gov.uk/dataset/ratio-of-median-house-price-to-median-earnings'
+
+      package = Package.check_datapackage(url)
+      package.should == nil
+    end
+    
+  end
   
   
 end
