@@ -1,4 +1,5 @@
 require 'uri'
+require 'zip'
 
 class ValidationController < ApplicationController
   before_filter :manage_urls, :only => :create
@@ -13,6 +14,7 @@ class ValidationController < ApplicationController
 
   def create            
     load_schema
+    params[:files] = check_zipfile(params[:files])
     package = check_for_package
     redirect_to package_path(package) and return if package
     
@@ -132,6 +134,40 @@ class ValidationController < ApplicationController
           csv << row if row
         end
       end
+    end
+    
+    def check_zipfile(sources)
+      files = []
+      sources.each do |source| 
+        if zipfile?(source)    
+          open_zipfile(source, files)
+        else
+          files << source 
+        end
+      end
+      files
+    end
+
+    def zipfile?(source)
+      return source.content_type == "application/zip"
+    end
+
+    def open_zipfile(source, files)
+      Zip::File.open(source.path) do |zipfile|
+        zipfile.each do |entry|
+          next if entry.name =~ /__MACOSX/ or entry.name =~ /\.DS_Store/
+          files << read_zipped_file(entry)
+        end
+      end
+    end
+
+    def read_zipped_file(entry)
+      filename = entry.name
+      basename = File.basename(filename)
+      tempfile = Tempfile.new(basename)
+      tempfile.write(entry.get_input_stream.read)
+      tempfile.rewind
+      ActionDispatch::Http::UploadedFile.new(:filename => filename, :tempfile => tempfile)
     end
   
 end
