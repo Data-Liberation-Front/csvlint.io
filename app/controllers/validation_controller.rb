@@ -14,7 +14,7 @@ class ValidationController < ApplicationController
 
   def create            
     load_schema
-    params[:files] = check_zipfile(params[:files]) unless params[:files].nil?
+    check_zipfile
     package = check_for_package
     redirect_to package_path(package) and return if package
     
@@ -136,24 +136,41 @@ class ValidationController < ApplicationController
       end
     end
     
-    def check_zipfile(sources)
+    def check_zipfile
+      if params[:urls].presence && params[:urls].count > 0
+        type = :urls
+      else
+        type = :files
+      end
       files = []
-      sources.each do |source| 
-        if zipfile?(source)    
-          open_zipfile(source, files)
+      params[type].each do |source|
+        if zipfile?(source) 
+          open_zipfile(source, params[type], type)
         else
           files << source 
         end
       end
-      files
+      params[type] = files
     end
 
     def zipfile?(source)
-      return source.content_type == "application/zip"
+      if source.respond_to?(:tempfile)
+        return source.content_type == "application/zip"
+      else
+        return File.extname(source) == ".zip"
+      end
     end
 
-    def open_zipfile(source, files)
-      Zip::File.open(source.path) do |zipfile|
+    def open_zipfile(source, files, type)
+      if type == :urls
+        file = Tempfile.new(source.split("/").last)
+        file.binmode
+        file.write open(source).read
+        file.rewind
+      else
+        file = source.path
+      end
+      Zip::File.open(file) do |zipfile|
         zipfile.each do |entry|
           next if entry.name =~ /__MACOSX/ or entry.name =~ /\.DS_Store/
           files << read_zipped_file(entry)

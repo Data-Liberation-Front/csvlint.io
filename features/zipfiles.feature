@@ -18,5 +18,17 @@ Feature: CSV Validation
     And "valid.csv" should be persisted in the database
     And my file should be saved in the database
   
+  Scenario: Validate multiple zipped CSVs from a URL
+    Given the fixture "csvs/multiple_files.zip" is available at the URL "http://example.org/multiple_files.zip"
+    When I go to the homepage
+    And I enter "http://example.org/multiple_files.zip" in the "url" field
+    And I press "Validate"
+    Then I should be redirected to my package page
+    And I should see "valid.csv"
+    And I should see "warnings.csv"
+    And I should see "revalidate.csv"
+    And my datapackage should be persisited in the database
+    
+  
   
   

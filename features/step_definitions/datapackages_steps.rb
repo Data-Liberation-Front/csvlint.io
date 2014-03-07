@@ -10,7 +10,7 @@ Then(/^I should be redirected to my package page$/) do
 end
 
 Then(/^my datapackage should be persisited in the database$/) do
-  Package.first.url.should == @url
+  Package.count.should == 1
 end
 
 When(/^I click on the first report link$/) do
