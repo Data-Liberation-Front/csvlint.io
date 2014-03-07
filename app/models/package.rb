@@ -80,8 +80,30 @@ class Package
   end
   
   def self.set_type(sources)
-     return "files" if sources.first.respond_to?(:tempfile) 
-     return "urls" if sources.first.class == String
-   end
+    return "files" if sources.first.respond_to?(:tempfile) 
+    return "urls" if sources.first.class == String
+  end
+   
+  def self.create_validations(dataset)
+    validations = []
+    dataset.distributions.each do |distribution|
+      if can_validate?(distribution)
+        validations << Validation.create_validation(distribution.access_url, nil, create_schema(distribution) )
+      end
+    end
+   validations
+  end
+
+  def self.can_validate?(distribution)
+    return false unless distribution.format.extension == :csv
+    return distribution.access_url && distribution.access_url =~ /^http(s?)/
+  end
+
+  def self.create_schema(distribution)
+    unless distribution.schema.nil?
+      schema = Csvlint::Schema.from_json_table(nil, distribution.schema) 
+    end
+    return schema
+  end
 
 end
