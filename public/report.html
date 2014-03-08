@@ -100,33 +100,34 @@
                <h2>https://socrata.box.com/s/4g1kk4yhqdcp2qddqsqe</h2>
                <div class="row">
                  <div class="col-sm-4">
-                   <p><strong>Sorry</strong>, your CSV did not pass validation. Please review the errors and warnings below:</p>
+                   <p><strong>Sorry</strong>, your CSV did not pass validation. Please review the errors and warnings below.</p>
+                   <a class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-cloud-download"></i> Download CSV</a>
                  </div>
                  <div class="col-sm-8">
                   <table class="table table-hover report-results">
                     <tr>
                       <th></th>
-                      <th><span class="result">112</span>Errors</td>
-                      <th><span class="result">36</span>Warnings</td>
-                      <th><span class="result">2</span>Messages</td>
+                      <th class="danger"><span class="result">112</span>Errors</td>
+                      <th class="warning"><span class="result">36</span>Warnings</td>
+                      <th class="info"><span class="result">3</span>Messages</td>
                     </tr>
                     <tr>
-                      <td>Structure</td>
-                      <td class="warning">102</td>
-                      <td class="danger">1</td>
-                      <td class="info">0</td>
+                      <td class="name">Structure</td>
+                      <td class="danger">104</td>
+                      <td class="warning">1</td>
+                      <td class="active info-none">0</td>
                     </tr>
                     <tr>
-                      <td>Schema</td>
-                      <td class="warning">8</td>
-                      <td class="danger">0</td>
+                      <td class="name">Schema</td>
+                      <td class="danger">8</td>
+                      <td class="active warning-none">0</td>
                       <td class="info">2</td>
                     </tr>
                     <tr>
-                      <td>Context</td>
-                      <td class="warning">2</td>
-                      <td class="danger">35</td>
-                      <td class="info">0</td>
+                      <td class="name">Context</td>
+                      <td class="active danger-none">0</td>
+                      <td class="warning">35</td>
+                      <td class="info">1</td>
                     </tr>
                   </table>
                  </div>
@@ -146,7 +147,7 @@
 </div>
     <!-- Delimiter -->
     <div class="form-group">
-      <label for="delimiter">Field delimiter</label> <input class="form-control" id="delimiter" maxlength="1" name="delimiter" type="text" value=",">
+      <label for="delimiter">Field delimiter</label> <input class="form-control form-control-small" id="delimiter" maxlength="1" name="delimiter" type="text" value=",">
 </div>
     <!-- Line terminator -->
     <div class="form-group">
@@ -160,9 +161,9 @@
 </div>
     <!-- Quote char -->
     <div class="form-group">
-      <label for="quote_char">Quote character</label> <input class="form-control" id="quote_char" maxlength="1" name="quote_char" type="text" value='"'>
+      <label for="quote_char">Quote character</label> <input class="form-control form-control-small" id="quote_char" maxlength="1" name="quote_char" type="text" value='"'>
 </div>
-    <input class="btn btn-primary" name="commit" type="submit" value="Revalidate">
+    <input class="btn btn-warning" name="commit" type="submit" value="Revalidate">
 </form>
 <h2>118 Errors, 1 Warning</h2>
 
