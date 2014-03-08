@@ -1,120 +1,83 @@
 <% content_for :title do %>
-  Check your CSV files with CSVLint
+  <%= t(:results).titleize %>
 <% end %>
 
-<div class="row">
-  <p>CSV looks easy, but it can be hard to make a CSV file that other people can read easily. CSVLint helps you to check 
-  that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
+<% unless @validation.url.nil? && @validation.schema.nil? %>
+  <%= form_tag validation_path(params[:id]), :id => 'result_form' do %>
+    <%= hidden_field_tag '_method', "put"%>
+    <% unless @validation.url.nil? %>
+      <%= url_field_tag 'url', @validation.url, class: 'form-control', placeholder: t(:enter_csv_url)%>
+      <br/>
+    <% end %>
+    <% unless @validation.schema.nil? %>
+      <%= url_field_tag 'schema_url', @validation.schema.url, class: 'form-control', placeholder: t(:enter_schema_url)%>
+      <br/>
+    <% end %>
+    <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary btn-block btn-lg' %></span>
+  <% end %>
+<% end %>
 
-  <p>Just enter the location of the file you want to check, or upload it. If you have a schema which describes the 
-  contents of the CSV file, you can also give its URL or upload it. <a href="/about">Read more...</a></p>
-</div>
-
-<%= form_tag validation_index_path, multipart: true do %>
-<ul class="nav nav-tabs">
-  <li class="active"><a href="#url" data-toggle="tab">From URL</a></li>
-  <li><a href="#file" data-toggle="tab">From file</a></li>
-</ul>
-
-<div class="tab-content">
-  <div class="tab-pane active" id="url">
-    <div>
-  	<p>Submitted urls are recorded in a public <a href="/validation/list">list of validation reports</a>. If you want to validate 
-  	private data then use the <a href="#" id="switch">From file</a> option.</p>
-  	</div>
-    <div class="input-group url-template url-group hidden" style="margin-top: 5px"> 
-      <%= url_field_tag 'urls[]', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
-    </div>
-    <div class="input-group url-group"> 
-      <%= url_field_tag 'urls[]', '', class: 'form-control', id: 'url_0', placeholder: t(:enter_csv_url) %>
-      <span class="input-group-btn btn btn-primary btn-clone">+</span>
-    </div>
+<% if @result.valid? %>
+  <div class="alert alert-success" id="result">
+    <% if @result.warnings.count == 0 %>
+      <%= image_tag 'http://b.adge.me/:CSV%20-%20valid-green.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
+      <p><%= t(:valid_html) %></p>
+    <% else %>
+      <%= image_tag 'http://b.adge.me/:CSV%20-%20warnings-yellow.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
+      <p><%= t(:valid_html) %> <%= t(:valid_with_warnings) %></p>
+    <% end %>
   </div>
-   
-
-  <div class="tab-pane" id="file">
-    <div class="input-group">  
-      <span class="input-group-btn btn btn-primary btn-file">
-        Browse... <%= file_field_tag 'files[]', multiple: true %>
-      </span>
-      <%= text_field_tag 'filename', 'No file chosen', class: 'form-control', readonly: '' %>
-    </div>
+<% else %>
+  <div class="alert alert-danger" id="result">
+    <%= image_tag 'http://b.adge.me/:CSV%20-%20invalid-red.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
+    <p><%= t(:invalid_html) %></p>
+          
   </div>
+<% end %>
+
+<% if @result.warnings.select { |warning| warning.type == :check_options }.any? %>
+  <%= form_tag validation_path(params[:id]), id: 'revalidate', class: 'form-inline alert alert-warning' do %>
+    <p><%= t(:resubmit) %></p> 
   
-  <div class="checkbox">
-    <label>
-      <%= check_box_tag 'schema' %>
-      <%= label_tag 'schema', 'Add optional schema'%>
-    </label>
-  </div>
-</div>
-
-<div id="schemas" class="hidden">
-  <ul class="nav nav-tabs">
-    <li class="active"><a href="#schemaurl" data-toggle="tab">From URL</a></li>
-    <li><a href="#schemafile" data-toggle="tab">From file</a></li>
-  </ul>
-
-  <div class="tab-content">
-    <div class="tab-pane active" id="schemaurl">
-      <%= url_field_tag 'schema_url', '', class: 'form-control', placeholder: t(:enter_schema_url)%>
+    <%= hidden_field_tag 'url', @validation.url %>
+    <%= hidden_field_tag '_method', "put"%>
+    <% unless @validation.schema.nil? %>
+      <%= hidden_field_tag 'schema_url', @validation.schema.url %>
+    <% end %>
+    <!-- Header on or off -->
+    <div class="form-group">
+      <%= label_tag :header, t(:header) %> <%= check_box_tag :header, true, @dialect["header"] %>
     </div>
-
-    <div class="tab-pane" id="schemafile">
-      <div class="input-group">  
-        <span class="input-group-btn btn btn-primary btn-file">
-          Browse... <%= file_field_tag 'schema_file' %>
-        </span>
-        <%= text_field_tag 'schema_filename', 'No schema file chosen', class: 'form-control', readonly: '' %>
-      </div>
+    <!-- Delimiter -->
+    <div class="form-group">
+      <%= label_tag :delimiter, t(:field_delimiter)  %> <%= text_field_tag :delimiter, @dialect["delimiter"], class: 'form-control', maxlength: '1' %>
     </div>
-  </div>
-</div>
-
-<%= submit_tag t(:validate).titleize, class: 'btn btn-primary btn-block btn-lg' %>
-
+    <!-- Line terminator -->
+    <div class="form-group">
+      <%= label_tag :line_terminator, t(:line_terminator) %> <%= select_tag :line_terminator,  options_for_select({'Autodetect' => :auto, 'LF (\n)' => '\n', 'CRLF (\r\n)' => '\r\n'}, @dialect["lineTerminator"]) %>
+    </div>
+    <!-- Skip initial space -->
+    <div class="form-group">
+      <%= label_tag :skip_initial_space, t(:skip_inital_space) %> <%= check_box_tag :skip_initial_space, true, @dialect["skipInitialSpace"] %>
+    </div>
+    <!-- Quote char -->
+    <div class="form-group">
+      <%= label_tag :quote_char, t(:quote_character) %> <%= text_field_tag :quote_char, @dialect["quoteChar"], class: 'form-control', maxlength: '1' %>
+    </div>
+    <%= submit_tag t(:revalidate).titleize, class: 'btn btn-primary' %>
+  <% end %>
 <% end %>
 
-<% content_for :extra_javascript do %>
+<%= error_and_warning_count(@result.errors, @result.warnings, wrapper: :h2) %>
 
-<script type="text/javascript">
-	$(document)
-		.on('change', '.btn-file :file', function() {
-			var input = $(this),
-			numFiles = input.get(0).files ? input.get(0).files.length : 1,
-			label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-			input.trigger('fileselect', [numFiles, label]);
-	});
-	
-	$(document).ready( function() {
-	  var count = 1
-	  
-		$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-			
-			var input = $(this).parents('.input-group').find(':text'),
-				log = numFiles > 1 ? numFiles + ' files selected' : label;
-			
-			input.val(log);
-		});
-		
-		$('#schema').click(function() {
-		  $('#schemas').toggleClass('hidden')
-		})
-		
-		
-		$('.btn-clone').click(function() {
-		  cloned = $('.url-template:first').clone().appendTo('#url').removeClass('hidden');
-		  cloned.find('input:first').attr('id', 'url_' + count);
-		  $('.btn-clone:first').appendTo('.url-template:last');
-		  count = count + 1
-		})
-		
-   		$('#switch').click( function() {
-      		$('.nav-tabs > .active').next('li').find('a').trigger('click');
-      		return false;
-        });
+<%= render :partial => 'errors' %>
 
-	});		
-</script>
+<%= render :partial => 'warnings' %>
 
-<% end %>
+<%= render :partial => 'info_messages' %>
+
+<%= render 'badge_modal'%>
+
+<div>
+  <%= link_to '<i class="fa fa-cloud-download"></i> '.html_safe + t(:standardised_csv_download), validation_path(@validation, format: :csv), class: 'btn btn-primary' %>
+</div>

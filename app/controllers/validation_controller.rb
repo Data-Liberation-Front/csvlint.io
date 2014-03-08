@@ -5,11 +5,9 @@ class ValidationController < ApplicationController
   before_filter :preprocess, :only => :create
 
   def index
-    if params[:uri]
-      validator = Validation.where(:url => params[:uri]).first
-      render status: 404 and return if validator.nil?
-      redirect_to validation_path(validator, format: params[:format]), status: 303
-    end
+    validations = Validation.where(:url.ne => nil).sort_by{ |v| v.created_at }.reverse!
+    validations.uniq!{ |v| v.url }
+    @validations = Kaminari.paginate_array(validations).page(params[:page])
   end
 
   def create   
@@ -39,12 +37,6 @@ class ValidationController < ApplicationController
     v = Validation.find(params[:id])
     v.update_validation(dialect)
     redirect_to validation_path(v)
-  end
-  
-  def list
-    validations = Validation.where(:url.ne => nil).sort_by{ |v| v.created_at }.reverse!
-    validations.uniq!{ |v| v.url }
-    @validations = Kaminari.paginate_array(validations).page(params[:page])
   end
   
   private

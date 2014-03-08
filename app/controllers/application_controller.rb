@@ -9,6 +9,14 @@ class ApplicationController < ActionController::Base
   def standard_csv_options
     {row_sep: "\r\n", encoding: "UTF-8", force_quotes: true}
   end
+  
+  def index
+    if params[:uri]
+      validator = Validation.where(:url => params[:uri]).first
+      render status: 404 and return if validator.nil?
+      redirect_to validation_path(validator, format: params[:format]), status: 303
+    end
+  end
 
   def about
   end
