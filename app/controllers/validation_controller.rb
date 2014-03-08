@@ -2,7 +2,7 @@ require 'uri'
 require 'zipfile'
 
 class ValidationController < ApplicationController
-  before_filter :manage_urls, :only => :create
+  before_filter :preprocess, :only => :create
 
   def index
     if params[:uri]
@@ -13,11 +13,6 @@ class ValidationController < ApplicationController
   end
 
   def create   
-    load_schema
-    Zipfile.check!(params)
-    package = check_for_package
-    redirect_to package_path(package) and return if package
-    
     io = params[:urls].first.presence || params[:files].first.presence
     
     redirect_to root_path and return if io.nil?
@@ -53,12 +48,14 @@ class ValidationController < ApplicationController
   end
   
   private
-    
-    def manage_urls
+  
+    def preprocess
       remove_blanks!
-      unless params[:files].presence
-        redirect_to root_path and return unless urls_valid?
-      end
+      redirect_to root_path and return unless urls_valid? || params[:files].presence
+      load_schema
+      Zipfile.check!(params)
+      package = check_for_package
+      redirect_to package_path(package) and return if package
     end
     
     def urls_valid?
