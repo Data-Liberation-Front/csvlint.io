@@ -41,6 +41,11 @@
   .nav-tabs a {
     padding: 10px;
   }
+
+ .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+color: #fff;
+background-color: $odiOrange;
+}
   
   p {
   font-size: 17px;
@@ -121,6 +126,18 @@
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
+    }
+  }
+
+  .result-badge {
+    margin-top: 32px;
+  }
+
+  table.report-results {
+    .results {
+      font-size: 20px;
+      text-align: center;
+      display: block;
     }
   }
 }
