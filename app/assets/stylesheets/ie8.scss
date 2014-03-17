@@ -1,0 +1,52 @@
+// Images inside articles
+.article-body {
+
+    // Gap above to align with text
+    figure { margin-top: 7px; }
+
+}
+
+// Hero with text
+.article-hero {
+
+    .headline {
+
+        // Reduce top/bottom padding and remove min-height
+        padding: 50px 45px 70px 45px;
+        min-height: 0;
+
+        @media (min-width: 992px) {
+
+            // Reduce top/bottom padding and remove min-height
+            padding: 90px 45px 105px 45px;
+            min-height: 0;
+
+        }
+
+        @media (max-width: 979px) {
+
+            // Reduce top/bottom padding and remove min-height
+            padding: 50px 45px 70px 45px;
+            min-height: 0;
+
+        }
+
+        @media (max-width: 767px) {
+
+            // Greatly reduce top/bottom padding
+            padding: 55px 45px 65px 45px;
+            min-height: 0;
+
+        }
+
+    }
+
+}
+
+// Main page blocks
+.home-module {
+
+    // Some kind of rounding error means that two columns breaks at 50%...
+    width: 49.9%;
+
+}

@@ -30,6 +30,8 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder' #, '~> 1.2'
 
+gem 'bootstrap-sass'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -76,8 +78,6 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'rack-google-analytics'
-gem 'plek'
-gem 'slimmer', '~> 3.25.0'
 gem 'mongoid', github: 'mongoid/mongoid'
 gem 'mongoid-grid_fs', github: 'ahoward/mongoid-grid_fs'
 gem 'bson_ext'
@@ -91,3 +91,4 @@ gem 'rest-client'
 gem 'nokogiri', '~> 1.5'
 
 gem 'airbrake'
+gem 'font-awesome-rails'

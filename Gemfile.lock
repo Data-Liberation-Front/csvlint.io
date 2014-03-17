@@ -42,7 +42,6 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    PriorityQueue (0.1.2)
     actionmailer (4.0.3)
       actionpack (= 4.0.3)
       mail (~> 2.5.4)
@@ -77,6 +76,8 @@ GEM
     bootstrap-kaminari-views (0.0.3)
       kaminari (>= 0.13)
       rails (>= 3.1)
+    bootstrap-sass (3.1.1.0)
+      sass (~> 3.2)
     bson (2.2.1)
     bson_ext (1.5.1)
     builder (3.1.4)
@@ -155,6 +156,8 @@ GEM
     faraday_middleware (0.9.0)
       faraday (>= 0.7.4, < 0.9)
     ffi (1.9.3)
+    font-awesome-rails (4.0.3.1)
+      railties (>= 3.2, < 5.0)
     foreman (0.63.0)
       dotenv (>= 0.7)
       thor (>= 0.13.6)
@@ -225,8 +228,6 @@ GEM
       celluloid-io (>= 0.15.0)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
-    lrucache (0.1.4)
-      PriorityQueue (~> 0.1.2)
     lumberjack (1.0.4)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -246,11 +247,9 @@ GEM
     net-http-pipeline (1.0.1)
     nio4r (1.0.0)
     nokogiri (1.5.11)
-    null_logger (0.0.1)
     open_uri_redirections (0.1.4)
     optionable (0.2.0)
     origin (2.1.0)
-    plek (1.7.0)
     poltergeist (1.5.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -354,14 +353,6 @@ GEM
       multi_json
       simplecov-html (~> 0.8.0)
     simplecov-html (0.8.0)
-    slimmer (3.25.0)
-      json
-      lrucache (~> 0.1.3)
-      nokogiri (~> 1.5.0)
-      null_logger
-      plek (>= 0.1.8)
-      rack (>= 1.3.5)
-      rest-client
     slop (3.4.7)
     sparql (1.1.2.1)
       builder (>= 3.0)
@@ -440,6 +431,7 @@ PLATFORMS
 DEPENDENCIES
   airbrake
   bootstrap-kaminari-views
+  bootstrap-sass
   bson_ext
   coffee-rails (~> 4.0.0)
   coveralls
@@ -450,6 +442,7 @@ DEPENDENCIES
   dotenv-rails
   factory_girl_rails
   faker
+  font-awesome-rails
   foreman
   guard-bundler
   guard-cucumber
@@ -461,7 +454,6 @@ DEPENDENCIES
   mongoid-grid_fs!
   mysql2
   nokogiri (~> 1.5)
-  plek
   poltergeist
   pry
   rack-google-analytics
@@ -470,7 +462,6 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 4.0.0)
   sdoc
-  slimmer (~> 3.25.0)
   sqlite3
   therubyracer
   thin
