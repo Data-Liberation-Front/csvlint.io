@@ -9,13 +9,15 @@
 
           <p>Submitted urls are recorded in a public <a href="/validation/list">list of validation reports</a>. If you want to validate 
           private data then use the <a href="#" id="switch">From file</a> option.</p>
-        
-          <div class="input-group url-template url-group hidden" style="margin-top: 5px"> 
-            <%= url_field_tag 'urls[]', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
-          </div>
-          <div class="input-group url-group"> 
-            <%= url_field_tag 'urls[]', '', class: 'form-control', id: 'url_0', placeholder: t(:enter_csv_url) %>
-            <span class="input-group-btn btn btn-info btn-clone">+</span>
+          
+          <div id="url">
+            <div class="input-group url-template url-group hidden" style="margin-top: 5px"> 
+              <%= url_field_tag 'urls[]', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
+            </div>
+            <div class="input-group url-group"> 
+              <%= url_field_tag 'urls[]', '', class: 'form-control', id: 'url_0', placeholder: t(:enter_csv_url) %>
+              <span class="input-group-btn btn btn-info btn-clone">+</span>
+            </div>
           </div>
           <p>Or upload a file:</p>
        
