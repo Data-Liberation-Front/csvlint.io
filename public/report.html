@@ -1,0 +1,1773 @@
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>CSVLint</title>
+<link href="//static.theodi.org/assets/application-460f2a11b354899d51a1c0ad33bdafd8.css" media="all" rel="stylesheet" type="text/css">
+<link href="//static.theodi.org/assets/labs-7e5b3857f68af1b5f0aa1070af0e9a67.css" media="all" rel="stylesheet" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="//static.theodi.org/assets/favicon-17bdde818bd1ed3c6d4d7c28b332ba50.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries --><!--[if lt IE 9]>
+      <script src="//static.theodi.org/assets/html5shiv-15497632567c92c2983df0b62c0f4122.js" type="text/javascript"></script>
+    <![endif]--><!-- Respond.js in IE7 and IE8 only --><!--[if (IE 7)|(IE 8)]>
+      <script src="//static.theodi.org/assets/respond.min-586587827568054b3b2ab3100dc63e64.js" type="text/javascript"></script>
+    <![endif]--><!-- Modernizr to detect CSS transitions etc., for Masonry animations --><script src="//static.theodi.org/assets/modernizr.custom-e3be7bd8636c85430cd11918931ccbf2.js" type="text/javascript"></script><!-- IE-only stylesheets --><!--[if lte IE 9]><link href="//static.theodi.org/assets/ie9-1b13569e9620782f423d4cd3ce931750.css" media="screen" rel="stylesheet" type="text/css" /><![endif]--><!--[if lte IE 8]><link href="//static.theodi.org/assets/ie8-1a6719828c5bdfdc3c31b512eed8db4f.css" media="screen" rel="stylesheet" type="text/css" /><![endif]--><!--[if lte IE 7]><link href="//static.theodi.org/assets/ie7-48e0681770f4f2d330196c5fea838f73.css" media="screen" rel="stylesheet" type="text/css" /><![endif]--><!--[if lt IE 7]><link href="//static.theodi.org/assets/ie6-d2cc69546830e4cda3ff32f16d164614.css" media="screen" rel="stylesheet" type="text/css" /><![endif]--><link href="/assets/application-a78bb8a8d4c3489ea1ff0bf2566c3b19.css" media="all" rel="stylesheet">
+<meta content="authenticity_token" name="csrf-param">
+<meta content="dvICAWZzI53f3WQgEt6tDzDu9XuQ7IK3H5TKUDJyVmM=" name="csrf-token">
+<script type="text/javascript">
+
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-34573394-11', {});
+
+
+
+
+
+
+
+
+
+
+
+   ga('send', 'pageview');
+
+
+</script></head>
+<body class="odi-orange">
+       <header class="site-header">
+     
+     <div class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+      <div class="navbar-header">
+        
+       <!-- Mobile nav toggle -->
+       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+           <span class="icon-bar"></span>
+           <span class="icon-bar"></span>
+           <span class="icon-bar"></span>
+       </button>
+       
+      <h1 class="site-title">
+        <a href="/">CSV Lint</a>
+        <span class="label label-success status">ALPHA</span>
+      </h1>
+                
+      </div>
+
+        <div class="collapse navbar-collapse">        
+          <ul class="nav navbar-nav main-nav navbar-right">
+                <li class="dropdown">
+                    <a href="/about" >
+                        About
+                     </a>
+                </li>
+                <li class="dropdown">
+                    <a href="/validation/list" >
+                        Recent validations
+                     </a>
+                </li>
+                <li class="dropdown last">
+                    <a href="/schemas" >
+                        Recent schemas
+                     </a>
+                </li>
+          </ul>
+        </div>
+    </div>
+      
+      
+        
+       
+        
+      </div>
+
+    </header> <!-- /site-header --><div id="wrapper">
+      <header><div class="container">
+              <h1 class="pull-left">  Validation Results
+</h1><img alt=":csv%20 %20invalid red" data-target="#badgeModal" data-toggle="modal" src="http://b.adge.me/:CSV%20-%20invalid-red.svg" class="pull-right result-badge" />
+          </div>
+      </header><div class="container">
+        <div class="row">
+          <div class="col-md-12"> 
+            <div class="panel panel-default">
+              <div class="panel-body">
+               <h2>https://socrata.box.com/s/4g1kk4yhqdcp2qddqsqe</h2>
+               <div class="row">
+                 <div class="col-sm-4">
+                   <p><strong>Sorry</strong>, your CSV did not pass validation. Please review the errors and warnings below.</p>
+                   <a class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-cloud-download"></i> Download CSV</a>
+                 </div>
+                 <div class="col-sm-8">
+                  <table class="table table-hover report-results">
+                    <tr>
+                      <th></th>
+                      <th class="danger"><span class="result">112</span>Errors</td>
+                      <th class="warning"><span class="result">36</span>Warnings</td>
+                      <th class="info"><span class="result">3</span>Messages</td>
+                    </tr>
+                    <tr>
+                      <td class="name">Structure</td>
+                      <td class="danger">104</td>
+                      <td class="warning">1</td>
+                      <td class="active info-none">0</td>
+                    </tr>
+                    <tr>
+                      <td class="name">Schema</td>
+                      <td class="danger">8</td>
+                      <td class="active warning-none">0</td>
+                      <td class="info">2</td>
+                    </tr>
+                    <tr>
+                      <td class="name">Context</td>
+                      <td class="active danger-none">0</td>
+                      <td class="warning">35</td>
+                      <td class="info">1</td>
+                    </tr>
+                  </table>
+                 </div>
+               </div>
+              </div>
+            </div>
+          </div>
+
+  <form accept-charset="UTF-8" action="/validation/53112a5d63737608050c0000" class="form-inline alert alert-warning" id="revalidate" method="post">
+<div style="margin:0;padding:0;display:inline">
+<input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="dvICAWZzI53f3WQgEt6tDzDu9XuQ7IK3H5TKUDJyVmM=">
+</div>
+    <p>Your CSV file appears to only contain a single column. This may indicate that it is being incorrectly parsed. You can try resubmitting it using a different dialect.</p> 
+  
+    <input id="url" name="url" type="hidden" value="https://socrata.box.com/s/4g1kk4yhqdcp2qddqsqe"><input id="_method" name="_method" type="hidden" value="put"><!-- Header on or off --><div class="form-group">
+      <label for="header">Header row?</label> <input checked id="header" name="header" type="checkbox" value="true">
+</div>
+    <!-- Delimiter -->
+    <div class="form-group">
+      <label for="delimiter">Field delimiter</label> <input class="form-control form-control-small" id="delimiter" maxlength="1" name="delimiter" type="text" value=",">
+</div>
+    <!-- Line terminator -->
+    <div class="form-group">
+      <label for="line_terminator">Line terminator</label> <select id="line_terminator" name="line_terminator"><option selected value="auto">Autodetect</option>
+<option value="\n">LF (\n)</option>
+<option value="\r\n">CRLF (\r\n)</option></select>
+</div>
+    <!-- Skip initial space -->
+    <div class="form-group">
+      <label for="skip_initial_space"><span class="translation_missing" title="translation missing: en.skip_inital_space">Skip Inital Space</span></label> <input checked id="skip_initial_space" name="skip_initial_space" type="checkbox" value="true">
+</div>
+    <!-- Quote char -->
+    <div class="form-group">
+      <label for="quote_char">Quote character</label> <input class="form-control form-control-small" id="quote_char" maxlength="1" name="quote_char" type="text" value='"'>
+</div>
+    <input class="btn btn-warning" name="commit" type="submit" value="Revalidate">
+</form>
+<h2>118 Errors, 1 Warning</h2>
+
+
+  <div class="alert alert-danger">
+    <p>Context problem: <strong>Incorrect content type
+</strong></p>
+  <p>Your CSV file is being delivered with an incorrect <code>Content-Type</code> of <code>text/html; charset=utf-8</code>. <br>
+We recommend that you configure your server to deliver CSV files with a <code>Content-Type</code> header of <code>text/csv; charset=utf-8</code>
+</p>
+	  <p><strong>Note</strong>: It appears that your are using Amazon S3 to deliver your data. You must set the content type of the object when uploading 
+the data to S3 to ensure that it is delivered correctly.
+        
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 3  
+</strong></p>
+  	<pre>&lt;html lang="en" style="overflow: hidden;"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 5  
+</strong></p>
+  	<pre>		&lt;meta charset="utf-8"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 7  
+</strong></p>
+  	<pre>							&lt;meta property="og:description" content="" /&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 8  
+</strong></p>
+  	<pre>			&lt;meta property="og:image" content="https://socrata.app.box.com/?shared_name=4g1kk4yhqdcp2qddqsqe" /&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 9  
+</strong></p>
+  	<pre>				&lt;meta name="keywords" content="free online storage, online storage, online file storage, share files online, photo sharing online, store documents online, retrieve documents, internet storage, online data backup, file storage, file sharing, photo sharing, online photo gallery, photos online, data backup, online backup, mobile data access, data networking, storage solution, virtual hard drive, remote backup, internet uploading, share files online, file hosting, save files, thumb drive, storage disk, remote access, web hosting, group collaboration, gigabyte of storage, gigabyte of space, group access, online disk storage, online data storage, file storage online, personal online space, secure file sharing, online photo sharing, online photos, backup data, online backup services, mobile media browser, networking &amp;amp; data, network storage solution, internet file storage, backup remote, online file hosting." /&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 10  
+</strong></p>
+  	<pre>		&lt;link rel="icon" href="https://e1.boxcdn.net/_assets/img/favicon-iBN5AI.png"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 11  
+</strong></p>
+  	<pre>		&lt;meta name="robots" content="noindex, nofollow"/&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 12  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 13  
+</strong></p>
+  	<pre>												&lt;link rel="stylesheet" href="https://e1.boxcdn.net/_assets/css/section_application-9ck4cz.css" type="text/css" media="screen" /&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 14  
+</strong></p>
+  	<pre>						&lt;link rel="stylesheet" href="https://e1.boxcdn.net/_assets/css/section_templ_box_show_shared_file_lightbox-M-naNO.css" type="text/css" media="screen" /&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 16  
+</strong></p>
+  	<pre>					&lt;link rel="stylesheet" type="text/css" href="https://e1.boxcdn.net/dynamic/theme_16975_kGXentcce867.css" /&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 17  
+</strong></p>
+  	<pre>					&lt;link id="box_custom_theme_common_css" rel="stylesheet" href="https://e1.boxcdn.net/_assets/css/box_custom_theme-UDdc0E.css" type="text/css" /&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 18  
+</strong></p>
+  	<pre>					&lt;link id="box_custom_theme_common_css" rel="stylesheet" href="https://e1.boxcdn.net/_assets/css/sprites/custom_theme-sprite-YWCjvr.css" type="text/css" /&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 20  
+</strong></p>
+  	<pre>						&lt;script type="text/javascript"&gt; var site_root = '/'
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 21  
+</strong></p>
+  	<pre>,https_root = 'https://app.box.com/';&lt;/script&gt;
+</pre>
+  <p>Row 21 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 22  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 24  
+</strong></p>
+  	<pre>&lt;script type="text/javascript"&gt; var script_url = 'https://app.box.com/'
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 25  
+</strong></p>
+  	<pre>,images_path = '/img/'
+</pre>
+  <p>Row 25 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 26  
+</strong></p>
+  	<pre>,images_box_path = '/img/box/'
+</pre>
+  <p>Row 26 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 27  
+</strong></p>
+  	<pre>,css_path = '/css/'
+</pre>
+  <p>Row 27 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 28  
+</strong></p>
+  	<pre>,js_path = '/js/'
+</pre>
+  <p>Row 28 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 29  
+</strong></p>
+  	<pre>,assets_index_file = 'assets-index'
+</pre>
+  <p>Row 29 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 30  
+</strong></p>
+  	<pre>,assets_index_mini_file = 'assets-index-mini'
+</pre>
+  <p>Row 30 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 31  
+</strong></p>
+  	<pre>,assets_base = '_assets'
+</pre>
+  <p>Row 31 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 32  
+</strong></p>
+  	<pre>,assets_url = 'https://%s/_assets%s';&lt;/script&gt;
+</pre>
+  <p>Row 32 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 35  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 37  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 39  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 42  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 43  
+</strong></p>
+  	<pre>		&lt;script type="text/javascript"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 45  
+</strong></p>
+  	<pre>		,is_embed_widget = ''
+</pre>
+  <p>Row 45 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 46  
+</strong></p>
+  	<pre>		,widget_view = ''
+</pre>
+  <p>Row 46 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 47  
+</strong></p>
+  	<pre>		,widget_sort = ''
+</pre>
+  <p>Row 47 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 48  
+</strong></p>
+  	<pre>		,widget_direction = ''
+</pre>
+  <p>Row 48 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 49  
+</strong></p>
+  	<pre>		,widget_original_url = ''
+</pre>
+  <p>Row 49 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 50  
+</strong></p>
+  	<pre>		,widget_show_item_feed_actions = ''
+</pre>
+  <p>Row 50 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 51  
+</strong></p>
+  	<pre>		,widget_show_parent_path = ''
+</pre>
+  <p>Row 51 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 52  
+</strong></p>
+  	<pre>		,widget_root_folder_id = ''
+</pre>
+  <p>Row 52 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 53  
+</strong></p>
+  	<pre>		,widget_view_file_only = ''
+</pre>
+  <p>Row 53 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 54  
+</strong></p>
+  	<pre>		,widget_shared_name = ''
+</pre>
+  <p>Row 54 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 55  
+</strong></p>
+  	<pre>				,path_prefix = ''
+</pre>
+  <p>Row 55 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 56  
+</strong></p>
+  	<pre>		,open_link_in_new_window = 0		,promoted_app_ids = '';
+</pre>
+  <p>Row 56 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 58  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 60  
+</strong></p>
+  	<pre>&lt;!--[if IE 7]&gt;     &lt;body class="ie ie7 lte_ie9 lte_ie8 lte_ie7" id="site_body"&gt; &lt;![endif]--&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 61  
+</strong></p>
+  	<pre>&lt;!--[if IE 8]&gt;     &lt;body class="ie ie8 lte_ie9 lte_ie8" id="site_body"&gt; &lt;![endif]--&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 62  
+</strong></p>
+  	<pre>&lt;!--[if IE 9]&gt;     &lt;body class="ie ie9 lte_ie9" id="site_body"&gt; &lt;![endif]--&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 63  
+</strong></p>
+  	<pre>&lt;!--[if gt IE 9]&gt;  &lt;body id="site_body"&gt; &lt;![endif]--&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 64  
+</strong></p>
+  	<pre>&lt;!--[if !IE]&gt;&lt;!--&gt; &lt;body id="site_body"&gt; &lt;!--&lt;![endif]--&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 65  
+</strong></p>
+  	<pre>		&lt;div class="head fw module" style="position: fixed; z-index: 52" data-module="preview-shared-file"&gt;			&lt;div class="header" role="navigation"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 66  
+</strong></p>
+  	<pre>				&lt;div class="phl"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 67  
+</strong></p>
+  	<pre>					&lt;div class="line nav share-header-cntr"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 68  
+</strong></p>
+  	<pre>																						&lt;div class="header share-action-bar pll mls"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 69  
+</strong></p>
+  	<pre>																			&lt;ul class="inline_list module header-shared" data-module="header-shared" data-sharedname="4g1kk4yhqdcp2qddqsqe" data-fileid="14519995048"&gt;&lt;li class="nav_content pvm ignore_mouseover"&gt;&lt;button id="download_button" data-type="download-file-btn" class="man pts primary_button fw"&gt;&lt;ul class="inline_list inline_list_icon_aligned lh20"&gt;&lt;li class="icon sprite_preview_20x20_download ignore_mouseover preview_icon shared-file-page-download-icon"&gt;&lt;/li&gt;&lt;li class="ignore_mouseover shared-file-download-text mhs"&gt;Download&amp;nbsp;&lt;span class="file_size"&gt;(525.8MB)&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/button&gt;&lt;/li&gt;&lt;li class="shared-file-page-signup-link mll"&gt;&lt;a id="sign_up" class="highlight ignore_mouseover nav_content" href="https://socrata.app.box.com/ref/singlefileshare2"&gt;Sign up&lt;/a&gt;&lt;/li&gt;&lt;li class="nav_content lowlight ignore_mouseover shared-file-page-link-separator"&gt;|&lt;/li&gt;&lt;li class="shared-file-page-login-link"&gt;&lt;a id="log_in" class="highlight ignore_mouseover nav_content" href="https://socrata.app.box.com/login"&gt;Log in&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;																	&lt;/div&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 70  
+</strong></p>
+  	<pre>																					&lt;div class="logo_cntr ptm"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 71  
+</strong></p>
+  	<pre>																																				&lt;a href="https://socrata.app.box.com/"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 72  
+</strong></p>
+  	<pre>																					&lt;span id="themed_main_logo" style="display: none;"&gt;&lt;/span&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 73  
+</strong></p>
+  	<pre>										&lt;div id="default_main_logo" class="img logo standard_logo mrm"&gt;&lt;/div&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 74  
+</strong></p>
+  	<pre>										&lt;div id="default_main_logo_glow" class="img logo standard_logo_glow"&gt;&lt;/div&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 78  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 79  
+</strong></p>
+  	<pre>														&lt;div class="nav_content file-name" data-type="file-name" data-hover="tooltip" aria-label="Voertuig Open Data-KENT_VRTG_O_DAT.csv.zip" data-tooltipid="shared-file-name-tooltip"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 83  
+</strong></p>
+  	<pre>		&lt;div class="body shared_file" data-page-type="shared-file"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 84  
+</strong></p>
+  	<pre>			&lt;div class="page"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 85  
+</strong></p>
+  	<pre>				&lt;div id="top_notification" class="module" data-module="notifications"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 87  
+</strong></p>
+  	<pre>&lt;script type="text/x-template" id="jst-notification"&gt;	
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 88  
+</strong></p>
+  	<pre>&lt;div class="cntr notification_container fx notification_&lt;%=type%&gt;  " data-type="&lt;%=type%&gt;" role="alert"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 89  
+</strong></p>
+  	<pre>	&lt;div class="notification_outer fw"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 90  
+</strong></p>
+  	<pre>		&lt;div class="notification_inner ram table pll prm"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 91  
+</strong></p>
+  	<pre>			&lt;div class="notification_message table_cell txt_m lh16 pvm phn"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 92  
+</strong></p>
+  	<pre>				&lt;strong class="notification_title"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 95  
+</strong></p>
+  	<pre>				&lt;span class="notification_description &lt;%=descriptionClass%&gt; mrn mls"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 99  
+</strong></p>
+  	<pre>			&lt;div class="notification_actions table_cell txt_m"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 100  
+</strong></p>
+  	<pre>				&lt;button class="notification_action mvs mhn &lt;%=actionClass%&gt;"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 103  
+</strong></p>
+  	<pre>				&lt;button class="notification_close ban mrn"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 104  
+</strong></p>
+  	<pre>					&lt;div class="sprite_16x16_black_close"&gt;&lt;/div&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 105  
+</strong></p>
+  	<pre>					&lt;div class="sprite_16x16_white_close"&gt;&lt;/div&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 110  
+</strong></p>
+  	<pre>&lt;/div&gt;&lt;/script&gt;				&lt;div id="box_confirmation" class="module cntr feature confirmation confirmation_v2 disable_selectable" data-module="legacy-confirmations" style="display: none;"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 111  
+</strong></p>
+  	<pre>	&lt;div class="media"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 112  
+</strong></p>
+  	<pre>		&lt;a id="box_confirmation_close" class="img_ext icon sprite_14x14_close mrn" href="#"&gt;&lt;/a&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 113  
+</strong></p>
+  	<pre>		&lt;div class="bd"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 114  
+</strong></p>
+  	<pre>			&lt;div id="box_confirmation_content"&gt;&lt;/div&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 115  
+</strong></p>
+  	<pre>			&lt;div id="box_confirmation_description" class="pts" style="display:none;"&gt;&lt;/div&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 121  
+</strong></p>
+  	<pre>					&lt;div id="lightbox" class="dark_background" tabindex="-1" style="box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.4) inset;"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 122  
+</strong></p>
+  	<pre>						&lt;div class="content_container curtain"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 123  
+</strong></p>
+  	<pre>							&lt;div class="content"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 127  
+</strong></p>
+  	<pre>					&lt;div class="module" data-module="preview-main" data-sharedname="4g1kk4yhqdcp2qddqsqe" data-vanityname=""&gt;&lt;/div&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 128  
+</strong></p>
+  	<pre>										&lt;script type="text/x-template" id="jst-preview_loading_module_template"&gt;&lt;div class="preview_content_wrapper"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 129  
+</strong></p>
+  	<pre>	&lt;span class="vertical-alignment-helper"&gt;&lt;/span&gt;&lt;img src="https://e1.boxcdn.net/_assets/img/box/spinner_big-ws0wIa.gif" class="preview_error_icon"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 132  
+</strong></p>
+  	<pre>&lt;script type="text/x-template" id="jst-preview_filmstrip_loading_module_template"&gt;&lt;div class="center_contents fw fh table"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 133  
+</strong></p>
+  	<pre>	&lt;div class="fw fh table_cell txt_m"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 134  
+</strong></p>
+  	<pre>		&lt;img id="filmstrip_loading_spinner" src="https://e1.boxcdn.net/_assets/img/box/spinner_big-ws0wIa.gif"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 139  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 140  
+</strong></p>
+  	<pre>				&lt;script type="text/javascript"&gt; var enable_shared_file_preview = '1';&lt;/script&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 141  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 142  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 143  
+</strong></p>
+  	<pre>		&lt;script type="text/x-template" id="jst-tooltip_prototype"&gt;	&lt;div id="tooltip_prototype" class="tooltip_wrapper"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 144  
+</strong></p>
+  	<pre>		&lt;div class="tooltip"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 145  
+</strong></p>
+  	<pre>			&lt;div class="inner"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 149  
+</strong></p>
+  	<pre>			&lt;b class="beak"&gt;&lt;/b&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 153  
+</strong></p>
+  	<pre>														&lt;script src="https://e2.boxcdn.net/_assets/js/section_templ_box_show_shared_file_lightbox-1TRSGs.js"&gt;&lt;/script&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 158  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 160  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 161  
+</strong></p>
+  	<pre>		window.initialConfig = {"userId":2,"userLogin":""} || {};
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 163  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 164  
+</strong></p>
+  	<pre>			window.initialConfig.initialJSHashes = ["Z7FrE","LQtj7","MXAgT","ZemMA","WVErW","1og2L","814jR","qrMhY","17mWD","Vzz3y","dsMXg","PVUTd","iqwp9","moLuV","cnzQD","6Mcej","ezipH","Dcoi1","uBNkr","D5Aw2","Giz2i","5gXUm","12TCV","jhYBA","AQ6GK","upa2L","eBJ2B","Ca33W","dchdW","jZ7J4","JPUup","CTEG1","uqRrS","28GkN","Vx9Be","8dkN1","jmMHL","4vNPE","oQiJ9","dN4fQ","CL2Ge","GiJuK","QXjPr","nWK8N","3SFpr","QPP9V","aqm5J","mt4XP","mNXBU","qW5xE","4KMsF","rPrdv","CWTod"];
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 165  
+</strong></p>
+  	<pre>	window.initialConfig.initialCSSHashes = ["gaaw7","kTotX","sS96u","2GqF2","QXN1V","NSUU1","JWAZW","F5PHY","x7AzE","xy3uc","6RxB9","LSPpz","yzArW","RwK6q","BAcwt","Xdd9J","QBXBf","TXxWj","cFkEX","T6Ye2"];
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 166  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 168  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 170  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 173  
+</strong></p>
+  	<pre>				Box.Application.broadcast('showpreview',
+</pre>
+  <p>Row 173 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 176  
+</strong></p>
+  	<pre>						itemTypedID: "f_14519995048",
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 185  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Unexpected whitespace
+  on row 186  
+</strong></p>
+  	<pre> 	&lt;script type="text/javascript"&gt;
+</pre>
+  <p>Quoted columns in the CSV should not have any leading or trailing whitespace.<br>
+Remove any spaces, tabs or other whitespace from either side of the delimiters in the row.
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 188  
+</strong></p>
+  	<pre>		_gaq.push(['_setAccount', 'UA-292868-1']);
+</pre>
+  <p>Row 188 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 189  
+</strong></p>
+  	<pre>		_gaq.push(['_setDomainName', 'box.com']);
+</pre>
+  <p>Row 189 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 192  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Empty row
+  on row 195  
+</strong></p>
+  	<pre>
+</pre>
+  <p>Remove the empty row from your CSV file.  
+If you were not expecting any empty rows then this may indicate a problem with your data
+</p>
+
+  </div>
+
+
+  <div class="alert alert-danger">
+    <p>Structural problem: <strong>Missing Columns
+  on row 200  
+</strong></p>
+  	<pre>			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+</pre>
+  <p>Row 200 contains a different number of columns to the first row in the CSV file.<br>
+This may indicate a problem with the data, e.g. an incorrectly escaped value, or that you are mixing together different tables of information.<br></p>
+
+  </div>
+
+
+
+
+  <div class="alert alert-warning">
+    <p>Structural problem: <strong>Check CSV parsing options
+</strong></p>
+  <p>Your CSV file appears to only contain a single column. This may indicate that it is being incorrectly parsed.<br>
+We recommend using commas as delimiters and escaping values in columns where necessary.
+</p>
+
+  </div>
+
+
+
+
+  <div class="alert alert-info">
+    <p>Structural problem: <strong>Non-standard Line Breaks
+</strong></p>
+  <p>Your CSV appears to use <code>LF</code> line-breaks. While this will be fine in most cases, <a href="http://tools.ietf.org/html/rfc4180">RFC 4180</a> specifies that 
+CSV files should use <code>CR-LF</code> (a carriage-return and line-feed pair, e.g. <code>\r\n</code>). This may be labelled as "Windows line endings" on some systems.
+</p>
+
+  </div>
+
+
+
+<div class="modal fade" id="badgeModal" tabindex="-1" role="dialog" aria-labelledby="badgeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="badgeModalLabel">README Badges</h4>
+      </div>
+      <div class="modal-body badge-code">
+        <table>
+<tr>
+<td><strong><span class="translation_missing" title="translation missing: en.markdown">Markdown</span></strong></td>
+              <td><textarea id="markdown" name="markdown" readonly>
+[![CSV Validation](http://csvlint.io/validation/53112a5d63737608050c0000.svg)](http://csvlint.io/validation/53112a5d63737608050c0000)</textarea></td>
+            </tr>
+<tr>
+<td><strong><span class="translation_missing" title="translation missing: en.textile">Textile</span></strong></td>
+              <td><textarea id="textile" name="textile" readonly>
+!http://csvlint.io/validation/53112a5d63737608050c0000.svg(CSV Validation)!:http://csvlint.io/validation/53112a5d63737608050c0000</textarea></td>
+            </tr>
+<tr>
+<td><strong><span class="translation_missing" title="translation missing: en.rdoc">Rdoc</span></strong></td>
+              <td><textarea id="rdoc" name="rdoc" readonly>
+{&lt;img src="http://csvlint.io/validation/53112a5d63737608050c0000.svg" alt="CSV Validation" /&gt;}[http://csvlint.io/validation/53112a5d63737608050c0000]</textarea></td>
+            </tr>
+<tr>
+<td><strong><span class="translation_missing" title="translation missing: en.html">Html</span></strong></td>
+              <td><textarea id="html" name="html" readonly>
+&lt;a href='http://csvlint.io/validation/53112a5d63737608050c0000'&gt;&lt;img src="http://csvlint.io/validation/53112a5d63737608050c0000.svg" alt="CSV Validation" /&gt;&lt;/a&gt;</textarea></td>
+            </tr>
+</table>
+</div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <a class="btn btn-primary" href="/validation/53112a5d63737608050c0000.csv"><i class="fa fa-cloud-download"></i> Download Standardised CSV File</a>
+</div>
+        </div>
+    </div>
+
+  </div>
+
+    <footer class="site-footer"><div class="container">
+            <div class="row">
+                <div class="col-md-8 footer-content">
+                    <h1 class="footer-logo"><a href="http://www.theodi.org">Open Data Institute</a></h1>
+                    <p><a href="http://www.theodi.org/contact">Open Data Institute, 65 Clifton Street, London EC2A 4JE</a></p>
+                    <p><a href="mailto:info@theodi.org">info@theodi.org</a> Company <a href="http://opencorporates.com/companies/gb/08030289">08030289</a> 
+                        <span>VAT</span><span>143 7796 80</span>
+                    </p>
+                    <p class="license">
+                        <a href="http://creativecommons.org/licenses/by-sa/2.0/uk/deed.en_GB" rel="license">
+                            <img alt="Creative Commons Licence" height="15" src="//static.theodi.org/assets/cc-853c95321fbeb898ecb83c38fb156a71.png" width="80"></a>
+                    </p>
+                </div>
+                <div class="col-md-4 footer-nav">
+                    <nav><ul class="pull-right list-inline">
+<li><a href="/terms-of-use">Terms of use</a></li>
+                            <li><a href="/privacy-policy">Privacy policy</a></li>
+                            <li><a href="/cookie-policy">Cookie policy</a></li>
+                        </ul></nav>
+</div>
+            </div>
+        </div>
+    </footer><script src="//static.theodi.org/assets/application-770a3d38d607b3d1b3f0fede9aade380.js" type="text/javascript"></script><!-- No collapsible nav in IE6 --><!--[if gt IE 7]><!--><script src="//static.theodi.org/assets/bootstrap/bootstrap-collapse-ce917097e70c413d6995b976884e4957.js" type="text/javascript"></script><!--<![endif]--><!-- Masonry and its required scripts --><!-- Don't load these on IE 7 or below --><!--[if gt IE 7]><!--><script src="//static.theodi.org/assets/masonry-e8629e30c2094b1663883768a107b540.js" type="text/javascript"></script><!--<![endif]--><script src="/assets/bootstrap/bootstrap-tab-28d8eac45205ef8b7ffa9f9767867838.js"></script>
+</body>
+</html>

@@ -35,12 +35,18 @@
   }
 }
 
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+color: #fff;
+background-color: $odiOrange;
+}
 
 
 #wrapper {
   .nav-tabs a {
     padding: 10px;
   }
+
+ 
   
   p {
   font-size: 17px;
@@ -70,7 +76,7 @@
     text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
     background: #1dd3a7;
     font-size: 18px;
-    padding: 10px 50px;
+    padding: 10px 30px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
@@ -107,6 +113,11 @@
 
   }
 
+    input.form-control.form-control-small {
+      height: 30px;
+    font-size: 16px;
+    }
+
   .input-group.last {
     margin-bottom: 40px;
   }
@@ -122,5 +133,66 @@
       overflow: hidden;
       white-space: nowrap;
     }
+  }
+
+  .result-badge {
+    margin-top: 32px;
+  }
+
+  .panel {
+    h2 {
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 0;
+    }
+  }
+
+  table.report-results {
+    font-size: 13px;
+    
+    border-top: none;
+
+      td, th {
+        text-align: center;
+        border:none;
+      }
+
+      th {
+        background-color: #fff;
+        .result {
+          font-size: 30px;
+          line-height: 30px;
+          display: block;
+          text-align: center;
+          border-top: none;
+        }
+      }
+
+       .danger, .danger-none {
+          color: $odiRed;
+        }
+
+        .warning, .warning-none {
+          color: $odiYellow;
+        }
+
+        .info, .info-none {
+          color: $odiBlue;
+        }
+
+       
+
+        td.warning, td.danger, td.info, td.active{
+          font-size: 22px;
+          font-weight: bold;
+          border: 2px solid #fff;
+        }
+
+        td.name {
+          text-align: right;
+          line-height: 31px;
+
+        }
+    
   }
 }
