@@ -1,0 +1,1592 @@
+
+// Import bootstrap
+@import "bootstrap/bootstrap";
+
+/*------------------------------------*\
+    VARIABLES
+\*------------------------------------*/
+
+$odiBlue: #00b7ff;
+$odiBlueDark: #2254f4;
+$odiBlueLight: #08def9;
+$odiOrange: #ff6700;
+$odiYellow: #F9BC26;
+$odiRed: #d60303;
+$odiGrey: #888888;
+$odiGreyDark: #333333;
+$odiGreyLight: #BBBBBB;
+
+// Colour variables, primarily for home modules
+$odiColour1: #D60303; // red
+$odiColour2: $odiOrange; // orange
+$odiColour3: $odiYellow; // yellow
+$odiColour4: #67EF67; //light green
+$odiColour5: #0DBC37; // med green
+$odiColour6: #1dd3a7; // turquoise
+$odiColour7: $odiBlueDark; // dark blue
+$odiColour8: $odiBlue;
+$odiColour9: $odiBlueLight; // light blue
+$odiColour10: #ef3aab; // pink
+$odiColour11: #e6007c; // magenta
+$odiColour12: #b13198; // purple
+
+
+
+
+/*------------------------------------*\
+    BASE
+\*------------------------------------*/
+
+body {
+    color: #4d4d4d;
+    font-size: 18px;
+}
+
+.mobile-only { display: none; }
+
+/*------------------------------------*\
+    TYPOGRAPHY
+\*------------------------------------*/
+
+h1, h2, h3, h4 {
+    text-rendering: optimizelegibility;
+    clear: both;
+}
+
+h1, h2 {
+    font-weight: normal;
+}
+
+h3 {
+    font-size: 22px;
+    margin: 30px 0 10px
+}
+
+.standfirst {
+    font-size: 22px;
+    font-weight: normal;
+    line-height: 30px;
+    margin: 15px 0 20px 0;
+
+    // For any standfirst blocks at the very top of a page
+    &.no-title { margin-top: 0; }
+}
+
+p {
+    font-size: 18px;
+    line-height: 26px;
+    margin-bottom: 20px;
+
+    @media (max-width:767px) {
+
+        font-size: 16px;
+
+    }
+
+
+    a {
+        @include transition(all 0.5s);
+    }
+
+    a:hover {
+    text-decoration: none;
+    border-bottom: 1px solid $odiRed;
+    color: $odiRed;
+    }
+
+}
+
+blockquote {
+    border-left: none;
+margin: 10px 0;
+padding: 0.5em 0;
+quotes: "\201C" "\201D" "\2018" "\2019";
+ color: #8e8c8c;
+
+    p {
+  display: inline;
+  }
+
+  small {
+    padding-top: 15px;
+  }
+}
+
+blockquote:before {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4.5em;
+  line-height: 0.1em;
+  margin-right: 6px;
+  margin-left: -3px;
+  vertical-align: -0.4em;
+}
+
+figcaption {
+font-size: 85%;
+}
+
+ul, ol {
+    margin-bottom: 30px;
+
+}
+
+hr {
+	clear: both;
+	&.heavy {
+    border: 0;
+    height: 5px;
+    background: url('divider.png');
+ 	}
+}
+
+
+/*------------------------------------*\
+    BUTTONS
+\*------------------------------------*/
+
+.btn {
+	border-radius: 0;
+	box-shadow: none;
+}
+
+/*------------------------------------*\
+    HEADER
+\*------------------------------------*/
+
+// Collapsible nav
+.navbar-collapse {
+  padding-left: 0;
+  padding-right: 0;
+  border-top: none;
+  
+  // Bootstrap seems to give this menu a maximum height
+  // Remove this, otherwise lower menu items can get cut off
+  
+  max-height: none;
+}
+
+// Button to trigger that
+.navbar-toggle { margin-top: 12px; }
+
+/* shouldn't be necessary in future boostrap - https://github.com/twbs/bootstrap/issues/9382 */
+
+.navbar-form {
+    margin-bottom: 13px;
+    margin-top: 13px;
+    input[type=text] {
+        max-width: 150px;
+    }
+    input[type=submit] {
+        height: 34px;
+        margin-left: -3px;
+    }
+}
+
+#odi-logo{
+    height: 40px;
+    padding: 0;
+}
+
+.navbar-inverse {
+
+    // This is the black nav at the very top
+    // Dropdowns in this should be above dropdowns in the white nav
+    z-index: 2000;
+
+}
+
+.navbar-inverse li  {
+
+    border-left: 1px solid #707070;
+
+    @media (max-width:767px) {
+
+        // Remove the grey border on upper nav links at mobile sizes
+        // NOTE: this might need to be reversed when Search and Sign In are restored
+        border-left: none;
+
+    }
+
+}
+
+.site-header {
+    .navbar-form input {
+        background: #666;
+        border: solid 1px #666;
+        border-radius: 0;
+        color: #000;
+        height: 34px;
+
+        // Without this the form elements are on inline-block and don't lay
+        // themselves out properly in various IEs
+        display: block;
+        float: left;
+
+        &[type=submit] {
+            text-transform: uppercase;
+        }
+    }
+    ::-webkit-input-placeholder {
+        color: #000;
+    }
+
+    :-moz-placeholder {
+        color: #000;
+    }
+
+    :-ms-input-placeholder {
+        color: #000;
+    }
+}
+
+.nav {
+    a {
+        color: #333;
+        &:hover,
+        &:focus {
+            background: #181818;
+            color: #fff;
+            .caret {
+                border-top-color: $odiOrange;
+            }
+        }
+    }
+}
+
+.main-nav {
+    > li:hover {
+        > a {
+            background: #181818;
+            color: #fff;
+            .caret {
+                border-top-color: $odiOrange;
+            }
+        }
+
+        @media (min-width:1025px) {
+
+            // At sizes greater than 1024px, enable hovering on the nav
+            .dropdown-menu {
+
+                display: block;
+
+            }
+
+        }
+
+    }
+
+    > li {
+
+        @media (min-width:1025px) {
+
+            // At sizes greater than 1024px, enable hovering on the nav
+            .dropdown-menu {
+
+                // Hide duplicate nav links
+                .duplicate { display: none; }
+
+            }
+
+        }
+
+    }
+
+    > li.last {
+
+        .dropdown-menu {
+
+            // Right align the last dropdown in the navigation so it doesn't
+            // break out of the main column
+            left: auto;
+            right: 0;
+
+        }
+
+    }
+
+}
+
+/*------------------------------------*\
+    FOOTER
+\*------------------------------------*/
+
+.site-footer {
+    background-color: #000;
+    font-size: 0.88em;
+    color: #adaeaf;
+    margin-top: 55px;
+    padding-top: 40px;
+    padding-bottom: 52px;
+
+    a {
+        color: #adaeaf;
+        &:hover {
+            color: #fff;
+            text-decoration: none;
+            border-bottom: none;
+        }
+
+        @include transition(none);
+
+    }
+    p {
+        font-size: 16px;
+    }
+}
+
+.footer-logo {
+    background: url('logo-footer.png');
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0 0 30px 0;
+    width: 204px;
+    height: 49px;
+}
+
+/*------------------------------------*\
+    PAGE
+\*------------------------------------*/
+
+.page-title {
+    background-color: $odiBlue;
+    color: #fff;
+    margin-bottom: 30px;
+    padding: 10px 0;
+
+    h1 {
+        margin: 2px 0 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        padding-bottom: 0.1em;
+
+        @media (max-width:767px) {
+
+            margin: 2px 0 0;
+            font-size: 30px;
+
+        }
+
+        a {
+        	width: 100%;
+        	color: white;
+        	display: block;
+        	&:hover {
+        		text-decoration: none;
+        		color: black;
+        	}
+        }
+    }
+
+}
+
+/*------------------------------------*\
+    HOMEPAGE
+\*------------------------------------*/
+
+.home-opener {
+
+    // Two columns
+
+    // Even out gaps above and below the homepage's opening text block
+    margin-top: 20px;
+    margin-bottom: -25px;
+
+    &.article-main {
+
+        width: 50%;
+        float: left;
+        padding-right: 20px;
+
+    }
+
+    &.article-sidebar {
+
+        width: 50%;
+        float: left;
+        padding-left: 8px;
+        padding-right: 16px;
+
+    }
+
+    @media (min-width: 992px) {
+
+        // Three columns
+
+        &.article-main { width: 66.66667%; }
+
+        &.article-sidebar {
+
+            padding-left: 4px;
+            padding-right: 16px;
+            width: 33.33333%;
+
+        }
+
+    }
+
+    @media (max-width: 767px) {
+
+        // One column
+
+        &.article-main {
+
+            width: auto;
+            float: none;
+            padding-left: 15px;
+            padding-right: 15px;
+
+        }
+
+        &.article-sidebar {
+
+            width: auto;
+            float: none;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-top: 50px;
+
+        }
+
+    }
+
+}
+
+
+/*------------------------------------*\
+    MASONRY MODULES (on landing pages)
+\*------------------------------------*/
+
+.grid {
+
+    margin-top: 25px;
+    padding: 0;
+    margin-left: 15px;
+    margin-right: 0px;
+    @include box-sizing(border-box);
+
+    @media (max-width: 767px) {
+
+        // Less than tablet portrait - one column
+        // So grid container needs to match left/right margins of rest of layout
+        margin-left: 0;
+
+        // Override the inline styles added by Masonry.js, to allow grid items to
+        // return to a 100% width one-column layout
+        height: auto !important;
+
+    }
+
+}
+
+.home-module {
+
+    list-style: none;
+    @include box-sizing(border-box);
+
+    // Default the grid to two columns
+    width: 50%;
+
+    // Create a gap between the masonry blocks
+    // IE11 was ignoring transparent border
+    // Try white, but that can show up overlapping blocks
+    // So finally use transparent white with 0 alpha if supported
+    border-right: 15px solid transparent;
+    border-right: 15px solid #fff;
+    border-right: 15px solid rgba(255, 255, 255, 0);
+
+    @media (min-width: 992px) {
+
+        // At large enough size, show three columns
+        // Note, Masonry can't add up! So work out your columns width and gaps
+        // by trial and error!
+        // (e.g. 33% should give you three columns, but it won't...)
+        margin: 0;
+        width: 33.33%;
+
+    }
+
+    @media (max-width: 767px) {
+
+        // Less than tablet portrait - one column
+        width: 100%;
+        margin-left: 0;
+        padding-left: 15px;
+        padding-right: 15px;
+        border-right: none;
+
+        // Override the inline styles added by Masonry.js, to allow grid items to
+        // return to a 100% width one-column layout
+        position: static !important;
+
+    }
+
+    iframe {
+        width: 100%;
+        margin-bottom: 20px;
+        min-height: 150px;
+        border: none;
+    }
+
+}
+
+
+
+/*------------------------------------*\
+    MASONRY MODULES (animations)
+\*------------------------------------*/
+
+// From http://tympanus.net/codrops/2013/07/02/loading-effects-for-grid-items-with-css-animations/
+.grid li {
+
+    opacity: 0;
+}
+
+.grid li.shown,
+.no-js .grid li,
+.no-cssanimations .grid li {
+    opacity: 1;
+}
+
+/* Effect 2: Move Up */
+.grid.effect-2 li.animate {
+    -webkit-transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    transform: translateY(200px);
+    -webkit-animation: moveUp 0.65s ease forwards;
+    -moz-animation: moveUp 0.65s ease forwards;
+    animation: moveUp 0.65s ease forwards;
+}
+
+@-webkit-keyframes moveUp {
+    to { -webkit-transform: translateY(0); opacity: 1; }
+}
+
+@-moz-keyframes moveUp {
+    to { -moz-transform: translateY(0); opacity: 1; }
+}
+
+@keyframes moveUp {
+    to { transform: translateY(0); opacity: 1; }
+}
+
+
+/*------------------------------------*\
+    MODULES
+\*------------------------------------*/
+
+.module {
+
+    color: #000;
+    font-weight: bold;
+    padding: 25px 25px 27px 25px;
+    margin-bottom: 20px;
+    position: relative;
+
+    min-height: 100px;
+
+    @media (max-width:767px) {
+
+        min-height: 0;
+
+    }
+
+    > a {
+        display: block;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    a {
+        color: #000;
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    .category {
+
+        font-size: 14px;
+        text-transform: uppercase;
+        bottom: 0;
+        margin-bottom: 0;
+
+    }
+
+    // Center images that may be smaller than the module
+    img {
+
+        display: block;
+        margin: 0 auto 40px;
+        max-height: 60%;
+        max-width: 60%;
+
+    }
+
+    &.module-image-foreground {
+
+        .module-heading {
+            text-align: center;
+        }
+
+        div.image {
+            margin-left: -25px;
+            margin-right: -25px;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: none;
+        }
+
+      }
+
+    &.module-image-fullbleed {
+        padding: 0;
+        img {
+            max-width: none;
+            max-height: none;
+        }
+      }
+
+    .attribution {
+            font-size: 7px;
+            font-weight: 200;
+            position: absolute;
+            bottom: 0;
+            right: 25px;
+            transform: rotate(90deg);
+            transform-origin: 100% 80% 0;
+            -webkit-transform: rotate(90deg);
+            -webkit-transform-origin: 100% 80% 0;
+            -ms-transform: rotate(90deg);
+            -ms-transform-origin: 100% 80% 0;
+            -moz-transform: rotate(90deg);
+            -moz-transform-origin: 100% 80% 0;
+    }
+    
+    //
+    //
+    // ***** Overlay hovers *****
+    //
+    //
+    .overlay {
+        background: rgba(0, 0, 0, 0.2);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        @include opacity(0);
+        @include transition(all 0.3s);
+    }
+
+    a {
+        position: relative;
+        z-index: 2;
+    }
+
+    .category {
+        position: relative;
+        z-index: 3;
+    }
+
+    &:hover {
+        .overlay {
+            @include opacity(1);
+        }
+    }
+
+}
+
+.module-heading {
+
+    font-weight: bold;
+    font-size: 35px;
+    line-height: 38px;
+    margin-bottom: 20px;
+    margin-top: 0;
+
+    @media (max-width:767px) {
+
+        font-size:  25px;
+        margin-bottom: 10px;
+        line-height: 30px;
+
+    }
+
+}
+
+.module-subheading {
+
+    font-size: 21px;
+
+    @media (max-width:767px) {
+
+        font-size: 18px;
+        font-weight: normal;
+        line-height: 23px;
+
+    }
+
+}
+
+.embedded .module {
+    margin-bottom: 0;
+}
+
+.listing {
+	.module {
+		min-height: 150px;
+	}
+	.module-heading {
+		font-size: 22px;
+		line-height: 27px;
+	}
+	.module-subheading {
+		font-size: 18px;
+		font-weight: normal;
+	}
+	.module-meta {
+		font-size: 20px;
+		font-weight: normal;
+		margin-bottom: 25px;
+	}
+}
+
+.module-light,
+.module-light a {
+    color: #fff;
+}
+
+.module-dark,
+.module-dark a {
+    color: #000;
+}
+
+// Colour classes for the modules
+.module-colour-0 { background-color: $odiGrey; }
+.module-colour-1 { background-color: $odiColour1; }
+.module-colour-2 { background-color: $odiColour2; }
+.module-colour-3 { background-color: $odiColour3; }
+.module-colour-4 { background-color: $odiColour4; }
+.module-colour-5 { background-color: $odiColour5; }
+.module-colour-6 { background-color: $odiColour6; }
+.module-colour-7 { background-color: $odiColour7; }
+.module-colour-8 { background-color: $odiColour8; }
+.module-colour-9 { background-color: $odiColour9; }
+.module-colour-10 { background-color: $odiColour10; }
+.module-colour-11 { background-color: $odiColour11; }
+.module-colour-12 { background-color: $odiColour12; }
+
+// Smooth out colour changes on the blocks' hovers
+.module {
+    @include transition(background-color 0.3s ease);
+}
+
+.module { 
+	&.module-highlight-1 { background-color: $odiGrey; }
+	&.module-highlight-2 { background-color: $odiGreyDark; }
+	&.module-highlight-3 { background-color: $odiGreyLight; }
+	&.module-highlight-1, &.module-highlight-2, &.module-highlight-3 {
+		&.module-colour-1:hover { background-color: $odiColour1; }
+		&.module-colour-2:hover { background-color: $odiColour2; }
+		&.module-colour-3:hover { background-color: $odiColour3; }
+		&.module-colour-4:hover { background-color: $odiColour4; }
+		&.module-colour-5:hover { background-color: $odiColour5; }
+		&.module-colour-6:hover { background-color: $odiColour6; }
+		&.module-colour-7:hover { background-color: $odiColour7; }
+		&.module-colour-8:hover { background-color: $odiColour8; }
+		&.module-colour-9:hover { background-color: $odiColour9; }
+		&.module-colour-10:hover { background-color: $odiColour10; }
+		&.module-colour-11:hover { background-color: $odiColour11; }
+		&.module-colour-12:hover { background-color: $odiColour12; }
+	}
+}
+
+// Module with background image
+.module-image-background {
+
+    background-repeat: no-repeat;
+    background-position: center 25px;
+
+    .module-heading {
+
+        // Center and uppercase the headline
+        text-transform: uppercase;
+        text-align: center;
+
+        // No vertical centering possible, so add enough padding so the background
+        // image can be seen
+        padding-top: 150px;
+        padding-bottom: 100px;
+
+    }
+
+}
+
+// Module with fullscreen image
+.module-image-fullbleed {
+
+    // Remove all borders so image can expand
+    padding: 0;
+    img, .module-heading { margin: 0 }
+
+    // Actually make the image fill the block
+    // This is basically compensating for column size rounding errors :()
+    img {
+
+        width: 100%;
+        height: auto;
+
+    }
+
+}
+
+/*------------------------------------*\
+    PEOPLE MODULES
+\*------------------------------------*/
+
+.people-team {
+
+    .home-module {
+
+        @media (min-width: 992px) {
+
+            // Three columns
+            width: 33.33%;
+
+        }
+
+        @media (min-width: 1200px) {
+
+            // Four columns
+            width: 25%;
+
+        }
+
+    }
+
+    .home-module > div {
+
+        height: 440px;
+        width: 274px;
+        padding-left: 0;
+        padding-right: 0;
+
+        @media (max-width: 992px) {
+
+            width: auto;
+
+            img {
+
+                left: 0;
+                right: 0;
+
+            }
+
+        }
+
+        @media (max-width:767px) {
+
+            height: auto;
+
+        }
+
+        a {
+            position: relative;
+            padding-top: 275px;
+            display: block;
+            height: 100%; // makes whole block clickable
+
+            @media (max-width:767px) {
+
+                padding-top: 0;
+
+            }
+
+        }
+
+        img {
+            position: absolute;
+            top: -8px;
+            left: 18px;
+            max-width: 100%;
+            max-height: 100%;
+
+            @media (max-width:767px) {
+
+                position: static;
+                margin-bottom: 20px;
+
+            }
+
+        }
+
+        .module-heading {
+            font-size: 26px;
+            font-weight: 300;
+            margin-bottom: 6px;
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+
+        .module-subheading {
+            font-size: 15px;
+            font-weight: 300;
+            margin-bottom: 0;
+            padding-left: 0px;
+            padding-right: 0px;
+            margin-left: 18px;
+            margin-right: 18px;
+            whitespace: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .category {
+            font-size: 15px;
+            font-weight: 300;
+            text-transform: none;
+            font-style: italic;
+            padding-left: 18px;
+            padding-right: 18px;
+            position: absolute;
+            bottom: 0;
+
+            @media (max-width:767px) {
+
+                position: static;
+                display: block;
+                margin-top: 5px;
+
+            }
+
+        }
+
+    }
+
+}
+
+
+/*------------------------------------*\
+    ARTICLE
+\*------------------------------------*/
+
+/* Article column layouts */
+
+.article-main {
+    @extend .col-md-8;
+    padding-right: 70px;
+
+    @media (max-width:767px) {
+
+        padding-right: 15px;
+
+    }
+
+    img {
+        max-width: 100%;
+    }
+}
+
+.article-sidebar {
+    @extend .col-md-4;
+
+    iframe {
+        width: 100%;
+        margin-bottom: 20px;
+        border: none;
+    }
+}
+
+.article-full {
+    @extend .col-md-12;
+}
+
+/* Article components */
+
+.site-header .article-hero {
+
+    margin-bottom: 0;
+
+}
+
+.article-hero.within-header {
+
+    margin-bottom: 0;
+    margin-top: 0;
+
+}
+
+.article-hero {
+    margin: -30px 0 30px;
+    position: relative;
+    text-align: center;
+
+    .hero {
+
+        margin-left: 15px;
+        margin-right: 15px;
+
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+    .headline {
+        color: #00d1af;
+        font-size: 80px;
+        font-weight: bold;
+        line-height: 70px;
+        padding: 100px 45px 130px 45px;
+        text-align: left;
+        margin: 0;
+
+    }
+
+    @media (min-width: 992px) {
+
+        .headline {
+
+            padding: 85px 45px 99px 45px;
+            min-height: 324px;
+
+        }
+
+    }
+
+    @media (min-width: 1200px) {
+
+        .headline {
+
+            padding: 114px 45px 140px 45px;
+            min-height: 394px;
+
+        }
+
+    }
+
+    @media (max-width: 979px) {
+
+        .headline {
+
+            font-size: 80px;
+            line-height: 70px;
+            padding: 48px 45px 60px 45px;
+            min-height: 249px;
+
+        }
+
+    }
+
+    @media (max-width:767px) {
+
+        .headline {
+
+            line-height: 50px;
+            padding: 55px 30px 67px 30px;
+            min-height: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 38px;
+
+        }
+
+    }
+
+}
+
+.hero-label {
+    color: #fff;
+    font-weight: bold;
+    line-height: 20px;
+    position: absolute;
+    text-align: left;
+    bottom: 0;
+    p {
+        margin-bottom: 0;
+    }
+    .type {
+        font-size: 13px;
+        text-transform: uppercase;
+        line-height: 21px;
+    }
+    .annotation {
+        background: #000;
+        font-size: 18px;
+        padding: 10px 15px;
+    }
+
+    @media (max-width:767px) {
+
+        // Move the hero annotation back outside the image when it's too small
+        position: static;
+
+        // Shrink fonts
+        .type { font-size: 11px; }
+
+        p {
+
+            font-size: 15px;
+            line-height: 22px;
+
+        }
+
+        .annotation { padding-bottom: 13px; }
+
+    }
+
+
+}
+
+.hero-img {
+    background: #204855;
+    height: 400px;
+}
+
+.article-body {
+
+    li {
+
+        margin-bottom: 5px;
+        line-height: 24px;
+
+    }
+
+    // Line top of articles up with top of sidebar
+    h2 {
+
+        margin-top: 0;
+
+        @media (max-width:767px) {
+
+            font-size: 25px;
+
+        }
+
+    }
+    
+    h2, h3 {
+      clear: none;
+    }
+    
+    .pull-right {
+      margin-left: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .pull-left {
+      margin-right: 10px;
+      margin-bottom: 15px;
+    }
+
+}
+
+figure {
+
+    margin: 0 0 10px 0;
+
+    img {
+      margin: 0;
+      max-width: 100%;
+    }
+
+    figcaption {
+        background-color: $odiBlue;
+        color: #fff;
+        font-weight: bold;
+        padding: 5px 10px;
+
+    }
+}
+
+figure.pull-right {
+
+    margin-left: 10px;
+}
+
+.article-meta {
+    color: #8e8c8c;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+table {
+    border-top: 2px solid #dadada;
+
+    thead {
+        background-color: #f9f9f9;
+    }
+}
+
+
+/*------------------------------------*\
+    LISTING PAGES (News etc.)
+\*------------------------------------*/
+
+.list-body {
+
+    // Two thirds of the page
+    @extend .col-md-8;
+
+    margin-bottom: 20px;
+
+    a {
+        color: black;
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+}
+
+.list-aside {
+
+    // One third of the page
+    @extend .col-md-2;
+}
+
+.list-item {
+
+    h2 {
+
+        // Line height better for wrapping headlines
+        line-height: 40px;
+
+    }
+
+    .list-aside {
+
+        .date, .meta {
+            font-size: 15px;
+            font-weight: 300;
+            line-height: 20px;
+            margin-bottom: 0;
+        }
+
+        .more .btn {
+            height: 40px;
+        }
+
+    }
+
+}
+
+
+/*------------------------------------*\
+    FORMS
+\*------------------------------------*/
+
+.dropdown-menu-button {
+
+    z-index: 2000;
+    position: relative;
+
+}
+
+#login, #register {
+
+    position: absolute;
+    left: auto;
+    right: 0;
+    width: 450px;
+    padding: 30px 25px;
+    background: $odiOrange;
+    color: white;
+}
+
+#login label, #register label {
+
+    font-size: 19px;
+    font-weight: normal;
+    margin-bottom: 10px;
+    display: block;
+
+}
+
+#login input, #register input {
+
+    outline: none;
+
+}
+
+#login input[type="text"], #register input[type="text"],
+#login input[type="email"], #register input[type="email"],
+#login input[type="password"], #register input[type="password"] {
+
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    border: 1px solid white;
+    background: #ff954d;
+    height: 60px;
+    padding: 0 10px;
+    width: 100%;
+    margin-bottom: 20px;
+    color: #fff;
+    font-size: 20px;
+
+}
+
+#login .form-field-inline input[type=checkbox],
+#register .form-field-inline input[type=checkbox] {
+
+    margin: -2px 0 0 0;
+    height: auto;
+
+}
+
+#login .form-field-inline label,
+#register .form-field-inline label {
+
+    font-size: 14px;
+    color: #fff;
+    display: inline;
+
+}
+
+#login .form-field-inline, #register .form-field-inline {
+
+    float: left;
+    margin: 3px 0 0 0;
+
+}
+
+#login .form-field-inline .forgot-password, #register .form-field-inline .forgot-password {
+
+    display: block;
+    font-size: 14px;
+    color: #fff;
+    margin: 0 0 0 17px;
+    padding: 0;
+
+}
+
+#login .form-field-inline label:hover, #register .form-field-inline label:hover {
+
+    text-decoration: underline;
+
+}
+
+#login a:hover, #login a:focus,
+#register a:hover, #register a:focus {
+
+    background: none;
+
+}
+
+label, select, button, input[type="button"], input[type="reset"], input[type="submit"], input[type="radio"], input[type="checkbox"] {
+
+    cursor: pointer;
+
+}
+
+#login .btn-primary, #register .btn-primary {
+
+    float: right;
+    background: #dc4810;
+    font-size: 18px;
+    padding: 10px 20px;
+    margin-top: 3px;
+
+}
+
+/*------------------------------------*\
+    RESPONSIVE
+\*------------------------------------*/
+
+@media (max-width: 979px) {
+
+    .footer-nav .pull-right {
+        float: left;
+        width: 100%;
+    }
+}
+
+/*
+//
+// ***** Portrait iPad *****
+//
+*/
+@media only screen and (device-width : 768px) and (orientation : portrait) {
+
+    // Reduce any sidebar blocks to around 50% width and sit them side by side
+    .article-sidebar {
+
+        .module {
+
+            // Match to width of main column (which has a bit of right padding)
+            width: 47.75%;
+            float: left;
+            border-right: 20px solid #fff;
+
+        }
+
+    }
+
+}
+
+@media (max-width: 767px) {
+
+    .site-header {
+
+        margin-bottom: 20px;
+
+        .navbar-form {
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+        .navbar-nav {
+            margin: 0 -15px;
+        }
+
+    }
+
+    .navbar .pull-right {
+        float: left;
+        width: 100%;
+    }
+
+    // Restore any mobile-only elements
+    .mobile-only { display: block; }
+
+    .navbar-inverse {
+
+        li {
+
+            // NOTE: disabled while Search and Sign In removed
+            //display: inline-block;
+
+        }
+
+        // Hide upper nav elements like Contact Us
+        .navbar-nav { display: none; }
+
+    }
+
+    // Match padding on main nav items to subnav items
+    .navbar-inverse .navbar-nav > li > a {
+
+        padding-top: 7px;
+        padding-bottom: 7px;
+
+    }
+
+    // Restore the lower nav items
+    .mobile-only .navbar-nav {
+
+        display: block;
+
+    }
+
+    // Make white secondary nav black with orange hovers
+    .navbar-nav > li > a {
+
+        background: #1b1b1b;
+        color: #fff;
+        padding-top: 7px;
+        padding-bottom: 8px;
+
+        &:hover {
+
+            background: $odiOrange;
+
+            .caret { border-top-color: #000; }
+
+        }
+
+    }
+
+    // Orange background, black arrows for open nav items
+    .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+
+        background: $odiOrange;
+
+        .caret { border-top-color: #000; }
+
+    }
+
+    // Remove separators from dropdown nav items
+    .dropdown-menu {
+
+        padding-bottom: 5px;
+
+        > li > a { border-bottom: none; }
+
+    }
+
+}
+
+
+@media (max-width: 479px) {
+
+    /* Header */
+
+    .navbar-inverse .navbar-inner {
+        border-bottom: 1px solid #707070;
+    }
+
+    .navbar .nav.pull-right {
+        float: left;
+        display: block;
+        clear: both;
+    }
+
+    #topbar .navbar-inner {
+        margin: 0 -15px;
+    }
+
+    #topbar ul li {
+        &.search {
+            float: left;
+        }
+        a {
+            padding: 15px;
+        }
+    }
+
+    #main-nav {
+        a {
+            padding: 15px 15px 15px 0;
+        }
+    }
+
+    /* Footer */
+
+
+}
+
+
+/* Nodes */
+
+a.node-country, a.node-city, a.node-comms {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
+  background-opacity: 0.9;
+}
+
+a.node-country {
+  background-image: image-url('node-country.png');
+}
+
+a.node-city {
+  background-image: image-url('node-city.png');
+}
+
+a.node-comms {
+  background-image: image-url('node-comms.png');
+}
+
+img.node-logo {
+  float: right;
+  width: 250px;
+  margin-left: 20px;
+}
+

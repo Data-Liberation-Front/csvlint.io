@@ -1,0 +1,25 @@
+<div class="navbar navbar-inverse navbar-static-top<%= ' mobile-only' if mobile %>">
+  <div class="container">
+    <% unless mobile %>
+      <div class="navbar-header">
+        
+       <!-- Mobile nav toggle -->
+       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+           <span class="icon-bar"></span>
+           <span class="icon-bar"></span>
+           <span class="icon-bar"></span>
+       </button>
+       
+      <h1 class="site-title">
+        <a href="/"><%= title %></a>
+        <span class="label label-success status"><%= status.upcase %></span>
+      </h1>
+                
+      </div>
+    <% end %>
+
+    <div class="pull-right">
+      <a class="navbar-brand" href="/"><%= image_tag('logo-footer.png', alt: "The ODI", id: "odi-logo") %></a>
+    </div>
+  </div>
+</div>
