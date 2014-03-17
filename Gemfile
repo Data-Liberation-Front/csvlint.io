@@ -58,6 +58,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'poltergeist'
+  gem 'vcr'
 end
 
 group :development do
@@ -90,5 +91,4 @@ gem 'rest-client'
 gem 'nokogiri', '~> 1.5'
 
 gem 'airbrake'
-
 gem 'font-awesome-rails'
