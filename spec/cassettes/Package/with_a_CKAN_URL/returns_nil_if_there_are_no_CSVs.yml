@@ -1,0 +1,819 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://data.gov.uk/dataset/ratio-of-median-house-price-to-median-earnings
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.4.4
+      Date:
+      - Thu, 06 Mar 2014 08:13:30 GMT
+      Content-Type:
+      - text/html; charset=utf-8
+      Content-Length:
+      - '5950'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - POST, PUT, GET, DELETE, OPTIONS
+      Access-Control-Allow-Headers:
+      - X-CKAN-API-KEY, Authorization, Content-Type
+      Vary:
+      - Cookie,Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      Accept-Ranges:
+      - bytes
+      X-Varnish:
+      - 285356394 285354268
+      Age:
+      - '442'
+      Via:
+      - 1.1 varnish
+      X-App:
+      - ckan
+      X-Varnish-Cache:
+      - HIT
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+        AwBPgJ61V1EAAA==
+    http_version: 
+  recorded_at: Thu, 06 Mar 2014 08:13:31 GMT
+- request:
+    method: get
+    uri: http://data.gov.uk/dataset/datapackage.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Server:
+      - nginx/1.4.4
+      Date:
+      - Thu, 06 Mar 2014 08:13:30 GMT
+      Content-Type:
+      - text/html; charset=utf-8
+      Content-Length:
+      - '2688'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - POST, PUT, GET, DELETE, OPTIONS
+      Access-Control-Allow-Headers:
+      - X-CKAN-API-KEY, Authorization, Content-Type
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - public, max-age=86400
+      Accept-Ranges:
+      - bytes
+      X-Varnish:
+      - 285356395 285356356
+      Age:
+      - '9'
+      Via:
+      - 1.1 varnish
+      X-App:
+      - ckan
+      X-Varnish-Cache:
+      - HIT
+    body:
+      encoding: UTF-8
+      string: "\n  \n  <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"
+        \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<!--[if IE 8 ]>    <html
+        class=\"no-js ie8\" lang=\"en\"\n      xmlns=\"http://www.w3.org/1999/xhtml\"\n
+        \     xmlns:i18n=\"http://genshi.edgewall.org/i18n\"\n      xmlns:py=\"http://genshi.edgewall.org/\"\n
+        \     xmlns:xi=\"http://www.w3.org/2001/XInclude\"\n    > <![endif]--><!--[if
+        (gte IE 9)|!(IE)]><!--><html xmlns=\"http://www.w3.org/1999/xhtml\" class=\"no-js\"
+        lang=\"en\"> <!--<![endif]-->\n\n\n\n  <!-- pure one-liner to avoid whitespace
+        glitches -->\n\n<head>\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=IE7\"
+        />\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width,
+        initial-scale=1.0\" />\n  <title>Error 404 | data.gov.uk</title>\n  <meta
+        name=\"description\" content=\"\" />\n  <meta name=\"author\" content=\"\"
+        />\n  <link rel=\"shortcut icon\" href=\"/assets/img/favicon.ico\" />\n      <link
+        rel=\"alternate\" type=\"application/atom+xml\" title=\"DGU - Recent Revision
+        History\" href=\"/revision/list?days=1&amp;format=atom\" />\n  <link rel=\"stylesheet\"
+        href=\"/assets/css/datagovuk.min.css?1393844276741\" />\n  <link rel=\"stylesheet\"
+        href=\"/css/dgu-ckan.min.css?1392895781898\" />\n  <!-- Python-generated JS
+        values -->\n  <script type=\"text/javascript\">\n    CKAN = {};\n    // later
+        use will add offsets with leading '/' so ensure no trailing slash\n    CKAN.SITE_URL
+        = '/'.replace(/\\/$/, '');\n    CKAN.SITE_URL_NO_LOCALE = '/'.replace(/\\/$/,
+        '');\n    CKAN.USER = '';\n  </script>\n  <script src=\"//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js\"></script>\n
+        \ <script>\n    //<![CDATA[\n    window.jQuery || document.write('<script
+        src=\"/assets/js/jquery-1.8.3.min.js\"><\\/script>')\n    // ]]>\n  </script>\n
+        \ <!-- Vendor scripts -->\n  <script type=\"text/javascript\" src=\"/assets/js/vendor.min.js?1393844276741\"></script>\n
+        \ <!-- CKAN DGU scripts -->\n  <script type=\"text/javascript\" src=\"/assets/js/dgu-shared.min.js?1392895781898\"></script>\n
+        \ <script type=\"text/javascript\" src=\"/scripts/dgu-ckan-application.min.js?1392895781898\"></script>\n
+        \ <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->\n  <!--[if lt IE
+        9]>\n    <script src=\"http://html5shim.googlecode.com/svn/trunk/html5.js\"></script>\n
+        \ <![endif]-->\n  <!-- font-awesome ie7 shim -->\n  <!--[if IE 7]>\n    <link
+        rel=\"stylesheet\" media=\"all\" href=\"/assets/css/font-awesome-ie7.min.css\"
+        />\n  <![endif]-->\n  <!--[if lt IE 9]>\n      <link href=\"/assets/css/dgu-ie7.css\"
+        rel=\"stylesheet\" />\n  <![endif]-->\n</head>\n<body class=\"action-document
+        \             controller-error              document              error              no-sidebar
+        \             \" id=\"\">\n  <div id=\"blackbar\" class=\"without-publisher\">\n
+        \   <div class=\"container\">\n      <a class=\"brand\" href=\"/\" rel=\"home\"></a>\n
+        \     <div class=\"chevron position2\"></div>\n      <nav id=\"dgu-nav\">\n
+        \       <div class=\"text-links\">\n           <a href=\"/\" class=\"nav-home\">Home</a>\n
+        \          <a href=\"#\" class=\"trigger-subnav nav-data\">Data</a>\n           <a
+        href=\"#\" class=\"trigger-subnav nav-apps\">Apps</a>\n           <a href=\"#\"
+        class=\"trigger-subnav nav-interact\">Interact</a>\n         </div>\n        <div
+        class=\"nav-search\" style=\"width: 200px;\">\n          <form action=\"/data/search\"
+        class=\"input-group input-group-sm\">\n            <input type=\"text\" name=\"q\"
+        class=\"form-control\" placeholder=\"Search for data...\" />\n            <span
+        class=\"input-group-btn\">\n              <button class=\"btn btn-primary\"
+        type=\"submit\"><i class=\"icon-search\"></i></button>\n            </span>\n
+        \         </form>\n        </div>\n            <a class=\"nav-user btn btn-primary\"
+        href=\"/user?destination=error/document\"><i class=\"icon-user\"></i></a>\n
+        \     </nav>\n    </div>\n  </div>\n  <div id=\"greenbar\">\n    <div class=\"container\">\n
+        \     <ul class=\"subnav subnav-data active\">\n        <li><a class=\"active\"
+        href=\"/data/search\">Datasets</a></li>\n        <li><a class=\"\" href=\"/data/map-based-search\">Map
+        Search</a></li>\n        <li><a class=\"\" href=\"/odug\">Data Requests</a></li>\n
+        \       <li><a class=\"\" href=\"/publisher\">Publishers</a></li>\n        <li><a
+        class=\"\" href=\"/organogram/cabinet-office\">Public Roles &amp; Salaries</a></li>\n
+        \       <li><a class=\"\" href=\"/data/openspending-browse\">OpenSpending</a></li>\n
+        \         <li><a class=\"\" href=\"/data/openspending-report/index\">Spend
+        Reports</a></li>\n          <li><a class=\"\" href=\"/data/site-usage\">Site
+        Analytics</a></li>\n        <br />\n      </ul>\n      <ul class=\"subnav
+        subnav-apps\">\n        <li><a href=\"/apps\">Browse Apps</a></li>\n        <li><a
+        href=\"/search/everything/?f%5B0%5D=bundle%3Aapp\">Search Apps</a></li>\n
+        \     </ul>\n      <ul class=\"subnav subnav-interact\">\n        <li><a class=\"\"
+        href=\"/location\">Location</a></li>\n        <li><a class=\"\" href=\"http://co-prod3.dh.bytemark.co.uk/linked-data\">Linked
+        Data</a></li>\n        <li><a href=\"/blog\">All Blogs</a></li>\n        <li><a
+        href=\"/forum\">All Forums</a></li>\n        <li><a href=\"/library\">Library</a></li>\n
+        \     </ul>\n    </div>\n  </div>\n  <div id=\"pre-content\">\n    <div class=\"container\">\n
+        \     <div class=\"row\">\n        <div class=\"col-md-12\">\n          <ul
+        id=\"breadcrumbs\">\n            <li><a href=\"/\"><i class=\"icon-home\"></i></a></li>\n
+        \           <breadcrumbs>\n            </breadcrumbs>\n          </ul>\n        </div>\n
+        \     </div>\n    </div>\n  </div>\n  <!-- Flash Messages -->\n    <div class=\"flash-messages
+        container\">\n    </div>\n  <div id=\"main-content\">\n    <div class=\"container\">\n
+        \     <div class=\"content\">\n        <div>\n    <html>\n <head>\n  <title>404
+        Not Found</title>\n </head>\n <body>\n  <h1>404 Not Found</h1>\n  The resource
+        could not be found.<br /><br />\nDataset not found\n </body>\n</html>\n  </div>\n
+        \     </div>\n    </div>\n  </div><!-- /main-content -->\n  <div class=\"footer\">\n
+        \   <footer role=\"contentinfo\" class=\"container\">\n      <ul class=\"links\"><li
+        class=\"menu-531 first\"><a href=\"/faq\">FAQ</a></li>\n        <li class=\"menu-527\"><a
+        href=\"/code-conduct\">Code of conduct</a></li>\n        <li class=\"menu-524\"><a
+        href=\"/accessibility-statement\">Accessibility</a></li>\n        <li class=\"menu-528\"><a
+        href=\"/cookies-policy\">Cookies policy</a></li>\n        <li class=\"menu-537\"><a
+        href=\"/privacy\">Privacy</a></li>\n        <li class=\"menu-536\"><a href=\"/moderation-policy\">Moderation
+        policy</a></li>\n        <li class=\"menu-520\"><a href=\"/contact\" title=\"\">Contact</a></li>\n
+        \       <li class=\"menu-538 \"><a href=\"/terms-and-conditions\">Terms and
+        conditions</a></li>\n        <li class=\"menu-538\"><a href=\"/about\">API</a></li>\n
+        \       <li class=\"menu-538 last\"><a href=\"/about\">About</a></li>\n      </ul>\n
+        \     <div class=\"credits\">\n        <div class=\"credit\">\n          <strong>Powered
+        by:</strong><br />\n          <a href=\"http://ckan.org/\" title=\"CKAN Version:2.2b\">\n
+        \           <div id=\"ckan-logo\" class=\"retina-img\">\n              <img
+        src=\"/images/ckan-logo.png\" alt=\"Powered By CKAN\" />\n            </div>\n
+        \         </a>\n        </div>\n      </div>\n    </footer>\n  </div> <!--
+        /footer -->\n  <script type=\"text/javascript\">\n<!--//--><![CDATA[//><!--\nvar
+        _gaq = _gaq || [];_gaq.push([\"_setAccount\", \"UA-10855508-1\"]);\n_gaq.push([\"_trackPageview\"]);
+        _gaq.push([\"_setCustomVar\", 1, \"User type\", CKAN.USER ? 'logged in' :
+        'not logged in', 2]);(function() {var ga = document.createElement(\"script\");ga.type
+        = \"text/javascript\";ga.async = true;ga.src = (\"https:\" == document.location.protocol
+        ? \"https://ssl\" : \"http://www\") + \".google-analytics.com/ga.js\";var
+        s = document.getElementsByTagName(\"script\")[0];s.parentNode.insertBefore(ga,
+        s);})();\n//--><!]]>\n</script>\n</body>\n</html>\n\n"
+    http_version: 
+  recorded_at: Thu, 06 Mar 2014 08:13:31 GMT
+- request:
+    method: get
+    uri: http://data.gov.uk/api/3/action/package_show?id=ratio-of-median-house-price-to-median-earnings
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.4.4
+      Date:
+      - Thu, 06 Mar 2014 08:13:30 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '19192'
+      Connection:
+      - keep-alive
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-cache
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - POST, PUT, GET, DELETE, OPTIONS
+      Access-Control-Allow-Headers:
+      - X-CKAN-API-KEY, Authorization, Content-Type
+      Vary:
+      - Cookie
+      Accept-Ranges:
+      - bytes
+      X-Varnish:
+      - '285356396'
+      Age:
+      - '0'
+      Via:
+      - 1.1 varnish
+      X-App:
+      - ckan
+      X-Varnish-Cache:
+      - MISS
+    body:
+      encoding: UTF-8
+      string: "{\"help\": \"Return the metadata of a dataset (package) and its resources.\\n\\n
+        \   :param id: the id or name of the dataset\\n    :type id: string\\n    :param
+        use_default_schema: use default package schema instead of\\n        a custom
+        schema defined with an IDatasetForm plugin (default: False)\\n    :type use_default_schema:
+        bool\\n\\n    :rtype: dictionary\\n\\n    \", \"success\": true, \"result\":
+        {\"license_title\": \"UK Open Government Licence (OGL)\", \"maintainer\":
+        null, \"groups\": [], \"temporal_coverage-from\": \"\", \"relationships_as_object\":
+        [], \"data_dict\": \"{\\\"license_title\\\": \\\"UK Open Government Licence
+        (OGL)\\\", \\\"maintainer\\\": null, \\\"relationships_as_object\\\": [],
+        \\\"private\\\": false, \\\"maintainer_email\\\": null, \\\"revision_timestamp\\\":
+        \\\"2011-06-09T17:22:41.510973\\\", \\\"id\\\": \\\"6af32488-47fc-4fa4-a247-b3d1e83a51b2\\\",
+        \\\"metadata_created\\\": \\\"2010-12-03T12:56:56.954292\\\", \\\"metadata_modified\\\":
+        \\\"2013-12-13T11:31:57.454367\\\", \\\"author\\\": null, \\\"author_email\\\":
+        \\\"open_data@communities.gsi.gov.uk\\\", \\\"state\\\": \\\"active\\\", \\\"version\\\":
+        null, \\\"creator_user_id\\\": null, \\\"type\\\": \\\"dataset\\\", \\\"resources\\\":
+        [{\\\"resource_group_id\\\": \\\"0551d3ac-d7f9-8b1d-435d-848d3b68b5f9\\\",
+        \\\"cache_last_updated\\\": \\\"2013-06-19T05:50:19.058679\\\", \\\"revision_timestamp\\\":
+        \\\"2013-06-19T04:50:19.095105\\\", \\\"webstore_last_updated\\\": null, \\\"id\\\":
+        \\\"3a73de15-73df-487c-9144-111f09f5912f\\\", \\\"size\\\": \\\"186880\\\",
+        \\\"cache_filepath\\\": \\\"/mnt/shared/ckan_resource_cache/3a/3a73de15-73df-487c-9144-111f09f5912f/table577.xls\\\",
+        \\\"state\\\": \\\"active\\\", \\\"last_modified\\\": \\\"2013-06-19T05:50:19.058914\\\",
+        \\\"hash\\\": \\\"d71911e05b9f630ee6c7d225aa07e0da343f674b\\\", \\\"description\\\":
+        \\\"Table 577 Ratio of median house price to median earnings by district,
+        from 19971-6\\\", \\\"format\\\": \\\"XLS\\\", \\\"tracking_summary\\\": {\\\"total\\\":
+        0, \\\"recent\\\": 0}, \\\"mimetype_inner\\\": null, \\\"url_type\\\": null,
+        \\\"mimetype\\\": \\\"application/vnd.ms-excel\\\", \\\"cache_url\\\": \\\"http://data.gov.uk/data/resource_cache/3a/3a73de15-73df-487c-9144-111f09f5912f/table577.xls\\\",
+        \\\"name\\\": null, \\\"created\\\": \\\"2013-02-21T15:57:17.040766\\\", \\\"url\\\":
+        \\\"https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/85872/table577.xls\\\",
+        \\\"webstore_url\\\": null, \\\"position\\\": 0, \\\"revision_id\\\": \\\"3f7b1ed2-127f-41a6-b1f7-f2d0b705a7a0\\\",
+        \\\"resource_type\\\": \\\"file\\\"}], \\\"num_resources\\\": 1, \\\"tags\\\":
+        [{\\\"vocabulary_id\\\": null, \\\"display_name\\\": \\\"Environment\\\",
+        \\\"name\\\": \\\"Environment\\\", \\\"revision_timestamp\\\": \\\"2013-02-21T15:57:16.868309\\\",
+        \\\"state\\\": \\\"active\\\", \\\"id\\\": \\\"f5624e90-3567-4554-a582-cf5eeca87dab\\\"},
+        {\\\"vocabulary_id\\\": null, \\\"display_name\\\": \\\"Society\\\", \\\"name\\\":
+        \\\"Society\\\", \\\"revision_timestamp\\\": \\\"2013-02-21T15:57:16.868309\\\",
+        \\\"state\\\": \\\"active\\\", \\\"id\\\": \\\"a2c183f7-e704-41d3-b3b9-1377df4c595e\\\"}],
+        \\\"tracking_summary\\\": {\\\"total\\\": 0, \\\"recent\\\": 0}, \\\"groups\\\":
+        [], \\\"license_id\\\": \\\"uk-ogl\\\", \\\"relationships_as_subject\\\":
+        [], \\\"num_tags\\\": 2, \\\"organization\\\": {\\\"description\\\": \\\"We
+        work to move decision-making power from central government to local councils.
+        This helps put communities in charge of planning, increases accountability
+        and helps citizens to see how their money is being spent.\\\\r\\\\nDCLG is
+        a ministerial department, supported by 11 agencies and public bodies.\\\\r\\\\n\\\\r\\\\nhttps://www.gov.uk/government/organisations/department-for-communities-and-local-government\\\\r\\\\n\\\",
+        \\\"title\\\": \\\"Department for Communities and Local Government\\\", \\\"created\\\":
+        \\\"2012-06-27T14:48:38.548677\\\", \\\"approval_status\\\": \\\"pending\\\",
+        \\\"revision_timestamp\\\": \\\"2013-11-04T07:27:10.862786\\\", \\\"is_organization\\\":
+        true, \\\"state\\\": \\\"active\\\", \\\"image_url\\\": \\\"\\\", \\\"revision_id\\\":
+        \\\"eecd48f9-0dd9-4767-a516-b88ac31463bb\\\", \\\"type\\\": \\\"organization\\\",
+        \\\"id\\\": \\\"48f370c9-7ab9-4550-9722-8c9477020fc7\\\", \\\"name\\\": \\\"department-for-communities-and-local-government\\\"},
+        \\\"name\\\": \\\"ratio-of-median-house-price-to-median-earnings\\\", \\\"isopen\\\":
+        true, \\\"url\\\": null, \\\"notes\\\": \\\"Earnings data is taken from the
+        Annual Survey of Hours and Earnings (ASHE). This is based on a 1 per cent
+        sample of employee jobs. Information on earnings is obtained in confidence
+        from employers. It does not cover the self-employed nor does it cover employees
+        not paid during the reference period. Information is as at April each year.
+        The statistics used are workplace based full-time individual earnings.\\\\r\\\\nHM
+        Land Registry house price data is for the first half of the year only, so
+        it is comparable to the ASHE data which is as at April.\\\\r\\\\nThe 'lower
+        quartile' property price/income is determined by ranking all property prices/incomes
+        in ascending order. The lowest 25 per cent of prices are below the lower quartile;
+        the highest 75 per cent are above the lower quartile.\\\\r\\\\nThe 'median'
+        property price/income is determined by ranking all property prices/incomes
+        in ascending order. The point at which one half of the values are above and
+        one half are below is the median.\\\", \\\"owner_org\\\": \\\"48f370c9-7ab9-4550-9722-8c9477020fc7\\\",
+        \\\"extras\\\": [{\\\"state\\\": \\\"active\\\", \\\"value\\\": \\\"contactus@communities.gsi.gov.uk\\\",
+        \\\"revision_timestamp\\\": \\\"2013-12-13T11:31:57.454367\\\", \\\"package_id\\\":
+        \\\"6af32488-47fc-4fa4-a247-b3d1e83a51b2\\\", \\\"key\\\": \\\"contact-email\\\",
+        \\\"revision_id\\\": \\\"3d5621b2-ba91-4569-b654-bbef0d1efa5c\\\", \\\"id\\\":
+        \\\"42a2de5e-cdef-4d7a-a81f-c6d77d6bb0b1\\\"}, {\\\"state\\\": \\\"active\\\",
+        \\\"value\\\": \\\"\\\", \\\"revision_timestamp\\\": \\\"2013-12-13T11:31:57.454367\\\",
+        \\\"package_id\\\": \\\"6af32488-47fc-4fa4-a247-b3d1e83a51b2\\\", \\\"key\\\":
+        \\\"contact-name\\\", \\\"revision_id\\\": \\\"3d5621b2-ba91-4569-b654-bbef0d1efa5c\\\",
+        \\\"id\\\": \\\"30044e5a-37e7-4ed9-8fae-36be856374b7\\\"}, {\\\"state\\\":
+        \\\"active\\\", \\\"value\\\": \\\"\\\", \\\"revision_timestamp\\\": \\\"2013-12-13T11:31:57.454367\\\",
+        \\\"package_id\\\": \\\"6af32488-47fc-4fa4-a247-b3d1e83a51b2\\\", \\\"key\\\":
+        \\\"contact-phone\\\", \\\"revision_id\\\": \\\"3d5621b2-ba91-4569-b654-bbef0d1efa5c\\\",
+        \\\"id\\\": \\\"0844915f-0254-4558-a383-ae60e6b748d1\\\"}, {\\\"state\\\":
+        \\\"active\\\", \\\"value\\\": \\\"False\\\", \\\"revision_timestamp\\\":
+        \\\"2013-12-13T11:31:57.454367\\\", \\\"package_id\\\": \\\"6af32488-47fc-4fa4-a247-b3d1e83a51b2\\\",
+        \\\"key\\\": \\\"core-dataset\\\", \\\"revision_id\\\": \\\"3d5621b2-ba91-4569-b654-bbef0d1efa5c\\\",
+        \\\"id\\\": \\\"d30503b9-7072-478d-898e-252bbeb529de\\\"}, {\\\"state\\\":
+        \\\"active\\\", \\\"value\\\": \\\"foirequests@communities.gsi.gov.uk\\\",
+        \\\"revision_timestamp\\\": \\\"2013-12-13T11:31:57.454367\\\", \\\"package_id\\\":
+        \\\"6af32488-47fc-4fa4-a247-b3d1e83a51b2\\\", \\\"key\\\": \\\"foi-email\\\",
+        \\\"revision_id\\\": \\\"3d5621b2-ba91-4569-b654-bbef0d1efa5c\\\", \\\"id\\\":
+        \\\"821fdcca-4c15-4ee0-9a8d-ad0b41eca22b\\\"}, {\\\"state\\\": \\\"active\\\",
+        \\\"value\\\": \\\"DCLG FOI enquiries\\\", \\\"revision_timestamp\\\": \\\"2013-12-13T11:31:57.454367\\\",
+        \\\"package_id\\\": \\\"6af32488-47fc-4fa4-a247-b3d1e83a51b2\\\", \\\"key\\\":
+        \\\"foi-name\\\", \\\"revision_id\\\": \\\"3d5621b2-ba91-4569-b654-bbef0d1efa5c\\\",
+        \\\"id\\\": \\\"d50f7939-15c1-445a-a1d5-f4a0e8d6e539\\\"}, {\\\"state\\\":
+        \\\"active\\\", \\\"value\\\": \\\"\\\", \\\"revision_timestamp\\\": \\\"2013-12-13T11:31:57.454367\\\",
+        \\\"package_id\\\": \\\"6af32488-47fc-4fa4-a247-b3d1e83a51b2\\\", \\\"key\\\":
+        \\\"foi-phone\\\", \\\"revision_id\\\": \\\"3d5621b2-ba91-4569-b654-bbef0d1efa5c\\\",
+        \\\"id\\\": \\\"8e042119-ee55-4c47-a2d4-017944f3de6d\\\"}, {\\\"state\\\":
+        \\\"active\\\", \\\"value\\\": \\\"DCLG FOI enquiries\\\", \\\"revision_timestamp\\\":
+        \\\"2013-12-13T11:31:57.454367\\\", \\\"package_id\\\": \\\"6af32488-47fc-4fa4-a247-b3d1e83a51b2\\\",
+        \\\"key\\\": \\\"foi-web\\\", \\\"revision_id\\\": \\\"3d5621b2-ba91-4569-b654-bbef0d1efa5c\\\",
+        \\\"id\\\": \\\"9df36dd4-e2ec-4830-a3bd-7156747ac03f\\\"}, {\\\"state\\\":
+        \\\"active\\\", \\\"value\\\": \\\"100000: England\\\", \\\"revision_timestamp\\\":
+        \\\"2010-12-03T12:56:56.954292\\\", \\\"package_id\\\": \\\"6af32488-47fc-4fa4-a247-b3d1e83a51b2\\\",
+        \\\"key\\\": \\\"geographic_coverage\\\", \\\"revision_id\\\": \\\"0e8aff8a-78ea-435a-b607-55fb10940e63\\\",
+        \\\"id\\\": \\\"44091794-4a40-46db-b4e8-864ea88da498\\\"}, {\\\"state\\\":
+        \\\"active\\\", \\\"value\\\": \\\"\\\", \\\"revision_timestamp\\\": \\\"2011-06-09T17:22:41.510973\\\",
+        \\\"package_id\\\": \\\"6af32488-47fc-4fa4-a247-b3d1e83a51b2\\\", \\\"key\\\":
+        \\\"mandate\\\", \\\"revision_id\\\": \\\"7612028c-8d2b-4f87-bed0-961d5e5b5136\\\",
+        \\\"id\\\": \\\"ce4880eb-3386-41d6-90c4-c934f21e5c30\\\"}, {\\\"state\\\":
+        \\\"active\\\", \\\"value\\\": \\\"\\\", \\\"revision_timestamp\\\": \\\"2011-06-09T17:22:41.510973\\\",
+        \\\"package_id\\\": \\\"6af32488-47fc-4fa4-a247-b3d1e83a51b2\\\", \\\"key\\\":
+        \\\"temporal_coverage-from\\\", \\\"revision_id\\\": \\\"7612028c-8d2b-4f87-bed0-961d5e5b5136\\\",
+        \\\"id\\\": \\\"cf883b50-0df7-42cb-9866-1db505edae91\\\"}, {\\\"state\\\":
+        \\\"active\\\", \\\"value\\\": \\\"\\\", \\\"revision_timestamp\\\": \\\"2011-06-09T17:22:41.510973\\\",
+        \\\"package_id\\\": \\\"6af32488-47fc-4fa4-a247-b3d1e83a51b2\\\", \\\"key\\\":
+        \\\"temporal_coverage-to\\\", \\\"revision_id\\\": \\\"7612028c-8d2b-4f87-bed0-961d5e5b5136\\\",
+        \\\"id\\\": \\\"d4a90b07-e41a-43bb-b800-097bee6e5607\\\"}, {\\\"state\\\":
+        \\\"active\\\", \\\"value\\\": \\\"Society\\\", \\\"revision_timestamp\\\":
+        \\\"2013-12-13T11:31:57.454367\\\", \\\"package_id\\\": \\\"6af32488-47fc-4fa4-a247-b3d1e83a51b2\\\",
+        \\\"key\\\": \\\"theme-primary\\\", \\\"revision_id\\\": \\\"3d5621b2-ba91-4569-b654-bbef0d1efa5c\\\",
+        \\\"id\\\": \\\"c1f4f42b-b3d6-413f-8065-6fadd3d7d31c\\\"}, {\\\"state\\\":
+        \\\"active\\\", \\\"value\\\": \\\"false\\\", \\\"revision_timestamp\\\":
+        \\\"2013-12-13T11:31:57.454367\\\", \\\"package_id\\\": \\\"6af32488-47fc-4fa4-a247-b3d1e83a51b2\\\",
+        \\\"key\\\": \\\"unpublished\\\", \\\"revision_id\\\": \\\"3d5621b2-ba91-4569-b654-bbef0d1efa5c\\\",
+        \\\"id\\\": \\\"e5069cb3-9dde-402c-8945-1cdaab8e210e\\\"}, {\\\"state\\\":
+        \\\"active\\\", \\\"value\\\": \\\"\\\", \\\"revision_timestamp\\\": \\\"2011-06-09T17:22:41.510973\\\",
+        \\\"package_id\\\": \\\"6af32488-47fc-4fa4-a247-b3d1e83a51b2\\\", \\\"key\\\":
+        \\\"update_frequency\\\", \\\"revision_id\\\": \\\"7612028c-8d2b-4f87-bed0-961d5e5b5136\\\",
+        \\\"id\\\": \\\"ec507d39-8f9c-4626-96e5-dddeb1f70843\\\"}], \\\"license_url\\\":
+        \\\"http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/\\\",
+        \\\"title\\\": \\\"Ratio of median house price to median earnings\\\", \\\"revision_id\\\":
+        \\\"7612028c-8d2b-4f87-bed0-961d5e5b5136\\\"}\", \"mandate\": \"\", \"private\":
+        false, \"maintainer_email\": null, \"revision_timestamp\": \"2011-06-09T17:22:41.510973\",
+        \"foi-email\": \"foirequests@communities.gsi.gov.uk\", \"id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\",
+        \"metadata_created\": \"2010-12-03T12:56:56.954292\", \"metadata_modified\":
+        \"2013-12-13T11:31:57.454367\", \"author\": null, \"author_email\": \"open_data@communities.gsi.gov.uk\",
+        \"geographic_coverage\": [\"england\"], \"state\": \"active\", \"version\":
+        null, \"core-dataset\": \"False\", \"temporal_coverage-to\": \"\", \"license_id\":
+        \"uk-ogl\", \"foi-web\": \"DCLG FOI enquiries\", \"unpublished\": \"false\",
+        \"resources\": [{\"mimetype\": \"application/vnd.ms-excel\", \"cache_url\":
+        \"http://data.gov.uk/data/resource_cache/3a/3a73de15-73df-487c-9144-111f09f5912f/table577.xls\",
+        \"hash\": \"d71911e05b9f630ee6c7d225aa07e0da343f674b\", \"description\": \"Table
+        577 Ratio of median house price to median earnings by district, from 19971-6\",
+        \"format\": \"XLS\", \"url\": \"https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/85872/table577.xls\",
+        \"cache_last_updated\": \"2013-06-19T05:50:19.058679\", \"created\": \"2013-02-21T15:57:17.040766\",
+        \"cache_filepath\": \"/mnt/shared/ckan_resource_cache/3a/3a73de15-73df-487c-9144-111f09f5912f/table577.xls\",
+        \"tracking_summary\": {\"total\": 0, \"recent\": 0}, \"last_modified\": \"2013-06-19T05:50:19.058914\",
+        \"position\": 0, \"revision_id\": \"3f7b1ed2-127f-41a6-b1f7-f2d0b705a7a0\",
+        \"id\": \"3a73de15-73df-487c-9144-111f09f5912f\", \"resource_type\": \"file\",
+        \"size\": 186880}], \"num_resources\": 1, \"contact-email\": \"contactus@communities.gsi.gov.uk\",
+        \"tags\": [{\"vocabulary_id\": null, \"display_name\": \"Environment\", \"name\":
+        \"Environment\", \"revision_timestamp\": \"2013-02-21T15:57:16.868309\", \"state\":
+        \"active\", \"id\": \"f5624e90-3567-4554-a582-cf5eeca87dab\"}, {\"vocabulary_id\":
+        null, \"display_name\": \"Society\", \"name\": \"Society\", \"revision_timestamp\":
+        \"2013-02-21T15:57:16.868309\", \"state\": \"active\", \"id\": \"a2c183f7-e704-41d3-b3b9-1377df4c595e\"}],
+        \"title\": \"Ratio of median house price to median earnings\", \"foi-name\":
+        \"DCLG FOI enquiries\", \"tracking_summary\": {\"total\": 0, \"recent\": 0},
+        \"contact-phone\": \"\", \"creator_user_id\": null, \"relationships_as_subject\":
+        [], \"num_tags\": 2, \"organization\": {\"description\": \"We work to move
+        decision-making power from central government to local councils. This helps
+        put communities in charge of planning, increases accountability and helps
+        citizens to see how their money is being spent.\\r\\nDCLG is a ministerial
+        department, supported by 11 agencies and public bodies.\\r\\n\\r\\nhttps://www.gov.uk/government/organisations/department-for-communities-and-local-government\\r\\n\",
+        \"created\": \"2012-06-27T14:48:38.548677\", \"title\": \"Department for Communities
+        and Local Government\", \"name\": \"department-for-communities-and-local-government\",
+        \"revision_timestamp\": \"2013-11-04T07:27:10.862786\", \"is_organization\":
+        true, \"state\": \"active\", \"image_url\": \"\", \"revision_id\": \"eecd48f9-0dd9-4767-a516-b88ac31463bb\",
+        \"type\": \"organization\", \"id\": \"48f370c9-7ab9-4550-9722-8c9477020fc7\",
+        \"approval_status\": \"pending\"}, \"contact-name\": \"\", \"name\": \"ratio-of-median-house-price-to-median-earnings\",
+        \"isopen\": true, \"url\": null, \"type\": \"dataset\", \"notes\": \"Earnings
+        data is taken from the Annual Survey of Hours and Earnings (ASHE). This is
+        based on a 1 per cent sample of employee jobs. Information on earnings is
+        obtained in confidence from employers. It does not cover the self-employed
+        nor does it cover employees not paid during the reference period. Information
+        is as at April each year. The statistics used are workplace based full-time
+        individual earnings.\\r\\nHM Land Registry house price data is for the first
+        half of the year only, so it is comparable to the ASHE data which is as at
+        April.\\r\\nThe 'lower quartile' property price/income is determined by ranking
+        all property prices/incomes in ascending order. The lowest 25 per cent of
+        prices are below the lower quartile; the highest 75 per cent are above the
+        lower quartile.\\r\\nThe 'median' property price/income is determined by ranking
+        all property prices/incomes in ascending order. The point at which one half
+        of the values are above and one half are below is the median.\", \"owner_org\":
+        \"48f370c9-7ab9-4550-9722-8c9477020fc7\", \"extras\": [{\"package_id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\",
+        \"value\": \"contactus@communities.gsi.gov.uk\", \"revision_timestamp\": \"2013-12-13T11:31:57.454367\",
+        \"state\": \"active\", \"key\": \"contact-email\", \"revision_id\": \"3d5621b2-ba91-4569-b654-bbef0d1efa5c\",
+        \"id\": \"42a2de5e-cdef-4d7a-a81f-c6d77d6bb0b1\"}, {\"package_id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\",
+        \"value\": \"\", \"revision_timestamp\": \"2013-12-13T11:31:57.454367\", \"state\":
+        \"active\", \"key\": \"contact-name\", \"revision_id\": \"3d5621b2-ba91-4569-b654-bbef0d1efa5c\",
+        \"id\": \"30044e5a-37e7-4ed9-8fae-36be856374b7\"}, {\"package_id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\",
+        \"value\": \"\", \"revision_timestamp\": \"2013-12-13T11:31:57.454367\", \"state\":
+        \"active\", \"key\": \"contact-phone\", \"revision_id\": \"3d5621b2-ba91-4569-b654-bbef0d1efa5c\",
+        \"id\": \"0844915f-0254-4558-a383-ae60e6b748d1\"}, {\"package_id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\",
+        \"value\": \"False\", \"revision_timestamp\": \"2013-12-13T11:31:57.454367\",
+        \"state\": \"active\", \"key\": \"core-dataset\", \"revision_id\": \"3d5621b2-ba91-4569-b654-bbef0d1efa5c\",
+        \"id\": \"d30503b9-7072-478d-898e-252bbeb529de\"}, {\"package_id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\",
+        \"value\": \"foirequests@communities.gsi.gov.uk\", \"revision_timestamp\":
+        \"2013-12-13T11:31:57.454367\", \"state\": \"active\", \"key\": \"foi-email\",
+        \"revision_id\": \"3d5621b2-ba91-4569-b654-bbef0d1efa5c\", \"id\": \"821fdcca-4c15-4ee0-9a8d-ad0b41eca22b\"},
+        {\"package_id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\", \"value\": \"DCLG
+        FOI enquiries\", \"revision_timestamp\": \"2013-12-13T11:31:57.454367\", \"state\":
+        \"active\", \"key\": \"foi-name\", \"revision_id\": \"3d5621b2-ba91-4569-b654-bbef0d1efa5c\",
+        \"id\": \"d50f7939-15c1-445a-a1d5-f4a0e8d6e539\"}, {\"package_id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\",
+        \"value\": \"\", \"revision_timestamp\": \"2013-12-13T11:31:57.454367\", \"state\":
+        \"active\", \"key\": \"foi-phone\", \"revision_id\": \"3d5621b2-ba91-4569-b654-bbef0d1efa5c\",
+        \"id\": \"8e042119-ee55-4c47-a2d4-017944f3de6d\"}, {\"package_id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\",
+        \"value\": \"DCLG FOI enquiries\", \"revision_timestamp\": \"2013-12-13T11:31:57.454367\",
+        \"state\": \"active\", \"key\": \"foi-web\", \"revision_id\": \"3d5621b2-ba91-4569-b654-bbef0d1efa5c\",
+        \"id\": \"9df36dd4-e2ec-4830-a3bd-7156747ac03f\"}, {\"package_id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\",
+        \"value\": \"100000: England\", \"revision_timestamp\": \"2010-12-03T12:56:56.954292\",
+        \"state\": \"active\", \"key\": \"geographic_coverage\", \"revision_id\":
+        \"0e8aff8a-78ea-435a-b607-55fb10940e63\", \"id\": \"44091794-4a40-46db-b4e8-864ea88da498\"},
+        {\"package_id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\", \"value\": \"\",
+        \"revision_timestamp\": \"2011-06-09T17:22:41.510973\", \"state\": \"active\",
+        \"key\": \"mandate\", \"revision_id\": \"7612028c-8d2b-4f87-bed0-961d5e5b5136\",
+        \"id\": \"ce4880eb-3386-41d6-90c4-c934f21e5c30\"}, {\"package_id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\",
+        \"value\": \"\", \"revision_timestamp\": \"2011-06-09T17:22:41.510973\", \"state\":
+        \"active\", \"key\": \"temporal_coverage-from\", \"revision_id\": \"7612028c-8d2b-4f87-bed0-961d5e5b5136\",
+        \"id\": \"cf883b50-0df7-42cb-9866-1db505edae91\"}, {\"package_id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\",
+        \"value\": \"\", \"revision_timestamp\": \"2011-06-09T17:22:41.510973\", \"state\":
+        \"active\", \"key\": \"temporal_coverage-to\", \"revision_id\": \"7612028c-8d2b-4f87-bed0-961d5e5b5136\",
+        \"id\": \"d4a90b07-e41a-43bb-b800-097bee6e5607\"}, {\"package_id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\",
+        \"value\": \"Society\", \"revision_timestamp\": \"2013-12-13T11:31:57.454367\",
+        \"state\": \"active\", \"key\": \"theme-primary\", \"revision_id\": \"3d5621b2-ba91-4569-b654-bbef0d1efa5c\",
+        \"id\": \"c1f4f42b-b3d6-413f-8065-6fadd3d7d31c\"}, {\"package_id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\",
+        \"value\": \"false\", \"revision_timestamp\": \"2013-12-13T11:31:57.454367\",
+        \"state\": \"active\", \"key\": \"unpublished\", \"revision_id\": \"3d5621b2-ba91-4569-b654-bbef0d1efa5c\",
+        \"id\": \"e5069cb3-9dde-402c-8945-1cdaab8e210e\"}, {\"package_id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\",
+        \"value\": \"\", \"revision_timestamp\": \"2011-06-09T17:22:41.510973\", \"state\":
+        \"active\", \"key\": \"update_frequency\", \"revision_id\": \"7612028c-8d2b-4f87-bed0-961d5e5b5136\",
+        \"id\": \"ec507d39-8f9c-4626-96e5-dddeb1f70843\"}], \"license_url\": \"http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/\",
+        \"individual_resources\": [{\"mimetype\": \"application/vnd.ms-excel\", \"cache_url\":
+        \"http://data.gov.uk/data/resource_cache/3a/3a73de15-73df-487c-9144-111f09f5912f/table577.xls\",
+        \"hash\": \"d71911e05b9f630ee6c7d225aa07e0da343f674b\", \"description\": \"Table
+        577 Ratio of median house price to median earnings by district, from 19971-6\",
+        \"format\": \"XLS\", \"url\": \"https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/85872/table577.xls\",
+        \"cache_last_updated\": \"2013-06-19T05:50:19.058679\", \"created\": \"2013-02-21T15:57:17.040766\",
+        \"cache_filepath\": \"/mnt/shared/ckan_resource_cache/3a/3a73de15-73df-487c-9144-111f09f5912f/table577.xls\",
+        \"tracking_summary\": {\"total\": 0, \"recent\": 0}, \"last_modified\": \"2013-06-19T05:50:19.058914\",
+        \"position\": 0, \"revision_id\": \"3f7b1ed2-127f-41a6-b1f7-f2d0b705a7a0\",
+        \"id\": \"3a73de15-73df-487c-9144-111f09f5912f\", \"resource_type\": \"file\",
+        \"size\": 186880}], \"update_frequency\": \"\", \"revision_id\": \"7612028c-8d2b-4f87-bed0-961d5e5b5136\",
+        \"foi-phone\": \"\", \"theme-primary\": \"Society\"}}"
+    http_version: 
+  recorded_at: Thu, 06 Mar 2014 08:13:31 GMT
+- request:
+    method: get
+    uri: http://data.gov.uk/api/rest/package/6af32488-47fc-4fa4-a247-b3d1e83a51b2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.4.4
+      Date:
+      - Thu, 06 Mar 2014 08:13:30 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '5519'
+      Connection:
+      - keep-alive
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-cache
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - POST, PUT, GET, DELETE, OPTIONS
+      Access-Control-Allow-Headers:
+      - X-CKAN-API-KEY, Authorization, Content-Type
+      Vary:
+      - Cookie
+      Accept-Ranges:
+      - bytes
+      X-Varnish:
+      - '285356398'
+      Age:
+      - '0'
+      Via:
+      - 1.1 varnish
+      X-App:
+      - ckan
+      X-Varnish-Cache:
+      - MISS
+    body:
+      encoding: UTF-8
+      string: "{\"license_title\": \"UK Open Government Licence (OGL)\", \"maintainer\":
+        null, \"private\": false, \"maintainer_email\": null, \"id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\",
+        \"metadata_created\": \"2010-12-03T12:56:56.954292\", \"relationships\": [],
+        \"license\": \"UK Open Government Licence (OGL)\", \"metadata_modified\":
+        \"2013-12-13T11:31:57.454367\", \"author\": null, \"author_email\": \"open_data@communities.gsi.gov.uk\",
+        \"download_url\": \"https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/85872/table577.xls\",
+        \"state\": \"active\", \"version\": null, \"creator_user_id\": null, \"type\":
+        \"dataset\", \"resources\": [{\"resource_group_id\": \"0551d3ac-d7f9-8b1d-435d-848d3b68b5f9\",
+        \"cache_last_updated\": \"2013-06-19T05:50:19.058679\", \"package_id\": \"6af32488-47fc-4fa4-a247-b3d1e83a51b2\",
+        \"webstore_last_updated\": null, \"id\": \"3a73de15-73df-487c-9144-111f09f5912f\",
+        \"size\": \"186880\", \"cache_filepath\": \"/mnt/shared/ckan_resource_cache/3a/3a73de15-73df-487c-9144-111f09f5912f/table577.xls\",
+        \"last_modified\": \"2013-06-19T05:50:19.058914\", \"hash\": \"d71911e05b9f630ee6c7d225aa07e0da343f674b\",
+        \"description\": \"Table 577 Ratio of median house price to median earnings
+        by district, from 19971-6\", \"format\": \"XLS\", \"mimetype_inner\": null,
+        \"url_type\": null, \"mimetype\": \"application/vnd.ms-excel\", \"cache_url\":
+        \"http://data.gov.uk/data/resource_cache/3a/3a73de15-73df-487c-9144-111f09f5912f/table577.xls\",
+        \"name\": null, \"created\": \"2013-02-21T15:57:17.040766\", \"url\": \"https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/85872/table577.xls\",
+        \"webstore_url\": null, \"position\": 0, \"resource_type\": \"file\"}], \"num_resources\":
+        1, \"tags\": [\"Environment\", \"Society\"], \"groups\": [], \"license_id\":
+        \"uk-ogl\", \"num_tags\": 2, \"organization\": {\"description\": \"We work
+        to move decision-making power from central government to local councils. This
+        helps put communities in charge of planning, increases accountability and
+        helps citizens to see how their money is being spent.\\r\\nDCLG is a ministerial
+        department, supported by 11 agencies and public bodies.\\r\\n\\r\\nhttps://www.gov.uk/government/organisations/department-for-communities-and-local-government\\r\\n\",
+        \"title\": \"Department for Communities and Local Government\", \"created\":
+        \"2012-06-27T14:48:38.548677\", \"approval_status\": \"pending\", \"revision_timestamp\":
+        \"2013-11-04T07:27:10.862786\", \"is_organization\": true, \"state\": \"active\",
+        \"image_url\": \"\", \"revision_id\": \"eecd48f9-0dd9-4767-a516-b88ac31463bb\",
+        \"type\": \"organization\", \"id\": \"48f370c9-7ab9-4550-9722-8c9477020fc7\",
+        \"name\": \"department-for-communities-and-local-government\"}, \"name\":
+        \"ratio-of-median-house-price-to-median-earnings\", \"isopen\": true, \"notes_rendered\":
+        \"<p>Earnings data is taken from the Annual Survey of Hours and Earnings (ASHE).
+        This is based on a 1 per cent sample of employee jobs. Information on earnings
+        is obtained in confidence from employers. It does not cover the self-employed
+        nor does it cover employees not paid during the reference period. Information
+        is as at April each year. The statistics used are workplace based full-time
+        individual earnings.\\n   HM Land Registry house price data is for the first
+        half of the year only, so it is comparable to the ASHE data which is as at
+        April.\\n   The 'lower quartile' property price/income is determined by ranking
+        all property prices/incomes in ascending order. The lowest 25 per cent of
+        prices are below the lower quartile; the highest 75 per cent are above the
+        lower quartile.\\n   The 'median' property price/income is determined by ranking
+        all property prices/incomes in ascending order. The point at which one half
+        of the values are above and one half are below is the median.\\n</p>\", \"url\":
+        null, \"ckan_url\": \"http://data.gov.uk/dataset/ratio-of-median-house-price-to-median-earnings\",
+        \"notes\": \"Earnings data is taken from the Annual Survey of Hours and Earnings
+        (ASHE). This is based on a 1 per cent sample of employee jobs. Information
+        on earnings is obtained in confidence from employers. It does not cover the
+        self-employed nor does it cover employees not paid during the reference period.
+        Information is as at April each year. The statistics used are workplace based
+        full-time individual earnings.\\r\\nHM Land Registry house price data is for
+        the first half of the year only, so it is comparable to the ASHE data which
+        is as at April.\\r\\nThe 'lower quartile' property price/income is determined
+        by ranking all property prices/incomes in ascending order. The lowest 25 per
+        cent of prices are below the lower quartile; the highest 75 per cent are above
+        the lower quartile.\\r\\nThe 'median' property price/income is determined
+        by ranking all property prices/incomes in ascending order. The point at which
+        one half of the values are above and one half are below is the median.\",
+        \"owner_org\": \"48f370c9-7ab9-4550-9722-8c9477020fc7\", \"ratings_average\":
+        null, \"extras\": {\"geographic_coverage\": \"100000: England\", \"contact-name\":
+        \"\", \"contact-phone\": \"\", \"contact-email\": \"contactus@communities.gsi.gov.uk\",
+        \"foi-web\": \"DCLG FOI enquiries\", \"foi-name\": \"DCLG FOI enquiries\",
+        \"temporal_coverage-to\": \"\", \"foi-email\": \"foirequests@communities.gsi.gov.uk\",
+        \"core-dataset\": \"False\", \"mandate\": \"\", \"update_frequency\": \"\",
+        \"foi-phone\": \"\", \"unpublished\": \"false\", \"temporal_coverage-from\":
+        \"\", \"theme-primary\": \"Society\"}, \"license_url\": \"http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/\",
+        \"ratings_count\": 0, \"title\": \"Ratio of median house price to median earnings\",
+        \"revision_id\": \"7612028c-8d2b-4f87-bed0-961d5e5b5136\"}"
+    http_version: 
+  recorded_at: Thu, 06 Mar 2014 08:13:31 GMT
+- request:
+    method: head
+    uri: https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/85872/table577.xls
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 06 Mar 2014 08:13:31 GMT
+      Server:
+      - nginx
+      Content-Type:
+      - application/vnd.ms-excel
+      Cache-Control:
+      - max-age=900, public
+      Content-Disposition:
+      - inline; filename="table577.xls"
+      Etag:
+      - "\"5123667e-2da00\""
+      Last-Modified:
+      - Tue, 19 Feb 2013 11:48:14 GMT
+      Strict-Transport-Security:
+      - max-age=31536000
+      - max-age=31536000
+      - max-age=31536000
+      - max-age=31536000
+      - max-age=31536000
+      Via:
+      - 1.1 router
+      - 1.1 varnish
+      - 1.1 varnish
+      X-Frame-Options:
+      - DENY
+      Content-Length:
+      - '186880'
+      Accept-Ranges:
+      - bytes
+      Age:
+      - '0'
+      X-Served-By:
+      - cache-lcy1121-LCY
+      X-Cache:
+      - MISS, MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1394093611.153116703,VS0,VE236
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    http_version: 
+  recorded_at: Thu, 06 Mar 2014 08:13:31 GMT
+recorded_with: VCR 2.8.0

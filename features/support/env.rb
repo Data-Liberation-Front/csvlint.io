@@ -8,6 +8,7 @@ require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'timecop'
 require 'capybara/poltergeist'
+require 'vcr'
 
 require 'coveralls'
 Coveralls.wear_merged!('rails')
@@ -18,8 +19,8 @@ Coveralls.wear_merged!('rails')
 # Capybara.default_selector = :xpath
 
 # By default, any exception happening in your Rails application will bubble up
-# to Cucumber so that your scenario will fail. This is a different from how 
-# your application behaves in the production environment, where an error page will 
+# to Cucumber so that your scenario will fail. This is a different from how
+# your application behaves in the production environment, where an error page will
 # be rendered instead.
 #
 # Sometimes we want to override this default behaviour and allow Rails to rescue
@@ -67,9 +68,18 @@ After('@timecop') do
   Timecop.return
 end
 
+VCR.configure do |c|
+  c.hook_into :webmock
+  c.cassette_library_dir = 'features/cassettes'
+  c.default_cassette_options = { :record => :once }
+  c.ignore_hosts "static.dev", "127.0.0.1"
+end
+
+VCR.cucumber_tags do |t|
+  t.tag  '@vcr', :use_scenario_name => true
+end
+
 # Possible values are :truncation and :transaction
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
-
-
