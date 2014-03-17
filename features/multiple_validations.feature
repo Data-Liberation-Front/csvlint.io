@@ -46,7 +46,6 @@ Feature: Multiple CSV Validation
         |http://example.org/test3.csv|
         |http://example.org/test4.csv|
       And I check the "schema" checkbox
-      And I click the "From file" tab
       And I attach the file "schemas/valid.json" to the "schema_file" field
       And I press "Validate"
       Then I should be redirected to my package page
