@@ -17,9 +17,27 @@
 @import "main";
 @import "font-awesome";
 
+#badgeModal {
+  .modal-dialog {
+    left: 0;
+  }
+  
+  .modal-header {
+    background-color: $odiOrange;
+    color: #fff;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+}
+
 .badge-code {
   table {
     width: 100%;
+    border-top: 0;
     td:first-child {
       vertical-align: top;
       padding-right: 10px;
