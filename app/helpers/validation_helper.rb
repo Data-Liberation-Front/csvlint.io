@@ -73,5 +73,9 @@ module ValidationHelper
   def constraint(message, validator, name)
     schema_field(message, validator).try(:constraints).try(:[], name)
   end
+  
+  def category_count(message, category)
+    message.select{ |m| m.category == category }.count
+  end
 
 end

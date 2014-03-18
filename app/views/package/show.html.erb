@@ -11,14 +11,18 @@
 <table class="table">
   <thead>
     <tr>
-      <th><%= @package.type == "files" ? "Filename" : "File URL" %></th>
       <th>Status</th>
+      <th><%= @package.type == "files" ? "Filename" : "File URL" %></th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     <% @validations.each do |validation| %>
-      <%= render 'validation/validation', validation: validation %>
+      <tr>
+        <td><%= image_tag validation_url(validation, format: :png) %></td>
+        <td class="url"><%= validation.url.blank? ? validation.filename : validation.url %></td>
+        <td class="text-right"><%= link_to "<i class='glyphicon glyphicon-list-alt'></i> View report".html_safe, validation_url(validation), title: "View report for #{validation.url}" %></td>
+      </tr>
     <% end %>
   </tbody>
 </table>

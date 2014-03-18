@@ -2,38 +2,81 @@
   <%= t(:results).titleize %>
 <% end %>
 
-<% unless @validation.url.nil? && @validation.schema.nil? %>
-  <%= form_tag validation_path(params[:id]), :id => 'result_form' do %>
-    <%= hidden_field_tag '_method', "put"%>
-    <% unless @validation.url.nil? %>
-      <%= url_field_tag 'url', @validation.url, class: 'form-control', placeholder: t(:enter_csv_url)%>
-      <br/>
-    <% end %>
-    <% unless @validation.schema.nil? %>
-      <%= url_field_tag 'schema_url', @validation.schema.url, class: 'form-control', placeholder: t(:enter_schema_url)%>
-      <br/>
-    <% end %>
-    <span class="input-group-btn"><%= submit_tag t(:validate).titleize, class: 'btn btn-primary btn-block btn-lg' %></span>
-  <% end %>
+<% content_for :header do %>
+  <div class="container">
+        <h1 class="pull-left"><%= yield :title %></h1>
+        <%= image_tag validation_url(@validation, format: 'svg'), :'data-toggle' => "modal", :'data-target' => "#badgeModal", :class => "pull-right result-badge"%>
+    </div>
 <% end %>
 
-<% if @result.valid? %>
-  <div class="alert alert-success" id="result">
-    <% if @result.warnings.count == 0 %>
-      <%= image_tag 'http://b.adge.me/:CSV%20-%20valid-green.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
-      <p><%= t(:valid_html) %></p>
-    <% else %>
-      <%= image_tag 'http://b.adge.me/:CSV%20-%20warnings-yellow.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
-      <p><%= t(:valid_html) %> <%= t(:valid_with_warnings) %></p>
-    <% end %>
+<div class="row">
+  <div class="col-md-12"> 
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2><%= @validation.url %></h2>
+        <div class="row">
+           <div class="col-sm-4">
+             <% if @result.valid? %>
+               <% if @result.warnings.count == 0 %>
+                <p><%= t(:valid_html) %></p>
+              <% else %>
+                <p><%= t(:valid_html) %> <%= t(:valid_with_warnings) %></p>
+              <% end %>
+            <% else %>
+              <p><%= t(:invalid_html) %></p>
+            <% end %>
+            
+            <%= link_to '<i class="fa fa-cloud-download"></i> '.html_safe + t(:standardised_csv_download), validation_path(@validation, format: :csv), class: 'btn btn-primary btn-lg' %>
+            
+            <% unless @validation.url.nil? && @validation.schema.nil? %>
+              <%= form_tag validation_path(params[:id]), :id => 'result_form' do %>
+                <%= hidden_field_tag '_method', "put"%>
+                <% unless @validation.url.nil? %>
+                  <%= hidden_field_tag 'url', @validation.url %>
+                <% end %>
+                <% unless @validation.schema.nil? %>
+                  <%= hidden_field_tag 'schema_url', @validation.schema.url %>
+                <% end %>
+                <button class="btn btn-primary btn-lg btn-revalidate">
+                  <i class="fa fa-refresh"></i>
+                  <%= t(:validate_again) %>
+                </button>
+              <% end %>
+            <% end %>
+           </div>
+           <div class="col-sm-8">
+             <table class="table table-hover report-results">
+               <tr>
+                 <th></th>
+                 <th class="danger"><span class="result"><%= @result.errors.count %></span>Errors</td>
+                 <th class="warning"><span class="result"><%= @result.warnings.count %></span>Warnings</td>
+                 <th class="info"><span class="result"><%= @result.info_messages.count %></span>Messages</td>
+               </tr>
+               <tr>
+                 <td class="name">Structure</td>
+                 <td class="danger"><%= category_count(@result.errors, :structure) %></td>
+                 <td class="warning"><%= category_count(@result.warnings, :structure) %></td>
+                 <td class="active info-none"><%= category_count(@result.info_messages, :structure) %></td>
+               </tr>
+               <tr>
+                 <td class="name">Schema</td>
+                 <td class="danger"><%= category_count(@result.errors, :schema) %></td>
+                 <td class="active warning-none"><%= category_count(@result.warnings, :schema) %></td>
+                 <td class="info"><%= category_count(@result.info_messages, :schema) %></td>
+               </tr>
+               <tr>
+                 <td class="name">Context</td>
+                 <td class="active danger-none"><%= category_count(@result.errors, :context) %></td>
+                 <td class="warning"><%= category_count(@result.warnings, :context) %></td>
+                 <td class="info"><%= category_count(@result.info_messages, :context) %></td>
+               </tr>
+             </table>
+            </div>
+        </div>
+      </div>
+    </div>
   </div>
-<% else %>
-  <div class="alert alert-danger" id="result">
-    <%= image_tag 'http://b.adge.me/:CSV%20-%20invalid-red.svg', :'data-toggle' => "modal", :'data-target' => "#badgeModal" %>
-    <p><%= t(:invalid_html) %></p>
-          
-  </div>
-<% end %>
+</div>
 
 <% if @result.warnings.select { |warning| warning.type == :check_options }.any? %>
   <%= form_tag validation_path(params[:id]), id: 'revalidate', class: 'form-inline alert alert-warning' do %>
@@ -50,7 +93,7 @@
     </div>
     <!-- Delimiter -->
     <div class="form-group">
-      <%= label_tag :delimiter, t(:field_delimiter)  %> <%= text_field_tag :delimiter, @dialect["delimiter"], class: 'form-control', maxlength: '1' %>
+      <%= label_tag :delimiter, t(:field_delimiter)  %> <%= text_field_tag :delimiter, @dialect["delimiter"], class: 'form-control form-control-small', maxlength: '1' %>
     </div>
     <!-- Line terminator -->
     <div class="form-group">
@@ -62,9 +105,9 @@
     </div>
     <!-- Quote char -->
     <div class="form-group">
-      <%= label_tag :quote_char, t(:quote_character) %> <%= text_field_tag :quote_char, @dialect["quoteChar"], class: 'form-control', maxlength: '1' %>
+      <%= label_tag :quote_char, t(:quote_character) %> <%= text_field_tag :quote_char, @dialect["quoteChar"], class: 'form-control form-control-small', maxlength: '1' %>
     </div>
-    <%= submit_tag t(:revalidate).titleize, class: 'btn btn-primary' %>
+    <%= submit_tag t(:revalidate).titleize, class: 'btn btn-primary btn-warning' %>
   <% end %>
 <% end %>
 
@@ -77,7 +120,3 @@
 <%= render :partial => 'info_messages' %>
 
 <%= render 'badge_modal'%>
-
-<div>
-  <%= link_to '<i class="fa fa-cloud-download"></i> '.html_safe + t(:standardised_csv_download), validation_path(@validation, format: :csv), class: 'btn btn-primary' %>
-</div>

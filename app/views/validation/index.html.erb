@@ -4,11 +4,17 @@
 
 <div class="row">
   <div class="col-md-6">
+      <p>CSV looks easy, but it can be hard to make a CSV file that other people can read easily. CSVLint helps you to check 
+    that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
+
+    <p>Just enter the location of the file you want to check, or upload it. If you have a schema which describes the 
+    contents of the CSV file, you can also give its URL or upload it. <a href="/about">Read more...</a></p>
+  </div>
+  <div class="col-md-6 primary">
     <%= form_tag validation_index_path, multipart: true do %>
     
 
-          <p>Submitted urls are recorded in a public <a href="/validation/list">list of validation reports</a>. If you want to validate 
-          private data then use the <a href="#" id="switch">From file</a> option.</p>
+          <p>Submitted urls are recorded in a public <a href="/validation/list">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
           
           <div id="url">
             <div class="input-group url-template url-group hidden" style="margin-top: 5px"> 
@@ -19,7 +25,7 @@
               <span class="input-group-btn btn btn-info btn-clone">+</span>
             </div>
           </div>
-          <p>Or upload a file:</p>
+          <p class="options">Or upload a file:</p>
        
           <div class="input-group">  
 
@@ -48,17 +54,13 @@
               <%= text_field_tag 'schema_filename', 'No schema file chosen', class: 'form-control', readonly: '' %>
             </div>
       </div>
-
-      <%= submit_tag t(:validate).titleize, class: 'btn btn-primary btn-block btn-lg' %>
-
+      
+      <button type="submit" class="btn btn-primary btn-block btn-lg">
+        <i class="glyphicon glyphicon-ok"></i>
+        <%= t(:validate).titleize %>
+      </button>
+      
       <% end %>
-  </div>
-  <div class="col-md-6">
-    <p>CSV looks easy, but it can be hard to make a CSV file that other people can read easily. CSVLint helps you to check 
-  that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
-
-  <p>Just enter the location of the file you want to check, or upload it. If you have a schema which describes the 
-  contents of the CSV file, you can also give its URL or upload it. <a href="/about">Read more...</a></p>
   </div>
   
 </div>

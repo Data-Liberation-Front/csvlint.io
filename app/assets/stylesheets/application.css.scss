@@ -16,10 +16,58 @@
 
 @import "main";
 @import "font-awesome";
+@import "colours";
+
+.odi-orange {
+  .page-title, .site-title .status {
+    background-color: $odiOrange;
+  }
+  .caret {
+    border-top-color: $odiOrange;
+    border-bottom-color: $odiOrange;
+  }
+}
+
+h1.site-title {
+  font-size: 32px;
+  margin: 10px 0;
+  position: relative;
+  a {
+    color: #fff;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  .label {
+    position: absolute;
+    font-size: 12px;
+    top: -12px;
+    right: -60px;
+    padding: 5px;
+  }
+}
+
+#badgeModal {
+  .modal-dialog {
+    left: 0;
+  }
+  
+  .modal-header {
+    background-color: $odiOrange;
+    color: #fff;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+}
 
 .badge-code {
   table {
     width: 100%;
+    border-top: 0;
     td:first-child {
       vertical-align: top;
       padding-right: 10px;
@@ -71,7 +119,7 @@ background-color: $odiOrange;
     width: 100%;
   }
 
-  a.btn-primary {
+  a.btn-primary, button.btn-primary {
     color: #ffffff;
     text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
     background: #1dd3a7;
@@ -83,6 +131,11 @@ background-color: $odiOrange;
     border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
     filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
     width: auto;
+  }
+  
+  .btn-revalidate {
+    background-color: $odiOrange !important;
+    margin-top: 10px;
   }
   
   .btn-file {
@@ -109,13 +162,12 @@ background-color: $odiOrange;
     background-color: #fff;
     height: 60px;
     font-size: 22px;
-    color: $odiGreyLight;
-
   }
 
     input.form-control.form-control-small {
-      height: 30px;
+    height: 30px;
     font-size: 16px;
+    width: 35px;
     }
 
   .input-group.last {
