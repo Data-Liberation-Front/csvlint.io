@@ -165,7 +165,7 @@ Feature: CSV Validation
     And I select "LF (\n)" from the "Line terminator" dropdown
     And I press "Revalidate"
     Then I should see a page of validation results
-    When I click on "Download Standardised CSV File"
+    When I click on "Download Standardised CSV"
     Then a CSV file should be downloaded
     And that CSV file should have a field "firstname"
     And that CSV file should have a field "lastname"
