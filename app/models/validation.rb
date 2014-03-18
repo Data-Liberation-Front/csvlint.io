@@ -69,6 +69,8 @@ class Validation
         v = v.update_validation (validator.dialect) if v.updated_at <= 2.hours.ago
       rescue RestClient::NotModified
         nil
+      rescue
+        v.update_attributes(state: "not_found")
       end
     end
     v
