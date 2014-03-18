@@ -4,7 +4,7 @@ end
 
 Then(/^my url should have a link to the latest report next to it$/) do
   validation = Validation.last
-  find('table tbody tr:first td:last a')[:href].should eql(validation_url(validation))
+  page.all('table tbody tr:first a')[0][:href].should eql(validation_url(validation))
 end
 
 Given(/^I visit the list page$/) do
