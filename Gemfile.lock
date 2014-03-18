@@ -338,6 +338,7 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
+    rubyzip (1.1.0)
     safe_yaml (1.0.1)
     sass (3.2.14)
     sass-rails (4.0.1)
@@ -458,6 +459,7 @@ DEPENDENCIES
   rails (~> 4.0.2)
   rest-client
   rspec-rails
+  rubyzip
   sass-rails (~> 4.0.0)
   sdoc
   simplecov (~> 0.7.1)

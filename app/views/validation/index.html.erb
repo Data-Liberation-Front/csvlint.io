@@ -1,112 +1,23 @@
 <% content_for :title do %>
-  Check your CSV files with CSVLint
+  <%= t(:list).titleize %>
 <% end %>
 
-<div class="row">
-  <div class="col-md-6">
-      <p>CSV looks easy, but it can be hard to make a CSV file that other people can read easily. CSVLint helps you to check 
-    that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>File URL</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @validations.each do |validation| %>
+      <%= render 'validation', validation: validation %>
+    <% end %>
+  </tbody>
+</table>
 
-    <p>Just enter the location of the file you want to check, or upload it. If you have a schema which describes the 
-    contents of the CSV file, you can also give its URL or upload it. <a href="/about">Read more...</a></p>
-  </div>
-  <div class="col-md-6 primary">
-    <%= form_tag validation_index_path, multipart: true do %>
-    
-
-          <p>Submitted urls are recorded in a public <a href="/validation/list">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
-          
-          <div id="url">
-            <div class="input-group url-template url-group hidden" style="margin-top: 5px"> 
-              <%= url_field_tag 'urls[]', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
-            </div>
-            <div class="input-group url-group"> 
-              <%= url_field_tag 'urls[]', '', class: 'form-control', id: 'url_0', placeholder: t(:enter_csv_url) %>
-              <span class="input-group-btn btn btn-info btn-clone">+</span>
-            </div>
-          </div>
-          <p class="options">Or upload a file:</p>
-       
-          <div class="input-group">  
-
-            <span class="input-group-btn btn btn-info btn-file">
-              Browse... <%= file_field_tag 'files[]', multiple: true %>
-            </span>
-            <%= text_field_tag 'filename', 'No file chosen', class: 'form-control', readonly: '' %>
-          </div>
-        
-        
-        <div class="checkbox">
-          <label>
-            <%= check_box_tag 'schema' %>
-            <%= label_tag 'schema', 'Add optional schema'%>
-          </label>
-        </div>
-
-      <div id="schemas" class="hidden">
-       
-            <%= url_field_tag 'schema_url', '', class: 'form-control', placeholder: t(:enter_schema_url)%>
-            <p>Or upload a file:</p>
-            <div class="input-group">  
-              <span class="input-group-btn btn btn-info btn-file">
-                Browse... <%= file_field_tag 'schema_file' %>
-              </span>
-              <%= text_field_tag 'schema_filename', 'No schema file chosen', class: 'form-control', readonly: '' %>
-            </div>
-      </div>
-      
-      <button type="submit" class="btn btn-primary btn-block btn-lg">
-        <i class="glyphicon glyphicon-ok"></i>
-        <%= t(:validate).titleize %>
-      </button>
-      
-      <% end %>
-  </div>
-  
+<div class="text-center">
+  <%= paginate @validations, :theme => 'twitter-bootstrap-3' %>
 </div>
-
-
-
-<% content_for :extra_javascript do %>
-
-<script type="text/javascript">
-	$(document)
-		.on('change', '.btn-file :file', function() {
-			var input = $(this),
-			numFiles = input.get(0).files ? input.get(0).files.length : 1,
-			label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-			input.trigger('fileselect', [numFiles, label]);
-	});
-	
-	$(document).ready( function() {
-	  var count = 1
-	  
-		$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-			
-			var input = $(this).parents('.input-group').find(':text'),
-				log = numFiles > 1 ? numFiles + ' files selected' : label;
-			
-			input.val(log);
-		});
-		
-		$('#schema').click(function() {
-		  $('#schemas').toggleClass('hidden')
-		})
-		
-		
-		$('.btn-clone').click(function() {
-		  cloned = $('.url-template:first').clone().appendTo('#url').removeClass('hidden');
-		  cloned.find('input:first').attr('id', 'url_' + count);
-		  $('.btn-clone:first').appendTo('.url-template:last');
-		  count = count + 1
-		})
-		
-   		$('#switch').click( function() {
-      		$('.nav-tabs > .active').next('li').find('a').trigger('click');
-      		return false;
-        });
-
-	});		
-</script>
-
-<% end %>

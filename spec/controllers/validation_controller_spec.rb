@@ -2,26 +2,6 @@ require 'spec_helper'
 
 describe ValidationController do
 
-  describe "GET 'index'" do
-    it "returns http success" do
-      get 'index'
-      response.should be_success
-    end
-    
-    it "returns 303 redirect if validation is in DB" do
-      validation = FactoryGirl.create :validation, url: "http://data.com/data.csv"
-      get 'index', uri: "http://data.com/data.csv"
-      response.should be_redirect
-      response.code.should == "303"
-      response.location.should == "http://test.host/validation/#{validation.id}"
-    end
-
-    it "returns 404 if schema is not in DB" do
-      get 'index', uri: "http://data.com/data.csv"
-      response.should be_not_found
-    end
-  end
-
   describe "POST 'create'" do
 
     it "redirects to root if no URL is supplied" do
@@ -78,6 +58,30 @@ describe ValidationController do
                       ]
       response.should be_redirect
       package = Package.first
+      response.location.should == package_url(package)
+    end
+    
+    it "supports multiple zip urls" do
+       mock_file("http://example.com/valid.zip", 'csvs/valid.zip')
+       mock_file("http://example.com/multiple_files.zip", 'csvs/multiple_files.zip')
+       post 'create', urls: [
+                              'http://example.com/valid.zip',
+                              'http://example.com/multiple_files.zip',
+                            ]
+       response.should be_redirect
+       package = Package.first
+       package.validations.count.should == 4
+       response.location.should == package_url(package)
+    end
+    
+    it "supports multiple zip files" do
+      post 'create', files: [
+                        mock_upload('csvs/valid.zip', 'application/zip'),
+                        mock_upload('csvs/multiple_files.zip', 'application/zip'),
+                      ]
+      response.should be_redirect
+      package = Package.first
+      package.validations.count.should == 4
       response.location.should == package_url(package)
     end
 

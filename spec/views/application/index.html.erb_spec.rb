@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "validation/index.html.erb" do
+describe "application/index.html.erb" do
   
   it "should contain a URL entry box" do
     render

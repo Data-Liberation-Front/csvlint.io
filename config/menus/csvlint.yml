@@ -3,7 +3,7 @@
  link: "/about"
 -
  title: "Recent validations"
- link: "/validation/list"
+ link: "/validation"
 -
  title: "Recent schemas"
  link: "/schemas"

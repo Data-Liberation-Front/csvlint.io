@@ -68,7 +68,7 @@ def mock_file(url, file, content_type = "text/csv")
 end
 
 def mock_upload(file, content_type = "text/csv")
-  upload_file = fixture_file_upload(File.join(Rails.root, 'fixtures', file), 'text/csv')
+  upload_file = fixture_file_upload(File.join(Rails.root, 'fixtures', file), content_type)
   class << upload_file
     # The reader method is present in a real invocation,
     # but missing from the fixture object for some reason (Rails 3.1.1)

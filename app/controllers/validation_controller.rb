@@ -1,21 +1,16 @@
 require 'uri'
+require 'zipfile'
 
 class ValidationController < ApplicationController
-  before_filter :manage_urls, :only => :create
+  before_filter :preprocess, :only => :create
 
   def index
-    if params[:uri]
-      validator = Validation.where(:url => params[:uri]).first
-      render status: 404 and return if validator.nil?
-      redirect_to validation_path(validator, format: params[:format]), status: 303
-    end
+    validations = Validation.where(:url.ne => nil).sort_by{ |v| v.created_at }.reverse!
+    validations.uniq!{ |v| v.url }
+    @validations = Kaminari.paginate_array(validations).page(params[:page])
   end
 
-  def create            
-    load_schema
-    package = check_for_package
-    redirect_to package_path(package) and return if package
-    
+  def create   
     io = params[:urls].first.presence || params[:files].first.presence
     
     redirect_to root_path and return if io.nil?
@@ -44,19 +39,15 @@ class ValidationController < ApplicationController
     redirect_to validation_path(v)
   end
   
-  def list
-    validations = Validation.where(:url.ne => nil).sort_by{ |v| v.created_at }.reverse!
-    validations.uniq!{ |v| v.url }
-    @validations = Kaminari.paginate_array(validations).page(params[:page])
-  end
-  
   private
-    
-    def manage_urls
+  
+    def preprocess
       remove_blanks!
-      unless params[:files].presence
-        redirect_to root_path and return unless urls_valid?
-      end
+      redirect_to root_path and return unless urls_valid? || params[:files].presence
+      load_schema
+      Zipfile.check!(params)
+      package = check_for_package
+      redirect_to package_path(package) and return if package
     end
     
     def urls_valid?

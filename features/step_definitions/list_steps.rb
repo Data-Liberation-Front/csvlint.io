@@ -8,7 +8,7 @@ Then(/^my url should have a link to the latest report next to it$/) do
 end
 
 Given(/^I visit the list page$/) do
-  visit list_url
+  visit validation_index_path
 end
 
 Given(/^I visit the schema list page$/) do
