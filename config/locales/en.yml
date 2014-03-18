@@ -27,6 +27,7 @@ en:
   info: "Information"
   validate: "Validate"
   revalidate: "Revalidate"  
+  validate_again: "Validate again"
   upload_and_validate: "Upload and validate"
   results: "Validation results"
   enter_csv_url: "Enter CSV URL"
@@ -34,7 +35,7 @@ en:
   site_title: "CSVLint"
   csv_status: "CSV Validation"
   example_csv_download: "Download Example CSV File"
-  standardised_csv_download: "Download Standardised CSV File"
+  standardised_csv_download: "Download Standardised CSV"
   
   # Validation message categories
   structure: Structural problem
