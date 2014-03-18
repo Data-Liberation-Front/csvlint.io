@@ -21,7 +21,7 @@ class ValidationController < ApplicationController
 
   def show
     @validation = Validation.fetch_validation(params[:id])
-    @result = Marshal.load(@validation.result)
+    @result = @validation.validator
     @dialect = @result.dialect || Validation.standard_dialect
     # Responses
     respond_to do |wants|

@@ -63,9 +63,9 @@ class Validation
   def self.fetch_validation(id)
     v = self.find(id)
     unless v.url.blank?
+      validator = v.validator
       begin
         RestClient.head(v.url, if_modified_since: v.updated_at.rfc2822 ) if v.updated_at
-        validator = Marshal.load(v.result)
         v = v.update_validation (validator.dialect) if v.updated_at <= 2.hours.ago
       rescue RestClient::NotModified
         nil
@@ -129,6 +129,10 @@ class Validation
       end
       file
     end
+  end
+  
+  def validator
+    Marshal.load(self.result)
   end
 
 end
