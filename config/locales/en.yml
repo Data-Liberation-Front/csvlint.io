@@ -112,8 +112,9 @@ en:
      We recommend that you configure your server to deliver CSV files with a <code>Content-Type</code> header of <code>text/csv; charset=utf-8</code><br>
      If you are using a different encoding, then use an appropriate value for the <code>charset</code> parameter.
      
-  not_found: "404 Not Found"
-  not_found_guidance_html: "Please check you are supplying the correct URL"
+  not_found_html: |
+    <p>There appears to be a problem with the URL you supplied.</p>
+    <p>Either the file does not exist, or the server is returning an invalid response. Please check your URL and try again.</p>
 
   old_content_type_guidance_html: |
       <strong>Note</strong>: %{content_type} is an old Content Type for CSV that only appeared in a draft RFC. It should no longer be used.

@@ -36,6 +36,10 @@ Given(/^the server does not support If\-Modified\-Since$/) do
   stub_request(:head, @url).to_return(:status => 200)
 end
 
+Given(/^the URL "(.*?)" returns a status of "(.*?)"$/) do |url, status|
+  stub_request(:any, url).to_return(:status => status)
+end
+
 Given(/^"(.*?)" has been previously used for validation$/) do |url|
   FactoryGirl.create :schema, url: url
 end

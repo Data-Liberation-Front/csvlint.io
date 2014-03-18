@@ -15,108 +15,106 @@
       <div class="panel-body">
         <h2><%= @validation.url %></h2>
         <div class="row">
-           <div class="col-sm-4">
-             <% if @result.valid? %>
-               <% if @result.warnings.count == 0 %>
-                <p><%= t(:valid_html) %></p>
-              <% else %>
-                <p><%= t(:valid_html) %> <%= t(:valid_with_warnings) %></p>
-              <% end %>
-            <% else %>
-              <p><%= t(:invalid_html) %></p>
-            <% end %>
-            
-            <%= link_to '<i class="fa fa-cloud-download"></i> '.html_safe + t(:standardised_csv_download), validation_path(@validation, format: :csv), class: 'btn btn-primary btn-lg' %>
-            
-            <% unless @validation.url.nil? && @validation.schema.nil? %>
-              <%= form_tag validation_path(params[:id]), :id => 'result_form' do %>
-                <%= hidden_field_tag '_method', "put"%>
-                <% unless @validation.url.nil? %>
-                  <%= hidden_field_tag 'url', @validation.url %>
-                <% end %>
-                <% unless @validation.schema.nil? %>
-                  <%= hidden_field_tag 'schema_url', @validation.schema.url %>
-                <% end %>
-                <button class="btn btn-primary btn-lg btn-revalidate">
-                  <i class="fa fa-refresh"></i>
-                  <%= t(:validate_again) %>
-                </button>
-              <% end %>
-            <% end %>
-           </div>
-           <div class="col-sm-8">
-             <table class="table table-hover report-results">
-               <tr>
-                 <th></th>
-                 <th class="danger"><span class="result"><%= @result.errors.count %></span>Errors</td>
-                 <th class="warning"><span class="result"><%= @result.warnings.count %></span>Warnings</td>
-                 <th class="info"><span class="result"><%= @result.info_messages.count %></span>Messages</td>
-               </tr>
-               <tr>
-                 <td class="name">Structure</td>
-                 <td class="danger"><%= category_count(@result.errors, :structure) %></td>
-                 <td class="warning"><%= category_count(@result.warnings, :structure) %></td>
-                 <td class="active info-none"><%= category_count(@result.info_messages, :structure) %></td>
-               </tr>
-               <tr>
-                 <td class="name">Schema</td>
-                 <td class="danger"><%= category_count(@result.errors, :schema) %></td>
-                 <td class="active warning-none"><%= category_count(@result.warnings, :schema) %></td>
-                 <td class="info"><%= category_count(@result.info_messages, :schema) %></td>
-               </tr>
-               <tr>
-                 <td class="name">Context</td>
-                 <td class="active danger-none"><%= category_count(@result.errors, :context) %></td>
-                 <td class="warning"><%= category_count(@result.warnings, :context) %></td>
-                 <td class="info"><%= category_count(@result.info_messages, :context) %></td>
-               </tr>
-             </table>
+          <% if @validation.state == "not_found" %>
+            <div class="col-sm-12">
+              <%= t(:not_found_html) %>
+              
+              <%= render :partial => 'revalidate' %>
             </div>
-        </div>
+          <% else %>
+             <div class="col-sm-4">
+               <% if @result.valid? %>
+                 <% if @result.warnings.count == 0 %>
+                  <p><%= t(:valid_html) %></p>
+                <% else %>
+                  <p><%= t(:valid_html) %> <%= t(:valid_with_warnings) %></p>
+                <% end %>
+              <% else %>
+                <p><%= t(:invalid_html) %></p>
+              <% end %>
+            
+              <%= link_to '<i class="fa fa-cloud-download"></i> '.html_safe + t(:standardised_csv_download), validation_path(@validation, format: :csv), class: 'btn btn-primary btn-lg' %>
+            
+              <%= render :partial => 'revalidate' %>
+             </div>
+             <div class="col-sm-8">
+               <table class="table table-hover report-results">
+                 <tr>
+                   <th></th>
+                   <th class="danger"><span class="result"><%= @result.errors.count %></span>Errors</td>
+                   <th class="warning"><span class="result"><%= @result.warnings.count %></span>Warnings</td>
+                   <th class="info"><span class="result"><%= @result.info_messages.count %></span>Messages</td>
+                 </tr>
+                 <tr>
+                   <td class="name">Structure</td>
+                   <td class="danger"><%= category_count(@result.errors, :structure) %></td>
+                   <td class="warning"><%= category_count(@result.warnings, :structure) %></td>
+                   <td class="active info-none"><%= category_count(@result.info_messages, :structure) %></td>
+                 </tr>
+                 <tr>
+                   <td class="name">Schema</td>
+                   <td class="danger"><%= category_count(@result.errors, :schema) %></td>
+                   <td class="active warning-none"><%= category_count(@result.warnings, :schema) %></td>
+                   <td class="info"><%= category_count(@result.info_messages, :schema) %></td>
+                 </tr>
+                 <tr>
+                   <td class="name">Context</td>
+                   <td class="active danger-none"><%= category_count(@result.errors, :context) %></td>
+                   <td class="warning"><%= category_count(@result.warnings, :context) %></td>
+                   <td class="info"><%= category_count(@result.info_messages, :context) %></td>
+                 </tr>
+               </table>
+              </div>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
 </div>
 
-<% if @result.warnings.select { |warning| warning.type == :check_options }.any? %>
-  <%= form_tag validation_path(params[:id]), id: 'revalidate', class: 'form-inline alert alert-warning' do %>
-    <p><%= t(:resubmit) %></p> 
+<% unless @validation.state == "not_found" %>
+
+  <% if @result.warnings.select { |warning| warning.type == :check_options }.any? %>
+    <%= form_tag validation_path(params[:id]), id: 'revalidate', class: 'form-inline alert alert-warning' do %>
+      <p><%= t(:resubmit) %></p> 
   
-    <%= hidden_field_tag 'url', @validation.url %>
-    <%= hidden_field_tag '_method', "put"%>
-    <% unless @validation.schema.nil? %>
-      <%= hidden_field_tag 'schema_url', @validation.schema.url %>
+      <%= hidden_field_tag 'url', @validation.url %>
+      <%= hidden_field_tag '_method', "put"%>
+      <% unless @validation.schema.nil? %>
+        <%= hidden_field_tag 'schema_url', @validation.schema.url %>
+      <% end %>
+      <!-- Header on or off -->
+      <div class="form-group">
+        <%= label_tag :header, t(:header) %> <%= check_box_tag :header, true, @dialect["header"] %>
+      </div>
+      <!-- Delimiter -->
+      <div class="form-group">
+        <%= label_tag :delimiter, t(:field_delimiter)  %> <%= text_field_tag :delimiter, @dialect["delimiter"], class: 'form-control form-control-small', maxlength: '1' %>
+      </div>
+      <!-- Line terminator -->
+      <div class="form-group">
+        <%= label_tag :line_terminator, t(:line_terminator) %> <%= select_tag :line_terminator,  options_for_select({'Autodetect' => :auto, 'LF (\n)' => '\n', 'CRLF (\r\n)' => '\r\n'}, @dialect["lineTerminator"]) %>
+      </div>
+      <!-- Skip initial space -->
+      <div class="form-group">
+        <%= label_tag :skip_initial_space, t(:skip_inital_space) %> <%= check_box_tag :skip_initial_space, true, @dialect["skipInitialSpace"] %>
+      </div>
+      <!-- Quote char -->
+      <div class="form-group">
+        <%= label_tag :quote_char, t(:quote_character) %> <%= text_field_tag :quote_char, @dialect["quoteChar"], class: 'form-control form-control-small', maxlength: '1' %>
+      </div>
+      <%= submit_tag t(:revalidate).titleize, class: 'btn btn-primary btn-warning' %>
     <% end %>
-    <!-- Header on or off -->
-    <div class="form-group">
-      <%= label_tag :header, t(:header) %> <%= check_box_tag :header, true, @dialect["header"] %>
-    </div>
-    <!-- Delimiter -->
-    <div class="form-group">
-      <%= label_tag :delimiter, t(:field_delimiter)  %> <%= text_field_tag :delimiter, @dialect["delimiter"], class: 'form-control form-control-small', maxlength: '1' %>
-    </div>
-    <!-- Line terminator -->
-    <div class="form-group">
-      <%= label_tag :line_terminator, t(:line_terminator) %> <%= select_tag :line_terminator,  options_for_select({'Autodetect' => :auto, 'LF (\n)' => '\n', 'CRLF (\r\n)' => '\r\n'}, @dialect["lineTerminator"]) %>
-    </div>
-    <!-- Skip initial space -->
-    <div class="form-group">
-      <%= label_tag :skip_initial_space, t(:skip_inital_space) %> <%= check_box_tag :skip_initial_space, true, @dialect["skipInitialSpace"] %>
-    </div>
-    <!-- Quote char -->
-    <div class="form-group">
-      <%= label_tag :quote_char, t(:quote_character) %> <%= text_field_tag :quote_char, @dialect["quoteChar"], class: 'form-control form-control-small', maxlength: '1' %>
-    </div>
-    <%= submit_tag t(:revalidate).titleize, class: 'btn btn-primary btn-warning' %>
   <% end %>
+
+  <%= error_and_warning_count(@result.errors, @result.warnings, wrapper: :h2) %>
+
+  <%= render :partial => 'errors' %>
+
+  <%= render :partial => 'warnings' %>
+
+  <%= render :partial => 'info_messages' %>
+
 <% end %>
-
-<%= error_and_warning_count(@result.errors, @result.warnings, wrapper: :h2) %>
-
-<%= render :partial => 'errors' %>
-
-<%= render :partial => 'warnings' %>
-
-<%= render :partial => 'info_messages' %>
 
 <%= render 'badge_modal'%>
