@@ -140,7 +140,7 @@ en:
      This problem may also be caused by an invalid character encoding in the data.
        
   s3_upload_guidance_html: |
-     <strong>Note</strong>: It appears that your are using Amazon S3 to deliver your data. You must set the content type of the object when uploading 
+     <strong>Note</strong>: It appears that you are using Amazon S3 to deliver your data. You must set the content type of the object when uploading 
      the data to S3 to ensure that it is delivered correctly.
              
   whitespace: "Unexpected whitespace"
