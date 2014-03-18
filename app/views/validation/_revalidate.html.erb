@@ -1,0 +1,15 @@
+<% unless @validation.url.nil? && @validation.schema.nil? %>
+  <%= form_tag validation_path(params[:id]), :id => 'result_form' do %>
+    <%= hidden_field_tag '_method', "put"%>
+    <% unless @validation.url.nil? %>
+      <%= hidden_field_tag 'url', @validation.url %>
+    <% end %>
+    <% unless @validation.schema.nil? %>
+      <%= hidden_field_tag 'schema_url', @validation.schema.url %>
+    <% end %>
+    <button class="btn btn-primary btn-lg btn-revalidate">
+      <i class="fa fa-refresh"></i>
+      <%= t(:validate_again) %>
+    </button>
+  <% end %>
+<% end %>
