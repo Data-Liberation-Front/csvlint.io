@@ -201,6 +201,20 @@ en:
   non_standard_dialect_guidance_html: |
       Although your CSV validates, to make it as easy as possible for your data to be reused, we recommend using commas as delimiters, double quotes to enclose fields, and autodetecting line endings.
   
+  title_row: "Possible title row detected"
+  title_row_guidance_html: |
+      Your CSV seems to contain unstructured text at the beginning of the file.<br> 
+      It is important that your CSV only contains structured data - any background information or metadata should be included on a referring web page or accompanying document.
+  
+  undeclared_header: "Undeclared header"
+  undeclared_header_guidance_html: |
+      There is no machine readable way (either via a schema, or <code>Content-Type</code> header) to tell if your CSV has a header line<br>
+      Either revalidate this CSV with a schema, or make sure your web server sends the <code>Content-Type</code> of <code>text/csv; header=present</code> or <code>text/csv; header=absent</code> where appropriate.
+  
+  assumed_header: "Assumed header"
+  assumed_header_guidance_html: |
+      As there is no machine readable way to tell if your CSV has a header row, we have assumed that your CSV has one.
+  
   #
   # Validation list
   #
