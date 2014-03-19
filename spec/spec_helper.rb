@@ -10,6 +10,7 @@ require 'rspec/autorun'
 require 'webmock/rspec'
 require 'database_cleaner'
 require 'vcr'
+require 'timecop'
 
 DatabaseCleaner.strategy = :truncation
 
