@@ -7,6 +7,14 @@ GIT
       mongoid (>= 3.0, < 5.0)
 
 GIT
+  remote: git://github.com/collectiveidea/delayed_job_mongoid.git
+  revision: 14c73bb584358838339ad9a7b50065279437be77
+  specs:
+    delayed_job_mongoid (2.0.0)
+      delayed_job (>= 3.0, < 5)
+      mongoid (>= 3.0, < 5)
+
+GIT
   remote: git://github.com/mongoid/mongoid.git
   revision: c8af8d0836b086cebc4a609037a97747e9f3359b
   specs:
@@ -130,6 +138,8 @@ GEM
       json
       json-schema
       rest-client
+    delayed_job (4.0.0)
+      activesupport (>= 3.0, < 4.1)
     diff-lcs (1.2.5)
     dotenv (0.10.0)
     dotenv-rails (0.10.0)
@@ -438,6 +448,7 @@ DEPENDENCIES
   cucumber-rails
   data_kitten!
   database_cleaner
+  delayed_job_mongoid!
   dotenv-rails
   factory_girl_rails
   faker
