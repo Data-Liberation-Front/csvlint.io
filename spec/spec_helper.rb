@@ -63,7 +63,7 @@ end
 def mock_file(url, file, content_type = "text/csv")
   stub_request(:get, "http://example.org/api/2/rest/dataset/#{url.split("/").last}").to_return(:status => 404, :body => "", :headers => {})
   stub_request(:get, "http://example.com/api/3/action/package_show?id=#{url.split("/").last}").to_return(:status => 404, :body => "", :headers => {})
-  stub_request(:get, url).to_return(body: load_fixture(file), headers: {"Content-Type" => "#{content_type}; charset=utf-8"})
+  stub_request(:get, url).to_return(body: load_fixture(file), headers: {"Content-Type" => "#{content_type}; charset=utf-8; header=present"})
   stub_request(:head, url).to_return(:status => 200)
 end
 
