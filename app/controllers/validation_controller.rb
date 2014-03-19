@@ -7,7 +7,7 @@ class ValidationController < ApplicationController
   def index
     validations = Validation.where(:url.ne => nil).sort_by{ |v| v.created_at }.reverse!
     validations.uniq!{ |v| v.url }
-    @validations = Kaminari.paginate_array(validations).page(params[:page])
+    @validations = Kaminari.paginate_array(validations).page(params[:page]).per(7)
   end
 
   def create   
