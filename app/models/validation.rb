@@ -26,6 +26,7 @@ class Validation
     state = "valid"
     state = "warnings" unless validator.warnings.empty?
     state = "invalid" unless validator.errors.empty?
+    state = "not_found" unless validator.errors.select { |e| e.type == :not_found }.empty?
     
     if io.class == String
       # It's a url!
