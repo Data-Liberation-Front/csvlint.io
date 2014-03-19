@@ -20,7 +20,7 @@ class ValidationController < ApplicationController
   end
 
   def show
-    @validation = Validation.fetch_validation(params[:id])
+    @validation = Validation.fetch_validation(params[:id], params[:format])
     @result = @validation.validator
     @dialect = @result.dialect || Validation.standard_dialect
     # Responses

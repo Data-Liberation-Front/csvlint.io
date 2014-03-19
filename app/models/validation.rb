@@ -60,18 +60,12 @@ class Validation
     self.create(validation)
   end
   
-  def self.fetch_validation(id)
+  def self.fetch_validation(id, format)
     v = self.find(id)
-    unless v.url.blank?
-      validator = v.validator
-      begin
-        RestClient.head(v.url, if_modified_since: v.updated_at.rfc2822 ) if v.updated_at
-        v = v.update_validation (validator.dialect) if v.updated_at <= 2.hours.ago
-      rescue RestClient::NotModified
-        nil
-      rescue
-        v.update_attributes(state: "not_found")
-      end
+    if ["png", "svg"].include?(format)      
+      v.delay.check_validation
+    else
+      v.check_validation
     end
     v
   end
@@ -130,6 +124,19 @@ class Validation
         f.write stored_csv.data
       end
       file
+    end
+  end
+  
+  def check_validation
+    unless url.blank?
+      begin
+        RestClient.head(url, if_modified_since: updated_at.rfc2822 ) if updated_at
+        update_validation(validator.dialect) if updated_at <= 2.hours.ago
+      rescue RestClient::NotModified
+        nil
+      rescue
+        update_attributes(state: "not_found")
+      end
     end
   end
   

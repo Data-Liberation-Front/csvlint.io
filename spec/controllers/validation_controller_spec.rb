@@ -209,6 +209,15 @@ describe ValidationController do
       response.should be_success
       response.body.should include(">warnings<")
     end
+    
+    it "queues another check when the image is loaded" do
+      mock_file("http://example.com/test.csv", 'csvs/valid.csv')
+      post 'create', urls: ['http://example.com/test.csv']
+      validation = Validation.first
+      Validation.any_instance.should_receive(:delay).and_call_original
+      get 'show', id: validation.id, format: :svg
+      Delayed::Job.count.should == 1
+    end
   
   end
 
