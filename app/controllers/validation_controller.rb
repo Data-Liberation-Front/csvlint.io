@@ -10,22 +10,33 @@ class ValidationController < ApplicationController
     @validations = Kaminari.paginate_array(validations).page(params[:page]).per(7)
   end
 
-  def create   
+  def create
     io = params[:urls].first.presence || params[:files].first.presence
     
     redirect_to root_path and return if io.nil?
-          
-    validation = Validation.create_validation(io, @schema_url, @schema)
-    redirect_to validation_path(validation)
+    
+    if params[:format] == "json"
+      @validation = Validation.create
+      @validation.delay.validate(io, @schema_url, @schema)
+    else    
+      validation = Validation.create
+      validation.validate(io, @schema_url, @schema)
+    
+      redirect_to validation_path(validation)
+    end
   end
 
   def show
     @validation = Validation.fetch_validation(params[:id], params[:format])
+    
+    raise ActionController::RoutingError.new('Not Found') if @validation.state.nil?
+    
     @result = @validation.validator
     @dialect = @result.dialect || Validation.standard_dialect
     # Responses
     respond_to do |wants|
       wants.html
+      wants.json
       wants.png { render_badge(@validation.state, "png") }
       wants.svg { render_badge(@validation.state, "svg") }
       wants.csv { send_data standardised_csv(@validation), type: "text/csv; charset=utf-8", disposition: "attachment" }

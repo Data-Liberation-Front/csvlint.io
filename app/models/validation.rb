@@ -56,11 +56,6 @@ class Validation
     attributes
   end 
   
-  def self.create_validation(io, schema_url = nil, schema = nil)
-    validation = validate(io, schema_url, schema)
-    self.create(validation)
-  end
-  
   def self.fetch_validation(id, format)
     v = self.find(id)
     if ["png", "svg"].include?(format)      
@@ -101,6 +96,17 @@ class Validation
       "lineTerminator" => :auto,
       "quoteChar" => '"'
     }
+  end
+  
+  def self.create_validation(io, schema_url = nil, schema = nil)
+    validation = Validation.create
+    validation.validate(io, schema_url, schema)
+    validation
+  end
+  
+  def validate(io, schema_url = nil, schema = nil)
+    validation = Validation.validate(io, schema_url, schema)
+    self.update_attributes(validation)
   end
   
   def update_validation(dialect = nil)
