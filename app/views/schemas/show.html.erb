@@ -1,10 +1,23 @@
-<% content_for :title do %>
-  <%= t(:schema_info).titleize %>
-<% end %>
+<p>
+  <%= link_to schemas_url do %>
+    <i class="glyphicon glyphicon-chevron-left"></i> Back to Recent Schemas
+  <% end %>
+</p>
 
-<div>
-  URI: <%= link_to @schema.uri, @schema.uri %>
+<h1>
+  Schema Information
+</h1>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h2><%= @schema.uri %></h2>
+
+    <%= link_to @schema.uri, class: 'btn btn-primary btn-lg' do %>
+      <i class="fa fa-cloud-download"></i> Download schema
+    <% end %>
+  </div>
 </div>
+
 
 <h2>Fields</h2>
 
@@ -61,5 +74,5 @@
 </table>
 
 <div>
-  <%= link_to '<i class="fa fa-cloud-download"></i> '.html_safe + t(:example_csv_download), schema_path(@db_schema, format: :csv), class: 'btn btn-primary' %>
+  <%= link_to '<i class="fa fa-cloud-download"></i> '.html_safe + t(:example_csv_download), schema_path(@db_schema, format: :csv), class: 'btn btn-primary btn-lg' %>
 </div>
