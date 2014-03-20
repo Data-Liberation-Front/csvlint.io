@@ -103,21 +103,71 @@
 		$('#validation_form').submit(function(){
 		  event.preventDefault();
 		  $('#submit i').attr('class', 'fa fa-refresh fa-spin')
-		  var AUTH_TOKEN = $('input[name=authenticity_token]').attr('value');
+		
+		  csv_files = $("#files_")[0].files
 		  
-		  $.ajax(
-		    {
-		      url: "<%= validation_index_path(format: :json) %>?&authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
-		      type: "POST",
-		      data: $('#validation_form').serialize(),
-		      success:function(data, textStatus, jqXHR) {
-		        validation_url = data.validation.url
-     		    checkValidation();
-		      }
-		    }
-		  );
+		  if (csv_files.length > 0) {
+  		  readFiles(csv_files, function(files) {
+          postdata = {
+            "files_data[]": files,
+            "urls[]": null
+          }
+            		    
+  		    postData(postdata);
+  		  });
+  		} else {
+  		  var urls = [];
+  		  
+        $( "input[name='urls[]']" ).each(function(){
+          urls.push($(this).val());
+        });
+        
+        data = {
+          "urls[]": urls
+        }
+        
+        postData(data);
+  		}
 	    
 		})
+		
+		function readFiles(files, callback) {
+		  arr = [];
+		  count = files.length
+		  $.each(files, function(index, file) {
+		    readFile(file, function(obj) {
+		      arr.push(obj.filename + ";" +obj.data);
+		      if (!--count) callback(arr);
+		    });
+      });
+		}
+		
+		function readFile(file, callback) {
+  	  var reader = new FileReader();
+      reader.onload = function(event) {  
+        object = {};
+        object.filename = file.name;
+        object.data = event.target.result;
+        callback(object);
+      };  
+      reader.readAsDataURL(file);
+		}
+		
+		function postData(data) {
+		  var AUTH_TOKEN = $('input[name=authenticity_token]').attr('value');
+		  
+      $.ajax(
+        {
+          url: "<%= validation_index_path(format: :json) %>?&authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
+          type: "POST",
+          data: data,
+          success:function(data, textStatus, jqXHR) {
+            validation_url = data.validation.url
+            checkValidation();
+          }
+        }
+      );
+		}
 		
 		function checkValidation() {
 		   setInterval(function(){

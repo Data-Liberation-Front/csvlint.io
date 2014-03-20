@@ -18,6 +18,10 @@ class Validation
       filename = io.original_filename
       csv = File.new(io.tempfile)
       io = File.new(io.tempfile)
+    elsif io.class == Hash && !io[:body].nil?
+      filename  = io[:filename]
+      csv = StringIO.new(io[:body])
+      io = StringIO.new(io[:body])
     end 
     # Validate
     validator = Csvlint::Validator.new( io, dialect, schema && schema.fields.empty? ? nil : schema )

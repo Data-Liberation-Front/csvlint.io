@@ -18,3 +18,15 @@ Feature: Background validation
     And I should see a page of validation results
     And I should see my URL
     And my url should be persisted in the database
+
+  Scenario: Enter a File for validation
+    When I go to the homepage
+    And I attach the file "csvs/valid.csv" to the "file" field
+    Then my CSV should be placed in a background job
+    When I press "Validate"
+    And I wait for the validation to be created
+    When the CSV has finished processing
+    Then I should be redirected to my validation results
+    And I should see a page of validation results
+    And my file should be persisted in the database
+    And my file should be saved in the database

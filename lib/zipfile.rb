@@ -2,12 +2,15 @@ require 'zip'
 
 class Zipfile
   
-  def self.check!(p)
+  def self.check!(p)    
     if p[:urls].presence && p[:urls].count > 0
       type = :urls
-    else
+    elsif p[:files].presence
       type = :files
+    else
+      type = :files_data
     end
+    
     files = []
     p[type].each do |source|
       if Zipfile.is_zipfile?(source) 

@@ -10,15 +10,18 @@ class ValidationController < ApplicationController
     @validations = Kaminari.paginate_array(validations).page(params[:page]).per(7)
   end
 
-  def create
+  def create  
     io = params[:urls].first.presence || params[:files].first.presence
-    
+      
     redirect_to root_path and return if io.nil?
     
     if params[:format] == "json"
       @validation = Validation.create
+      io = { :body => io.read, :filename => io.original_filename } if io.respond_to?(:tempfile)
       @validation.delay.validate(io, @schema_url, @schema)
-    else    
+    else
+      io = params[:urls].first.presence
+      
       validation = Validation.create
       validation.validate(io, @schema_url, @schema)
     
@@ -54,6 +57,7 @@ class ValidationController < ApplicationController
   
     def preprocess
       remove_blanks!
+      params[:files] = read_files(params[:files_data]) unless params[:files_data].nil?
       redirect_to root_path and return unless urls_valid? || params[:files].presence
       load_schema
       Zipfile.check!(params)
@@ -134,6 +138,21 @@ class ValidationController < ApplicationController
           csv << row if row
         end
       end
+    end
+    
+    def read_files(data)
+      files = []
+      data.each do |data|
+        filename = data.split(";").first
+        data_index = data.index('base64') + 7
+        filedata = data.slice(data_index, data.length)
+        basename = File.basename(filename)
+        tempfile = Tempfile.new(basename)
+        tempfile.write(Base64.decode64(filedata))
+        tempfile.rewind
+        files << ActionDispatch::Http::UploadedFile.new(:filename => filename, :tempfile => tempfile)
+      end
+      files
     end
   
 end
