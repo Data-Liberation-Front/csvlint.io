@@ -15,7 +15,7 @@
     <%= form_tag validation_index_path, multipart: true do %>
 
           <div id="url">
-            <label for="url_0" class="options"><%= t(:enter_link) %></label>
+            <label for="url_0" class="options options-first"><%= t(:enter_link) %></label>
             <div class="input-group url-group"> 
               <%= url_field_tag 'urls[]', '', class: 'form-control', id: 'url_0', placeholder: t(:enter_url) %>
               <span class="input-group-btn btn btn-info btn-clone btn-square-icon">+</span>
