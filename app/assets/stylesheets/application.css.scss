@@ -94,20 +94,36 @@ background-color: $odiOrange;
     padding: 10px;
   }
 
- 
+  p.lead{
+    font-size: 22px;
+    line-height: 31px;
+  }
   
   p {
-  font-size: 17px;
-  line-height: 26px;
-  margin-bottom: 20px;
-  color: $odiGreyDark;
+    font-size: 17px;
+    line-height: 26px;
+    margin-bottom: 20px;
+    color: $odiGreyDark;
   }
 
-  p.options {
+  .options {
     margin: 20px 0 10px;
+    font-weight:normal;
   }
 
+  .btn-square-icon{
+    width: 60px;
+    font-size: 30px;
+    line-height: 30px;
+  }
 
+  // info box at base of homepage form
+  .more-information {
+    color: #999;
+    font-size: 14px;
+    margin-top: 16px;
+    line-height: 20px;
+  }
   
   .col-md-6.primary {
   background-color: #eee;
@@ -157,7 +173,6 @@ background-color: $odiOrange;
   }
   
   input.form-control {
-    background-color: #fff;
     height: 60px;
     font-size: 22px;
   }

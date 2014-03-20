@@ -4,35 +4,27 @@
 
 <div class="row">
   <div class="col-md-6">
-      <p>CSV looks easy, but it can be hard to make a CSV file that other people can read easily. CSVLint helps you to check 
-    that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
+    <p class="lead">CSV looks easy, but it can be hard to make a CSV file that other people can read easily.</p>
+
+    <p>CSVLint helps you to check that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
 
     <p>Just enter the location of the file you want to check, or upload it. If you have a schema which describes the 
     contents of the CSV file, you can also give its URL or upload it. <a href="/about">Read more...</a></p>
   </div>
   <div class="col-md-6 primary">
     <%= form_tag validation_index_path, multipart: true do %>
-    
 
-          <p>Submitted urls are recorded in a public <a href="/validation/list">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
-          
           <div id="url">
-            <div class="input-group url-template url-group hidden" style="margin-top: 5px"> 
-              <%= url_field_tag 'urls[]', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
-            </div>
+            <label for="url_0" class="options"><%= t(:enter_link) %></label>
             <div class="input-group url-group"> 
-              <%= url_field_tag 'urls[]', '', class: 'form-control', id: 'url_0', placeholder: t(:enter_csv_url) %>
-              <span class="input-group-btn btn btn-info btn-clone">+</span>
+              <%= url_field_tag 'urls[]', '', class: 'form-control', id: 'url_0', placeholder: t(:enter_url) %>
+              <span class="input-group-btn btn btn-info btn-clone btn-square-icon">+</span>
             </div>
           </div>
-          <p class="options">Or upload a file:</p>
-       
-          <div class="input-group">  
 
-            <span class="input-group-btn btn btn-info btn-file">
-              Browse... <%= file_field_tag 'files[]', multiple: true %>
-            </span>
-            <%= text_field_tag 'filename', 'No file chosen', class: 'form-control', readonly: '' %>
+          <label for="upload_file" class="options">Or upload a file:</label>
+          <div class="input-group">
+            <%= file_field_tag 'files[]', multiple: true, class: 'file-chooser btn-info btn-lg', id: 'upload_file', title: 'Choose a file' %>
           </div>
         
         
@@ -48,17 +40,18 @@
             <%= url_field_tag 'schema_url', '', class: 'form-control', placeholder: t(:enter_schema_url)%>
             <p>Or upload a file:</p>
             <div class="input-group">  
-              <span class="input-group-btn btn btn-info btn-file">
-                Browse... <%= file_field_tag 'schema_file' %>
-              </span>
-              <%= text_field_tag 'schema_filename', 'No schema file chosen', class: 'form-control', readonly: '' %>
+              <%= file_field_tag 'schema_file', class: 'file-chooser btn-info btn-lg', title: 'browse' %>
             </div>
       </div>
       
-      <button type="submit" class="btn btn-primary btn-block btn-lg">
+      <button type="submit" class="btn btn-primary btn-lg">
         <i class="glyphicon glyphicon-ok"></i>
         <%= t(:validate).titleize %>
       </button>
+
+
+
+      <p class="more-information">Submitted urls are recorded in a public <a href="/validation/list">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
       
       <% end %>
   </div>
