@@ -10,9 +10,8 @@
   <a class="btn">Browse</a>
 
 */
-$(function() {
 
-$.fn.bootstrapFileInput = function() {
+$.fn.bootstrapFileInput = function(prependIcon) {
 
   this.each(function(i,elem){
 
@@ -39,6 +38,9 @@ $.fn.bootstrapFileInput = function() {
     // Now we're going to wrap that input field with a Bootstrap button.
     // The input will actually still be there, it will just be float above and transparent (done with the CSS).
     $elem.wrap('<a class="file-input-wrapper btn btn-default ' + className + '"></a>').parent().prepend(buttonWord);
+
+    if(prependIcon)
+      $elem.parent().prepend('<i class="glyphicon glyphicon-cloud-upload"></i> ')
   })
 
   // After we have found all of the file inputs let's apply a listener for tracking the mouse movement.
@@ -106,6 +108,8 @@ $.fn.bootstrapFileInput = function() {
   });
 
 };
+
+$(function(){
 
 // Add the styles before the first stylesheet
 // This ensures they can be easily overridden with developer styles
