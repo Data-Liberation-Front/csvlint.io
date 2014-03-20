@@ -104,16 +104,28 @@
 		  event.preventDefault();
 		  $('#submit i').attr('class', 'fa fa-refresh fa-spin')
 		  var AUTH_TOKEN = $('input[name=authenticity_token]').attr('value');
-		  console.log($('#validation_form').serialize())
-		  $.post("<%= validation_index_path(format: :json) %>?&authenticity_token=" + encodeURIComponent(AUTH_TOKEN) , $('#validation_form').serialize() ).done(function( data ) {
-		   validation_url = data.validation.url
-		   setInterval(function(){
-           $.ajax({ url: validation_url + ".json", success: function(data){
-              document.location.href = validation_url
-           }, dataType: "json"});
-       }, 5000);
-	    });
+		  
+		  $.ajax(
+		    {
+		      url: "<%= validation_index_path(format: :json) %>?&authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
+		      type: "POST",
+		      data: $('#validation_form').serialize(),
+		      success:function(data, textStatus, jqXHR) {
+		        validation_url = data.validation.url
+     		    checkValidation();
+		      }
+		    }
+		  );
+	    
 		})
+		
+		function checkValidation() {
+		   setInterval(function(){
+          $.ajax({ url: validation_url + ".json", success: function(data){
+             document.location.href = validation_url
+          }, dataType: "json"});
+      }, 5000);
+		}
 
 	});		
 </script>
