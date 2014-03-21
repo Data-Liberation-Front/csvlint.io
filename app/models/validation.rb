@@ -19,8 +19,8 @@ class Validation
       csv = File.new(io.tempfile)
       io = File.new(io.tempfile)
     elsif io.class == Hash && !io[:body].nil?
-      filename  = io[:filename]
-      csv = StringIO.new(io[:body])
+      filename = io[:filename]
+      csv_id = io[:csv_id]
       io = StringIO.new(io[:body])
     end 
     # Validate
@@ -36,7 +36,7 @@ class Validation
       # It's a url!
       url = io
       filename = File.basename(URI.parse(url).path)
-      csv = nil
+      csv_id = nil
     else
       # It's a file!
       url = nil
@@ -48,7 +48,7 @@ class Validation
       :filename => filename,
       :state => state,
       :result => Marshal.dump(validator).force_encoding("UTF-8"),
-      :csv => csv
+      :csv_id => csv_id
     }
         
     if schema_url.present?
@@ -118,13 +118,6 @@ class Validation
     validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect)    
     self.update_attributes(validation)
     self
-  end
-  
-  def csv=(io)
-    unless io.nil?
-      stored_csv = Mongoid::GridFs.put(io)
-      self.csv_id = stored_csv.id
-    end
   end
   
   def csv

@@ -11,7 +11,7 @@
     contents of the CSV file, you can also give its URL or upload it. <a href="/about">Read more...</a></p>
   </div>
   <div class="col-md-6 primary">
-    <%= form_tag validation_index_path, multipart: true, id: "validation_form" do %>
+    <%= form_tag package_index_path, multipart: true, id: "validation_form" do %>
     
 
           <p>Submitted urls are recorded in a public <a href="/validation/list">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
@@ -158,21 +158,21 @@
 		  
       $.ajax(
         {
-          url: "<%= validation_index_path(format: :json) %>?&authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
+          url: "<%= package_index_path(format: :json) %>?&authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
           type: "POST",
           data: data,
           success:function(data, textStatus, jqXHR) {
-            validation_url = data.validation.url
-            checkValidation();
+            package_url = data.package.url
+            checkPackage();
           }
         }
       );
 		}
 		
-		function checkValidation() {
+		function checkPackage() {
 		   setInterval(function(){
-          $.ajax({ url: validation_url + ".json", success: function(data){
-             document.location.href = validation_url
+          $.ajax({ url: package_url + ".json", success: function(data){
+             document.location.href = package_url
           }, dataType: "json"});
       }, 5000);
 		}

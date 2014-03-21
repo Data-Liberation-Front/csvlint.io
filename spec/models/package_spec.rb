@@ -10,6 +10,13 @@ describe Package do
      to_return(:status => 200, :body => "", :headers => {})
   end
   
+  it "creates a single validation" do
+    mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
+    package = Package.new
+    package = package.create_package(['http://example.org/valid.csv'])
+    package.validations.length.should == 1
+  end
+  
   context "with multiple URLs" do
     before :each do
       mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
@@ -26,12 +33,14 @@ describe Package do
     end
     
     it "creates multiple validations" do
-      package = Package.create_package(@urls)
-      package.validations.count.should == 4
+      package = Package.new
+      package = package.create_package(@urls)
+      package.validations.length.should == 4
     end
     
     it "sets the right type" do
-      package = Package.create_package(@urls)
+      package = Package.new
+      package = package.create_package(@urls)
       package.type.should == "urls"
     end
     
@@ -40,7 +49,8 @@ describe Package do
       mock_file(schema_url, 'schemas/valid.json', 'application/javascript')
       
       schema = Csvlint::Schema.load_from_json_table(schema_url) 
-      package = Package.create_package(@urls, schema_url, schema)
+      package = Package.new
+      package = package.create_package(@urls, schema_url, schema)
       
       package.validations.each do |validation|
         result = Marshal.load validation.result
@@ -62,12 +72,14 @@ describe Package do
     end
     
     it "creates multiple validations" do
-      package = Package.create_package(@files)
-      package.validations.count.should == 4
+      package = Package.new
+      package = package.create_package(@files)
+      package.validations.length.should == 4
     end
     
     it "sets the right type" do
-      package = Package.create_package(@files)
+      package = Package.new
+      package = package.create_package(@files)
       package.type.should == "files"
     end
     
@@ -76,7 +88,8 @@ describe Package do
       mock_file(schema_url, 'schemas/valid.json', 'application/javascript')
       
       schema = Csvlint::Schema.load_from_json_table(schema_url) 
-      package = Package.create_package(@files, schema_url, schema)
+      package = Package.new
+      package = package.create_package(@files, schema_url, schema)
       
       package.validations.each do |validation|
         result = Marshal.load validation.result
@@ -93,13 +106,14 @@ describe Package do
       url = 'http://example.org/single-datapackage.json'
       mock_file(url, 'datapackages/single-datapackage.json', 'application/javascript')
       mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
-    
-      package = Package.check_datapackage(url)
+      
+      package = Package.new
+      package = package.create_package([url])
       dataset = DataKitten::Dataset.new(access_url: url)
       package_dataset = Marshal.load(package.dataset)
                 
       package.url.should == url
-      package.validations.count.should == 1
+      package.validations.length.should == 1
       
       package_dataset.access_url.should == dataset.access_url
       package_dataset.data_title.should == dataset.data_title
@@ -112,10 +126,11 @@ describe Package do
       mock_file(url, 'datapackages/multiple-datapackage.json', 'application/javascript')
       mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
       mock_file("http://example.org/valid2.csv", 'csvs/valid.csv')
+      
+      package = Package.new
+      package = package.create_package([url])
     
-      package = Package.check_datapackage(url)
-    
-      package.validations.count.should == 2
+      package.validations.length.should == 2
     end
   
     it "loads schema from a datapackage" do
@@ -123,7 +138,8 @@ describe Package do
       mock_file(url, 'datapackages/datapackage-with-schema.json', 'application/javascript')
       mock_file("http://example.org/all_constraints.csv", 'csvs/all_constraints.csv')
         
-      package = Package.check_datapackage(url)
+      package = Package.new
+      package = package.create_package([url])
       result = Marshal.load package.validations.first.result
     
       fields = result.schema.fields
@@ -140,12 +156,13 @@ describe Package do
     context "with non-CSV resources" do
     
       it "returns nil if there are no CSVs" do
-        url = 'http://example.org/non-csv-data-package.json'
-        mock_file(url, 'datapackages/multiple-datapackage.json', 'application/javascript')
-        mock_file("http://example.org/some-json.json", 'csvs/valid.csv')
-        mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
-
-        package = Package.check_datapackage(url)
+        url = 'http://example.org/non-csv-datapackage.json'
+        mock_file(url, 'datapackages/non-csv-datapackage.json', 'application/javascript')
+        mock_file("http://example.org/some-json.json", 'datapackages/non-csv-datapackage.json')
+        
+        package = Package.new
+        package = package.create_package([url])
+                      
         package.should == nil
       end
     
@@ -154,9 +171,11 @@ describe Package do
         mock_file(url, 'datapackages/mixed-datapackage.json', 'application/javascript')
         mock_file("http://example.org/some-json.json", 'csvs/valid.csv')
         mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
-
-        package = Package.check_datapackage(url)
-        package.validations.count.should == 1
+        
+        package = Package.new
+        package = package.create_package([url])
+                
+        package.validations.length.should == 1
       end
     
     end
@@ -167,8 +186,9 @@ describe Package do
       files = [ mock_upload('datapackages/single-datapackage.json') ]
       mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
       
-      package = Package.create_package(files)
-      package.validations.count.should == 1
+      package = Package.new
+      package = package.create_package(files)
+      package.validations.length.should == 1
 
     end
     
@@ -176,8 +196,9 @@ describe Package do
       files = [ mock_upload('datapackages/local-and-remote-datapackage.json') ]
       mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
       
-      package = Package.create_package(files)
-      package.validations.count.should == 1
+      package = Package.new
+      package = package.create_package(files)
+      package.validations.length.should == 1
 
     end
 
@@ -186,13 +207,14 @@ describe Package do
   context "with a CKAN URL" do
     it "creates a validation for a CKAN package with a single CSV", :vcr do
       url = 'http://data.gov.uk/dataset/uk-open-access-non-vosa-sites'
-    
-      package = Package.check_datapackage(url)
+      
+      package = Package.new
+      package = package.create_package([url])
       dataset = DataKitten::Dataset.new(access_url: url)
       package_dataset = Marshal.load(package.dataset)
     
       package.url.should == url
-      package.validations.count.should == 1
+      package.validations.length.should == 1
       
       package_dataset.access_url.should == dataset.access_url
       package_dataset.data_title.should == dataset.data_title
@@ -202,16 +224,18 @@ describe Package do
   
     it "creates multiple validations for a datapackage with multiple CSVs", :vcr do
       url = 'http://data.gov.uk/dataset/uk-civil-service-high-earners'
+            
+      package = Package.new
+      package = package.create_package([url])
     
-      package = Package.check_datapackage(url)
-    
-      package.validations.count.should == 4
+      package.validations.length.should == 4
     end
     
     it "returns nil if there are no CSVs", :vcr do
       url = 'http://data.gov.uk/dataset/ratio-of-median-house-price-to-median-earnings'
-
-      package = Package.check_datapackage(url)
+      
+      package = Package.new
+      package = package.create_package([url])
       package.should == nil
     end
     

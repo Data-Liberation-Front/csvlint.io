@@ -1,5 +1,5 @@
 Then(/^my CSV should be placed in a background job$/) do
-  Validation.any_instance.should_receive(:delay).and_call_original
+  Package.any_instance.should_receive(:delay).and_call_original
 end
 
 When(/^I wait for the ajax request to finish$/) do
@@ -14,9 +14,9 @@ When(/^the CSV has finished processing$/) do
   sleep 5
 end
 
-When(/^I wait for the validation to be created$/) do
+When(/^I wait for the package to be created$/) do
   patiently do
-    Validation.first.should_not be_nil
+    Package.first.should_not be_nil
   end
 end
 

@@ -19,6 +19,8 @@ Feature: Multiple CSV Validation
       |http://example.org/test3.csv|
       |http://example.org/test4.csv|
     And I press "Validate"
+    And I wait for the package to be created
+    When the CSV has finished processing
     Then I should be redirected to my package page
     And I should see "http://example.org/test.csv"
     And I should see "http://example.org/test2.csv"
@@ -35,6 +37,8 @@ Feature: Multiple CSV Validation
       And I check the "schema" checkbox
       And I enter "http://example.org/schema.json" in the "schema_url" field
       And I press "Validate"
+      And I wait for the package to be created
+      When the CSV has finished processing
       Then I should be redirected to my package page
       And the package validations should have the correct schema
 
@@ -48,5 +52,7 @@ Feature: Multiple CSV Validation
       And I check the "schema" checkbox
       And I attach the file "schemas/valid.json" to the "schema_file" field
       And I press "Validate"
+      And I wait for the package to be created
+      When the CSV has finished processing
       Then I should be redirected to my package page
       And the package validations should have the correct schema

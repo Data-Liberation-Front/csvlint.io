@@ -12,7 +12,7 @@ Feature: Background validation
     And I enter "http://example.org/test.csv" in the "url" field
     Then my CSV should be placed in a background job
     When I press "Validate"
-    And I wait for the validation to be created
+    And I wait for the package to be created
     When the CSV has finished processing
     Then I should be redirected to my validation results
     And I should see a page of validation results
@@ -24,7 +24,7 @@ Feature: Background validation
     And I attach the file "csvs/valid.csv" to the "file" field
     Then my CSV should be placed in a background job
     When I press "Validate"
-    And I wait for the validation to be created
+    And I wait for the package to be created
     When the CSV has finished processing
     Then I should be redirected to my validation results
     And I should see a page of validation results

@@ -30,6 +30,8 @@ VCR.configure do |c|
 end
 
 RSpec.configure do |config|
+  include ActionDispatch::TestProcess
+  
   config.treat_symbols_as_metadata_keys_with_true_values = true
   
   WebMock.disable_net_connect!(:allow => [/static.(dev|theodi.org)/, /datapackage\.json/, /package_search/])

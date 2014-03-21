@@ -12,8 +12,7 @@ Feature: Load from datapackage
     When I go to the homepage
     And I enter "http://example.org/single-datapackage.json" in the "url" field
     And I press "Validate"
-    Then I should be redirected to my package page
-    And I should see "We've noticed that you have submitted a URL that refers to a datapackage."
+    Then I should see a page of validation results
     And I should see "http://example.org/valid.csv"
     And my datapackage should be persisited in the database
     
@@ -31,9 +30,8 @@ Feature: Load from datapackage
     When I go to the homepage
     And I enter "http://example.org/schema-datapackage.json" in the "url" field
     And I press "Validate"
-    Then I should be redirected to my package page
-    When I click on the first report link
-    Then I should see "The schema says that a value must be provided in the <code>Username</code> column. Make sure this column has values in all the rows."
+    Then I should see a page of validation results
+    And I should see "The schema says that a value must be provided in the <code>Username</code> column. Make sure this column has values in all the rows."
     And I should see "The schema says that <code>Username</code> must be at least 5 characters long. Your value, <code>derp</code>, is not long enough."
     And I should see "The schema says that <code>Username</code> must be at most 10 characters long. Your value, <code>derpderpington</code>, is too long."
     And I should see "The schema says that values in <code>Username</code> must match <code>^[A-Za-z0-9_]*$</code>. Your value, <code>derp-derp</code>, does not."
