@@ -19,9 +19,7 @@ class ValidationController < ApplicationController
       @validation = Validation.create
       io = { :body => io.read, :filename => io.original_filename } if io.respond_to?(:tempfile)
       @validation.delay.validate(io, @schema_url, @schema)
-    else
-      io = params[:urls].first.presence
-      
+    else      
       validation = Validation.create
       validation.validate(io, @schema_url, @schema)
     
