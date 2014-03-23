@@ -104,40 +104,51 @@
 		  event.preventDefault();
 		  $('#submit i').attr('class', 'fa fa-refresh fa-spin')
 		
-		  csv_files = $("#files_")[0].files
+  		  files = []
 		  
-		  if (csv_files.length > 0) {
-  		  readFiles(csv_files, function(files) {
+  		  $.each($("#schema_file")[0].files, function(index, file) {
+  		    file.category = "schema"
+  		    files.push(file)
+  	    });
+	    
+  		  $.each($("#files_")[0].files, function(index, file) {
+  		    file.category = "csv"
+  		    files.push(file)
+  	    });
+  	    		  
+  		  readFiles(files, function(files, schema_file) {
+  		    var urls = [];
+  		    
+  		    $( "input[name='urls[]']" ).each(function(){
+            urls.push($(this).val());
+          });
+  		    
           postdata = {
             "files_data[]": files,
-            "urls[]": null
+            "schema": $('#schema').prop("checked") ? 1 : 0,
+            "schema_data": schema_file,
+            "schema_url": $('#schema_url').val(),
+            "urls[]": urls,
           }
-            		    
-  		    postData(postdata);
+                      		    
+  		    postData(postdata);  		    
   		  });
-  		} else {
-  		  var urls = [];
-  		  
-        $( "input[name='urls[]']" ).each(function(){
-          urls.push($(this).val());
-        });
-        
-        data = {
-          "urls[]": urls
-        }
-        
-        postData(data);
-  		}
 	    
 		})
 		
 		function readFiles(files, callback) {
-		  arr = [];
-		  count = files.length
-		  $.each(files, function(index, file) {
+		  csvs = [];
+		  schema_file = "";
+		  count = files.length;
+		  if (count == 0) callback(null)
+		  $.each(files, function(index, file) {	      
 		    readFile(file, function(obj) {
-		      arr.push(obj.filename + ";" +obj.data);
-		      if (!--count) callback(arr);
+		      if (file.category == "schema") {
+		        schema_file = obj.filename + ";" + obj.data;
+		      } else {
+		        csvs.push(obj.filename + ";" + obj.data);
+	        }
+		      if (!--count) callback(csvs, schema_file);
 		    });
       });
 		}
@@ -172,7 +183,7 @@
 		function checkPackage() {
 		   setInterval(function(){
           $.ajax({ url: package_url + ".json", success: function(data){
-             document.location.href = package_url
+            document.location.href = package_url
           }, dataType: "json"});
       }, 5000);
 		}

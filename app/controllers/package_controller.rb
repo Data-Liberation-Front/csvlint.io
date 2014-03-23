@@ -18,7 +18,7 @@ class PackageController < ApplicationController
     end
     
     redirect_to root_path and return if io.nil?
-    
+        
     if params[:format] == "json"
       @package = Package.create            
       @package.delay.create_package(io, @schema_url, @schema)
@@ -51,7 +51,8 @@ class PackageController < ApplicationController
   
     def preprocess
       remove_blanks!
-      params[:files] = read_files(params[:files_data]) unless params[:files_data].nil?
+      params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
+      params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank?
       redirect_to root_path and return unless urls_valid? || params[:files].presence
       load_schema
       Zipfile.check!(params)
@@ -74,6 +75,7 @@ class PackageController < ApplicationController
   
     def remove_blanks!
       params[:urls].reject! { |url| url.blank? } unless params[:urls].blank?
+      params[:files_data].reject! { |data| data.blank? } unless params[:files_data].blank?
     end
   
     def load_schema
@@ -121,6 +123,7 @@ class PackageController < ApplicationController
     
     def read_files(data)
       files = []
+      data = [data] if data.class == String
       data.each do |data|
         filename = data.split(";").first
         data_index = data.index('base64') + 7

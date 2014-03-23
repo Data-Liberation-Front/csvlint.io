@@ -30,3 +30,18 @@ Feature: Background validation
     And I should see a page of validation results
     And my file should be persisted in the database
     And my file should be saved in the database
+    
+  Scenario: Enter a URL with a schema upload for validation
+    When I go to the homepage
+    And I enter "http://example.org/test.csv" in the "url" field
+    And I check the "schema" checkbox
+    And I attach the file "schemas/valid.json" to the "schema_file" field
+    Then my CSV should be placed in a background job
+    When I press "Validate"
+    And I wait for the package to be created
+    When the CSV has finished processing
+    Then I should be redirected to my validation results
+    And I should see a page of validation results
+    And I should see my URL
+    And my url should be persisted in the database
+    And the package validations should have the correct schema
