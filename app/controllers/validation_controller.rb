@@ -47,5 +47,24 @@ class ValidationController < ApplicationController
         end
       end
     end
+    
+    def build_dialect(params)
+      case params[:line_terminator]
+      when "auto"
+        line_terminator = :auto
+      when "\\n"
+        line_terminator = "\n"
+      when "\\r\\n"
+        line_terminator = "\r\n"
+      end
+    
+      {
+        "header" => params[:header],
+        "delimiter" => params[:delimiter],
+        "skipInitialSpace" => params[:skip_initial_space],
+        "lineTerminator" => line_terminator,
+        "quoteChar" => params[:quote_char]
+      }
+    end
   
 end
