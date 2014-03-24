@@ -84,6 +84,78 @@ describe PackageController do
       package.validations.count.should == 4
       response.location.should == package_url(package)
     end
+    
+    it "supports data URLs" do
+      post 'create', files_data: [
+                            create_data_uri('csvs/valid.csv')
+                          ]
+            
+      response.should be_redirect
+      package = Package.first
+      package.validations.count.should == 1
+      response.location.should == validation_url(package.validations.first)
+    end
+    
+    it "supports multiple data URLs" do
+      post 'create', files_data: [
+                            create_data_uri('csvs/valid.csv'),
+                            create_data_uri('csvs/valid.csv'),
+                            create_data_uri('csvs/valid.csv'),
+                            create_data_uri('csvs/valid.csv')
+                          ]
+            
+      response.should be_redirect
+      package = Package.first
+      package.validations.count.should == 4
+      response.location.should == package_url(package)
+    end
+    
+    it "supports single zip files as data URLs" do
+      post 'create', files_data: [
+                        create_data_uri('csvs/valid.zip', 'application/zip'),
+                      ]
+      response.should be_redirect
+      package = Package.first
+      package.validations.count.should == 1
+      response.location.should == validation_url(package.validations.first)
+    end
+    
+    it "supports multiple zip files as data URLs" do
+      post 'create', files_data: [
+                        create_data_uri('csvs/valid.zip', 'application/zip'),
+                        create_data_uri('csvs/multiple_files.zip', 'application/zip'),
+                      ]
+      response.should be_redirect
+      package = Package.first
+      package.validations.count.should == 4
+      response.location.should == package_url(package)
+    end
+    
+    it "supports schema uploads as data URLs" do
+      mock_file("http://example.com/test.csv", 'csvs/all_constraints.csv')
+      post 'create', urls: [
+                             'http://example.com/test.csv',
+                           ],
+                     schema: "1",
+                     schema_data: create_data_uri('schemas/all_constraints.json', 'application/json')
+                     
+      response.should be_redirect
+      package = Package.first
+      validation = package.validations.first
+      validator = validation.validator
+      response.location.should == validation_url(validation)
+      validator.errors.count.should == 10
+      validator.errors[0].type.should == :missing_value
+      validator.errors[1].type.should == :min_length
+      validator.errors[2].type.should == :min_length
+      validator.errors[3].type.should == :max_length
+      validator.errors[4].type.should == :pattern
+      validator.errors[5].type.should == :unique
+      validator.errors[6].type.should == :below_minimum
+      validator.errors[7].type.should == :above_maximum
+      validator.errors[8].type.should == :above_maximum
+      validator.errors[9].type.should == :below_minimum
+    end
 
   end
 

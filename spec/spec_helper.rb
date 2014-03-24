@@ -79,4 +79,10 @@ def mock_upload(file, content_type = "text/csv")
   end
   upload_file
 end
+
+def create_data_uri(file, content_type = "text/csv")
+  contents = File.read File.join(Rails.root, 'fixtures', file)
+  base64 = Base64.encode64(contents).gsub("\n",'')
+  "#{file};data:#{content_type};base64,#{base64}"
+end
   
