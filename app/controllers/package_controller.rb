@@ -1,12 +1,13 @@
 require 'uri'
 require 'zipfile'
+require 'data_uri/open_uri'
 
 class PackageController < ApplicationController
   before_filter :preprocess, :only => :create
   
   def create  
     io = params[:urls].presence || params[:files].presence
-        
+            
     if io.first.respond_to?(:tempfile)
       io = io.map! do |io|
         stored_csv = Mongoid::GridFs.put(StringIO.new(io.read))
@@ -106,14 +107,21 @@ class PackageController < ApplicationController
       files = []
       data = [data] if data.class == String
       data.each do |data|
-        filename = data.split(";").first
-        data_index = data.index('base64') + 7
-        filedata = data.slice(data_index, data.length)
+        file_array = data.split(";", 2)
+        filename = file_array[0]
+        uri = URI::Data.new(file_array[1])
+        
+        io = open(uri)        
         basename = File.basename(filename)
         tempfile = Tempfile.new(basename)
-        tempfile.write(Base64.decode64(filedata))
+        tempfile.binmode
+        tempfile.write(io.read)
         tempfile.rewind
-        files << ActionDispatch::Http::UploadedFile.new(:filename => filename, :tempfile => tempfile)
+        file = ActionDispatch::Http::UploadedFile.new(:filename => filename, 
+                                                      :tempfile => tempfile
+                                                      )
+        file.content_type = io.content_type
+        files << file
       end
       files
     end
