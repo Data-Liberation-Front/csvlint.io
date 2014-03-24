@@ -6,7 +6,9 @@ Then(/^the url "(.*?)" should be persisted in the database$/) do |url|
 end
 
 Then(/^I should be redirected to my package page$/) do
-  current_path.should == package_path(Package.first)
+  patiently do
+    current_path.should == package_path(Package.first)
+  end
 end
 
 Then(/^my datapackage should be persisited in the database$/) do

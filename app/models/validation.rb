@@ -18,6 +18,10 @@ class Validation
       filename = io.original_filename
       csv = File.new(io.tempfile)
       io = File.new(io.tempfile)
+    elsif io.class == Hash && !io[:body].nil?
+      filename = io[:filename]
+      csv_id = io[:csv_id]
+      io = StringIO.new(io[:body])
     end 
     # Validate
     validator = Csvlint::Validator.new( io, dialect, schema && schema.fields.empty? ? nil : schema )
@@ -26,12 +30,13 @@ class Validation
     state = "valid"
     state = "warnings" unless validator.warnings.empty?
     state = "invalid" unless validator.errors.empty?
+    state = "not_found" unless validator.errors.select { |e| e.type == :not_found }.empty?
     
     if io.class == String
       # It's a url!
       url = io
       filename = File.basename(URI.parse(url).path)
-      csv = nil
+      csv_id = nil
     else
       # It's a file!
       url = nil
@@ -43,7 +48,7 @@ class Validation
       :filename => filename,
       :state => state,
       :result => Marshal.dump(validator).force_encoding("UTF-8"),
-      :csv => csv
+      :csv_id => csv_id
     }
         
     if schema_url.present?
@@ -55,23 +60,12 @@ class Validation
     attributes
   end 
   
-  def self.create_validation(io, schema_url = nil, schema = nil)
-    validation = validate(io, schema_url, schema)
-    self.create(validation)
-  end
-  
-  def self.fetch_validation(id)
+  def self.fetch_validation(id, format)
     v = self.find(id)
-    unless v.url.blank?
-      validator = v.validator
-      begin
-        RestClient.head(v.url, if_modified_since: v.updated_at.rfc2822 ) if v.updated_at
-        v = v.update_validation (validator.dialect) if v.updated_at <= 2.hours.ago
-      rescue RestClient::NotModified
-        nil
-      rescue
-        v.update_attributes(state: "not_found")
-      end
+    if ["png", "svg"].include?(format)      
+      v.delay.check_validation
+    else
+      v.check_validation
     end
     v
   end
@@ -108,18 +102,22 @@ class Validation
     }
   end
   
+  def self.create_validation(io, schema_url = nil, schema = nil)
+    validation = Validation.create
+    validation.validate(io, schema_url, schema)
+    validation
+  end
+  
+  def validate(io, schema_url = nil, schema = nil)
+    validation = Validation.validate(io, schema_url, schema)
+    self.update_attributes(validation)
+  end
+  
   def update_validation(dialect = nil)
     loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
     validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect)    
     self.update_attributes(validation)
     self
-  end
-  
-  def csv=(io)
-    unless io.nil?
-      stored_csv = Mongoid::GridFs.put(io)
-      self.csv_id = stored_csv.id
-    end
   end
   
   def csv
@@ -130,6 +128,19 @@ class Validation
         f.write stored_csv.data
       end
       file
+    end
+  end
+  
+  def check_validation
+    unless url.blank?
+      begin
+        RestClient.head(url, if_modified_since: updated_at.rfc2822 ) if updated_at
+        update_validation(validator.dialect) if updated_at <= 2.hours.ago
+      rescue RestClient::NotModified
+        nil
+      rescue
+        update_attributes(state: "not_found")
+      end
     end
   end
   

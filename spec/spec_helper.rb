@@ -10,6 +10,7 @@ require 'rspec/autorun'
 require 'webmock/rspec'
 require 'database_cleaner'
 require 'vcr'
+require 'timecop'
 
 DatabaseCleaner.strategy = :truncation
 
@@ -29,6 +30,8 @@ VCR.configure do |c|
 end
 
 RSpec.configure do |config|
+  include ActionDispatch::TestProcess
+  
   config.treat_symbols_as_metadata_keys_with_true_values = true
   
   WebMock.disable_net_connect!(:allow => [/static.(dev|theodi.org)/, /datapackage\.json/, /package_search/])
@@ -75,5 +78,11 @@ def mock_upload(file, content_type = "text/csv")
     attr_reader :tempfile
   end
   upload_file
+end
+
+def create_data_uri(file, content_type = "text/csv")
+  contents = File.read File.join(Rails.root, 'fixtures', file)
+  base64 = Base64.encode64(contents).gsub("\n",'')
+  "#{file};data:#{content_type};base64,#{base64}"
 end
   
