@@ -100,8 +100,8 @@
 		  count = count + 1
 		})
 		
-		$('#validation_form').submit(function(){
-		  event.preventDefault();
+		$('#validation_form').submit(function(e){
+		  e.preventDefault();
 		  $('#submit i').attr('class', 'fa fa-refresh fa-spin')
 		
   		  files = []
@@ -131,7 +131,7 @@
             "urls[]": urls,
           }
                       		    
-  		    postData(postdata);  		    
+  		    postData(postdata);
   		  });
 	    
 		})
@@ -144,13 +144,17 @@
 		  $.each(files, function(index, file) {	      
 		    readFile(file, function(obj) {
 		      if (file.category == "schema") {
-		        schema_file = obj.filename + ";" + obj.data;
+		        schema_file = buildFile(obj);
 		      } else {
-		        csvs.push(obj.filename + ";" + obj.data);
+		        csvs.push(buildFile(obj));
 	        }
 		      if (!--count) callback(csvs, schema_file);
 		    });
       });
+		}
+		
+		function buildFile(file) {
+		  return file.filename + ";" + file.data;
 		}
 		
 		function readFile(file, callback) {
