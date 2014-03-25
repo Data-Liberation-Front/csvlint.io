@@ -17,6 +17,7 @@
 //= require iframe-auto-height
 //= require bootstrap/bootstrap-dropdown.js
 //= require bootstrap/bootstrap-modal.js
+//= require bootstrap.file-input.js
 
 $('a[data-toggle=dropdown]').click(function() {
 	if ($(this).next('.dropdown-menu').css('display') == "block") {
@@ -30,3 +31,5 @@ $("#odi-logo").on("contextmenu",function(e){
     $('#getLogo').modal()
     return false
 });
+
+$('.file-chooser').bootstrapFileInput(true);
