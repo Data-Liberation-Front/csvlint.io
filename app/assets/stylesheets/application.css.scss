@@ -51,7 +51,7 @@ h1.site-title {
   .modal-dialog {
     left: 0;
   }
-  
+
   .modal-header {
     background-color: $odiOrange;
     color: #fff;
@@ -78,7 +78,7 @@ h1.site-title {
       padding-bottom: 10px;
     }
     textarea {
-      width: 100%;      
+      width: 100%;
     }
   }
 }
@@ -98,7 +98,7 @@ background-color: $odiOrange;
     font-size: 22px;
     line-height: 31px;
   }
-  
+
   p {
     font-size: 17px;
     line-height: 26px;
@@ -127,7 +127,7 @@ background-color: $odiOrange;
     margin-top: 16px;
     line-height: 20px;
   }
-  
+
   .col-md-6.primary {
   background-color: #eee;
   padding: 10px;
@@ -149,17 +149,16 @@ background-color: $odiOrange;
     margin-bottom: 20px;
   }
 
-  
   .btn-revalidate {
     background-color: $odiOrange !important;
     margin-top: 10px;
   }
-  
+
   .btn-file {
       position: relative;
       overflow: hidden;
   }
-  
+
   .btn-file input[type=file] {
       position: absolute;
       top: 0;
@@ -174,7 +173,7 @@ background-color: $odiOrange;
       cursor: inherit;
       display: block;
   }
-  
+
   input.form-control {
     height: 60px;
     font-size: 22px;
@@ -193,7 +192,7 @@ background-color: $odiOrange;
   .checkbox {
     margin: 20px 0;
   }
-  
+
   .table {
     .url {
       max-width: 270px;
@@ -217,7 +216,7 @@ background-color: $odiOrange;
 
   table.report-results {
     font-size: 13px;
-    
+
     border-top: none;
 
       td, th {
@@ -250,7 +249,7 @@ background-color: $odiOrange;
           background-color: $alert-info-bg;
           color: $odiBlue;
         }
-        
+
         .errors-none, .warnings-none, .info_messages-none {
           background-color: whitesmoke;
         }
@@ -266,11 +265,16 @@ background-color: $odiOrange;
           line-height: 31px;
 
         }
-    
+
   }
 
   .data-title {
 display: block;
 font-weight: bold;
   }
+}
+
+#validation_url {
+  height: 30px;
+  width: 100%;
 }
