@@ -94,3 +94,5 @@ gem 'nokogiri', '~> 1.5'
 
 gem 'airbrake'
 gem 'font-awesome-rails'
+gem 'delayed_job_mongoid', github: 'collectiveidea/delayed_job_mongoid'
+gem 'data_uri'

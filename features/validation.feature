@@ -77,7 +77,7 @@ Feature: CSV Validation
   Scenario: List validations
     Given there are 30 validations in the database
     And I visit the list page
-    Then I should see 25 validations listed
+    Then I should see 7 validations listed
     And I should see a paginator
     
   Scenario: Latest validations only should be listed
