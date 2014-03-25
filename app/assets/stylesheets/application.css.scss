@@ -236,21 +236,26 @@ background-color: $odiOrange;
         }
       }
 
-       .danger, .danger-none {
+       .errors, .errors-none {
+          background-color: $alert-danger-bg;
           color: $odiRed;
         }
 
-        .warning, .warning-none {
+        .warnings, .warnings-none {
+          background-color: $alert-warning-bg;
           color: $odiYellow;
         }
 
-        .info, .info-none {
+        .info_messages, .info_messages-none {
+          background-color: $alert-info-bg;
           color: $odiBlue;
         }
+        
+        .errors-none, .warnings-none, .info_messages-none {
+          background-color: whitesmoke;
+        }
 
-       
-
-        td.warning, td.danger, td.info, td.active{
+        td.warnings, td.errors, td.info_messages, td.active{
           font-size: 22px;
           font-weight: bold;
           border: 2px solid #fff;
