@@ -51,10 +51,7 @@
         <%= t(:validate).titleize %>
       </button>
 
-
-
       <p class="more-information">Submitted urls are recorded in a public <a href="/validation/list">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
-
       <% end %>
   </div>
 
@@ -99,24 +96,30 @@
 		  e.preventDefault();
 		  $('#submit i').attr('class', 'fa fa-refresh fa-spin')
 
-  		  files = []
+  		  files = [];
+        urls = [];
+        validation_count = 0;
 
   		  $.each($("#schema_file")[0].files, function(index, file) {
   		    file.category = "schema"
-  		    files.push(file)
+  		    files.push(file);
   	    });
 
   		  $.each($("#upload_file")[0].files, function(index, file) {
   		    file.category = "csv"
   		    files.push(file)
+          validation_count++;
   	    });
 
-  		  readFiles(files, function(files, schema_file) {
-  		    var urls = [];
 
-  		    $( "input[name='urls[]']" ).each(function(){
+        $( "input[name='urls[]']" ).each(function(){
+          if ($(this).val().length > 0) {
             urls.push($(this).val());
-          });
+            validation_count++;
+          }
+        });
+
+  		  readFiles(files, function(files, schema_file) {
 
           postdata = {
             "files_data[]": files,
@@ -182,7 +185,9 @@
 		function checkPackage() {
 		   setInterval(function(){
           $.ajax({ url: package_url + ".json", success: function(data){
-            document.location.href = package_url
+            if (data.package.validations.length == validation_count) {
+              document.location.href = package_url
+            }
           }, dataType: "json"});
       }, 5000);
 		}

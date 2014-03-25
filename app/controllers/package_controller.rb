@@ -4,10 +4,10 @@ require 'data_uri/open_uri'
 
 class PackageController < ApplicationController
   before_filter :preprocess, :only => :create
-  
-  def create  
+
+  def create
     io = params[:urls].presence || params[:files].presence
-            
+
     if io.first.respond_to?(:tempfile)
       io = io.map! do |io|
         stored_csv = Mongoid::GridFs.put(StringIO.new(io.read))
@@ -17,16 +17,16 @@ class PackageController < ApplicationController
         }
       end
     end
-    
+
     redirect_to root_path and return if io.nil?
-        
+
     if params[:format] == "json"
-      @package = Package.create            
+      @package = Package.create
       @package.delay.create_package(io, @schema_url, @schema)
-    else      
+    else
       package = Package.create
       package.create_package(io, @schema_url, @schema)
-      
+
       if package.validations.count == 1
         redirect_to validation_path(package.validations.first)
       else
@@ -34,22 +34,20 @@ class PackageController < ApplicationController
       end
     end
   end
-  
+
   def show
     @package = Package.find( params[:id] )
-    
-    raise ActionController::RoutingError.new('Not Found') if @package.validations.count == 0
-    
-    if @package.validations.count == 1
+
+    if @package.validations.count == 1 && params[:format] != "json"
       redirect_to validation_path(@package.validations.first)
     end
-    
+
     @dataset = Marshal.load(@package.dataset) rescue nil
-    @validations = Kaminari.paginate_array(@package.validations).page(params[:page])  
+    @validations = Kaminari.paginate_array(@package.validations).page(params[:page])
   end
-  
+
   private
-  
+
     def preprocess
       remove_blanks!
       params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
@@ -58,7 +56,7 @@ class PackageController < ApplicationController
       load_schema
       Zipfile.check!(params)
     end
-  
+
     def urls_valid?
       return false if params[:urls].blank?
       params[:urls].each do |url|
@@ -73,19 +71,19 @@ class PackageController < ApplicationController
       end
       return true
     end
-  
+
     def remove_blanks!
       params[:urls].reject! { |url| url.blank? } unless params[:urls].blank?
       params[:files_data].reject! { |data| data.blank? } unless params[:files_data].blank?
     end
-  
+
     def load_schema
       # Check that schema checkbox is ticked
       return unless params[:schema] == "1"
       # Load schema
-      io = params[:schema_url].presence || params[:schema_file].presence 
+      io = params[:schema_url].presence || params[:schema_file].presence
       if io.class == String
-        @schema = Csvlint::Schema.load_from_json_table(io) 
+        @schema = Csvlint::Schema.load_from_json_table(io)
       else
         begin
           schema_json = JSON.parse( File.new( params[:schema_file].tempfile ).read() )
@@ -95,14 +93,14 @@ class PackageController < ApplicationController
         end
       end
       # Get schema URL from parameters
-      @schema_url = params[:schema_url]      
+      @schema_url = params[:schema_url]
     end
-  
+
     def check_for_package
       sources = params[:urls].presence || params[:files].presence
       Package.create_package( sources, params[:schema_url], @schema )
     end
-    
+
     def read_files(data)
       files = []
       data = [data] if data.class == String
@@ -110,14 +108,14 @@ class PackageController < ApplicationController
         file_array = data.split(";", 2)
         filename = file_array[0]
         uri = URI::Data.new(file_array[1])
-        
-        io = open(uri)        
+
+        io = open(uri)
         basename = File.basename(filename)
         tempfile = Tempfile.new(basename)
         tempfile.binmode
         tempfile.write(io.read)
         tempfile.rewind
-        file = ActionDispatch::Http::UploadedFile.new(:filename => filename, 
+        file = ActionDispatch::Http::UploadedFile.new(:filename => filename,
                                                       :tempfile => tempfile
                                                       )
         file.content_type = io.content_type
@@ -125,5 +123,5 @@ class PackageController < ApplicationController
       end
       files
     end
-    
+
 end
