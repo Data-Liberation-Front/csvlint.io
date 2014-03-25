@@ -51,7 +51,7 @@ h1.site-title {
   .modal-dialog {
     left: 0;
   }
-  
+
   .modal-header {
     background-color: $odiOrange;
     color: #fff;
@@ -78,7 +78,7 @@ h1.site-title {
       padding-bottom: 10px;
     }
     textarea {
-      width: 100%;      
+      width: 100%;
     }
   }
 }
@@ -94,8 +94,8 @@ background-color: $odiOrange;
     padding: 10px;
   }
 
- 
-  
+
+
   p {
   font-size: 17px;
   line-height: 26px;
@@ -108,7 +108,7 @@ background-color: $odiOrange;
   }
 
 
-  
+
   .col-md-6.primary {
   background-color: #eee;
   padding: 10px;
@@ -132,17 +132,17 @@ background-color: $odiOrange;
     filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
     width: auto;
   }
-  
+
   .btn-revalidate {
     background-color: $odiOrange !important;
     margin-top: 10px;
   }
-  
+
   .btn-file {
       position: relative;
       overflow: hidden;
   }
-  
+
   .btn-file input[type=file] {
       position: absolute;
       top: 0;
@@ -157,7 +157,7 @@ background-color: $odiOrange;
       cursor: inherit;
       display: block;
   }
-  
+
   input.form-control {
     background-color: #fff;
     height: 60px;
@@ -177,7 +177,7 @@ background-color: $odiOrange;
   .checkbox {
     margin: 20px 0;
   }
-  
+
   .table {
     .url {
       max-width: 270px;
@@ -201,7 +201,7 @@ background-color: $odiOrange;
 
   table.report-results {
     font-size: 13px;
-    
+
     border-top: none;
 
       td, th {
@@ -232,7 +232,7 @@ background-color: $odiOrange;
           color: $odiBlue;
         }
 
-       
+
 
         td.warning, td.danger, td.info, td.active{
           font-size: 22px;
@@ -245,11 +245,16 @@ background-color: $odiOrange;
           line-height: 31px;
 
         }
-    
+
   }
 
   .data-title {
 display: block;
 font-weight: bold;
   }
+}
+
+#validation_url {
+  height: 30px;
+  width: 100%;
 }

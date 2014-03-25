@@ -10,15 +10,15 @@
 <% end %>
 
 <div class="row">
-  <div class="col-md-12"> 
+  <div class="col-md-12">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h2><%= @validation.url %></h2>
+        <h2 id="validation_url"><%= @validation.url %></h2>
         <div class="row">
           <% if @validation.state == "not_found" %>
             <div class="col-sm-12">
               <%= t(:not_found_html) %>
-              
+
               <%= render :partial => 'revalidate' %>
             </div>
           <% else %>
@@ -32,9 +32,9 @@
               <% else %>
                 <p><%= t(:invalid_html) %></p>
               <% end %>
-            
+
               <%= link_to '<i class="fa fa-cloud-download"></i> '.html_safe + t(:standardised_csv_download), validation_path(@validation, format: :csv), class: 'btn btn-primary btn-lg' %>
-            
+
               <%= render :partial => 'revalidate' %>
              </div>
              <div class="col-sm-8">
@@ -76,8 +76,8 @@
 
   <% if @result.warnings.select { |warning| warning.type == :check_options }.any? %>
     <%= form_tag validation_path(params[:id]), id: 'revalidate', class: 'form-inline alert alert-warning' do %>
-      <p><%= t(:resubmit) %></p> 
-  
+      <p><%= t(:resubmit) %></p>
+
       <%= hidden_field_tag 'url', @validation.url %>
       <%= hidden_field_tag '_method', "put"%>
       <% unless @validation.schema.nil? %>
@@ -118,3 +118,24 @@
 <% end %>
 
 <%= render 'badge_modal'%>
+
+<% content_for :extra_javascript do %>
+  <%= javascript_include_tag "jquery.dotdotdot.js" %>
+
+  <script type="text/javascript">
+
+    $(document).ready( function() {
+      var path = $("#validation_url").html().split( '/' );
+      if ( path.length > 1 ) {
+        var name = path.pop();
+        $("#validation_url").html( path.join( '/' ) + '<span class="filename">/' + name + '</span>' );
+        $("#validation_url").dotdotdot({
+          after: 'span.filename',
+          wrap: 'letter',
+          watch: 'window'
+        });
+      }
+    });
+
+  </script>
+<% end %>
