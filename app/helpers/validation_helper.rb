@@ -77,5 +77,9 @@ module ValidationHelper
   def category_count(message, category)
     message.select{ |m| m.category == category }.count
   end
+  
+  def category_class(result, type, category)
+    category_count(result.send(type), category) > 0 ? type : "active #{type}-none"
+  end
 
 end

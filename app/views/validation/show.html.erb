@@ -41,27 +41,27 @@
                <table class="table table-hover report-results">
                  <tr>
                    <th></th>
-                   <th class="danger"><span class="result"><%= @result.errors.count %></span>Errors</td>
-                   <th class="warning"><span class="result"><%= @result.warnings.count %></span>Warnings</td>
-                   <th class="info"><span class="result"><%= @result.info_messages.count %></span>Messages</td>
+                   <th class="errors"><span class="result"><%= @result.errors.count %></span>Errors</td>
+                   <th class="warnings"><span class="result"><%= @result.warnings.count %></span>Warnings</td>
+                   <th class="info_messages"><span class="result"><%= @result.info_messages.count %></span>Messages</td>
                  </tr>
                  <tr>
                    <td class="name">Structure</td>
-                   <td class="danger"><%= category_count(@result.errors, :structure) %></td>
-                   <td class="warning"><%= category_count(@result.warnings, :structure) %></td>
-                   <td class="active info-none"><%= category_count(@result.info_messages, :structure) %></td>
+                   <td class="<%= category_class(@result, :errors, :structure) %>"><%= category_count(@result.errors, :structure) %></td>
+                   <td class="<%= category_class(@result, :warnings, :structure) %>"><%= category_count(@result.warnings, :structure) %></td>
+                   <td class="<%= category_class(@result, :info_messages, :structure) %>"><%= category_count(@result.info_messages, :structure) %></td>
                  </tr>
                  <tr>
                    <td class="name">Schema</td>
-                   <td class="danger"><%= category_count(@result.errors, :schema) %></td>
-                   <td class="active warning-none"><%= category_count(@result.warnings, :schema) %></td>
-                   <td class="info"><%= category_count(@result.info_messages, :schema) %></td>
+                   <td class="<%= category_class(@result, :errors, :schema) %>"><%= category_count(@result.errors, :schema) %></td>
+                   <td class="<%= category_class(@result, :warnings, :schema) %>"><%= category_count(@result.warnings, :schema) %></td>
+                   <td class="<%= category_class(@result, :info_messages, :schema) %>"><%= category_count(@result.info_messages, :schema) %></td>
                  </tr>
                  <tr>
                    <td class="name">Context</td>
-                   <td class="active danger-none"><%= category_count(@result.errors, :context) %></td>
-                   <td class="warning"><%= category_count(@result.warnings, :context) %></td>
-                   <td class="info"><%= category_count(@result.info_messages, :context) %></td>
+                   <td class="<%= category_class(@result, :errors, :context) %>"><%= category_count(@result.errors, :context) %></td>
+                   <td class="<%= category_class(@result, :warnings, :context) %>"><%= category_count(@result.warnings, :context) %></td>
+                   <td class="<%= category_class(@result, :info_messages, :context) %>"><%= category_count(@result.info_messages, :context) %></td>
                  </tr>
                </table>
               </div>

@@ -4,38 +4,32 @@
 
 <div class="row">
   <div class="col-md-6">
-      <p>CSV looks easy, but it can be hard to make a CSV file that other people can read easily. CSVLint helps you to check 
-    that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
+    <p class="lead">CSV looks easy, but it can be hard to make a CSV file that other people can read easily.</p>
 
-    <p>Just enter the location of the file you want to check, or upload it. If you have a schema which describes the 
+    <p>CSVLint helps you to check that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
+
+    <p>Just enter the location of the file you want to check, or upload it. If you have a schema which describes the
     contents of the CSV file, you can also give its URL or upload it. <a href="/about">Read more...</a></p>
   </div>
   <div class="col-md-6 primary">
     <%= form_tag package_index_path, multipart: true, id: "validation_form" do %>
-    
-
-          <p>Submitted urls are recorded in a public <a href="/validation/list">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
-          
           <div id="url">
-            <div class="input-group url-template url-group hidden" style="margin-top: 5px"> 
-              <%= url_field_tag 'urls[]', '', class: 'form-control', placeholder: t(:enter_csv_url)%>
+            <div class="input-group url-template url-group hidden" style="margin-top: 5px">
+              <%= url_field_tag 'urls[]', '', class: 'form-control', placeholder: t(:enter_url)%>
             </div>
-            <div class="input-group url-group"> 
-              <%= url_field_tag 'urls[]', '', class: 'form-control', id: 'url_0', placeholder: t(:enter_csv_url) %>
-              <span class="input-group-btn btn btn-info btn-clone">+</span>
+            <label for="url_0" class="options options-first"><%= t(:enter_link) %></label>
+            <div class="input-group url-group">
+              <%= url_field_tag 'urls[]', '', class: 'form-control', id: 'url_0', placeholder: t(:enter_url) %>
+              <span class="input-group-btn btn btn-info btn-clone btn-square-icon">+</span>
             </div>
           </div>
-          <p class="options">Or upload a file:</p>
-       
-          <div class="input-group">  
 
-            <span class="input-group-btn btn btn-info btn-file">
-              Browse... <%= file_field_tag 'files[]', multiple: true %>
-            </span>
-            <%= text_field_tag 'filename', 'No file chosen', class: 'form-control', readonly: '' %>
+          <label for="upload_file" class="options">Or upload a file:</label>
+          <div class="input-group">
+            <%= file_field_tag 'files[]', multiple: true, class: 'file-chooser btn-info btn-lg', id: 'upload_file', title: 'Choose a file' %>
           </div>
-        
-        
+
+
         <div class="checkbox">
           <label>
             <%= check_box_tag 'schema' %>
@@ -44,25 +38,26 @@
         </div>
 
       <div id="schemas" class="hidden">
-       
+
             <%= url_field_tag 'schema_url', '', class: 'form-control', placeholder: t(:enter_schema_url)%>
             <p>Or upload a file:</p>
-            <div class="input-group">  
-              <span class="input-group-btn btn btn-info btn-file">
-                Browse... <%= file_field_tag 'schema_file' %>
-              </span>
-              <%= text_field_tag 'schema_filename', 'No schema file chosen', class: 'form-control', readonly: '' %>
+            <div class="input-group">
+              <%= file_field_tag 'schema_file', class: 'file-chooser btn-info btn-lg', title: 'browse' %>
             </div>
       </div>
-      
+
       <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit">
         <span class="spinner"><i class="glyphicon glyphicon-ok"></i></span>
         <%= t(:validate).titleize %>
       </button>
-      
+
+
+
+      <p class="more-information">Submitted urls are recorded in a public <a href="/validation/list">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
+
       <% end %>
   </div>
-  
+
 </div>
 
 
@@ -77,52 +72,52 @@
 			label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
 			input.trigger('fileselect', [numFiles, label]);
 	});
-	
+
 	$(document).ready( function() {
 	  var count = 1
-	  
+
 		$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-			
+
 			var input = $(this).parents('.input-group').find(':text'),
 				log = numFiles > 1 ? numFiles + ' files selected' : label;
-			
+
 			input.val(log);
 		});
-		
+
 		$('#schema').click(function() {
 		  $('#schemas').toggleClass('hidden')
 		})
-		
+
 		$('.btn-clone').click(function() {
 		  cloned = $('.url-template:first').clone().appendTo('#url').removeClass('hidden');
 		  cloned.find('input:first').attr('id', 'url_' + count);
 		  $('.btn-clone:first').appendTo('.url-template:last');
 		  count = count + 1
 		})
-		
+
 		$('#validation_form').submit(function(e){
 		  e.preventDefault();
 		  $('#submit i').attr('class', 'fa fa-refresh fa-spin')
-		
+
   		  files = []
-		  
+
   		  $.each($("#schema_file")[0].files, function(index, file) {
   		    file.category = "schema"
   		    files.push(file)
   	    });
-	    
-  		  $.each($("#files_")[0].files, function(index, file) {
+
+  		  $.each($("#upload_file")[0].files, function(index, file) {
   		    file.category = "csv"
   		    files.push(file)
   	    });
-  	    		  
+
   		  readFiles(files, function(files, schema_file) {
   		    var urls = [];
-  		    
+
   		    $( "input[name='urls[]']" ).each(function(){
             urls.push($(this).val());
           });
-  		    
+
           postdata = {
             "files_data[]": files,
             "schema": $('#schema').prop("checked") ? 1 : 0,
@@ -130,18 +125,18 @@
             "schema_url": $('#schema_url').val(),
             "urls[]": urls,
           }
-                      		    
+
   		    postData(postdata);
   		  });
-	    
+
 		})
-		
+
 		function readFiles(files, callback) {
 		  csvs = [];
 		  schema_file = "";
 		  count = files.length;
 		  if (count == 0) callback(null)
-		  $.each(files, function(index, file) {	      
+		  $.each(files, function(index, file) {
 		    readFile(file, function(obj) {
 		      if (file.category == "schema") {
 		        schema_file = buildFile(obj);
@@ -152,25 +147,25 @@
 		    });
       });
 		}
-		
+
 		function buildFile(file) {
 		  return file.filename + ";" + file.data;
 		}
-		
+
 		function readFile(file, callback) {
   	  var reader = new FileReader();
-      reader.onload = function(event) {  
+      reader.onload = function(event) {
         object = {};
         object.filename = file.name;
         object.data = event.target.result;
         callback(object);
-      };  
+      };
       reader.readAsDataURL(file);
 		}
-		
+
 		function postData(data) {
 		  var AUTH_TOKEN = $('input[name=authenticity_token]').attr('value');
-		  
+
       $.ajax(
         {
           url: "<%= package_index_path(format: :json) %>?&authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
@@ -183,7 +178,7 @@
         }
       );
 		}
-		
+
 		function checkPackage() {
 		   setInterval(function(){
           $.ajax({ url: package_url + ".json", success: function(data){
@@ -192,7 +187,7 @@
       }, 5000);
 		}
 
-	});		
+	});
 </script>
 
 <% end %>

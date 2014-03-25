@@ -94,20 +94,39 @@ background-color: $odiOrange;
     padding: 10px;
   }
 
-
+  p.lead{
+    font-size: 22px;
+    line-height: 31px;
+  }
 
   p {
-  font-size: 17px;
-  line-height: 26px;
-  margin-bottom: 20px;
-  color: $odiGreyDark;
+    font-size: 17px;
+    line-height: 26px;
+    margin-bottom: 20px;
+    color: $odiGreyDark;
   }
 
-  p.options {
+  .options {
     margin: 20px 0 10px;
+    font-weight:normal;
+  }
+  .options-first{
+    margin-top:0;
   }
 
+  .btn-square-icon{
+    width: 60px;
+    font-size: 30px;
+    line-height: 30px;
+  }
 
+  // info box at base of homepage form
+  .more-information {
+    color: #999;
+    font-size: 14px;
+    margin-top: 16px;
+    line-height: 20px;
+  }
 
   .col-md-6.primary {
   background-color: #eee;
@@ -120,17 +139,14 @@ background-color: $odiOrange;
   }
 
   a.btn-primary, button.btn-primary {
-    color: #ffffff;
-    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
-    background: #1dd3a7;
-    font-size: 18px;
-    padding: 10px 30px;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-    border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-    width: auto;
+    @include button-variant(#fff, #1dd3a7, rgba(0,0,0,0.1));
+  }
+  a.btn-lg, button.btn-lg{
+    @include button-size(10px, 30px, 18px, 18px, 6px);
+  }
+
+  #schemas{
+    margin-bottom: 20px;
   }
 
   .btn-revalidate {
@@ -159,7 +175,6 @@ background-color: $odiOrange;
   }
 
   input.form-control {
-    background-color: #fff;
     height: 60px;
     font-size: 22px;
   }
@@ -220,21 +235,26 @@ background-color: $odiOrange;
         }
       }
 
-       .danger, .danger-none {
+       .errors, .errors-none {
+          background-color: $alert-danger-bg;
           color: $odiRed;
         }
 
-        .warning, .warning-none {
+        .warnings, .warnings-none {
+          background-color: $alert-warning-bg;
           color: $odiYellow;
         }
 
-        .info, .info-none {
+        .info_messages, .info_messages-none {
+          background-color: $alert-info-bg;
           color: $odiBlue;
         }
 
+        .errors-none, .warnings-none, .info_messages-none {
+          background-color: whitesmoke;
+        }
 
-
-        td.warning, td.danger, td.info, td.active{
+        td.warnings, td.errors, td.info_messages, td.active{
           font-size: 22px;
           font-weight: bold;
           border: 2px solid #fff;
