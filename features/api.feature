@@ -49,3 +49,18 @@ Feature: CSVlint API
     And the JSON response should have "$..validation..info[*]" with a length of 1
     And the JSON response should have "$..validation..info[0].type" with the text "nonrfc_line_breaks"
     And the JSON response should have "$..validation..info[0].category" with the text "structure"
+
+  Scenario: View recent validations as JSON
+    Given I have already validated the URL "http://example.org/test.csv"
+    And I have already validated the URL "http://example.org/errors.csv"
+    And I have already validated the URL "http://example.org/warnings.csv"
+    And I have already validated the URL "http://example.org/info.csv"
+    When I send and accept JSON
+    And I send a GET request to "/validation"
+    Then the response status should be "200"
+    And the JSON response should have "$..version" with the text "0.1"
+    And the JSON response should have "$..licence" with the text "http://opendatacommons.org/licenses/odbl/"
+    And the JSON response should have "$.._links..self" with the text "http://example.org/validation?page=1"
+    And the JSON response should have "$.._links..first" with the text "http://example.org/validation?page=1"
+    And the JSON response should have "$.._links..last" with the text "http://example.org/validation?page=1"
+    And the JSON response should have "$..validations[*]" with a length of 4
