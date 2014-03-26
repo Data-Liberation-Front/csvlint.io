@@ -34,6 +34,16 @@ GIT
       open_uri_redirections
 
 GIT
+  remote: git://github.com/theodi/cucumber-api-steps.git
+  revision: f8f9254614c64adb76fac3b6065cc9a10dc4f51b
+  branch: feature-test-content-type
+  specs:
+    cucumber-api-steps (0.13)
+      cucumber (>= 1.2.1)
+      jsonpath (>= 0.1.2)
+      rspec (>= 2.12.0)
+
+GIT
   remote: git://github.com/theodi/data_kitten.git
   revision: 03735214f354bb39d7447a3f896211643ca8bd65
   specs:
@@ -215,6 +225,8 @@ GEM
     json-ld (1.1.1)
       rdf (>= 1.0.8)
     json-schema (2.2.1)
+    jsonpath (0.5.6)
+      multi_json
     kaminari (0.15.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -448,6 +460,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   coveralls
   csvlint!
+  cucumber-api-steps!
   cucumber-rails
   data_kitten!
   data_uri

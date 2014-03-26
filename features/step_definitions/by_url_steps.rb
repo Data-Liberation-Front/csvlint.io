@@ -1,10 +1,6 @@
 Given(/^I have already validated the URL "(.*?)"$/) do |url|
   @url = url
-  steps %{
-    When I go to the homepage
-    And I enter "#{url}" in the "url" field
-    And I press "Validate"
-  }
+  @validation = Validation.create_validation(@url)
 end
 
 When(/^I load the validation by URL$/) do
