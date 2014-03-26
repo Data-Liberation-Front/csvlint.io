@@ -60,6 +60,7 @@ group :development, :test do
   gem 'faker'
   gem 'poltergeist'
   gem 'vcr'
+  gem 'cucumber-api-steps', require: false, github: 'theodi/cucumber-api-steps', branch: 'feature-test-content-type'
 end
 
 group :development do

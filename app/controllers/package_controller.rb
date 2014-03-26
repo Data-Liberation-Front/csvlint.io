@@ -43,7 +43,7 @@ class PackageController < ApplicationController
     end
 
     @dataset = Marshal.load(@package.dataset) rescue nil
-    @validations = Kaminari.paginate_array(@package.validations).page(params[:page])
+    @validations = @package.validations
   end
 
   private

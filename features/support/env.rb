@@ -9,6 +9,7 @@ require 'cucumber/rspec/doubles'
 require 'timecop'
 require 'capybara/poltergeist'
 require 'vcr'
+require 'cucumber/api_steps'
 
 require 'coveralls'
 Coveralls.wear_merged!('rails')
