@@ -3,6 +3,8 @@ require 'zipfile'
 
 class ValidationController < ApplicationController
 
+  before_filter(:only => [:index, :show]) { alternate_formats [:json] }
+
   def index
     validations = Validation.where(:url.ne => nil).sort_by{ |v| v.created_at }.reverse!
     validations.uniq!{ |v| v.url }
@@ -11,9 +13,9 @@ class ValidationController < ApplicationController
 
   def show
     @validation = Validation.fetch_validation(params[:id], params[:format])
-    
+
     raise ActionController::RoutingError.new('Not Found') if @validation.state.nil?
-    
+
     @result = @validation.validator
     @dialect = @result.dialect || Validation.standard_dialect
     # Responses
@@ -25,20 +27,20 @@ class ValidationController < ApplicationController
       wants.csv { send_data standardised_csv(@validation), type: "text/csv; charset=utf-8", disposition: "attachment" }
     end
   end
-  
+
   def update
     dialect = build_dialect(params)
     v = Validation.find(params[:id])
     v.update_validation(dialect)
     redirect_to validation_path(v)
   end
-  
+
   private
-    
+
     def render_badge(state, format)
       send_file File.join(Rails.root, 'app', 'views', 'validation', "#{state}.#{format}"), disposition: 'inline'
     end
-  
+
     def standardised_csv(validation)
       data = Marshal.load(validation.result).data
       CSV.generate(standard_csv_options) do |csv|
@@ -47,7 +49,7 @@ class ValidationController < ApplicationController
         end
       end
     end
-    
+
     def build_dialect(params)
       case params[:line_terminator]
       when "auto"
@@ -57,7 +59,7 @@ class ValidationController < ApplicationController
       when "\\r\\n"
         line_terminator = "\r\n"
       end
-    
+
       {
         "header" => params[:header],
         "delimiter" => params[:delimiter],
@@ -66,5 +68,5 @@ class ValidationController < ApplicationController
         "quoteChar" => params[:quote_char]
       }
     end
-  
+
 end
