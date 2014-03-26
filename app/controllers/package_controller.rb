@@ -5,6 +5,8 @@ require 'data_uri/open_uri'
 class PackageController < ApplicationController
   before_filter :preprocess, :only => :create
 
+  before_filter(:only => [:show]) { alternate_formats [:json] }
+
   def create
     io = params[:urls].presence || params[:files].presence
 

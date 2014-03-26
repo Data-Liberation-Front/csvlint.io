@@ -25,6 +25,13 @@ GIT
       tzinfo (>= 0.3.37)
 
 GIT
+  remote: git://github.com/theodi/alternate-rails.git
+  revision: 83a5b8b73655283b2d9729eeae848488881eecc4
+  specs:
+    alternate_rails (0.0.2)
+      rails (>= 3.2.13)
+
+GIT
   remote: git://github.com/theodi/csvlint.rb.git
   revision: 0b69c1841f9b5563c0e5195c335041ab3343b410
   specs:
@@ -454,6 +461,7 @@ PLATFORMS
 
 DEPENDENCIES
   airbrake
+  alternate_rails!
   bootstrap-kaminari-views
   bootstrap-sass
   bson_ext
