@@ -13,7 +13,7 @@
   <div class="col-md-12">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h2 id="validation_url"><%= @validation.url %></h2>
+        <h2 id="validation_url"><%= link_to @validation.url, @validation.url %></h2>
         <div class="row">
           <% if @validation.state == "not_found" %>
             <div class="col-sm-12">
@@ -125,10 +125,11 @@
   <script type="text/javascript">
 
     $(document).ready( function() {
-      var path = $("#validation_url").html().split( '/' );
+      var url = $("#validation_url").text();
+      var path = $("#validation_url").text().split( '/' );
       if ( path.length > 1 ) {
         var name = path.pop();
-        $("#validation_url").html( path.join( '/' ) + '<span class="filename">/' + name + '</span>' );
+        $("#validation_url").html( '<a href="'+ url +'">' + path.join( '/' ) + '<span class="filename">/' + name + '</span>' + '</a>' );
         $("#validation_url").dotdotdot({
           after: 'span.filename',
           wrap: 'letter',
