@@ -15,9 +15,9 @@ Feature: CSVlint API
     And the JSON response should have "$..licence" with the text "http://opendatacommons.org/licenses/odbl/"
     And the JSON response should have "$..validation..CSV" with the text "http://example.org/test.csv"
     And the JSON response should have "$..validation..state" with the text "valid"
-    And the JSON response should have "$..validation..errors"
-    And the JSON response should have "$..validation..warnings"
-    And the JSON response should have "$..validation..info"
+    And the JSON response should have "$..validation..errors[*]" with a length of 0
+    And the JSON response should have "$..validation..warnings[*]" with a length of 0
+    And the JSON response should have "$..validation..info[*]" with a length of 0
 
   Scenario: View validation with errors as JSON
     Given I have already validated the URL "http://example.org/errors.csv"
@@ -25,6 +25,7 @@ Feature: CSVlint API
     And I send a GET request to view the validation
     Then the response status should be "200"
     And the JSON response should have "$..validation..state" with the text "invalid"
+    And the JSON response should have "$..validation..errors[*]" with a length of 1
     And the JSON response should have "$..validation..errors[0].type" with the text "ragged_rows"
     And the JSON response should have "$..validation..errors[0].category" with the text "structure"
     And the JSON response should have "$..validation..errors[0].row" with the text "3"
@@ -35,6 +36,7 @@ Feature: CSVlint API
     And I send a GET request to view the validation
     Then the response status should be "200"
     And the JSON response should have "$..validation..state" with the text "warnings"
+    And the JSON response should have "$..validation..warnings[*]" with a length of 1
     And the JSON response should have "$..validation..warnings[0].type" with the text "check_options"
     And the JSON response should have "$..validation..warnings[0].category" with the text "structure"
 
@@ -44,5 +46,6 @@ Feature: CSVlint API
     And I send a GET request to view the validation
     Then the response status should be "200"
     And the JSON response should have "$..validation..state" with the text "valid"
+    And the JSON response should have "$..validation..info[*]" with a length of 1
     And the JSON response should have "$..validation..info[0].type" with the text "nonrfc_line_breaks"
     And the JSON response should have "$..validation..info[0].category" with the text "structure"
