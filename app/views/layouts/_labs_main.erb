@@ -2,7 +2,7 @@
 <html lang="en" class="no-js">
 
 <head>
-  
+
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= favicon_link_tag 'favicon.ico' %>
@@ -11,15 +11,12 @@
     <!--[if lt IE 9]>
       <%= javascript_include_tag "html5shiv.js" %>
     <![endif]-->
-    
+
     <!-- Respond.js in IE7 and IE8 only -->
     <!--[if (IE 7)|(IE 8)]>
       <%= javascript_include_tag "respond.min.js" %>
     <![endif]-->
-    
-    <!-- Modernizr to detect CSS transitions etc., for Masonry animations -->
-    <%= javascript_include_tag "modernizr.custom.js" %>
-    
+
     <!-- IE-only stylesheets -->
     <!--[if lte IE 9]><%= stylesheet_link_tag "ie9.css" %><![endif]-->
     <!--[if lte IE 8]><%= stylesheet_link_tag "ie8.css" %><![endif]-->
@@ -29,28 +26,28 @@
 </head>
 
 <body class="odi-<%= colour %>">
-  
+
     <header class="site-header">
-     
+
      <div class="navbar navbar-inverse navbar-static-top">
       <div class="container">
       <div class="navbar-header">
-        
+
        <!-- Mobile nav toggle -->
        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
            <span class="icon-bar"></span>
            <span class="icon-bar"></span>
            <span class="icon-bar"></span>
        </button>
-       
+
       <h1 class="site-title">
         <a href="/"><%= title %></a>
         <span class="label label-success status"><%= status.upcase %></span>
       </h1>
-                
+
       </div>
 
-        <div class="collapse navbar-collapse">        
+        <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav main-nav navbar-right">
             <% menus = get_menu(menu)%>
             <% menus.each_index do |i| %>
@@ -74,11 +71,11 @@
           </ul>
         </div>
     </div>
-      
-      
-        
-       
-        
+
+
+
+
+
       </div>
 
     </header> <!-- /site-header -->
@@ -94,7 +91,7 @@
             </div>
         </header>
       <% end %>
-  
+
       <%= yield :hero %>
 
       <div class="container">
@@ -102,7 +99,7 @@
             <%= yield %>
           </div>
       </div>
-      
+
     </div>
 
     <footer class="site-footer">
@@ -111,7 +108,7 @@
                 <div class="col-md-8 footer-content">
                     <h1 class="footer-logo"><a href="http://www.theodi.org">Open Data Institute</a></h1>
                     <p><a href="http://www.theodi.org/contact">Open Data Institute, 65 Clifton Street, London EC2A 4JE</a></p>
-                    <p><a href="mailto:info@theodi.org">info@theodi.org</a> Company <a href="http://opencorporates.com/companies/gb/08030289">08030289</a> 
+                    <p><a href="mailto:info@theodi.org">info@theodi.org</a> Company <a href="http://opencorporates.com/companies/gb/08030289">08030289</a>
                         <span>VAT</span><span>143 7796 80</span>
                     </p>
                     <p class="license">
@@ -132,19 +129,8 @@
             </div>
         </div>
     </footer>
-    
-    <%= javascript_include_tag "application" %>
-    
-    <!-- No collapsible nav in IE6 -->
-    <!--[if gt IE 7]><!-->
-    <%= javascript_include_tag "bootstrap/bootstrap-collapse.js" %>
-    <!--<![endif]-->
 
-    <!-- Masonry and its required scripts -->
-    <!-- Don't load these on IE 7 or below -->
-    <!--[if gt IE 7]><!-->
-    <%= javascript_include_tag "masonry.js" %>
-    <!--<![endif]-->
+    <%= javascript_include_tag "application" %>
 
     <%= yield :extra_javascript %>
 
