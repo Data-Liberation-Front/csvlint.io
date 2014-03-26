@@ -13,7 +13,7 @@ Feature: CSVlint API
     Then the response status should be "200"
     And the JSON response should have "$..version" with the text "0.1"
     And the JSON response should have "$..licence" with the text "http://opendatacommons.org/licenses/odbl/"
-    And the JSON response should have "$..validation..CSV" with the text "http://example.org/test.csv"
+    And the JSON response should have "$..validation..source" with the text "http://example.org/test.csv"
     And the JSON response should have "$..validation..state" with the text "valid"
     And the JSON response should have "$..validation..errors[*]" with a length of 0
     And the JSON response should have "$..validation..warnings[*]" with a length of 0
