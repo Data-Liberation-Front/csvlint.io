@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config|
       config.vm.provider :rackspace do |rs|
         rs.username        = y["username"]
         rs.api_key         = y["api_key"]
-        rs.flavor          = /1GB/
+        rs.flavor          = /2GB/
         rs.image           = /Precise/
         rs.public_key_path = "./.chef/id_rsa.pub"
         rs.rackspace_region        = :lon
