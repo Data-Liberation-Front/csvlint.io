@@ -4,10 +4,10 @@ json._links do
   json.self validation_index_url(:page => @validations.current_page)
   json.first validation_index_url(:page => 1)
   unless @validations.current_page <= 1
-    json.previous validation_index_url(:page => current_page_num - 1)
+    json.previous validation_index_url(:page => @validations.current_page - 1)
   end
   unless @validations.current_page == @validations.total_pages
-    json.next validation_index_url(:page => @validations.next_page + 1)
+    json.next validation_index_url(:page => @validations.next_page)
   end
   json.last validation_index_url(:page => @validations.total_pages)
 end
