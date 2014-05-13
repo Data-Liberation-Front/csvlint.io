@@ -8,5 +8,6 @@ Csvlint::Application.routes.draw do
   resources :package
   
   get 'about', to: 'application#about', as: 'about'
-    
+  get 'statistics', to: 'summary#index', as: 'statistics'
+  
 end

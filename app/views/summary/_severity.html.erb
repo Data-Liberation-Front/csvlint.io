@@ -1,0 +1,27 @@
+<h3>Error Severity</h3>
+
+<p>
+The following table provides a summary of the different types of errors broken down by severity. The occurrence 
+count indicates the number of files in which the error type was found.
+</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Level</th>
+      <th>Error Type</th>
+      <th>Occurrence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% [:errors, :warnings, :info_messages].each do |level| %>
+      <% @summary.level_summary.send("#{level}_breakdown").sort_by{|k,v| v}.reverse.each_with_index do |(type,count), index| %>
+      <tr>
+        <td><strong><%= index == 0 ? t(level) : "" %></strong></td>
+        <td><%= t(type) %></td>
+        <td><%= count %></td>
+      </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

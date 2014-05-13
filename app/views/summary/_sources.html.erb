@@ -1,0 +1,20 @@
+<h3>Data Sources</h3>
+
+<p>The following table lists the 10 most common domains from which CSV files have been validated</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Source Domain</th>
+      <th>Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @summary.hosts.sort_by{ |k,v| v  }.reverse[0..9].each do |host, count| %>
+      <tr>
+        <td><%= host.gsub("\uff0e", ".") %></td>
+        <td><%= count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

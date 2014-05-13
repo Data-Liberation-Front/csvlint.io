@@ -1,0 +1,26 @@
+<h3>Validation Results</h3>
+
+<p>
+The following type summarises the validation results for all <%= @summary.sources %> sources.
+</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>State</th>
+      <th>Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @summary.states.each do |state, count| %>
+      <tr>
+        <td><%= t(state) %></td>
+        <td><%= count %></td>
+      </tr>
+    <% end %>
+      <tr>
+        <td><strong><%= t(:total) %></strong></td>
+        <td><%= @summary.states.values.sum %></td>
+      </tr>
+  </tbody>
+</table>

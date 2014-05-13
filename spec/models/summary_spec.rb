@@ -38,32 +38,32 @@ describe Summary do
     
     it "should record number of sources per host" do
       @summary.hosts.keys.length.should == 1
-      @summary.hosts["example.com"].should == 3
+      @summary.hosts["example\uff0ecom"].should == 3
     end    
     
     it "should record occurences of errors" do
-      @summary.levels_to_type[:errors][:ragged_rows].should == 1
-      @summary.levels_to_type[:warnings][:check_options].should == 1
+      @summary.level_summary.errors_breakdown[:ragged_rows].should == 1
+      @summary.level_summary.warnings_breakdown[:check_options].should == 1
     end
     
     it "should count occurences across population of sources" do
       mock_file("http://example.com/test4.csv", 'csvs/multiple_errors.csv')
       validation = Validation.create_validation("http://example.com/test4.csv")      
       @summary = Summary.generate
+      @summary.sources.should == 4
       @summary.states["invalid"].should == 2
-      @summary.levels_to_type[:errors][:ragged_rows].should == 2
-      @summary.levels_to_type[:warnings][:check_options].should == 1
+      @summary.level_summary.errors_breakdown[:ragged_rows].should == 2
+      @summary.level_summary.warnings_breakdown[:check_options].should == 1
     end
             
     it "should record categories of problem" do
       mock_file("http://example.com/test4.csv", 'csvs/multiple_errors.csv')
-      validation = Validation.create_validation("http://example.com/test4.csv")      
+      validation = Validation.create_validation("http://example.com/test4.csv")
       @summary = Summary.generate
-
-      @summary.levels_to_type[:structure][:ragged_rows].should == 2
-      @summary.levels_to_type[:structure][:check_options].should == 1
+      @summary.sources.should == 4    
+      @summary.level_summary.errors_breakdown[:ragged_rows].should == 2
+      @summary.category_summary.structure_breakdown[:ragged_rows].should == 2
     end
-
     
   end
   
