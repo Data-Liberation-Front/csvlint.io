@@ -1,3 +1,8 @@
+When(/^I visit the new location$/) do
+  location = last_response.headers["Location"].split("example.org")[1]
+  step "I send a GET request to \"#{location}\""
+end
+
 When(/^I send a GET request to view the validation$/) do
   steps %Q{
     And I send a GET request to "/validation/#{@validation.id}"
