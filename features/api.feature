@@ -6,6 +6,17 @@ Feature: CSVlint API
     Given the fixture "csvs/warnings.csv" is available at the URL "http://example.org/warnings.csv"
     Given the fixture "csvs/info.csv" is available at the URL "http://example.org/info.csv"
 
+  Scenario: API access to create validations
+    When I send and accept JSON
+    And I send a POST request to "/package" with the following:
+    """
+    {"urls":["http://example.org/test.csv"]}
+    """
+    Then the response status should be "302"
+    When I visit the new location
+    And the JSON response should have "$..version" with the text "0.1"
+    And the JSON response should have "$..validation..state" with the text "valid"
+
   Scenario: View valid validation as JSON
     Given I have already validated the URL "http://example.org/test.csv"
     When I send and accept JSON
