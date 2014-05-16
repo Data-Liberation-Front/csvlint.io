@@ -1,0 +1,23 @@
+<% content_for :title do %>
+  <%= t(:statistics).titleize %>
+<% end %>
+
+<% if @summary == nil %>
+  <p>No summary statistics available</p>
+<% else %>
+
+  <p>
+  CSVlint has validated a total of <strong><%= @summary.sources %></strong> data sources from <strong><%= @summary.hosts.keys.size %></strong> different internet domains.
+  </p>
+  
+  <p>
+  The following tables provide a breakdown of the results and common errors. The statistics only include validations from published CSV files rather than those 
+  uploaded to the web.
+  </p>
+  
+  <%= render :partial => 'results' %>
+  <%= render :partial => 'sources' %>    
+  <%= render :partial => 'severity' %>    
+  <%= render :partial => 'category' %>
+  
+<% end %>

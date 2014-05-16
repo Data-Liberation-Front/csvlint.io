@@ -23,8 +23,11 @@ en:
   #General labelling
   
   error: "Error"
+  errors: "Errors"
   warning: "Warning"
+  warnings: "Warnings"  
   info: "Information"
+  info_messages: "Information"  
   validate: "Validate"
   revalidate: "Revalidate"  
   validate_again: "Validate again"
@@ -215,6 +218,12 @@ en:
   assumed_header: "Assumed header"
   assumed_header_guidance_html: |
       As there is no machine readable way to tell if your CSV has a header row, we have assumed that your CSV has one.
+  
+  #
+  # Statistics
+  #
+  #
+  statistics: "Validation Statistics"
   
   #
   # Validation list
