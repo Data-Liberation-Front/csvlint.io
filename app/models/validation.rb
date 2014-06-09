@@ -1,7 +1,7 @@
 class Validation
   include Mongoid::Document
   include Mongoid::Timestamps
-  
+
   field :filename, type: String
   field :url, type: String
   field :state, type: String
@@ -10,9 +10,9 @@ class Validation
 
   belongs_to :schema
   accepts_nested_attributes_for :schema
-  
+
   belongs_to :package
-  
+
   def self.validate(io, schema_url = nil, schema = nil, dialect = nil)
     if io.respond_to?(:tempfile)
       filename = io.original_filename
@@ -22,7 +22,7 @@ class Validation
       filename = io[:filename]
       csv_id = io[:csv_id]
       io = StringIO.new(io[:body])
-    end 
+    end
     # Validate
     validator = Csvlint::Validator.new( io, dialect, schema && schema.fields.empty? ? nil : schema )
     check_schema(validator, schema) unless schema_url.blank?
@@ -31,7 +31,7 @@ class Validation
     state = "warnings" unless validator.warnings.empty?
     state = "invalid" unless validator.errors.empty?
     state = "not_found" unless validator.errors.select { |e| e.type == :not_found }.empty?
-    
+
     if io.class == String
       # It's a url!
       url = io
@@ -42,7 +42,7 @@ class Validation
       url = nil
       validator.remove_instance_variable(:@source)
     end
-    
+
     attributes = {
       :url => url,
       :filename => filename,
@@ -50,26 +50,24 @@ class Validation
       :result => Marshal.dump(validator).force_encoding("UTF-8"),
       :csv_id => csv_id
     }
-        
+
     if schema_url.present?
       # Find matching schema if possible
       schema = Schema.where(url: schema_url).first
       attributes[:schema] = schema || { :url => schema_url }
     end
-    
+
     attributes
-  end 
-  
+  end
+
   def self.fetch_validation(id, format)
     v = self.find(id)
-    if ["png", "svg"].include?(format)      
-      v.delay.check_validation
-    else
+    unless ["png", "svg"].include?(format)
       v.check_validation
     end
     v
   end
-  
+
   def self.check_schema(validator, schema)
     if schema.nil? || schema.fields.empty?
       validator.errors.prepend(
@@ -80,7 +78,7 @@ class Validation
       )
     end
   end
-  
+
   def self.check_dialect(validator, dialect)
     if dialect != standard_dialect
       validator.warnings.prepend(
@@ -91,7 +89,7 @@ class Validation
       )
     end
   end
-  
+
   def self.standard_dialect
     {
       "header" => true,
@@ -101,25 +99,25 @@ class Validation
       "quoteChar" => '"'
     }
   end
-  
+
   def self.create_validation(io, schema_url = nil, schema = nil)
     validation = Validation.create
     validation.validate(io, schema_url, schema)
     validation
   end
-  
+
   def validate(io, schema_url = nil, schema = nil)
     validation = Validation.validate(io, schema_url, schema)
     self.update_attributes(validation)
   end
-  
+
   def update_validation(dialect = nil)
     loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
-    validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect)    
+    validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect)
     self.update_attributes(validation)
     self
   end
-  
+
   def csv
     unless self.csv_id.nil?
       stored_csv = Mongoid::GridFs.get(self.csv_id)
@@ -130,7 +128,7 @@ class Validation
       file
     end
   end
-  
+
   def check_validation
     unless url.blank?
       begin
@@ -143,10 +141,9 @@ class Validation
       end
     end
   end
-  
+
   def validator
     Marshal.load(self.result)
   end
 
 end
-  
