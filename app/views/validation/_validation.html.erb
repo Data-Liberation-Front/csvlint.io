@@ -1,5 +1,5 @@
 <tr>
-  <td><%= image_tag validation_url(validation, format: :png) %></td>
+  <td><%= image_tag validation_url(validation, format: :png, revalidate: false) %></td>
   <td class="url"><%= validation.url.blank? ? validation.filename : validation.url %></td>
   <td class="text-right"><%= link_to "<i class='glyphicon glyphicon-list-alt'></i> View report".html_safe, validation_url(validation), title: "View report for #{validation.url}" %></td>
   <td class="text-right"><%= link_to "<i class='glyphicon glyphicon-cloud-download'></i> Download CSV".html_safe, validation.url, title: "Download CSV for #{validation.url}" %></td>
