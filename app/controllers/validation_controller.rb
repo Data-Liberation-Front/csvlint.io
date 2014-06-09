@@ -12,7 +12,7 @@ class ValidationController < ApplicationController
   end
 
   def show
-    @validation = Validation.fetch_validation(params[:id], params[:format])
+    @validation = Validation.fetch_validation(params[:id], params[:format], params[:revalidate])
 
     raise ActionController::RoutingError.new('Not Found') if @validation.state.nil?
 
