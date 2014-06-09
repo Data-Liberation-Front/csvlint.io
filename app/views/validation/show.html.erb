@@ -5,7 +5,7 @@
 <% content_for :header do %>
   <div class="container">
         <h1 class="pull-left"><%= yield :title %></h1>
-        <%= image_tag validation_url(@validation, format: 'svg'), :'data-toggle' => "modal", :'data-target' => "#badgeModal", :class => "pull-right result-badge"%>
+        <%= image_tag validation_url(@validation, format: 'svg', revalidate: false), :'data-toggle' => "modal", :'data-target' => "#badgeModal", :class => "pull-right result-badge"%>
     </div>
 <% end %>
 
