@@ -30,10 +30,10 @@ describe Validation do
   it "should only create one validation per url" do
     mock_file("http://example.com/test.csv", 'csvs/valid.csv')
     validation = Validation.create_validation("http://example.com/test.csv")
-    validation.count.should == 1
+    Validation.count.should == 1
 
     validation = Validation.create_validation("http://example.com/test.csv")
-    validation.count.should == 1
+    Validation.count.should == 1
   end
 
 end
