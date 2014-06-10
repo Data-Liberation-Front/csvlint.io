@@ -6,9 +6,9 @@ class ValidationController < ApplicationController
   before_filter(:only => [:index, :show]) { alternate_formats [:json] }
 
   def index
-    validations = Validation.where(:url.ne => nil).sort_by{ |v| v.created_at }.reverse!
-    validations.uniq!{ |v| v.url }
-    @validations = Kaminari.paginate_array(validations).page(params[:page]).per(7)
+    @validations = Validation.where(:url.ne => nil)
+                   .order_by(:created_at.desc)
+                   .page(params[:page]).per(7)
   end
 
   def show
