@@ -27,4 +27,13 @@ describe Validation do
     Validation.fetch_validation(validation.id, "html", false)
   end
 
+  it "should only create one validation per url" do
+    mock_file("http://example.com/test.csv", 'csvs/valid.csv')
+    validation = Validation.create_validation("http://example.com/test.csv")
+    Validation.count.should == 1
+
+    validation = Validation.create_validation("http://example.com/test.csv")
+    Validation.count.should == 1
+  end
+
 end

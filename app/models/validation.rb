@@ -8,6 +8,8 @@ class Validation
   field :result, type: String
   field :csv_id, type: String
 
+  index :created_at => 1
+
   belongs_to :schema
   accepts_nested_attributes_for :schema
 
@@ -105,7 +107,11 @@ class Validation
   end
 
   def self.create_validation(io, schema_url = nil, schema = nil)
-    validation = Validation.create
+    if io.class == String
+      validation = Validation.find_or_initialize_by(url: io)
+    else
+      validation = Validation.create
+    end
     validation.validate(io, schema_url, schema)
     validation
   end
