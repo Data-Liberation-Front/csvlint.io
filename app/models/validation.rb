@@ -8,6 +8,8 @@ class Validation
   field :result, type: String
   field :csv_id, type: String
 
+  index :created_at => 1
+
   belongs_to :schema
   accepts_nested_attributes_for :schema
 
