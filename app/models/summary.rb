@@ -28,8 +28,7 @@ class Summary
   def self.generate
     summary = Summary.create
 
-    validations = Validation.where(:url.ne => nil).sort_by{ |v| v.created_at }.reverse!
-    validations.uniq!{ |v| v.url }
+    validations = Validation.where(:url.ne => nil).order_by(:created_at.desc)
 
     summary.sources = validations.length
     summary.states = Hash.new 0
