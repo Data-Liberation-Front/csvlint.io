@@ -294,6 +294,7 @@ GEM
     pusher-client (0.4.0)
       websocket (~> 1.0.0)
     rack (1.5.2)
+    rack-cors (0.2.9)
     rack-google-analytics (1.0.0)
       actionpack
       activesupport
@@ -492,6 +493,7 @@ DEPENDENCIES
   nokogiri (~> 1.5)
   poltergeist
   pry
+  rack-cors
   rack-google-analytics
   rails (~> 4.0.2)
   rest-client
