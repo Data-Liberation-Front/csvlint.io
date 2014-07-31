@@ -24,11 +24,18 @@ module Csvlint
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
-    
+
     # Use GA middleware
     if ENV['CSVLINT_ANALYTICS_KEY']
       config.middleware.use("Rack::GoogleAnalytics", :tracker => ENV['CSVLINT_ANALYTICS_KEY'])
-    end    
-        
+    end
+
+    config.middleware.use Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get]
+      end
+    end 
+
   end
 end
