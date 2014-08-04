@@ -66,7 +66,7 @@ class ValidationController < ApplicationController
         "skipInitialSpace" => params[:skip_initial_space],
         "lineTerminator" => line_terminator,
         "quoteChar" => params[:quote_char]
-      }
+      }.reject {|k,v| v.nil?}
     end
 
 end
