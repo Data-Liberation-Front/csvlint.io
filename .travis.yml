@@ -1,4 +1,6 @@
 language: ruby
+cache: bundler
+sudo: false
 rvm:
 - 2.1.0
 after_success:
@@ -24,4 +26,3 @@ env:
   - secure: DbxFNpCvdwvTRs9Q31pqIlYtBwjhKVBjv8um+itm0EDQV6/dQ0/gMPKr9IMvbHI+X1zdvh08nXfUBuoXxGgDJwU7ejvsM67DyQ6xSSbIv8N1feZgYW71GkGHDyVdGfFRMiPsc8K6jVFywNZ8kEoHREMKJNDodT78UWOtiHgOeX4=
   - GOVUK_APP_DOMAIN=theodi.org
   - DEV_DOMAIN=theodi.org
-  
