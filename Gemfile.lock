@@ -33,7 +33,7 @@ GIT
 
 GIT
   remote: git://github.com/theodi/csvlint.rb.git
-  revision: d656a76314694ae64a64422a759d368bbc453525
+  revision: e732c31e5b8166b54193219e562b00d61bfcc261
   specs:
     csvlint (0.0.1)
       colorize
