@@ -36,8 +36,6 @@ GIT
   revision: e7ab4a942880300e00cb54c26bc50fa48eb6f575
   specs:
     csvlint (0.0.1)
-      activesupport
-      addressable
       colorize
       mime-types
       open_uri_redirections
@@ -128,7 +126,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
-    colorize (0.7.3)
+    colorize (0.6.0)
     connection_pool (1.2.0)
     coveralls (0.7.0)
       multi_json (~> 1.3)
