@@ -77,10 +77,7 @@ class Validation
   def self.check_schema(validator, schema)
     if schema.nil? || schema.fields.empty?
       validator.errors.prepend(
-        Csvlint::ErrorMessage.new(
-          type: :invalid_schema,
-          category: :schema
-        )
+        Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
       )
     end
   end
