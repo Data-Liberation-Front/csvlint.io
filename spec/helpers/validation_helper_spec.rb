@@ -12,19 +12,19 @@ require 'spec_helper'
 # end
 
 describe ValidationHelper do
-  
+
   it "should count the correct messages by category" do
-    
+
     [:structure, :schema, :context].each do |category|
       messages = []
-      
+
       num = rand(1..40)
-      
-      num.times { messages << Csvlint::ErrorMessage.new(:category => category) }
-      
+
+      num.times { messages << Csvlint::ErrorMessage.new(nil, category, nil, nil, nil, nil) }
+
       category_count(messages, category).should == num
     end
-    
+
   end
-  
+
 end

@@ -13,7 +13,7 @@ describe "validation/_message.html.erb" do
       :nonrfc_line_breaks => "Your CSV appears to use <code>LF</code> line-breaks"
     }.each do |k, v|
 
-      message = Csvlint::ErrorMessage.new(:type => k)
+      message = Csvlint::ErrorMessage.new(k, nil, nil, nil, nil, nil)
       validator = double("validator")
       validator.stub(:encoding) { "iso-8859-1" }
       validator.stub(:content_type) { "text/plain" }

@@ -77,10 +77,7 @@ class Validation
   def self.check_schema(validator, schema)
     if schema.nil? || schema.fields.empty?
       validator.errors.prepend(
-        Csvlint::ErrorMessage.new(
-          type: :invalid_schema,
-          category: :schema
-        )
+        Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
       )
     end
   end
@@ -88,10 +85,7 @@ class Validation
   def self.check_dialect(validator, dialect)
     if dialect != standard_dialect
       validator.warnings.prepend(
-        Csvlint::ErrorMessage.new(
-          type: :non_standard_dialect,
-          category: :dialect
-        )
+        Csvlint::ErrorMessage.new(:non_standard_dialect, :dialect, nil, nil, nil, nil)
       )
     end
   end
