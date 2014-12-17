@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PackageController do
+describe PackageController, type: :controller do
   
   describe "POST 'create'" do
 

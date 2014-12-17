@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "validation/_message.html.erb" do
+describe "validation/_message.html.erb", type: :view do
 
   it "displays errors and warnings correctly" do
 
