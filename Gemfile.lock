@@ -33,9 +33,11 @@ GIT
 
 GIT
   remote: git://github.com/theodi/csvlint.rb.git
-  revision: e7ab4a942880300e00cb54c26bc50fa48eb6f575
+  revision: 7cf441dda1c081de1eed52dffb850fe5188b6f01
   specs:
-    csvlint (0.0.1)
+    csvlint (0.1.0)
+      activesupport
+      addressable
       colorize
       mime-types
       open_uri_redirections
@@ -52,9 +54,9 @@ GIT
 
 GIT
   remote: git://github.com/theodi/data_kitten.git
-  revision: 03735214f354bb39d7447a3f896211643ca8bd65
+  revision: 054bf30bc8811268d237ca106d569ddc2dabc58e
   specs:
-    data_kitten (0.0.1)
+    data_kitten (1.0.2)
       curb
       datapackage
       git
