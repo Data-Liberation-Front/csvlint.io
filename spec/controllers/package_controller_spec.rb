@@ -47,6 +47,7 @@ describe PackageController, type: :controller do
                             ]
        response.should be_redirect
        package = Package.first
+       package.validations.count.should == 3
        response.location.should == package_url(package)
     end
     
@@ -58,6 +59,7 @@ describe PackageController, type: :controller do
                       ]                
       response.should be_redirect
       package = Package.first
+      package.validations.count.should == 3      
       response.location.should == package_url(package)
     end
     
