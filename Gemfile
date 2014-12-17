@@ -6,6 +6,9 @@ ruby "2.1.0"
 gem 'rails', '~> 4.0.2'
 gem 'dotenv-rails'
 
+# Sprockets pinned to avoid a problem in 2.12.3 with our stylesheets
+gem "sprockets", "2.11.0"
+
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 
@@ -36,6 +39,7 @@ group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
+
 
 gem 'foreman'
 
