@@ -11,7 +11,7 @@ require 'spec_helper'
 #   end
 # end
 
-describe ValidationHelper do
+describe ValidationHelper, type: :helper do
 
   it "should count the correct messages by category" do
 

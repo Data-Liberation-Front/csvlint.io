@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ApplicationController do
+describe ApplicationController, type: :controller do
   
   describe "GET 'index'" do
     it "returns http success" do

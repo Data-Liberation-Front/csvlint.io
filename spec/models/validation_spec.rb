@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Validation do
+describe Validation, type: :model do
 
   it "should recheck validations after two hours" do
     mock_file("http://example.com/test.csv", 'csvs/valid.csv')
