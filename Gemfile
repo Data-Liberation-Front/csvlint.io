@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby "2.1.0"
 #ruby-gemset=csvlint
 
-gem 'rails', '4.0.3'
+gem 'rails', '~> 4.0.12'
 gem 'dotenv-rails'
 
 # Sprockets pinned to avoid a problem in 2.12.3 with our stylesheets
