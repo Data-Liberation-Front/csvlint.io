@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "validation/_message.html.erb" do
+describe "validation/_message.html.erb", type: :view do
 
   it "displays errors and warnings correctly" do
 
@@ -32,7 +32,7 @@ describe "validation/_message.html.erb" do
 
 end
 
-describe "validation/_validation.html.erb" do
+describe "validation/_validation.html.erb", type: :view do
 
   it "Should not revalidate" do
     mock_file("http://example.com/test.csv", 'csvs/valid.csv')

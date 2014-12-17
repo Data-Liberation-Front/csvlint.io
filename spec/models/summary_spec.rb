@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Summary do
+describe Summary, type: :model do
   
   context "when generating summary" do
     before(:each) do
