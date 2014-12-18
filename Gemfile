@@ -41,7 +41,7 @@ group :doc do
 end
 
 
-gem 'foreman'
+gem 'foreman', "< 0.65.0"
 
 group :production do
   gem 'thin'
