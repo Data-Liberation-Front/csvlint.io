@@ -7,7 +7,7 @@ gem 'rails', '~> 4.0.12'
 gem 'dotenv-rails'
 
 # Sprockets pinned to avoid a problem in 2.12.3 with our stylesheets
-gem "sprockets", "2.11.0"
+gem "sprockets", "~> 2.11.3"
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
