@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ValidationController do
+describe ValidationController, type: :controller do
 
   describe "POST 'update'" do
 

@@ -20,5 +20,5 @@ Then(/^I should see (\d+) (validations?|schemas?) listed$/) do |count, model|
 end
 
 Then(/^I should see a paginator$/) do
-  page.find('.pagination').should be_true
+  page.find('.pagination').should be_present
 end

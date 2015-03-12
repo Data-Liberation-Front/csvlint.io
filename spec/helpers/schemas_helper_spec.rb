@@ -10,5 +10,5 @@ require 'spec_helper'
 #     end
 #   end
 # end
-describe SchemasHelper do
+describe SchemasHelper, type: :helper do
 end

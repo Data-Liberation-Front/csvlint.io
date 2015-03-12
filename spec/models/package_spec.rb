@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Package do
+describe Package, type: :model do
   
   include ActionDispatch::TestProcess
   

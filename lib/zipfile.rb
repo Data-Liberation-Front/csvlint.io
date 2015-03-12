@@ -14,7 +14,7 @@ class Zipfile
     files = []
     p[type].each do |source|
       if Zipfile.is_zipfile?(source) 
-        Zipfile.unzip(source, p[type], type)
+        Zipfile.unzip(source, files, type)
       else
         files << source 
       end
