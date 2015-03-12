@@ -9,12 +9,27 @@ class ApplicationController < ActionController::Base
   def index
     if params[:uri]
       validator = Validation.where(:url => params[:uri]).first
-      render status: 404 and return if validator.nil?
-      redirect_to validation_path(validator, format: params[:format]), status: 303
+      if validator.nil?
+        Validation.delay.create_validation(params[:uri])
+        respond_to do |wants|
+          wants.html { render status: 202 }
+          wants.json { render status: 202 }
+          wants.png { render_badge("pending", "png", 202) }
+          wants.svg { render_badge("pending", "svg", 202) }
+        end
+      else
+        redirect_to validation_path(validator, format: params[:format]), status: 303
+      end
     end
   end
 
   def about
   end
+
+  private
+
+    def render_badge(state, format, status = 200)
+      send_file File.join(Rails.root, 'app', 'views', 'validation', "#{state}.#{format}"), disposition: 'inline', status: status
+    end
 
 end

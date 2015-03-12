@@ -37,10 +37,6 @@ class ValidationController < ApplicationController
 
   private
 
-    def render_badge(state, format)
-      send_file File.join(Rails.root, 'app', 'views', 'validation', "#{state}.#{format}"), disposition: 'inline'
-    end
-
     def standardised_csv(validation)
       data = Marshal.load(validation.result).data
       CSV.generate(standard_csv_options) do |csv|
