@@ -43,7 +43,11 @@ Its a MONGODB so it creates things on the fly as needed, however configuration a
 
 * How to run the test suite
 
+ensure phantomjs is installed, brew install phantomjs (or however you prefer)
+
 * Services (job queues, cache servers, search engines, etc.)
+
+make sure cucumber dependencies up to date
 
 * Deployment instructions
 
