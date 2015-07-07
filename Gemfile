@@ -84,7 +84,7 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'rack-google-analytics'
-gem 'mongoid', github: 'mongoid/mongoid'
+gem 'mongoid'
 gem 'mongoid-grid_fs', github: 'ahoward/mongoid-grid_fs'
 gem 'bson_ext'
 gem 'kaminari'
