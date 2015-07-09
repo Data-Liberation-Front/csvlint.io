@@ -97,7 +97,7 @@ class PackageController < ApplicationController
         rescue JSON::ParserError
           # @schema = Csvlint::Schema.from_json_table( nil, {fields: ["malformed"]})
           # need to have the correct way of putting items into description
-          byebug
+          byebug # byebug at this point will catch a JSON error for uploaded JSON file, per feature test 80
            @example=<<-EOL
             {
                 "title": "Schema title",
@@ -110,6 +110,7 @@ class PackageController < ApplicationController
             }
                 EOL
           @schema = Csvlint::Schema.from_json_table( nil, @example)
+
         # rescue
         #   @schema = nil
         end
