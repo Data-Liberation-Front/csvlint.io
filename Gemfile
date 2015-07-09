@@ -84,12 +84,12 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'rack-google-analytics'
-gem 'mongoid', github: 'mongoid/mongoid'
+gem 'mongoid'
 gem 'mongoid-grid_fs', github: 'ahoward/mongoid-grid_fs'
 gem 'bson_ext'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
-gem 'data_kitten', github: 'theodi/data_kitten'
+gem 'data_kitten', github: 'theodi/data_kitten', ref: "e343510bd15e3329c1f2fab35035e248195348be"
 gem 'rubyzip'
 
 gem 'csvlint', github: 'theodi/csvlint.rb'

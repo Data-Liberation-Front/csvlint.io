@@ -15,15 +15,39 @@ Things you may want to cover:
 
 * System dependencies
 
+mongod database working away in background
+
 * Configuration
 
+*Install mongo*
+brew install mongo
+
+*make a data directory for mongo databases*
+sudo mkdir -p /data/db
+
+*change directory ownership so that mongo can do its thing*
+sudo chown -R $USERNAME /data/
+
+*run mongo*
+mongod
+
+*to initialise the app run this in root dir of app*
+
+foreman start
+
 * Database creation
+
+Its a MONGODB so it creates things on the fly as needed, however configuration above must be complete
 
 * Database initialization
 
 * How to run the test suite
 
+ensure phantomjs is installed, brew install phantomjs (or however you prefer)
+
 * Services (job queues, cache servers, search engines, etc.)
+
+make sure cucumber dependencies up to date
 
 * Deployment instructions
 
