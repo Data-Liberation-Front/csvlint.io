@@ -88,37 +88,29 @@ class PackageController < ApplicationController
       io = params[:schema_url].presence || params[:schema_file].presence
       if io.class == String
         @schema = Csvlint::Schema.load_from_json_table(io)
+        @schema_url = params[:schema_url]
       else
         begin
-
           schema_json = JSON.parse( File.new( params[:schema_file].tempfile ).read() )
           @schema = Csvlint::Schema.from_json_table( nil, schema_json )
+          @schema_url = params[:schema_url]
+          # byebug
 
         rescue JSON::ParserError
-          # @schema = Csvlint::Schema.from_json_table( nil, {fields: ["malformed"]})
-          # need to have the correct way of putting items into description
-          byebug # byebug at this point will catch a JSON error for uploaded JSON file, per feature test 80
-           @example=<<-EOL
-            {
-                "title": "Schema title",
-                "description": "schema",
-                "fields": [
-                    { "name": "ID", "constraints": { "required": true }, "title": "id", "description": "house identifier" },
-                    { "name": "Price", "constraints": { "required": true, "minLength": 1 } },
-                    { "name": "Postcode", "constraints": { "required": true, "pattern": "[A-Z]{1,2}[0-9][0-9A-Z]? ?[0-9][A-Z]{2}" } }
-                ]
-            }
-                EOL
-          @schema = Csvlint::Schema.from_json_table( nil, @example)
-
-        # rescue
-        #   @schema = nil
+          @schema = Csvlint::Schema.new(nil, [], "malformed", "malformed")
+          # cludge - array has to be empty due to how these schemas are created in gem,
+          # populating said array with strings will result in undefined method `name' for "name":String
+          @schema_url = "notblank"
+          # cludgy workaround to match with Validation.check_schema
+        rescue
+          @schema = nil
+          @schema_url = params[:schema_url]
         end
         # byebug
       end
 
       # Get schema URL from parameters
-      @schema_url = params[:schema_url]
+      # @schema_url = params[:schema_url]
     end
 
     def check_for_package

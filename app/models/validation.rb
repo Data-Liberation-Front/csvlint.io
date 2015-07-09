@@ -27,8 +27,8 @@ class Validation
     end
     # Validate
     validator = Csvlint::Validator.new( io, dialect, schema && schema.fields.empty? ? nil : schema )
-    # byebug this will let you see what the schema thing looks like
     check_schema(validator, schema) unless schema_url.blank?
+    # = this should also check for schema_file rather than relying upon schema_url
     check_dialect(validator, dialect) unless dialect.blank?
     state = "valid"
     state = "warnings" unless validator.warnings.empty?
@@ -61,9 +61,11 @@ class Validation
     end
 
     attributes
+
   end
 
   def self.fetch_validation(id, format, revalidate = nil)
+
     v = self.find(id)
     unless revalidate === false
       if ["png", "svg"].include?(format)
@@ -73,23 +75,28 @@ class Validation
       end
     end
     v
+    # returns a mongo DB object
   end
 
   def self.check_schema(validator, schema)
-    # byebug
-    if schema.nil? || schema.fields.empty?
-      # schema.nil? || schema.fields.empty? ||
-      # byebug
+
+    if schema.nil?
+
       validator.errors.prepend(
         Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
       )
-    elsif schema.fields.first.description.eql?("malformed")
+    elsif schema.description.eql?("malformed")
       validator.errors.prepend(
           Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
       )
+
+     elsif schema.fields.empty?
+      # catch a rare case of an empty json upload
+       validator.errors.prepend(
+           Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
+       )
     end
     # byebug
-    # the above will trigger if the most recent addition to the mongodb matches the criteria above
   end
 
   def self.check_dialect(validator, dialect)
