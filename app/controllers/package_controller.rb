@@ -35,6 +35,7 @@ class PackageController < ApplicationController
         redirect_to package_path(package)
       end
     end
+    # byebug
   end
 
   def show
@@ -80,6 +81,7 @@ class PackageController < ApplicationController
     end
 
     def load_schema
+
       # Check that schema checkbox is ticked
       return unless params[:schema] == "1"
       # Load schema
@@ -88,12 +90,32 @@ class PackageController < ApplicationController
         @schema = Csvlint::Schema.load_from_json_table(io)
       else
         begin
+
           schema_json = JSON.parse( File.new( params[:schema_file].tempfile ).read() )
           @schema = Csvlint::Schema.from_json_table( nil, schema_json )
-        rescue
-          @schema = nil
+
+        rescue JSON::ParserError
+          # @schema = Csvlint::Schema.from_json_table( nil, {fields: ["malformed"]})
+          # need to have the correct way of putting items into description
+          byebug
+           @example=<<-EOL
+            {
+                "title": "Schema title",
+                "description": "schema",
+                "fields": [
+                    { "name": "ID", "constraints": { "required": true }, "title": "id", "description": "house identifier" },
+                    { "name": "Price", "constraints": { "required": true, "minLength": 1 } },
+                    { "name": "Postcode", "constraints": { "required": true, "pattern": "[A-Z]{1,2}[0-9][0-9A-Z]? ?[0-9][A-Z]{2}" } }
+                ]
+            }
+                EOL
+          @schema = Csvlint::Schema.from_json_table( nil, @example)
+        # rescue
+        #   @schema = nil
         end
+        # byebug
       end
+
       # Get schema URL from parameters
       @schema_url = params[:schema_url]
     end

@@ -27,6 +27,7 @@ class Validation
     end
     # Validate
     validator = Csvlint::Validator.new( io, dialect, schema && schema.fields.empty? ? nil : schema )
+    # byebug this will let you see what the schema thing looks like
     check_schema(validator, schema) unless schema_url.blank?
     check_dialect(validator, dialect) unless dialect.blank?
     state = "valid"
@@ -75,11 +76,20 @@ class Validation
   end
 
   def self.check_schema(validator, schema)
+    # byebug
     if schema.nil? || schema.fields.empty?
+      # schema.nil? || schema.fields.empty? ||
+      # byebug
       validator.errors.prepend(
         Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
       )
+    elsif schema.fields.first.description.eql?("malformed")
+      validator.errors.prepend(
+          Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
+      )
     end
+    # byebug
+    # the above will trigger if the most recent addition to the mongodb matches the criteria above
   end
 
   def self.check_dialect(validator, dialect)
