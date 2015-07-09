@@ -35,7 +35,7 @@ class PackageController < ApplicationController
         redirect_to package_path(package)
       end
     end
-    # byebug
+
   end
 
   def show
@@ -57,7 +57,7 @@ class PackageController < ApplicationController
       params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank?
       # both the above do not run as unless evals to true when a file is uploaded OR when a URL is uploaded
       redirect_to root_path and return unless urls_valid? || params[:files].presence
-      # byebug
+
       load_schema
       Zipfile.check!(params)
     end
