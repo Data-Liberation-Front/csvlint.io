@@ -95,24 +95,18 @@ class PackageController < ApplicationController
         begin
           schema_json = JSON.parse( File.new( params[:schema_file].tempfile ).read() )
           @schema = Csvlint::Schema.from_json_table( nil, schema_json )
-          @schema_url = params[:schema_url]
-          # byebug
 
         rescue JSON::ParserError
           @schema = Csvlint::Schema.new(nil, [], "malformed", "malformed")
           # cludge - array has to be empty due to how these schemas are created in gem,
           # populating said array with strings will result in undefined method `name' for "name":String
-          @schema_url = "notblank"
+          # @schema_url = "notblank"
           # cludgy workaround to match with Validation.check_schema
         rescue
           @schema = nil
-          @schema_url = params[:schema_url]
         end
         # byebug
       end
-
-      # Get schema URL from parameters
-      # @schema_url = params[:schema_url]
     end
 
     def check_for_package
