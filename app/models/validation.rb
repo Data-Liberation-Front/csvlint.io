@@ -16,6 +16,7 @@ class Validation
   belongs_to :package
 
   def self.validate(io, schema_url = nil, schema = nil, dialect = nil)
+    # whatever the below was evaluating to does not catch with file upload or URL link
     if io.respond_to?(:tempfile)
       filename = io.original_filename
       csv = File.new(io.tempfile)
@@ -25,15 +26,20 @@ class Validation
       csv_id = io[:csv_id]
       io = StringIO.new(io[:body])
     end
+
     # Validate
     validator = Csvlint::Validator.new( io, dialect, schema && schema.fields.empty? ? nil : schema )
+    # ternary evaluation above::  condition ? if_true : if_false
     check_schema(validator, schema) unless schema_url.blank?
+    # guessing that this section relates to the storing of schemas online
     # = this should also check for schema_file rather than relying upon schema_url
     check_dialect(validator, dialect) unless dialect.blank?
     state = "valid"
     state = "warnings" unless validator.warnings.empty?
     state = "invalid" unless validator.errors.empty?
     state = "not_found" unless validator.errors.select { |e| e.type == :not_found }.empty?
+
+    # byebug
 
     if io.class == String
       # It's a url!
@@ -54,10 +60,11 @@ class Validation
       :csv_id => csv_id
     }
 
-    if schema_url.present?
-      # Find matching schema if possible
+    if schema_url.present? && !schema_url.eql?(true)
+      # Find matching schema if possible - what is this intended to accomplish?
       schema = Schema.where(url: schema_url).first
       attributes[:schema] = schema || { :url => schema_url }
+      byebug
     end
 
     attributes

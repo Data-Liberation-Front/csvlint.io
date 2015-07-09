@@ -103,7 +103,7 @@ class PackageController < ApplicationController
         rescue
           @schema = nil
         end
-        @schema_url = "notblank"
+        @schema_url = true
         # kludge solution, awaiting a logic change but which requires a refactor of schema_url across project
       end
 
@@ -138,7 +138,6 @@ class PackageController < ApplicationController
         files << file
       end
       files
-      byebug
     end
 
 end
