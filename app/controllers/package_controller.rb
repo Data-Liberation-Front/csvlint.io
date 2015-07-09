@@ -53,10 +53,11 @@ class PackageController < ApplicationController
 
     def preprocess
       remove_blanks!
-      params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
-      params[:schema_file] = read_files(params[:schema_file]).first unless params[:schema_file].blank?
+      # params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
+      # params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank?
+      # both the above do not run as unless evals to true when a file is uploaded OR when a URL is uploaded
       redirect_to root_path and return unless urls_valid? || params[:files].presence
-
+      # byebug
       load_schema
       Zipfile.check!(params)
     end
@@ -119,27 +120,29 @@ class PackageController < ApplicationController
       Package.create_package( sources, params[:schema_url], @schema )
     end
 
-    def read_files(data)
-      files = []
-      data = [data] if data.class == String
-      data.each do |data|
-        file_array = data.split(";", 2)
-        filename = file_array[0]
-        uri = URI::Data.new(file_array[1])
-
-        io = open(uri)
-        basename = File.basename(filename)
-        tempfile = Tempfile.new(basename)
-        tempfile.binmode
-        tempfile.write(io.read)
-        tempfile.rewind
-        file = ActionDispatch::Http::UploadedFile.new(:filename => filename,
-                                                      :tempfile => tempfile
-                                                      )
-        file.content_type = io.content_type
-        files << file
-      end
-      files
-    end
+    # def read_files(data)
+    #
+    #   files = []
+    #   data = [data] if data.class == String
+    #   data.each do |data|
+    #     file_array = data.split(";", 2)
+    #     filename = file_array[0]
+    #     uri = URI::Data.new(file_array[1])
+    #
+    #     io = open(uri)
+    #     basename = File.basename(filename)
+    #     tempfile = Tempfile.new(basename)
+    #     tempfile.binmode
+    #     tempfile.write(io.read)
+    #     tempfile.rewind
+    #     file = ActionDispatch::Http::UploadedFile.new(:filename => filename,
+    #                                                   :tempfile => tempfile
+    #                                                   )
+    #     file.content_type = io.content_type
+    #     files << file
+    #   end
+    #   files
+    #   # byebug
+    # end
 
 end
