@@ -54,8 +54,9 @@ class PackageController < ApplicationController
     def preprocess
       remove_blanks!
       params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
-      params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank?
+      params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_file].blank?
       redirect_to root_path and return unless urls_valid? || params[:files].presence
+      byebug
       load_schema
       Zipfile.check!(params)
     end
