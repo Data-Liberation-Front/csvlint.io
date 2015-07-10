@@ -39,8 +39,6 @@ class Validation
     state = "invalid" unless validator.errors.empty?
     state = "not_found" unless validator.errors.select { |e| e.type == :not_found }.empty?
 
-    # byebug
-
     if io.class == String
       # It's a url!
       url = io
@@ -64,7 +62,7 @@ class Validation
       # Find matching schema if possible - what is this intended to accomplish?
       schema = Schema.where(url: schema_url).first
       attributes[:schema] = schema || { :url => schema_url }
-      byebug
+
     end
 
     attributes
@@ -103,7 +101,7 @@ class Validation
            Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
        )
     end
-    # byebug
+
   end
 
   def self.check_dialect(validator, dialect)
