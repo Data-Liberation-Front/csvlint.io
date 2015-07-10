@@ -53,9 +53,12 @@ class PackageController < ApplicationController
 
     def preprocess
       remove_blanks!
-      params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
-      params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank?
       # byebug
+      params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
+      params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank? # currently supporting the case of all_constraints+
+      # params[:schema_file] = read_files(params[:schema_file]).first unless params[:schema_file].blank?
+      # params[:schema_file].class  == ActionDispatch::Http::UploadedFile, current read_files methods will not work on this class
+
       # the above do not run as unless evals to true when a file is uploaded OR when a URL is uploaded
       redirect_to root_path and return unless urls_valid? || params[:files].presence
 
@@ -121,7 +124,9 @@ class PackageController < ApplicationController
 
       files = []
       data = [data] if data.class == String
+      # byebug
       data.each do |data|
+        # undefined method `each' for #<ActionDispatch::Http::UploadedFile:0x007fb9a3dc6f90
         file_array = data.split(";", 2)
         filename = file_array[0]
         uri = URI::Data.new(file_array[1])

@@ -15,12 +15,6 @@ class Validation
 
   belongs_to :package
 
-  def validate(io, schema_url = nil, schema = nil)
-    validation = Validation.validate(io, schema_url, schema)
-    self.update_attributes(validation)
-    # update_attributes is a method from Mongoid
-  end
-
   def self.validate(io, schema_url = nil, schema = nil, dialect = nil)
     # whatever the below was evaluating to does not catch with file upload or URL link
     if io.respond_to?(:tempfile)
@@ -137,6 +131,12 @@ class Validation
     end
     validation.validate(io, schema_url, schema)
     validation
+  end
+
+  def validate(io, schema_url = nil, schema = nil)
+    validation = Validation.validate(io, schema_url, schema)
+    self.update_attributes(validation)
+    # update_attributes is a method from Mongoid
   end
 
   def update_validation(dialect = nil)
