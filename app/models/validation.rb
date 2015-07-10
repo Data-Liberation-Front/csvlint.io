@@ -58,11 +58,11 @@ class Validation
       :csv_id => csv_id
     }
 
-    if schema_url.present? && !schema_url.eql?(true)
+    if schema_url.present? && !schema_url.eql?("true")
       # Find matching schema if possible - what is this intended to accomplish?
       schema = Schema.where(url: schema_url).first
       attributes[:schema] = schema || { :url => schema_url }
-
+      # byebug
     end
 
     attributes

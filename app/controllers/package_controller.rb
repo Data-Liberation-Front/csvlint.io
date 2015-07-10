@@ -35,7 +35,7 @@ class PackageController < ApplicationController
         redirect_to package_path(package)
       end
     end
-
+    # byebug
   end
 
   def show
