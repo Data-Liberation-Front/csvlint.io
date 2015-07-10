@@ -55,7 +55,8 @@ class PackageController < ApplicationController
       remove_blanks!
       params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
       params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank?
-      # both the above do not run as unless evals to true when a file is uploaded OR when a URL is uploaded
+      # byebug
+      # the above do not run as unless evals to true when a file is uploaded OR when a URL is uploaded
       redirect_to root_path and return unless urls_valid? || params[:files].presence
 
       load_schema
@@ -103,7 +104,7 @@ class PackageController < ApplicationController
         rescue
           @schema = nil
         end
-        @schema_url = true
+        @schema_url = "true"
         # kludge solution, awaiting a logic change but which requires a refactor of schema_url across project
       end
 
