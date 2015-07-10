@@ -24,7 +24,7 @@ class Validation
   def self.validate(io, schema_url = nil, schema = nil, dialect = nil)
     # whatever the below was evaluating to does not catch with file upload or URL link
     if io.respond_to?(:tempfile)
-      byebug
+      # byebug
       filename = io.original_filename
       csv = File.new(io.tempfile)
       io = File.new(io.tempfile)
