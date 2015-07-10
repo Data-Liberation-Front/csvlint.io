@@ -15,9 +15,16 @@ class Validation
 
   belongs_to :package
 
+  def validate(io, schema_url = nil, schema = nil)
+    validation = Validation.validate(io, schema_url, schema)
+    self.update_attributes(validation)
+    # update_attributes is a method from Mongoid
+  end
+
   def self.validate(io, schema_url = nil, schema = nil, dialect = nil)
     # whatever the below was evaluating to does not catch with file upload or URL link
     if io.respond_to?(:tempfile)
+      byebug
       filename = io.original_filename
       csv = File.new(io.tempfile)
       io = File.new(io.tempfile)
@@ -30,8 +37,8 @@ class Validation
     # Validate
     validator = Csvlint::Validator.new( io, dialect, schema && schema.fields.empty? ? nil : schema )
     # ternary evaluation above::  condition ? if_true : if_false
-    check_schema(validator, schema) unless schema_url.blank?
-    # guessing that this section relates to the storing of schemas online
+    check_schema(validator, schema) unless schema.nil?
+    # guessing that this section relates to the storing of schemas online, blank might be preferable ???
     # = this should also check for schema_file rather than relying upon schema_url
     check_dialect(validator, dialect) unless dialect.blank?
     state = "valid"
@@ -130,11 +137,6 @@ class Validation
     end
     validation.validate(io, schema_url, schema)
     validation
-  end
-
-  def validate(io, schema_url = nil, schema = nil)
-    validation = Validation.validate(io, schema_url, schema)
-    self.update_attributes(validation)
   end
 
   def update_validation(dialect = nil)
