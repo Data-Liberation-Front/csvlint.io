@@ -16,13 +16,15 @@ class Validation
   belongs_to :package
 
   def self.validate(io, schema_url = nil, schema = nil, dialect = nil)
-    # whatever the below was evaluating to does not catch with file upload or URL link
+    # returns an attributes Hash, creates a private Validator object for updating a Validation record stored in MongoDB
+
     if io.respond_to?(:tempfile)
-      # byebug
+      # uncertain what state triggers the above
       filename = io.original_filename
       csv = File.new(io.tempfile)
       io = File.new(io.tempfile)
     elsif io.class == Hash && !io[:body].nil?
+      # above not triggered by features, triggered when file [schema or csv] uploaded
       filename = io[:filename]
       csv_id = io[:csv_id]
       io = StringIO.new(io[:body])
@@ -30,11 +32,12 @@ class Validation
 
     # Validate
     validator = Csvlint::Validator.new( io, dialect, schema && schema.fields.empty? ? nil : schema )
-    # ternary evaluation above::  condition ? if_true : if_false
+    # ternary evaluation above follows the following format::  condition ? if_true : if_false
     check_schema(validator, schema) unless schema.nil?
-    # guessing that this section relates to the storing of schemas online, blank might be preferable ???
-    # = this should also check for schema_file rather than relying upon schema_url
+    # in prior versions this method only executed on schem_url.nil, a condition that caused some schema uploads to pass
+    # when they should have failed
     check_dialect(validator, dialect) unless dialect.blank?
+    # assign state, used in later evaluation by partials in validation > views
     state = "valid"
     state = "warnings" unless validator.warnings.empty?
     state = "invalid" unless validator.errors.empty?
@@ -59,45 +62,48 @@ class Validation
       :csv_id => csv_id
     }
 
-    if schema_url.present? && !schema_url.eql?("true")
-      # Find matching schema if possible - what is this intended to accomplish?
+    if schema_url.present?
+      # Find matching schema if possible and retrieve
       schema = Schema.where(url: schema_url).first
       attributes[:schema] = schema || { :url => schema_url }
-      # byebug
     end
 
     attributes
 
-  end
+  end  # end of validate method
+
 
   def self.fetch_validation(id, format, revalidate = nil)
-
+    # returns a mongo DB object
     v = self.find(id)
     unless revalidate === false
       if ["png", "svg"].include?(format)
+        # suspect the above functions tied to the use of badges as hyperlinks to valid schemas & csvs
         v.delay.check_validation
       else
         v.check_validation
       end
     end
     v
-    # returns a mongo DB object
   end
 
   def self.check_schema(validator, schema)
 
-    if schema.nil?
+    # @param validator = CSVlint Validator Object
+    # @param schema = schema file obtained at initialisation of the Validation object
 
+    if schema.nil?
       validator.errors.prepend(
         Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
       )
     elsif schema.description.eql?("malformed")
+      # this conditional is tied to a cludge evaluation in lines 93 - 97 of PackageController
+      # and are earmarked for future change
       validator.errors.prepend(
           Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
       )
-
      elsif schema.fields.empty?
-      # catch a rare case of an empty json upload
+      # catch a rare case of an empty json upload, i.e. {} within a .JSON file
        validator.errors.prepend(
            Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
        )
@@ -133,7 +139,11 @@ class Validation
     validation
   end
 
+  # the following two methods seem designed to cater for edge case instances where a Validation object would be created
+
   def validate(io, schema_url = nil, schema = nil)
+    # this method is included to cover cases where a Validation object is initialised without calling the constructer EG
+    # newObject = new Validation.validate(all_the_params), i.e. when Validation.create() is utilised
     validation = Validation.validate(io, schema_url, schema)
     self.update_attributes(validation)
     # update_attributes is a method from Mongoid
