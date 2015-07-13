@@ -174,6 +174,7 @@ class Validation
     Marshal.load(self.result)
   end
 
+  # Empty method? Intended functionality?
   def badge
 
   end
