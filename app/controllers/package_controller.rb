@@ -5,6 +5,8 @@ require 'data_uri/open_uri'
 class PackageController < ApplicationController
   before_filter :preprocess, :only => :create
 
+  # preprocess performs necessary formatting of appended or hyperlinked files on the CSVlint frontend
+
   before_filter(:only => [:show]) { alternate_formats [:json] }
 
   def create
@@ -35,7 +37,6 @@ class PackageController < ApplicationController
         redirect_to package_path(package)
       end
     end
-    # byebug
   end
 
   def show
@@ -53,15 +54,10 @@ class PackageController < ApplicationController
 
     def preprocess
       remove_blanks!
-      # byebug
+      # pass files to function and return data as ActionDispatch object
       params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
-      params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank? # currently supporting the case of all_constraints+
-      # params[:schema_file] = read_files(params[:schema_file]).first unless params[:schema_file].blank?
-      # params[:schema_file].class  == ActionDispatch::Http::UploadedFile, current read_files methods will not work on this class
-
-      # the above do not run as unless evals to true when a file is uploaded OR when a URL is uploaded
+      params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank?
       redirect_to root_path and return unless urls_valid? || params[:files].presence
-
       load_schema
       Zipfile.check!(params)
     end
@@ -87,7 +83,6 @@ class PackageController < ApplicationController
     end
 
     def load_schema
-
       # Check that schema checkbox is ticked
       return unless params[:schema] == "1"
       # Load schema
@@ -101,18 +96,14 @@ class PackageController < ApplicationController
           @schema = Csvlint::Schema.from_json_table( nil, schema_json )
 
         rescue JSON::ParserError
+          # catch JSON parse error
+          # this rescue requires further work, currently in place to catch malformed or bad json uploaded schemas
           @schema = Csvlint::Schema.new(nil, [], "malformed", "malformed")
-          # cludge - array has to be empty due to how these schemas are created in gem,
-          # populating said array with strings will result in undefined method `name' for "name":String
-        rescue
-          @schema = nil
         end
-        @schema_url = "true"
-        # kludge solution, awaiting a logic change but which requires a refactor of schema_url across project
       end
 
       # Get schema URL from parameters
-      # @schema_url = params[:schema_url]
+      @schema_url = params[:schema_url]
     end
 
     def check_for_package
@@ -121,12 +112,13 @@ class PackageController < ApplicationController
     end
 
     def read_files(data)
-
+      # returns an ActionDispatch file
+      # this process is not evaluated by the feature tests because they can be preprocessed as ActionDispatch files
       files = []
       data = [data] if data.class == String
-      # byebug
+      # converts the base64 schema to an array for parsing below
       data.each do |data|
-        # undefined method `each' for #<ActionDispatch::Http::UploadedFile:0x007fb9a3dc6f90
+
         file_array = data.split(";", 2)
         filename = file_array[0]
         uri = URI::Data.new(file_array[1])
@@ -144,6 +136,7 @@ class PackageController < ApplicationController
         files << file
       end
       files
+
     end
 
 end

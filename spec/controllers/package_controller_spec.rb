@@ -140,7 +140,7 @@ describe PackageController, type: :controller do
                            ],
                      schema: "1",
                      schema_data: create_data_uri('schemas/all_constraints.json', 'application/json')
-                     
+      # above accurately emulates how the file upload works by a user
       response.should be_redirect
       package = Package.first
       validation = package.validations.first
