@@ -29,7 +29,10 @@ class ValidationController < ApplicationController
   end
 
   def update
+    # this method is triggered when user revalidates a schema
     dialect = build_dialect(params)
+    # LF = {"header"=>"true", "delimiter"=>",", "skipInitialSpace"=>"true", "lineTerminator"=>"\n", "quoteChar"=>"\""}
+    # CRLF = {"header"=>"true", "delimiter"=>",", "skipInitialSpace"=>"true", "lineTerminator"=>"\r\n", "quoteChar"=>"\""}
     v = Validation.find(params[:id])
     v.update_validation(dialect)
     redirect_to validation_path(v)

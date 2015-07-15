@@ -20,11 +20,12 @@ class Validation
 
     if io.respond_to?(:tempfile)
       # uncertain what state triggers the above
+      # byebug
       filename = io.original_filename
       csv = File.new(io.tempfile)
       io = File.new(io.tempfile)
     elsif io.class == Hash && !io[:body].nil?
-      # above not triggered by features, triggered when file [schema or csv] uploaded
+      # above not triggered by features, triggered when local file [schema or csv] uploaded
       filename = io[:filename]
       csv_id = io[:csv_id]
       io = StringIO.new(io[:body])
@@ -34,7 +35,7 @@ class Validation
     validator = Csvlint::Validator.new( io, dialect, schema && schema.fields.empty? ? nil : schema )
     # ternary evaluation above follows the following format::  condition ? if_true : if_false
     check_schema(validator, schema) unless schema.nil?
-    # in prior versions this method only executed on schem_url.nil, a condition that caused some schema uploads to pass
+    # in prior versions this method only executed on schema_url.nil, a condition that caused some schema uploads to pass
     # when they should have failed
     check_dialect(validator, dialect) unless dialect.blank?
     # assign state, used in later evaluation by partials in validation > views
@@ -130,6 +131,8 @@ class Validation
   end
 
   def self.create_validation(io, schema_url = nil, schema = nil)
+    # this method is used to both create new validations and compare existing listed validations against their URL
+    # origin to make sure original file is still valid
     if io.class == String
       validation = Validation.find_or_initialize_by(url: io)
     else
@@ -152,12 +155,17 @@ class Validation
   def update_validation(dialect = nil)
     loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
     validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect)
+    # above invokes self.validate method
+    byebug
     self.update_attributes(validation)
+    # update mongoDB record
     self
   end
 
   def csv
+    # method that retrieves stored entire CSV file from mongoDB
     unless self.csv_id.nil?
+      # above line means this method triggers only when user opts to revalidate their CSV with suggested prompts
       stored_csv = Mongoid::GridFs.get(self.csv_id)
       file = Tempfile.new('csv')
       File.open(file, "w") do |f|
@@ -165,9 +173,11 @@ class Validation
       end
       file
     end
+
   end
 
   def check_validation
+    # this method should only be called against URL listed validations i.e. 'added to list of recent validations'
     unless url.blank?
       begin
         RestClient.head(url, if_modified_since: updated_at.rfc2822 ) if updated_at

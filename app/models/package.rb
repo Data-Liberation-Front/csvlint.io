@@ -8,6 +8,7 @@ class LocalDataset < DataKitten::Dataset
   def publishing_format
     # A 'package' can be a DataPackage, or it can be any collection of multiple CSVs,
     # and/or collection of CSVs and their schema metadata
+    # ?? is this used in conjunction with package_helper
     :datapackage
   end
 end

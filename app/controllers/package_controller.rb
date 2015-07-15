@@ -20,6 +20,7 @@ class PackageController < ApplicationController
           :filename => io.original_filename
         }
       end
+
     end
 
     redirect_to root_path and return if io.nil?
