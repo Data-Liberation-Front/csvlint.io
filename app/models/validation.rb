@@ -29,6 +29,7 @@ class Validation
       filename = io[:filename]
       csv_id = io[:csv_id]
       io = StringIO.new(io[:body])
+
     end
 
     # Validate
@@ -113,6 +114,7 @@ class Validation
   end
 
   def self.check_dialect(validator, dialect)
+    # byebug
     if dialect != standard_dialect
       validator.warnings.prepend(
         Csvlint::ErrorMessage.new(:non_standard_dialect, :dialect, nil, nil, nil, nil)
