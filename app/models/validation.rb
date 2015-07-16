@@ -55,11 +55,11 @@ class Validation
     end
 
     attributes = {
-      :url => url,
-      :filename => filename,
-      :state => state,
-      :result => Marshal.dump(validator).force_encoding("UTF-8"),
-      :csv_id => csv_id
+        :url => url,
+        :filename => filename,
+        :state => state,
+        :result => Marshal.dump(validator).force_encoding("UTF-8"),
+        :csv_id => csv_id
     }
 
     if schema_url.present?
@@ -94,7 +94,7 @@ class Validation
 
     if schema.nil?
       validator.errors.prepend(
-        Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
+          Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
       )
     elsif schema.description.eql?("malformed")
       # this conditional is tied to a cludge evaluation in lines 93 - 97 of PackageController
@@ -102,11 +102,11 @@ class Validation
       validator.errors.prepend(
           Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
       )
-     elsif schema.fields.empty?
+    elsif schema.fields.empty?
       # catch a rare case of an empty json upload, i.e. {} within a .JSON file
-       validator.errors.prepend(
-           Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
-       )
+      validator.errors.prepend(
+          Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
+      )
     end
 
   end
@@ -114,18 +114,18 @@ class Validation
   def self.check_dialect(validator, dialect)
     if dialect != standard_dialect
       validator.warnings.prepend(
-        Csvlint::ErrorMessage.new(:non_standard_dialect, :dialect, nil, nil, nil, nil)
+          Csvlint::ErrorMessage.new(:non_standard_dialect, :dialect, nil, nil, nil, nil)
       )
     end
   end
 
   def self.standard_dialect
     {
-      "header" => true,
-      "delimiter" => ",",
-      "skipInitialSpace" => true,
-      "lineTerminator" => :auto,
-      "quoteChar" => '"'
+        "header" => true,
+        "delimiter" => ",",
+        "skipInitialSpace" => true,
+        "lineTerminator" => :auto,
+        "quoteChar" => '"'
     }
   end
 
@@ -150,6 +150,7 @@ class Validation
   end
 
   def update_validation(dialect = nil)
+    # location of error?
     loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
     validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect)
     self.update_attributes(validation)
