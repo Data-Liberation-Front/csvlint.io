@@ -47,6 +47,7 @@ Feature: Schema Validation
     And I enter "http://example.org/malformed.json" in the "schema_url" field
     And I press "Validate"
     Then I should see a page of validation results
+    And I should see "Invalid schema"
 
   Scenario: Don't show schema error if no schema specified
     When I go to the homepage
@@ -81,6 +82,7 @@ Feature: Schema Validation
     And I attach the file "schemas/malformed.json" to the "schema_file" field
     And I press "Validate"
     Then I should see a page of validation results
+    And I should see "Invalid schema"
 
   Scenario: Upload a file and a schema URL for validation
     When I go to the homepage
