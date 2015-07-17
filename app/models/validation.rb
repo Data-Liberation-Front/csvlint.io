@@ -102,7 +102,7 @@ class Validation
       # this conditional is tied to a cludge evaluation in lines 93 - 97 of PackageController
       # and are earmarked for future change
       validator.errors.prepend(
-          Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
+          Csvlint::ErrorMessage.new(:malformed_schema, :schema, nil, nil, nil, nil)
       )
      elsif schema.fields.empty?
       # catch a rare case of an empty json upload, i.e. {} within a .JSON file
