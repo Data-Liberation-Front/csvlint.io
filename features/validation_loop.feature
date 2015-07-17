@@ -9,6 +9,7 @@ Feature: CSV Validation Loop
     Given the fixture "csvs/revalidate.csv" is available at the URL "http://example.org/revalidate.csv"
 
   Scenario: Revalidate file using new options
+#    the revalidate.csv will pass immediately on entry of colon separated field delimiter
   When I go to the homepage
   And I attach the file "csvs/revalidate.csv" to the "file" field
   And I press "Validate"
@@ -37,6 +38,17 @@ Feature: CSV Validation Loop
   And I should not see "Check CSV parsing options"
 #    fails here when byebug in validation model
   And I should see "Non standard dialect"
+
+  Scenario: Revalidate file using incompatible Line Breaks character
+    When I go to the homepage
+    And I attach the file "csvs/revalidate.csv" to the "file" field
+    And I press "Validate"
+    Then I should see a page of validation results
+    And I select "CRLF (\r\n)" from the "Line terminator" dropdown
+    And I press "Revalidate"
+    Then I should see a page of validation results
+    And the database record should have a "warning" of the type "check_options"
+    And I should not see "<strong>Congratulations!</strong> Your CSV is valid!"
 
   Scenario: Revalidate file using new dialect options in sequence 'field delimiter' then 'line terminator'
   #  should fail because the validation passes when field delimiter amended

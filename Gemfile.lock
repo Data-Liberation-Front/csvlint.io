@@ -22,17 +22,6 @@ GIT
       rails (>= 3.2.13)
 
 GIT
-  remote: git://github.com/theodi/csvlint.rb.git
-  revision: f4d63da5a335ea0a715eb740d0d182ba2847d3c5
-  specs:
-    csvlint (0.1.0)
-      activesupport
-      addressable
-      colorize
-      mime-types
-      open_uri_redirections
-
-GIT
   remote: git://github.com/theodi/cucumber-api-steps.git
   revision: f8f9254614c64adb76fac3b6065cc9a10dc4f51b
   branch: feature-test-content-type
@@ -56,6 +45,16 @@ GIT
       nokogiri
       rake
       rest-client
+
+PATH
+  remote: ../../Documents/csvlint.rb/
+  specs:
+    csvlint (0.1.0)
+      activesupport
+      addressable
+      colorize
+      mime-types
+      open_uri_redirections
 
 GEM
   remote: https://rubygems.org/

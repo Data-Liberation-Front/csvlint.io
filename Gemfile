@@ -92,8 +92,8 @@ gem 'bootstrap-kaminari-views'
 gem 'data_kitten', github: 'theodi/data_kitten', ref: "e343510bd15e3329c1f2fab35035e248195348be"
 gem 'rubyzip'
 
-# gem 'csvlint', :path => '../../Documents/csvlint.rb/'
-gem 'csvlint', github: 'theodi/csvlint.rb'
+gem 'csvlint', :path => '../../Documents/csvlint.rb/'
+# gem 'csvlint', github: 'theodi/csvlint.rb'
 gem 'rest-client'
 
 gem 'nokogiri', '~> 1.5'

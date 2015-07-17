@@ -190,46 +190,6 @@ Feature: CSV Validation
     And I should not see "Check CSV parsing options"
     And I should see "Non standard dialect"
 
-#  Scenario: Revalidate file using new options in sequence 'field delimiter' then 'line terminator'
-##  should fail because the validation passes when field delimiter amended
-#    When I go to the homepage
-#    And I attach the file "csvs/revalidate.csv" to the "file" field
-#    And I press "Validate"
-#    And I enter ";" in the "Field delimiter" field
-#    And I press "Revalidate"
-#    And I select "LF (\n)" from the "Line terminator" dropdown
-#    And I press "Revalidate"
-#    Then I should see a page of validation results
-#    And I should see "<strong>Congratulations!</strong> Your CSV is valid!"
-#    And I should not see "Check CSV parsing options"
-#    And I should see "Non standard dialect"
-#
-#  Scenario: Revalidate file using new options in sequence 'field delimiter' twice
-##  should fail due to no congratulations message
-#    When I go to the homepage
-#    And I attach the file "csvs/revalidate.csv" to the "file" field
-#    And I press "Validate"
-#    And I select "LF (\n)" from the "Line terminator" dropdown
-#    And I press "Revalidate"
-#    Then I should see a page of validation results
-#    And I should see "<strong>Congratulations!</strong> Your CSV is valid!"
-#    And I should not see "Check CSV parsing options"
-#    And I should see "Non standard dialect"
-#
-#  Scenario: Revalidate file using new options in sequence 'field delimiter' twice
-#    #  should fail due to not finding drop down
-#    When I go to the homepage
-#    And I attach the file "csvs/revalidate.csv" to the "file" field
-#    And I press "Validate"
-#    And I select "CRLF (\r\n)" from the "Line terminator" dropdown
-#    And I press "Revalidate"
-#    And I select "LF (\n)" from the "Line terminator" dropdown
-#    And I press "Revalidate"
-#    Then I should see a page of validation results
-#    And I should see "<strong>Congratulations!</strong> Your CSV is valid!"
-#    And I should not see "Check CSV parsing options"
-#    And I should see "Non standard dialect"
-
   Scenario: Revalidate file using same options should offer revalidation again
     When I go to the homepage
     And I attach the file "csvs/revalidate.csv" to the "file" field
