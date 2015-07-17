@@ -13,7 +13,7 @@ class ValidationController < ApplicationController
 
   def show
     @validation = Validation.fetch_validation(params[:id], params[:format], params[:revalidate])
-
+    # byebug - this was used to see what the instance validation had in comparison to the find-by-id validation
     raise ActionController::RoutingError.new('Not Found') if @validation.state.nil?
     # @result stores all the validation errors, warnings and information messages
     @result = @validation.validator
@@ -31,11 +31,11 @@ class ValidationController < ApplicationController
   def update
     dialect = build_dialect(params)
     v = Validation.find(params[:id])
+    # byebug - this byebug was used to compare the above find-by-validation with the show's instance validation
     # v when retrieved after one update validation loses it's csv_id as is set to nil as it isn't finding the same Validation
     v.update_validation(dialect)
-    # ^~> thrws *** TypeError Exception: no implicit conversion of nil into String
     redirect_to validation_path(v)
-    # byebug
+
   end
 
   private

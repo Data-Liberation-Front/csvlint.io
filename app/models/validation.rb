@@ -18,6 +18,9 @@ class Validation
   def self.validate(io, schema_url = nil, schema = nil, dialect = nil)
     # returns an attributes Hash, creates a private Validator object for updating a Validation record stored in MongoDB
 
+    raise ArgumentError.new("io not provided") if io.nil?
+    # this line was inserted to catch the error at a higher level than the CSVlint Gem
+
     if io.respond_to?(:tempfile)
       # uncertain what state triggers the above
       filename = io.original_filename
@@ -28,6 +31,9 @@ class Validation
       filename = io[:filename]
       csv_id = io[:csv_id]
       io = StringIO.new(io[:body])
+    else
+      # byebug = this byebug was used to determine what io class was passed to method
+      # which wasn't triggering explicit csv_id reassignment
     end
 
     # Validate
@@ -59,8 +65,10 @@ class Validation
         :filename => filename,
         :state => state,
         :result => Marshal.dump(validator).force_encoding("UTF-8"),
-        :csv_id => csv_id
+        # :csv_id => csv_id
     }
+    attributes[:csv_id] = csv_id if csv_id.present?
+    # only overwrite csv_id attribute if originally present
 
     if schema_url.present?
       # Find matching schema if possible and retrieve
@@ -151,7 +159,6 @@ class Validation
 
   def update_validation(dialect = nil)
     # location of error?
-    # byebug
     loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
     validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect)
     # this is calling the preceding validate method
