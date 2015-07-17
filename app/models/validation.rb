@@ -171,4 +171,12 @@ class Validation
 
   end
 
+  def self.clean_up(hours)
+    Validation.where(:created_at.lt => hours.hours.ago, :csv_id.ne => nil).each do |validation|
+      Mongoid::GridFs.delete(validation.csv_id)
+      validation.csv_id = nil
+      validation.save
+    end
+  end
+
 end
