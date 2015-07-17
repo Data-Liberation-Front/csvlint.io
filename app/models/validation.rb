@@ -103,11 +103,12 @@ class Validation
       # and are earmarked for future change
       validator.errors.prepend(
           Csvlint::ErrorMessage.new(:malformed_schema, :schema, nil, nil, nil, nil)
+      # "JSON schema provided has some structural errors"
       )
      elsif schema.fields.empty?
       # catch a rare case of an empty json upload, i.e. {} within a .JSON file
        validator.errors.prepend(
-           Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
+           Csvlint::ErrorMessage.new(:empty_schema, :schema, nil, nil, nil, nil)
        )
     end
 

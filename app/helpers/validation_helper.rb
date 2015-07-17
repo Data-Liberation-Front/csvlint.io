@@ -40,7 +40,9 @@ module ValidationHelper
         variables[key] = v
       end
     end
+
     variables
+
   end
 
   def extra_guidance(validator, message)

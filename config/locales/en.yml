@@ -80,6 +80,10 @@ en:
   encoding_guidance_html: |
      Your CSV appears to be encoded in <code>%{encoding}</code>. We recommend you use <code>UTF-8</code>.	
 
+  empty_schema: "Empty Schema"
+  empty_schema_guidance_html: |
+    The schema provided is empty. This file cannot be parsed against the CSV.
+
   excel: "Misleading File Extension"
   excel_guidance_html: |
      Your CSV file is being delivered without a <code>Content-Type</code> header and has a filename ending in <code>.xls</code>.
@@ -99,7 +103,12 @@ en:
   line_breaks_guidance_html: |
       Your CSV has inconsistent line breaks (or your schema specified one line break style and the file uses another). You should make sure all line breaks are
       in the same form (i.e. CR-LF, or just LF). We recommend using CR-LF for maximum compatibility.
-      
+
+  malformed_schema: "Malformed Schema"
+  malformed_schema_guidance_html: |
+    JSON schema provided has some structural errors.
+
+
   nonrfc_line_breaks: "Non-standard Line Breaks"
   nonrfc_line_breaks_guidance_html: |
       Your CSV appears to use <code>%{linebreak}</code> line-breaks. While this will be fine in most cases, <a href="http://tools.ietf.org/html/rfc4180">RFC 4180</a> specifies that 
@@ -159,7 +168,8 @@ en:
   
   invalid_schema: "Invalid schema"
   invalid_schema_guidance_html: |
-      We couldn't load the schema you specified. Please make sure you have entered the correct URL, and that it is in JSON Table Schema format.
+      We couldn't load the schema you specified. Please make sure you have entered the correct URL, and that it is in JSON Taevalble Schema format.
+
 
   missing_value: "Missing value"
   missing_value_guidance_html: |

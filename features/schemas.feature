@@ -7,7 +7,7 @@ Feature: Schema Validation
     Given the fixture "csvs/valid.csv" is available at the URL "http://example.org/test.csv"
     Given the fixture "csvs/info.csv" is available at the URL "http://example.org/info.csv"
     Given the fixture "schemas/valid.json" is available at the URL "http://example.org/schema.json"
-    Given the fixture "schemas/invalid.json" is available at the URL "http://example.org/bad_schema.json"
+    Given the fixture "schemas/invalid.json" is available at the URL "http://example.org/empty_schema.json"
     Given the fixture "schemas/malformed.json" is available at the URL "http://example.org/malformed.json"
     Given the fixture "csvs/all_constraints.csv" is available at the URL "http://example.org/all_constraints.csv"
     Given the fixture "schemas/all_constraints.json" is available at the URL "http://example.org/all_constraints.json"
@@ -31,14 +31,14 @@ Feature: Schema Validation
     And I should see my URL
     And I should not see my schema URL
 
-  Scenario: Bad schema
+  Scenario: empty schema
     When I go to the homepage
     And I enter "http://example.org/test.csv" in the "url" field
     And I check the "schema" checkbox
-    And I enter "http://example.org/bad_schema.json" in the "schema_url" field
+    And I enter "http://example.org/empty_schema.json" in the "schema_url" field
     And I press "Validate"
     Then I should see a page of validation results
-    And I should see "Invalid schema"
+    And I should see "Empty Schema"
 
   Scenario: Malformed Schema from URLs
     When I go to the homepage
