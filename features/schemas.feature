@@ -40,14 +40,24 @@ Feature: Schema Validation
     Then I should see a page of validation results
     And I should see "Invalid schema"
 
-  Scenario: Malformed schema
+  Scenario: Malformed Schema from URLs
     When I go to the homepage
     And I enter "http://example.org/test.csv" in the "url" field
     And I check the "schema" checkbox
     And I enter "http://example.org/malformed.json" in the "schema_url" field
     And I press "Validate"
     Then I should see a page of validation results
-    And I should see "Invalid schema"
+    And I should see "Malformed Schema"
+
+  Scenario: Malformed Schema from file upload
+    When I go to the homepage
+    And I attach the file "csvs/valid.csv" to the "file" field
+    And I check the "schema" checkbox
+    And I attach the file "schemas/malformed.json" to the "schema_file" field
+    And I press "Validate"
+    Then I should see a page of validation results
+    And I should see "Malformed Schema"
+
 
   Scenario: Don't show schema error if no schema specified
     When I go to the homepage
@@ -74,7 +84,7 @@ Feature: Schema Validation
     And I press "Validate"
     Then I should see a page of validation results
 
-  Scenario: Upload a file and a malformed schema for validation
+  Scenario: Upload a file and a Malformed Schema for validation
 #    80
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
@@ -82,7 +92,7 @@ Feature: Schema Validation
     And I attach the file "schemas/malformed.json" to the "schema_file" field
     And I press "Validate"
     Then I should see a page of validation results
-    And I should see "Invalid schema"
+    And I should see "Malformed Schema"
 
   Scenario: Upload a file and a schema URL for validation
     When I go to the homepage

@@ -91,6 +91,7 @@ class PackageController < ApplicationController
       if io.class == String
         @schema = Csvlint::Schema.load_from_json_table(io)
         @schema_url = params[:schema_url]
+        # byebug
       else
         begin
           schema_json = JSON.parse( File.new( params[:schema_file].tempfile ).read() )

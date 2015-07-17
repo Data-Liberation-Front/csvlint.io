@@ -17,6 +17,7 @@ class ValidationController < ApplicationController
     raise ActionController::RoutingError.new('Not Found') if @validation.state.nil?
     # @result stores all the validation errors, warnings and information messages
     @result = @validation.validator
+    # byebug
     @dialect = @result.dialect || Validation.standard_dialect
     # Responses
     respond_to do |wants|
