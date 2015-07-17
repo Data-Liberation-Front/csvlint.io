@@ -31,8 +31,11 @@ class ValidationController < ApplicationController
   def update
     dialect = build_dialect(params)
     v = Validation.find(params[:id])
+    # v when retrieved after one update validation loses it's csv_id as is set to nil as it isn't finding the same Validation
     v.update_validation(dialect)
+    # ^~> thrws *** TypeError Exception: no implicit conversion of nil into String
     redirect_to validation_path(v)
+    # byebug
   end
 
   private

@@ -49,7 +49,7 @@ class Validation
       filename = File.basename(URI.parse(url).path)
       csv_id = nil
     else
-      # It's a file!
+      # It's a file! HUGE ASSUMPTION??
       url = nil
       validator.remove_instance_variable(:@source)
     end
@@ -151,8 +151,10 @@ class Validation
 
   def update_validation(dialect = nil)
     # location of error?
+    # byebug
     loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
     validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect)
+    # this is calling the preceding validate method
     self.update_attributes(validation)
     self
   end
