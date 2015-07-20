@@ -31,7 +31,13 @@ class ValidationController < ApplicationController
   def update
     dialect = build_dialect(params)
     v = Validation.find(params[:id])
-    v.update_validation(dialect)
+    if v.has_attribute?(:expirable_created_at)
+      # has expirable_created_at value
+      v.update_validation(dialect, expiry=true)
+    else
+      v.update_validation(dialect)
+    end
+
     redirect_to validation_path(v)
   end
 

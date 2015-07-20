@@ -7,15 +7,18 @@ class Validation
   field :state, type: String
   field :result, type: String
   field :csv_id, type: String
+  field :expirable_created_at, type: Time
 
   index :created_at => 1
+
+  index({expirable_created_at: 1}, {expire_after_seconds: 1.day})
 
   belongs_to :schema
   accepts_nested_attributes_for :schema
 
   belongs_to :package
 
-  def self.validate(io, schema_url = nil, schema = nil, dialect = nil)
+  def self.validate(io, schema_url = nil, schema = nil, dialect = nil, expiry)
     if io.respond_to?(:tempfile)
       filename = io.original_filename
       csv = File.new(io.tempfile)
@@ -49,9 +52,14 @@ class Validation
       :url => url,
       :filename => filename,
       :state => state,
-      :result => Marshal.dump(validator).force_encoding("UTF-8"),
-      :csv_id => csv_id
+      :result => Marshal.dump(validator).force_encoding("UTF-8")
+      # :csv_id => csv_id
     }
+
+    attributes[:expirable_created_at] = Time.now if expiry == true
+    # create an expiry field if this is an upload
+    attributes[:csv_id] = csv_id if csv_id.present?
+    # do not override csv_id
 
     if schema_url.present?
       # Find matching schema if possible
@@ -101,23 +109,28 @@ class Validation
   end
 
   def self.create_validation(io, schema_url = nil, schema = nil)
+    # this method instantate the Object then calls its validate method. Below conditional discriminates between URL CSV
+    # and uploaded CSV. Uploaded CSVs = do not retain
+    # this method invokes the validate method below rather than self.validate
     if io.class == String
       validation = Validation.find_or_initialize_by(url: io)
+      expiry = false
     else
       validation = Validation.create
+      expiry = true
     end
-    validation.validate(io, schema_url, schema)
+    validation.validate(io, schema_url, schema, expiry)
     validation
   end
 
-  def validate(io, schema_url = nil, schema = nil)
-    validation = Validation.validate(io, schema_url, schema)
+  def validate(io, schema_url = nil, schema = nil, expiry)
+    validation = Validation.validate(io, schema_url, schema, dialect=nil, expiry)
     self.update_attributes(validation)
   end
 
-  def update_validation(dialect = nil)
+  def update_validation(dialect = nil, expiry)
     loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
-    validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect)
+    validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect, expiry)
     self.update_attributes(validation)
     self
   end
