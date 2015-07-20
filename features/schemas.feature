@@ -67,7 +67,6 @@ Feature: Schema Validation
     And I should not see "Invalid schema"
 
   Scenario: Upload a file and a valid schema for validation
-#    64
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
     And I check the "schema" checkbox
@@ -76,7 +75,6 @@ Feature: Schema Validation
     Then I should see a page of validation results
 
   Scenario: Upload a file and an invalid schema for validation
-#    72
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
     And I check the "schema" checkbox
@@ -85,7 +83,6 @@ Feature: Schema Validation
     Then I should see a page of validation results
 
   Scenario: Upload a file and a Malformed Schema for validation
-#    80
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
     And I check the "schema" checkbox
@@ -185,7 +182,6 @@ Feature: Schema Validation
 
 
   Scenario: Show schema validation failure messages via URL
-#    this test checks to see if CSV and schema correlate
     Given the fixture "csvs/all_constraints.csv" is available at the URL "http://example.org/all_constraints.csv"
     Given the fixture "schemas/all_constraints.json" is available at the URL "http://example.org/all_constraints.json"
     When I go to the homepage
@@ -208,7 +204,6 @@ Feature: Schema Validation
     And I should see "Values in the <code>Weight</code> column must be 500 or below. <code>600</code> is too high."
 
   Scenario: Show schema validation failure messages via file upload
-#  this test checks to see if CSV and schema correlate
     When I go to the homepage
     And I attach the file "csvs/all_constraints.csv" to the "file" field
     And I check the "schema" checkbox
@@ -229,7 +224,6 @@ Feature: Schema Validation
     And I should see "Values in the <code>Weight</code> column must be 500 or below. <code>600</code> is too high."
 
   Scenario: Show schema validation failure messages via URL for CSV and upload for schema
-#    this test checks to see if CSV and schema correlate
     When I go to the homepage
     And I enter "http://example.org/all_constraints.csv" in the "url" field
     And I check the "schema" checkbox
@@ -250,7 +244,6 @@ Feature: Schema Validation
     And I should see "Values in the <code>Weight</code> column must be 500 or below. <code>600</code> is too high."
 
   Scenario: Show schema validation failure messages via file upload for CSV and URL for schema
-#  this test checks to see if CSV and schema correlate
     When I go to the homepage
     And I attach the file "csvs/all_constraints.csv" to the "file" field
     And I check the "schema" checkbox
