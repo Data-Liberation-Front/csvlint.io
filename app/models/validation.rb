@@ -10,8 +10,8 @@ class Validation
   field :expirable_created_at, type: Time
 
   index :created_at => 1
-
-  index({expirable_created_at: 1}, {expire_after_seconds: 1.day})
+  index({expirable_created_at: 1}, {expire_after_seconds: 15.seconds})
+  # beware a mongodb gotcha http://www.talkingquickly.co.uk/2013/06/indexes-with-mongoid-are-not-created-automatically/
 
   belongs_to :schema
   accepts_nested_attributes_for :schema
@@ -56,10 +56,12 @@ class Validation
       # :csv_id => csv_id
     }
 
-    attributes[:expirable_created_at] = Time.now if expiry == true
+    if expiry == true
+      attributes[:expirable_created_at] = Time.now
+    end
     # create an expiry field if this is an upload
     attributes[:csv_id] = csv_id if csv_id.present?
-    # do not override csv_id
+    # do not override csv_id if already part of validation
 
     if schema_url.present?
       # Find matching schema if possible
@@ -124,7 +126,8 @@ class Validation
   end
 
   def validate(io, schema_url = nil, schema = nil, expiry)
-    validation = Validation.validate(io, schema_url, schema, dialect=nil, expiry)
+    validation = Validation.validate(io, schema_url, schema, nil, expiry)
+    # byebug
     self.update_attributes(validation)
   end
 

@@ -6,6 +6,10 @@ Then(/^there should be (\d+) validation$/) do |files|
   Validation.all.count.should == files.to_i
 end
 
+Then(/^that validation should have an expirable field$/) do
+  Validation.first.expirable_created_at.should_not == nil
+end
+
 Then(/^that validation should not contain a file$/) do
   Validation.first.csv_id.should == nil
 end

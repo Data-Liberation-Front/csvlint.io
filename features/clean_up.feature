@@ -1,17 +1,25 @@
-@timecop
+@data_expiry
 Feature: Clean up old uploaded CSVs
 
-  Scenario: Uploaded CSV Validations should not persist after 24 hours
+  Scenario: uploaded CSV validations should have a TTL field as attribute
     Given I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
     And I press "Validate"
-    And 25 hours have passed
-#    When we clean up old files
     Then there should be 1 validation
-    And that validation should not contain a file
+    And that validation should have an expirable field
+
+
+  Scenario: Uploaded CSV Validations should not persist after 24 hours
+    Given I go to the homepage
+    Then we travel back in time
+    And I attach the file "csvs/valid.csv" to the "file" field
+    And I press "Validate"
+    Then time accelerates
+#    And 25 hours have passed
+    Then there should be 0 validation
     And there should be 0 stored files in GridFs
 
-  Scenario: CSV not deleted after recent validation
+  Scenario: CSV Validations not deleted after recent validation
     Given I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
     And I press "Validate"
