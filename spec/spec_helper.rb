@@ -11,6 +11,7 @@ require 'webmock/rspec'
 require 'database_cleaner'
 require 'vcr'
 require 'timecop'
+# require 'csvlint'
 
 DatabaseCleaner.strategy = :truncation
 
@@ -57,6 +58,11 @@ RSpec.configure do |config|
   
   config.after(:each) do
     DatabaseCleaner.clean
+  end
+
+
+  config.before(:all) do
+    Validation.create_indexes
   end
 
 end

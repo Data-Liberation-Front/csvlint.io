@@ -1,6 +1,15 @@
 require "spec_helper"
+# require "byebug"
 
 describe Validation, type: :model do
+
+  it "should assign a TTL field to any validation formed from an uploaded CSV" do
+    @file = mock_upload('csvs/valid.csv')
+    validation = Validation.create_validation(@file)
+    # byebug
+    puts validation
+    validation.expirable_created_at.should_not == nil
+  end
 
   it "should recheck validations after two hours" do
     mock_file("http://example.com/test.csv", 'csvs/valid.csv')
