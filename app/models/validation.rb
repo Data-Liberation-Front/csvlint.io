@@ -10,7 +10,7 @@ class Validation
   field :expirable_created_at, type: Time
 
   index :created_at => 1
-  index({expirable_created_at: 1}, {expire_after_seconds: 15.seconds})
+  index({expirable_created_at: 1}, {expire_after_seconds: 24.hours})
   # beware a mongodb gotcha http://www.talkingquickly.co.uk/2013/06/indexes-with-mongoid-are-not-created-automatically/
 
   belongs_to :schema

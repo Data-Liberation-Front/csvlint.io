@@ -64,6 +64,10 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
+  config.after(:all) do
+    Validation.remove_indexes
+  end
+
 end
 
 def load_fixture(filename)

@@ -3,17 +3,27 @@ require "spec_helper"
 
 describe Validation, type: :model do
 
-  it "should assign a TTL field to any validation formed from an uploaded CSV file" do
-    @file = mock_upload('csvs/valid.csv')
-    validation = Validation.create_validation(@file)
-    validation.expirable_created_at.should_not == nil
-  end
+  describe '#expiry_fields' do
+    it "should assign a TTL field to any validation formed from an uploaded CSV file" do
+      @file = mock_upload('csvs/valid.csv')
+      validation = Validation.create_validation(@file)
+      validation.expirable_created_at.should_not == nil
+    end
 
-  # it "should assign the TTL field as a Mongoid index" do
-  #   @file = mock_upload('csvs/valid.csv')
-  #   validation = Validation.create_validation(@file)
-  #   byebug
-  # end
+
+    it "should assign the TTL field as a Mongoid index" do
+      @file = mock_upload('csvs/valid.csv')
+      validation = Validation.create_validation(@file)
+      validation.collection.indexes[expirable_created_at: 1].present?.should == true
+    end
+
+    it "should have an expiry value of 24 hours" do
+      @file = mock_upload('csvs/valid.csv')
+      validation = Validation.create_validation(@file)
+      validation.collection.indexes[expirable_created_at: 1].select{|k,v| k=="expireAfterSeconds"}.has_value?(24.hours.to_i)
+    end
+
+  end
 
   it "should not assign a TTL field to any validation formed from a hyperlinked CSV file" do
     mock_file("http://example.com/test.csv", 'csvs/valid.csv')
