@@ -30,15 +30,14 @@ class ValidationController < ApplicationController
 
   def update
     dialect = build_dialect(params)
+    # build a fresh dialect for comparing a file against
     v = Validation.find(params[:id])
     if v.has_attribute?(:expirable_created_at)
       # has expirable_created_at value
       v.update_validation(dialect, expiry=true)
     else
-      v.update_validation(dialect, expiry=nil)
+      v.update_validation(dialect)
     end
-    # in the above I am not sure why I need to explicitly set expiry
-    # - the error message might be because of rspec not resetting
     redirect_to validation_path(v)
   end
 

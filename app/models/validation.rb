@@ -11,7 +11,8 @@ class Validation
 
   index :created_at => 1
   index({expirable_created_at: 1}, {expire_after_seconds: 24.hours})
-  # beware a mongodb gotcha http://www.talkingquickly.co.uk/2013/06/indexes-with-mongoid-are-not-created-automatically/
+  # invoke the mongo time-to-live feature which will automatically expire entries
+  # - this index is only enabled for a subset of validations, which are validations uploaded as file
 
   belongs_to :schema
   accepts_nested_attributes_for :schema
@@ -55,10 +56,9 @@ class Validation
       :result => Marshal.dump(validator).force_encoding("UTF-8")
     }
 
-    # if expiry == true
-      attributes[:expirable_created_at] = Time.now if expiry.eql?(true)
-    # end
-    # create an expiry field if this is an upload
+    attributes[:expirable_created_at] = Time.now if expiry.eql?(true)
+    # enable the expirable index, initialise it with current time
+
     attributes[:csv_id] = csv_id if csv_id.present?
     # do not override csv_id if already part of validation
 
@@ -72,6 +72,7 @@ class Validation
   end
 
   def self.fetch_validation(id, format, revalidate = nil)
+    # returns a mongo database record
     v = self.find(id)
     unless revalidate === false
       if ["png", "svg"].include?(format)
@@ -113,6 +114,7 @@ class Validation
     # this method instantate the Object then calls its validate method. Below conditional discriminates between URL CSV
     # and uploaded CSV. Uploaded CSVs = do not retain
     # this method invokes the validate method below rather than self.validate
+    # returns validation object
     if io.class == String
       validation = Validation.find_or_initialize_by(url: io)
       expiry = false
@@ -121,16 +123,16 @@ class Validation
       expiry = true
     end
     validation.validate(io, schema_url, schema, expiry)
+    # expiry is set to true or false based on inferring that uploaded file meets the do not retain criteria
     validation
   end
 
   def validate(io, schema_url = nil, schema = nil, expiry)
     validation = Validation.validate(io, schema_url, schema, nil, expiry)
-    # byebug
     self.update_attributes(validation)
   end
 
-  def update_validation(dialect = nil, expiry)
+  def update_validation(dialect = nil, expiry=nil)
     loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
     validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect, expiry)
     self.update_attributes(validation)
@@ -167,14 +169,6 @@ class Validation
 
   def badge
 
-  end
-
-  def self.clean_up(hours)
-    Validation.where(:created_at.lt => hours.hours.ago, :csv_id.ne => nil).each do |validation|
-      Mongoid::GridFs.delete(validation.csv_id)
-      validation.csv_id = nil
-      validation.save
-    end
   end
 
 end
