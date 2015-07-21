@@ -3,12 +3,22 @@ require "spec_helper"
 
 describe Validation, type: :model do
 
-  it "should assign a TTL field to any validation formed from an uploaded CSV" do
+  it "should assign a TTL field to any validation formed from an uploaded CSV file" do
     @file = mock_upload('csvs/valid.csv')
     validation = Validation.create_validation(@file)
-    # byebug
-    puts validation
     validation.expirable_created_at.should_not == nil
+  end
+
+  # it "should assign the TTL field as a Mongoid index" do
+  #   @file = mock_upload('csvs/valid.csv')
+  #   validation = Validation.create_validation(@file)
+  #   byebug
+  # end
+
+  it "should not assign a TTL field to any validation formed from a hyperlinked CSV file" do
+    mock_file("http://example.com/test.csv", 'csvs/valid.csv')
+    validation = Validation.create_validation("http://example.com/test.csv")
+    validation.expirable_created_at.should == nil
   end
 
   it "should recheck validations after two hours" do

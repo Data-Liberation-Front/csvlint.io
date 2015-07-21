@@ -35,9 +35,10 @@ class ValidationController < ApplicationController
       # has expirable_created_at value
       v.update_validation(dialect, expiry=true)
     else
-      v.update_validation(dialect)
+      v.update_validation(dialect, expiry=nil)
     end
-
+    # in the above I am not sure why I need to explicitly set expiry
+    # - the error message might be because of rspec not resetting
     redirect_to validation_path(v)
   end
 

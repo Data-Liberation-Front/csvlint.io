@@ -35,7 +35,11 @@ RSpec.configure do |config|
 
   
   config.treat_symbols_as_metadata_keys_with_true_values = true
-  
+
+  config.before(:all) do
+    Validation.create_indexes
+  end
+
   WebMock.disable_net_connect!(:allow => [/static.(dev|theodi.org)/, /datapackage\.json/, /package_search/])
   # ## Mock Framework
   #
@@ -58,11 +62,6 @@ RSpec.configure do |config|
   
   config.after(:each) do
     DatabaseCleaner.clean
-  end
-
-
-  config.before(:all) do
-    Validation.create_indexes
   end
 
 end

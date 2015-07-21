@@ -53,12 +53,11 @@ class Validation
       :filename => filename,
       :state => state,
       :result => Marshal.dump(validator).force_encoding("UTF-8")
-      # :csv_id => csv_id
     }
 
-    if expiry == true
-      attributes[:expirable_created_at] = Time.now
-    end
+    # if expiry == true
+      attributes[:expirable_created_at] = Time.now if expiry.eql?(true)
+    # end
     # create an expiry field if this is an upload
     attributes[:csv_id] = csv_id if csv_id.present?
     # do not override csv_id if already part of validation
@@ -68,7 +67,7 @@ class Validation
       schema = Schema.where(url: schema_url).first
       attributes[:schema] = schema || { :url => schema_url }
     end
-
+    # byebug
     attributes
   end
 
