@@ -23,9 +23,9 @@ GIT
 
 GIT
   remote: git://github.com/theodi/csvlint.rb.git
-  revision: f4d63da5a335ea0a715eb740d0d182ba2847d3c5
+  revision: 250d0c04f13d573dc75b04e8134ea1f5b37f24cd
   specs:
-    csvlint (0.1.0)
+    csvlint (0.1.2)
       activesupport
       addressable
       colorize
@@ -545,3 +545,6 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   vcr
   webmock
+
+BUNDLED WITH
+   1.10.5
