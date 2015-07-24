@@ -1,19 +1,3 @@
-class CsvlintObject < Csvlint::Validator
-  # include Mongoid::Document
-  # embedded_in :validation
-  #
-  # field :encoding, type: String
-  # field :content_type, type: String
-  # field :extension, type: String
-  # field :headers, type: Hash
-  # field :line_breaks, type: String
-  # field :dialect, type: Hash
-  # field :csv_header, type: Boolean
-  # field :schema, type: String
-  # field :data, type: Array
-end
-
-
 class Validation
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -21,9 +5,7 @@ class Validation
   field :filename, type: String
   field :url, type: String
   field :state, type: String
-  # field :result, type: String
-  field :result
-  # by leaving this blank Mongoid should store as an object by default, but will only access the attr_reader vals
+  field :result, type: String
   field :csv_id, type: String
   field :expirable_created_at, type: Time
 
@@ -48,7 +30,6 @@ class Validation
       io = StringIO.new(io[:body])
     end
     # Validate
-    # validator = CsvlintObject.new( io, dialect, schema && schema.fields.empty? ? nil : schema)
     validator = Csvlint::Validator.new( io, dialect, schema && schema.fields.empty? ? nil : schema )
     check_schema(validator, schema) unless schema_url.blank?
     check_dialect(validator, dialect) unless dialect.blank?
@@ -72,12 +53,9 @@ class Validation
       :url => url,
       :filename => filename,
       :state => state,
-      :result => validator
-      # even when above is set the entirety of the CSVlint class is returned, not the attr_read variables
-      # - this change causes the documents to have trouble saving
-      # :result => Marshal.dump(validator).force_encoding("UTF-8")
+      :result => Marshal.dump(validator).force_encoding("UTF-8")
     }
-    # byebug
+
     attributes[:expirable_created_at] = Time.now if expiry.eql?(true)
     # enable the expirable index, initialise it with current time
 
@@ -135,6 +113,7 @@ class Validation
   def self.create_validation(io, schema_url = nil, schema = nil)
     # this method instantate the Object then calls its validate method. Below conditional discriminates between URL CSV
     # and uploaded CSV. Uploaded CSVs = do not retain
+    # this method invokes the validate method below rather than self.validate
     # returns validation object
     if io.class == String
       validation = Validation.find_or_initialize_by(url: io)
@@ -143,30 +122,14 @@ class Validation
       validation = Validation.create
       expiry = true
     end
-    # either `create` of `find_or_initialize_by` methods creates (and saves) the Validation model
-    # (and to MongoDB) - the IO params will be saved
-    begin
-      validation.validate(io, schema_url, schema, expiry)
-    rescue NoMethodError
-        # byebug
-        puts validation.class
-    end
-
-    # invokes the validate method below rather than self.validate this adds params to the validation object
+    validation.validate(io, schema_url, schema, expiry)
     # expiry is set to true or false based on inferring that uploaded file meets the do not retain criteria
     validation
-
   end
 
-  # somewhere between above and below method the attributes variable becomes a BSON object
-
   def validate(io, schema_url = nil, schema = nil, expiry)
-    # this method has access to these instance variables [:@new_record, :@attributes, :@persistence_options,
-    # :@changed_attributes, :@attributes_before_type_cast, :@pending_nested, :@pending_relations]
-    # and all the variables of self.validate
-    validation = Validation.validate(io, schema_url, schema, nil, expiry) # invokes self.validate, makes even more instance variables available
+    validation = Validation.validate(io, schema_url, schema, nil, expiry)
     self.update_attributes(validation)
-    # update_attributes expects a hash, AKA the ```attributes``` val returned by initial method
   end
 
   def update_validation(dialect = nil, expiry=nil)
@@ -180,14 +143,10 @@ class Validation
     unless self.csv_id.nil?
       stored_csv = Mongoid::GridFs.get(self.csv_id)
       file = Tempfile.new('csv')
-      begin
-        File.open(file, "w") do |f|
-          f.write stored_csv.data
-        end
-      file
-      rescue IOError
-        puts "error with file opening"
+      File.open(file, "w") do |f|
+        f.write stored_csv.data
       end
+      file
     end
   end
 
