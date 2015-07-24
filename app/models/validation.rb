@@ -7,15 +7,19 @@ class Validation
   field :state, type: String
   field :result, type: String
   field :csv_id, type: String
+  field :expirable_created_at, type: Time
 
   index :created_at => 1
+  index({expirable_created_at: 1}, {expire_after_seconds: 24.hours})
+  # invoke the mongo time-to-live feature which will automatically expire entries
+  # - this index is only enabled for a subset of validations, which are validations uploaded as file
 
   belongs_to :schema
   accepts_nested_attributes_for :schema
 
   belongs_to :package
 
-  def self.validate(io, schema_url = nil, schema = nil, dialect = nil)
+  def self.validate(io, schema_url = nil, schema = nil, dialect = nil, expiry)
     if io.respond_to?(:tempfile)
       filename = io.original_filename
       csv = File.new(io.tempfile)
@@ -49,20 +53,26 @@ class Validation
       :url => url,
       :filename => filename,
       :state => state,
-      :result => Marshal.dump(validator).force_encoding("UTF-8"),
-      :csv_id => csv_id
+      :result => Marshal.dump(validator).force_encoding("UTF-8")
     }
+
+    attributes[:expirable_created_at] = Time.now if expiry.eql?(true)
+    # enable the expirable index, initialise it with current time
+
+    attributes[:csv_id] = csv_id if csv_id.present?
+    # do not override csv_id if already part of validation
 
     if schema_url.present?
       # Find matching schema if possible
       schema = Schema.where(url: schema_url).first
       attributes[:schema] = schema || { :url => schema_url }
     end
-
+    # byebug
     attributes
   end
 
   def self.fetch_validation(id, format, revalidate = nil)
+    # returns a mongo database record
     v = self.find(id)
     unless revalidate === false
       if ["png", "svg"].include?(format)
@@ -101,23 +111,30 @@ class Validation
   end
 
   def self.create_validation(io, schema_url = nil, schema = nil)
+    # this method instantate the Object then calls its validate method. Below conditional discriminates between URL CSV
+    # and uploaded CSV. Uploaded CSVs = do not retain
+    # this method invokes the validate method below rather than self.validate
+    # returns validation object
     if io.class == String
       validation = Validation.find_or_initialize_by(url: io)
+      expiry = false
     else
       validation = Validation.create
+      expiry = true
     end
-    validation.validate(io, schema_url, schema)
+    validation.validate(io, schema_url, schema, expiry)
+    # expiry is set to true or false based on inferring that uploaded file meets the do not retain criteria
     validation
   end
 
-  def validate(io, schema_url = nil, schema = nil)
-    validation = Validation.validate(io, schema_url, schema)
+  def validate(io, schema_url = nil, schema = nil, expiry)
+    validation = Validation.validate(io, schema_url, schema, nil, expiry)
     self.update_attributes(validation)
   end
 
-  def update_validation(dialect = nil)
+  def update_validation(dialect = nil, expiry=nil)
     loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
-    validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect)
+    validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect, expiry)
     self.update_attributes(validation)
     self
   end
