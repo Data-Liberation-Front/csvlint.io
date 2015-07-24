@@ -22,6 +22,17 @@ GIT
       rails (>= 3.2.13)
 
 GIT
+  remote: git://github.com/theodi/csvlint.rb.git
+  revision: 250d0c04f13d573dc75b04e8134ea1f5b37f24cd
+  specs:
+    csvlint (0.1.2)
+      activesupport
+      addressable
+      colorize
+      mime-types
+      open_uri_redirections
+
+GIT
   remote: git://github.com/theodi/cucumber-api-steps.git
   revision: f8f9254614c64adb76fac3b6065cc9a10dc4f51b
   branch: feature-test-content-type
@@ -45,16 +56,6 @@ GIT
       nokogiri
       rake
       rest-client
-
-PATH
-  remote: ../../Documents/csvlint.rb/
-  specs:
-    csvlint (0.1.0)
-      activesupport
-      addressable
-      colorize
-      mime-types
-      open_uri_redirections
 
 GEM
   remote: https://rubygems.org/
@@ -548,6 +549,3 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   vcr
   webmock
-
-BUNDLED WITH
-   1.10.5
