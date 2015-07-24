@@ -46,7 +46,7 @@ module ValidationHelper
   def extra_guidance(validator, message)
     extra = []
     extra << :old_content_type if message.type == :wrong_content_type && validator.content_type == "text/comma-separated-values"
-    extra << :s3_upload if message.type == :wrong_content_type && validator.headers["Server"] = "AmazonS3"
+    extra << :s3_upload if message.type == :wrong_content_type && validator.headers["Server"] == "AmazonS3"
     return extra
   end
   
