@@ -1,8 +1,5 @@
 source 'https://rubygems.org'
 
-ruby "2.1.0"
-#ruby-gemset=csvlint
-
 gem 'rails', '~> 4.0.12'
 gem 'dotenv-rails'
 
