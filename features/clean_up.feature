@@ -19,3 +19,7 @@ Feature: Clean up old uploaded CSVs
     Then there should be 1 validation
     And that validation should contain a file
     And there should be 1 stored files in GridFs
+
+  Scenario: Clean up job is requeued
+    When we clean up old files
+    Then the clean up task should have been requeued
