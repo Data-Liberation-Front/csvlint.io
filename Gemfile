@@ -1,16 +1,10 @@
 source 'https://rubygems.org'
 
-ruby "2.1.0"
-#ruby-gemset=csvlint
-
 gem 'rails', '~> 4.0.12'
 gem 'dotenv-rails'
 
 # Sprockets pinned to avoid a problem in 2.12.3 with our stylesheets
 gem "sprockets", "~> 2.11.3"
-
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -65,6 +59,8 @@ group :development, :test do
   gem 'poltergeist'
   gem 'vcr'
   gem 'cucumber-api-steps', require: false, github: 'theodi/cucumber-api-steps', branch: 'feature-test-content-type'
+  # Use sqlite3 as the database for Active Record
+  gem 'sqlite3'
 end
 
 group :development do
