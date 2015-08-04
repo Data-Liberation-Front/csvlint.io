@@ -21,3 +21,7 @@ end
 Then(/^the clean up task should have been requeued$/) do
   Delayed::Job.all.count.should == 1
 end
+
+Given(/^the clean up job causes an error$/) do
+  Validation.stub(:where) { raise StandardError }
+end

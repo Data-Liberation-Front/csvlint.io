@@ -172,15 +172,15 @@ class Validation
   end
 
   def self.clean_up(hours)
-    begin
-      Validation.where(:created_at.lt => hours.hours.ago, :csv_id.ne => nil).each do |validation|
-        Mongoid::GridFs.delete(validation.csv_id)
-        validation.csv_id = nil
-        validation.save
-      end
-    ensure
-      Validation.delay(run_at: 24.hours.from_now).clean_up(24)
+    Validation.where(:created_at.lt => hours.hours.ago, :csv_id.ne => nil).each do |validation|
+      Mongoid::GridFs.delete(validation.csv_id)
+      validation.csv_id = nil
+      validation.save
     end
+  rescue => e
+    Airbrake.notify(e) if ENV['CSVLINT_AIRBRAKE_KEY'] # Exit cleanly, but still notify airbrake
+  ensure
+    Validation.delay(run_at: 24.hours.from_now).clean_up(24)
   end
 
 end
