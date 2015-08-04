@@ -6,10 +6,6 @@ Then(/^there should be (\d+) validation$/) do |files|
   Validation.all.count.should == files.to_i
 end
 
-Then(/^that validation should have an expirable field$/) do
-  Validation.first.expirable_created_at.should_not == nil
-end
-
 Then(/^that validation should not contain a file$/) do
   Validation.first.csv_id.should == nil
 end
@@ -20,4 +16,12 @@ end
 
 Then(/^there should be (\d+) stored files in GridFs$/) do |files_no|
   Mongoid::GridFs::File.count.should == files_no.to_i
+end
+
+Then(/^the clean up task should have been requeued$/) do
+  Delayed::Job.all.count.should == 1
+end
+
+Given(/^the clean up job causes an error$/) do
+  Validation.stub(:where) { raise StandardError }
 end
