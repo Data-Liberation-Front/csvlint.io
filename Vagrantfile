@@ -4,14 +4,13 @@
 defaults = {
   count: 1,
   flavor: /2GB/,
-  image: /Trusty/,
-  offset: 0
+  image: /Trusty/
 }
 
 nodesets = [
   {
     name: 'csvlint',
-    count: 4,
+    count: 2,
     chef_env: 'csvlint-prod',
     run_list: [
       'recipe[chef_csvlint]'
@@ -31,7 +30,7 @@ Vagrant.configure("2") do |config|
     set = defaults.merge(set)
 
     set[:count].times do |num|
-      index = "%02d" % [num + 1 + set[:offset]]
+      index = "%02d" % [num + 1]
       chef_name = "%s-%s" % [
         set[:name].gsub('_', '-'),
         index
