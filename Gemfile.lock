@@ -519,6 +519,7 @@ DEPENDENCIES
   jquery-dotdotdot-rails
   jquery-rails
   kaminari
+  launchy
   mongoid
   mongoid-grid_fs!
   mysql2
@@ -544,3 +545,6 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   vcr
   webmock
+
+BUNDLED WITH
+   1.10.5
