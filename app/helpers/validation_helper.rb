@@ -11,9 +11,11 @@ module ValidationHelper
     wrapper = options[:wrapper] || :span
     content_tag(wrapper, components.join(', '))
 
+
   end
 
   def message_variables(validator, message)
+
     line_break_strings = {
       "\r" => "CR",
       "\n" => "LF",
@@ -32,17 +34,26 @@ module ValidationHelper
         :min_value        => constraint(message, validator, 'minimum'),
         :max_value        => constraint(message, validator, 'maximum'),
         :pattern          => constraint(message, validator, 'pattern'),
-        :expected_headers => message.constraints["expectedHeader"],
+        :expected_headers => header_validate(message),
         :header           => schema_field(message, validator).try(:name),
         :value            => message.content,
     }
+
     if validator.headers
       validator.headers.each do |k,v|
         key = "header_#{k.gsub("-", "_")}".to_sym
         variables[key] = v
       end
     end
+
     variables
+  end
+
+  def header_validate(message)
+    if message.constraints.present?
+      expected_header_values = message.constraints["expectedHeader"].present? ? message.constraints["expectedHeader"] : false
+    end
+    expected_header_values
   end
 
   def extra_guidance(validator, message)
