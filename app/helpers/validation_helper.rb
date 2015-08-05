@@ -10,7 +10,6 @@ module ValidationHelper
     # Wrap it up
     wrapper = options[:wrapper] || :span
     content_tag(wrapper, components.join(', '))
-    byebug
   end
 
   def message_variables(validator, message)
