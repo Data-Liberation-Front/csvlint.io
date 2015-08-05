@@ -22,6 +22,7 @@ end
 
 When(/^I press "(.*?)"$/) do |name|
   click_button name
+  # save_and_open_page
 end
 
 When(/^I attach the file "(.*?)" to the "(.*?)" field$/) do |file, field_name|
@@ -31,7 +32,6 @@ When(/^I attach the file "(.*?)" to the "(.*?)" field$/) do |file, field_name|
 end
 
 Then(/^I should see "(.*?)"$/) do |text|
-  # save_and_open_page
   page.body.should include(text)
 end
 
