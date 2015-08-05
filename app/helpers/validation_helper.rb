@@ -1,6 +1,6 @@
 module ValidationHelper
 
-  def error_and_warning_count(errors, warnings,   options)
+  def error_and_warning_count(errors, warnings, options)
     # Generate string
     components = []
     components << pluralize(errors.count, t(:error).titleize) unless errors.empty?
@@ -10,7 +10,7 @@ module ValidationHelper
     # Wrap it up
     wrapper = options[:wrapper] || :span
     content_tag(wrapper, components.join(', '))
-    byebug
+
   end
 
   def message_variables(validator, message)
@@ -32,6 +32,7 @@ module ValidationHelper
         :min_value        => constraint(message, validator, 'minimum'),
         :max_value        => constraint(message, validator, 'maximum'),
         :pattern          => constraint(message, validator, 'pattern'),
+        :expected_headers => message.constraints["expectedHeader"],
         :header           => schema_field(message, validator).try(:name),
         :value            => message.content,
     }

@@ -1,3 +1,5 @@
+# variables accessed via string interpolation are set within the validation_helper
+
 # Files in the config/locales directory are used for internationalization
 # and are automatically loaded by Rails. If you want to use locales other
 # than English, add the necessary files in this directory.
@@ -180,6 +182,10 @@ en:
   header_name: "Mismatched column header"
   header_name_guidance_html: |
       We expected to see the header <code>%{header}</code>, but got <code>%{value}</code>.
+
+  malformed_header: "Malformed header"
+  malformed_header_guidance_html: |
+      We expected to see the header columns <code>%{expected_headers}</code>.
 
   missing_column: "Missing column"
   missing_column_guidance_html: |

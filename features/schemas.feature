@@ -153,7 +153,7 @@ Feature: Schema Validation
     And I should see "The schema says that <code>Username</code> must be at least 5 characters long. Your value, <code>derp</code>, is not long enough."
     And I should see "The schema says that <code>Username</code> must be at most 10 characters long. Your value, <code>derpderpington</code>, is too long."
     And I should see "The schema says that values in <code>Username</code> must match <code>^[A-Za-z0-9_]*$</code>. Your value, <code>derp-derp</code>, does not."
-    And I should see "We expected to see the header <code>Password</code>, but got <code>Secret</code>."
+    And I should see "We expected to see the header columns <code>Username,Age,Height,Weight,Password</code>"
     And I should see "There was an unexpected column on row <code>6</code>. Make sure that none of the fields contain commas, are correctly quoted, etc."
     And I should see "There was a missing column on row <code>7</code>. Make sure this row includes all the data that should be there."
     And I should see "Values in the <code>Username</code> column must be unique. <code>derpina</code> has been used at least twice."
