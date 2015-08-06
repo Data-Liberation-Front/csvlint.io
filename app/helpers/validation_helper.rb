@@ -1,6 +1,6 @@
 module ValidationHelper
 
-  def error_and_warning_count(errors, warnings, options)
+  def error_and_warning_count(errors, warnings,   options)
     # Generate string
     components = []
     components << pluralize(errors.count, t(:error).titleize) unless errors.empty?
