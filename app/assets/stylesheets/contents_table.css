@@ -1,0 +1,19 @@
+.table-of-contents {
+  float: right;
+  width: 50%;
+  background: #eee;
+  padding: 2em;
+}
+.table-of-contents ul {
+  padding: 0;
+}
+.table-of-contents li {
+  margin: 0 0 0.25em 0;
+}
+.table-of-contents a {
+  text-decoration: none;
+}
+.table-of-contents a:hover,
+.table-of-contents a:active {
+  text-decoration: underline;
+}

@@ -1,10 +1,15 @@
+<%= javascript_include_tag "contents_table.js" %>
+<%= stylesheet_link_tag "contents_table" %>
+
 <% content_for :title do %>
   About
 <% end %>
 
 <p>CSV looks easy, but it can be hard to make a CSV file that other people can work with. <strong>CSVLint</strong> helps you to check that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
 
-<h2>How to Use CSVLint</h2>
+<div class="all-questions">
+
+<h2 id = "how_use_csv">How to Use CSVLint</h2>
 
 <p>Follow these three steps:</p>
 
@@ -46,7 +51,7 @@
 
 <p>The <a href="/schemas">Recent schemas</a> page gives a list of schemas that people have been using to validate their CSV files. See if there's a schema that you could use!</p>
 
-<h2>How to Write Good CSV</h2>
+<h2 id = "how_write_csv">How to Write Good CSV</h2>
 
 <p>Good CSVs look like this:</p>
 
@@ -187,7 +192,7 @@
   <li><b>Assumed header:</b> We assume that a header is present.</li>
 </ul>
 
-<h2>How to Write a Schema</h2>
+<h2 id = "how_write_schema">How to Write a Schema</h2>
 
 <p>We currently recognise schemas that use the <a href="http://dataprotocols.org/json-table-schema/">JSON Table Schema</a>, with a few modifications.</p>
 
@@ -369,9 +374,11 @@
   Please check the privacy policy for information on how we store CSVLint data.
 </p>
 
-<h2>Warning</h2>
+<h2 id = "warning">Warning</h2>
 
 <p>
   CSVLint currently has difficulty handling files larger than 700KB, attempting
   to validate files of this size may result in a crash.
 </p>
+
+</div>
