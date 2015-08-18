@@ -323,11 +323,48 @@
 
 <p>Use of an unknown data type will result in the column failing to validate.</p>
 
-<p>CSVLint will give validation error messages if these constraints aren't met. In addition we check that each column name in the CSV file is the same as the name for the column in the same position in the schema.</p>
+<p>CSVLint will give schema validation error and warning messages if these constraints aren't met. In addition we check that each column name in the CSV file is the same as the name for the column in the same position in the schema.</p>
 
-<p>We also warn you if:</p>
+<h3>Common Errors</h3>
+
+<p>We check the following things about the schema that you provide:</p>
 
 <ul>
-<li>a column specified in the schema is missing entirely</li>
-<li>there are additional columns in the CSV file</li>
+  <li>
+    <b>Missing value:</b> a column marked as `required` in the schema has no value</li>
+  <li>
+    <b>Minimum length:</b> a column with a `minLength` constraint has a value that is too short
+  </li>
+  <li>
+    <b>Maximum length:</b> a column with a `maxLength` constraint has a value that is too long
+  </li>
+  <li>
+    <b>Pattern:</b> a column with a `pattern` constraint has a value that doesn't match the regular expression
+  </li>
+  <li>
+    <b>Invalid regex:</b> a regular expression pattern defined in the schema is not in valid regex form
+  </li>
+  <li>
+    <b>Unique:</b> a column with a `unique` constraint contains non-unique values
+  </li>
+  <li>
+    <b>Below minimum:</b> a column with a `minimum` constraint contains a value that is below the minimum
+  </li>
+  <li>
+    <b>Above maximum:</b> a column with a `maximum` constraint contains a value that is above the maximum
+  </li>
+</ul>
+
+<h3>Common Warnings</h3>
+
+<ul>
+  <li>
+    <b>Header name:</b> the header in the CSV has a column name that doesn't match the schema
+  </li>
+  <li>
+    <b>Missing column:</b> a row in the CSV file has a missing column, that is specified in the schema
+  </li>
+  <li>
+    <b>Extra column:</b> a row in the CSV file has an extra column
+  </li>
 </ul>
