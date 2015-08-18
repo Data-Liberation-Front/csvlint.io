@@ -2,6 +2,10 @@
   About
 <% end %>
 
+<h2>Contents</h2>
+
+<a href="#badge">Badges</a>
+
 <p>CSV looks easy, but it can be hard to make a CSV file that other people can work with. <strong>CSVLint</strong> helps you to check that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
 
 <h2>How to Use CSVLint</h2>
@@ -22,7 +26,7 @@
 <li><strong>Information</strong> messages are hints and tips of things that could make the data easier to use</li>
 </ul>
 
-<h3>Get a Badge</h3>
+<h3 id = "badge">Get a Badge</h3>
 
 <p>On the page that summarises the CSV, you'll also see a badge, which might look like this:</p>
 
@@ -114,7 +118,7 @@
    <th>Address3</th>
    <th>City</th>
    <th>County</th>
-   <th>Postcode</th>         
+   <th>Postcode</th>
  </tr>
 </thead>
 <tbody>
@@ -140,22 +144,20 @@
 <p>We check the following things about the CSV that you publish:</p>
 
 <ul>
-<li>that there are no encoding errors because of odd characters in the file</li>
-<li>all the line breaks should be the same</li>
-<li>there should be a header line</li>
-<li>all the columns should have a name</li>
-<li>all the column names should be different</li>
-<li>every row in the file should have the same number of columns</li>
-<li>none of the rows should be blank</li>
-<li>all the quotes should be matched up</li>
-<li>there shouldn't be any whitespace between commas and double quotes around fields</li>
+<li><b>Invalid encoding: </b>that there are no encoding errors because of odd characters in the file</li>
+<li><b>Line breaks: </b>all the line breaks should be the same</li>
+<li><b>Undeclared header: </b>there should be a header line</li>
+<li><b>Ragged rows:</b> every row in the file should have the same number of columns</li>
+<li><b>Blank rows:</b> none of the rows should be blank</li>
+<li><b>Stray/Unclosed quote:</b> all the quotes should be matched up</li>
+<li><b>Whitespace:</b> there shouldn't be any whitespace between commas and double quotes around fields</li>
 </ul>
 
 <p>If we get the CSV from a URL, then we also check:</p>
 
 <ul>
-<li>that the file exists (we don't get a <code>404 Not Found</code> response)</li>
-<li>that the content type isn't set to something other than <code>text/csv</code></li>
+<li><b>Not found: </b>that the file exists (we don't get a <code>404 Not Found</code> response)</li>
+<li><b>Wrong content type: </b>that the content type isn't set to something other than <code>text/csv</code></li>
 </ul>
 
 <p>If you don't do all the things above, then you'll get an error message.</p>
@@ -165,22 +167,29 @@
 <p>We warn you if:</p>
 
 <ul>
-<li>you don't use UTF-8 as the encoding for the file</li>
-<li>the CSV file only contains a single comma-separated column; this usually means you're using a separator other than a comma</li>
-<li>any column contains inconsistent values, for example if most values in a column are numeric but there's a significant proportion that aren't</li>
+  <li><b>Encoding:</b> you don't use UTF-8 as the encoding for the file</li>
+  <li><b>Check options:</b> the CSV file only contains a single comma-separated column; this usually means you're using a separator other than a comma</li>
+  <li><b>Inconsistent values:</b> any column contains inconsistent values, for example if most values in a column are numeric but there's a significant proportion that aren't</li>
+  <li><b>Empty column name:</b> all the columns should have a name</li>
+  <li><b>Duplicate column name:</b> all the column names should be different</li>
+  <li><b>Title row:</b> there appears to be a title field in the first row of the CSV</li>
+
 </ul>
 
 <p>and if we get the CSV from a URL, we also warn you if:</p>
 
 <ul>
-<li>you don't provide a <code>Content-Type</code> HTTP header</li>
-<li>you don't specify an encoding with a <code>charset</code> parameter</li>
-<li>it looks like you're serving an Excel file rather than CSV (because the suffix for the file is <code>.xls</code>)</li>
+  <li><b>No content type:</b> you don't provide a <code>Content-Type</code> HTTP header</li>
+  <li><b>No encoding:</b> you don't specify an encoding with a <code>charset</code> parameter</li>
+  <li><b>Excel:</b> it looks like you're serving an Excel file rather than CSV (because the suffix for the file is <code>.xls</code> and there is no 'Content-Type' header)</li>
 </ul>
 
 <h3>Extra Information</h3>
 
-<p>We let you know if you use line breaks that aren't <code>CRLF</code> (Windows line endings). That's because <a href="http://tools.ietf.org/html/rfc4180">RFC4180</a>, which is the closest thing to standard CSV that there is, says that you should use <code>CRLF</code> line endings.</p>
+<ul>
+  <li><b>Non RFC line breaks:</b> We let you know if you use line breaks that aren't <code>CRLF</code> (Windows line endings). That's because <a href="http://tools.ietf.org/html/rfc4180">RFC4180</a>, which is the closest thing to standard CSV that there is, says that you should use <code>CRLF</code> line endings.</li>
+  <li><b>Assumed header:</b> We assume that a header is present.</li>
+</ul>
 
 <h2>How to Write a Schema</h2>
 
@@ -190,28 +199,28 @@
 
 <pre><code>{
     "fields": [
-        { 
-            "name": "OrganisationId", 
+        {
+            "name": "OrganisationId",
             "title": "Organisation ID",
-            "constraints": { 
+            "constraints": {
                 "required": true,
                 "type": "http://www.w3.org/TR/xmlschema-2/#int"
-            } 
+            }
         },
-        { 
-            "name": "WeekDay", 
+        {
+            "name": "WeekDay",
             "title": "Day of the week",
-            "constraints": { 
-                "required": true, 
+            "constraints": {
+                "required": true,
                 "pattern": "(Mon|Tue|Wednes|Thurs|Fri|Satur|Sun)day"
-            } 
+            }
         },
-        { 
-            "name": "Times", 
-            "constraints": { 
-                "required": true, 
-                "pattern": "(0[0-9]|1[0-2]):[0-5][0-9]-(0[0-9]|1[0-2]):[0-5][0-9]" 
-            } 
+        {
+            "name": "Times",
+            "constraints": {
+                "required": true,
+                "pattern": "(0[0-9]|1[0-2]):[0-5][0-9]-(0[0-9]|1[0-2]):[0-5][0-9]"
+            }
         },
         {
             "name": "IsOpen",
