@@ -10,5 +10,6 @@ Csvlint::Application.routes.draw do
   get 'about', to: 'application#about', as: 'about'
   get 'statistics', to: 'summary#index', as: 'statistics'
   get 'privacy_policy', to: 'application#privacy', as: 'privacy_policy'
+  get 'documentation', to: 'application#documentation', as: 'documentation'
 
 end
