@@ -26,6 +26,9 @@ class ApplicationController < ActionController::Base
   def about
   end
 
+  def privacy
+  end
+
   private
 
     def render_badge(state, format, status = 200)
