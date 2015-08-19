@@ -89,7 +89,6 @@ gem 'data_kitten', github: 'theodi/data_kitten', ref: "e343510bd15e3329c1f2fab35
 gem 'rubyzip'
 
 gem 'csvlint'
-# gem 'csvlint' => "human-readable-branch-PR",
 gem 'rest-client'
 
 gem 'nokogiri', '~> 1.5'

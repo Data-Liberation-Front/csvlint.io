@@ -10,8 +10,6 @@ module ValidationHelper
     # Wrap it up
     wrapper = options[:wrapper] || :span
     content_tag(wrapper, components.join(', '))
-
-
   end
 
   def message_variables(validator, message)
@@ -62,11 +60,11 @@ module ValidationHelper
     extra << :s3_upload if message.type == :wrong_content_type && validator.headers["Server"] == "AmazonS3"
     return extra
   end
-  
+
   def badge_markdown(id)
     %{[![#{t(:csv_status)}](#{validation_url(id: id, format: 'svg')})](#{validation_url(id: id)})}
   end
-  
+
   def badge_textile(id)
     %{!#{validation_url(id: id, format: 'svg')}(#{t(:csv_status)})!:#{validation_url(id: id)}}
   end
@@ -86,11 +84,11 @@ module ValidationHelper
   def constraint(message, validator, name)
     schema_field(message, validator).try(:constraints).try(:[], name)
   end
-  
+
   def category_count(message, category)
     message.select{ |m| m.category == category }.count
   end
-  
+
   def category_class(result, type, category)
     category_count(result.send(type), category) > 0 ? type : "active #{type}-none"
   end
