@@ -1,8 +1,8 @@
 .table-of-contents {
-  float: right;
-  width: 50%;
+  width: 100%;
   background: #eee;
   padding: 2em;
+  margin: 0 auto;
 }
 .table-of-contents ul {
   padding: 0;
