@@ -154,47 +154,44 @@ Format, we provide an option to change the dialect to suit your particular file.
 
 <h3>Common Errors</h3>
 
-<p>We check the following things about the CSV that you publish:</p>
+<p>When checking your CSV, we may return one or more of the following errors:</p>
 
 <ul>
-<li><b>Invalid encoding: </b>that there are no encoding errors because of odd characters in the file</li>
-<li><b>Line breaks: </b>all the line breaks should be the same</li>
-<li><b>Undeclared header: </b>there should be a header line</li>
-<li><b>Ragged rows:</b> every row in the file should have the same number of columns</li>
-<li><b>Blank rows:</b> none of the rows should be blank</li>
-<li><b>Stray/Unclosed quote:</b> all the quotes should be matched up</li>
-<li><b>Whitespace:</b> there shouldn't be any whitespace between commas and double quotes around fields</li>
+<li><b>Invalid encoding: </b>if there are any odd characters in a file which could cause encoding errors</li>
+<li><b>Line breaks: </b>if line breaks are not the same throughout the file</li>
+<li><b>Undeclared header: </b>if you do not specify in a machine readable way whether or not your CSV has a header row</li>
+<li><b>Ragged rows:</b> if every row in the file doesn't have the same number of columns</li>
+<li><b>Blank rows:</b> if there are any blank rows</li>
+<li><b>Stray/Unclosed quote:</b> if there are any unclosed quotes in the file</li>
+<li><b>Whitespace:</b> if there is any whitespace between commas and double quotes around fields</li>
 </ul>
 
-<p>If we get the CSV from a URL, then we also check:</p>
+<p>If we get the CSV from a URL, then we also check for these errors:</p>
 
 <ul>
-<li><b>Not found: </b>that the file exists (we don't get a <code>404 Not Found</code> response)</li>
-<li><b>Wrong content type: </b>that the content type isn't set to something other than <code>text/csv</code></li>
+<li><b>Not found: </b>if the file doesn't exist (we get a <code>404 Not Found</code> response)</li>
+<li><b>Wrong content type: </b>if the content type isn't set <code>text/csv</code></li>
 </ul>
-
-<p>If you don't do all the things above, then you'll get an error message.</p>
 
 <h3>Common Warnings</h3>
 
-<p>We warn you if:</p>
+<p>We also return the following warnings:</p>
 
 <ul>
-  <li><b>Encoding:</b> you don't use UTF-8 as the encoding for the file</li>
-  <li><b>Check options:</b> the CSV file only contains a single comma-separated column; this usually means you're using a separator other than a comma</li>
-  <li><b>Inconsistent values:</b> any column contains inconsistent values, for example if most values in a column are numeric but there's a significant proportion that aren't</li>
-  <li><b>Empty column name:</b> all the columns should have a name</li>
-  <li><b>Duplicate column name:</b> all the column names should be different</li>
-  <li><b>Title row:</b> there appears to be a title field in the first row of the CSV</li>
-
+  <li><b>Encoding:</b> if you don't use UTF-8 as the encoding for the file</li>
+  <li><b>Check options:</b> if the CSV file only contains a single comma-separated column; this usually means you're using a separator other than a comma</li>
+  <li><b>Inconsistent values:</b> if any column contains inconsistent values, for example if most values in a column are numeric but there's a significant proportion that aren't</li>
+  <li><b>Empty column name:</b> if all the columns don't have a name</li>
+  <li><b>Duplicate column name:</b> if all the column names aren't unique</li>
+  <li><b>Title row:</b> if there appears to be a title field in the first row of the CSV</li>
 </ul>
 
-<p>and if we get the CSV from a URL, we also warn you if:</p>
+<p>and if we get the CSV from a URL, we return these warnings:</p>
 
 <ul>
-  <li><b>No content type:</b> you don't provide a <code>Content-Type</code> HTTP header</li>
-  <li><b>No encoding:</b> you don't specify an encoding with a <code>charset</code> parameter</li>
-  <li><b>Excel:</b> it looks like you're serving an Excel file rather than CSV (because the suffix for the file is <code>.xls</code> and there is no 'Content-Type' header)</li>
+  <li><b>No content type:</b> if you don't provide a <code>Content-Type</code> HTTP header</li>
+  <li><b>No encoding:</b> if you don't specify an encoding with a <code>charset</code> parameter</li>
+  <li><b>Excel:</b> if it looks like you're serving an Excel file rather than CSV (because the suffix for the file is <code>.xls</code> and there is no 'Content-Type' header)</li>
 </ul>
 
 <h3>Extra Information</h3>
