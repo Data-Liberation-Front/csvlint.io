@@ -20,19 +20,32 @@ class Validation
   belongs_to :package
 
   def self.validate(io, schema_url = nil, schema = nil, dialect = nil, expiry)
+    # returns an attributes Hash, creates a private Validator object for updating a Validation record stored in MongoDB
+    # this line was inserted to catch the error at a higher level than the CSVlint Gem
+    raise ArgumentError.new("io not provided") if io.nil?
     if io.respond_to?(:tempfile)
+      # uncertain what state triggers the above
       filename = io.original_filename
       csv = File.new(io.tempfile)
       io = File.new(io.tempfile)
     elsif io.class == Hash && !io[:body].nil?
+      # above not triggered by features, triggered when file [schema or csv] uploaded
       filename = io[:filename]
       csv_id = io[:csv_id]
       io = StringIO.new(io[:body])
+    else
+      # byebug = this byebug was used to determine what io class was passed to method
+      # which wasn't triggering explicit csv_id reassignment
     end
+
     # Validate
     validator = Csvlint::Validator.new( io, dialect, schema && schema.fields.empty? ? nil : schema )
-    check_schema(validator, schema) unless schema_url.blank?
+    # ternary evaluation above follows the following format::  condition ? if_true : if_false
+    check_schema(validator, schema) unless schema.nil?
+    # in prior versions this method only executed on schem_url.nil, a condition that caused some schema uploads to pass
+    # when they should have failed
     check_dialect(validator, dialect) unless dialect.blank?
+    # assign state, used in later evaluation by partials in validation > views
     state = "valid"
     state = "warnings" unless validator.warnings.empty?
     state = "invalid" unless validator.errors.empty?
@@ -44,7 +57,7 @@ class Validation
       filename = File.basename(URI.parse(url).path)
       csv_id = nil
     else
-      # It's a file!
+      # It's a file! HUGE ASSUMPTION??
       url = nil
       validator.remove_instance_variable(:@source)
     end
@@ -55,6 +68,8 @@ class Validation
       :state => state,
       :result => Marshal.dump(validator).force_encoding("UTF-8")
     }
+    attributes[:csv_id] = csv_id if csv_id.present?
+    # only overwrite csv_id attribute if originally present
 
     attributes[:expirable_created_at] = Time.now if expiry.eql?(true)
     # enable the expirable index, initialise it with current time
@@ -63,19 +78,22 @@ class Validation
     # do not override csv_id if already part of validation
 
     if schema_url.present?
-      # Find matching schema if possible
+      # Find matching schema if possible and retrieve
       schema = Schema.where(url: schema_url).first
       attributes[:schema] = schema || { :url => schema_url }
     end
     # byebug
     attributes
-  end
+
+  end  # end of validate method
+
 
   def self.fetch_validation(id, format, revalidate = nil)
     # returns a mongo database record
     v = self.find(id)
     unless revalidate === false
       if ["png", "svg"].include?(format)
+        # suspect the above functions tied to the use of badges as hyperlinks to valid schemas & csvs
         v.delay.check_validation
       else
         v.check_validation
@@ -85,28 +103,44 @@ class Validation
   end
 
   def self.check_schema(validator, schema)
-    if schema.nil? || schema.fields.empty?
+
+    # @param validator = CSVlint Validator Object
+    # @param schema = schema file obtained at initialisation of the Validation object
+
+    if schema.nil?
       validator.errors.prepend(
-        Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
+          Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
+      )
+    elsif schema.description.eql?("malformed")
+      # this conditional is tied to a cludge evaluation in lines 93 - 97 of PackageController
+      # and are earmarked for future change
+      validator.errors.prepend(
+          Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
+      )
+    elsif schema.fields.empty?
+      # catch a rare case of an empty json upload, i.e. {} within a .JSON file
+      validator.errors.prepend(
+          Csvlint::ErrorMessage.new(:invalid_schema, :schema, nil, nil, nil, nil)
       )
     end
+
   end
 
   def self.check_dialect(validator, dialect)
     if dialect != standard_dialect
       validator.warnings.prepend(
-        Csvlint::ErrorMessage.new(:non_standard_dialect, :dialect, nil, nil, nil, nil)
+          Csvlint::ErrorMessage.new(:non_standard_dialect, :dialect, nil, nil, nil, nil)
       )
     end
   end
 
   def self.standard_dialect
     {
-      "header" => true,
-      "delimiter" => ",",
-      "skipInitialSpace" => true,
-      "lineTerminator" => :auto,
-      "quoteChar" => '"'
+        "header" => true,
+        "delimiter" => ",",
+        "skipInitialSpace" => true,
+        "lineTerminator" => :auto,
+        "quoteChar" => '"'
     }
   end
 
@@ -127,9 +161,14 @@ class Validation
     validation
   end
 
+  # the following two methods seem designed to cater for edge case instances where a Validation object would be created
+
   def validate(io, schema_url = nil, schema = nil, expiry)
+    # this method is included to cover cases where a Validation object is initialised without calling the constructer EG
+    # newObject = new Validation.validate(all_the_params), i.e. when Validation.create() is utilised
     validation = Validation.validate(io, schema_url, schema, nil, expiry)
     self.update_attributes(validation)
+    # update_attributes is a method from Mongoid
   end
 
   def update_validation(dialect = nil, expiry=nil)
@@ -167,6 +206,7 @@ class Validation
     Marshal.load(self.result)
   end
 
+  # Empty method? Intended functionality?
   def badge
 
   end

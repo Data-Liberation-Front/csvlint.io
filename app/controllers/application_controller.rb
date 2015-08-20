@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
     if params[:uri]
       validator = Validation.where(:url => params[:uri]).first
       if validator.nil?
+
         Validation.delay.create_validation(params[:uri])
         respond_to do |wants|
           wants.html { render status: 202 }

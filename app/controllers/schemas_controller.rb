@@ -1,5 +1,7 @@
 class SchemasController < ApplicationController
 
+  # schemas are only persisted to database in the case of a URL existing on processing of data
+
   def index
     if params[:uri]
       schema = Schema.where(url: params[:uri]).first

@@ -1,0 +1,20 @@
+{
+  "fields":
+    {
+      "name": "FirstName"
+      "description": "malformed"
+    },
+    {
+      "name": "LastName"
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "Insult",
+      "constraints": {
+        "required": true
+      }
+    }
+
+}

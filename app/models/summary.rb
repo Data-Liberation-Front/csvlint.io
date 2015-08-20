@@ -29,12 +29,15 @@ class Summary
     summary = Summary.create
 
     validations = Validation.where(:url.ne => nil).order_by(:created_at.desc)
+    # retrieve validations from Mongo Datastore, ordered in reverse by date created
 
     summary.sources = validations.length
     summary.states = Hash.new 0
     summary.hosts = Hash.new 0
     summary.create_level_summary( errors_breakdown: Hash.new(0), warnings_breakdown: Hash.new(0), info_messages_breakdown: Hash.new(0) )
     summary.create_category_summary( structure_breakdown: Hash.new(0), schema_breakdown: Hash.new(0), context_breakdown: Hash.new(0) )
+
+
 
     validations.each do |validation|
       summary.states[validation.state] += 1
@@ -55,7 +58,6 @@ class Summary
         end
       end
     end
-
     summary
   end
 

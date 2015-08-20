@@ -140,13 +140,15 @@ describe PackageController, type: :controller do
                            ],
                      schema: "1",
                      schema_data: create_data_uri('schemas/all_constraints.json', 'application/json')
-                     
+      # above accurately emulates how the file upload works by a user
       response.should be_redirect
       package = Package.first
       validation = package.validations.first
       validator = validation.validator
       response.location.should == validation_url(validation)
+      # byebug
       validator.errors.count.should == 10
+      # the above is breaking at present
       validator.errors[0].type.should == :missing_value
       validator.errors[1].type.should == :min_length
       validator.errors[2].type.should == :min_length

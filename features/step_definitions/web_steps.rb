@@ -2,6 +2,7 @@ When(/^I go to the homepage$/) do
   visit root_path
 end
 
+# below used when schema or csv hyperlinked to
 When(/^I enter "(.*?)" in the "(.*?)" field$/) do |text, field|
   instance_variable_set("@#{field.downcase.parameterize.underscore}", text)
   if field == "url"
@@ -9,6 +10,13 @@ When(/^I enter "(.*?)" in the "(.*?)" field$/) do |text, field|
   else
     fill_in field, with: text
   end
+end
+
+# below used when schema or csv attached
+When(/^I attach the file "(.*?)" to the "(.*?)" field$/) do |file, field_name|
+  @file = file
+  field_name = "files[]" if field_name == "file"
+  attach_file(field_name.to_sym, File.join(Rails.root, 'fixtures', @file))
 end
 
 When(/^I enter the CKAN repository "(.*?)" in the url field$/) do |url|
@@ -24,11 +32,7 @@ When(/^I press "(.*?)"$/) do |name|
   click_button name
 end
 
-When(/^I attach the file "(.*?)" to the "(.*?)" field$/) do |file, field_name|
-  @file = file
-  field_name = "files[]" if field_name == "file"
-  attach_file(field_name.to_sym, File.join(Rails.root, 'fixtures', @file))
-end
+
 
 Then(/^I should see "(.*?)"$/) do |text|
   page.body.should include(text)

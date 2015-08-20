@@ -5,6 +5,8 @@ require 'data_uri/open_uri'
 class PackageController < ApplicationController
   before_filter :preprocess, :only => :create
 
+  # preprocess performs necessary formatting of appended or hyperlinked files on the CSVlint frontend
+
   before_filter(:only => [:show]) { alternate_formats [:json] }
 
   def create
@@ -52,6 +54,7 @@ class PackageController < ApplicationController
 
     def preprocess
       remove_blanks!
+      # pass files to function and return data as ActionDispatch object
       params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
       params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank?
       redirect_to root_path and return unless urls_valid? || params[:files].presence
@@ -86,14 +89,19 @@ class PackageController < ApplicationController
       io = params[:schema_url].presence || params[:schema_file].presence
       if io.class == String
         @schema = Csvlint::Schema.load_from_json_table(io)
+        @schema_url = params[:schema_url]
       else
         begin
           schema_json = JSON.parse( File.new( params[:schema_file].tempfile ).read() )
           @schema = Csvlint::Schema.from_json_table( nil, schema_json )
-        rescue
-          @schema = nil
+
+        rescue JSON::ParserError
+          # catch JSON parse error
+          # this rescue requires further work, currently in place to catch malformed or bad json uploaded schemas
+          @schema = Csvlint::Schema.new(nil, [], "malformed", "malformed")
         end
       end
+
       # Get schema URL from parameters
       @schema_url = params[:schema_url]
     end
@@ -104,9 +112,13 @@ class PackageController < ApplicationController
     end
 
     def read_files(data)
+      # returns an ActionDispatch file
+      # this process is not evaluated by the feature tests because they can be preprocessed as ActionDispatch files
       files = []
       data = [data] if data.class == String
+      # converts the base64 schema to an array for parsing below
       data.each do |data|
+
         file_array = data.split(";", 2)
         filename = file_array[0]
         uri = URI::Data.new(file_array[1])
@@ -124,6 +136,7 @@ class PackageController < ApplicationController
         files << file
       end
       files
+
     end
 
 end
