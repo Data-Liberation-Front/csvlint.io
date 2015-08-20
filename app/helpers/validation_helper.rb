@@ -1,6 +1,6 @@
 module ValidationHelper
 
-  def error_and_warning_count(errors, warnings,   options)
+  def error_and_warning_count(errors, warnings, options)
     # Generate string
     components = []
     components << pluralize(errors.count, t(:error).titleize) unless errors.empty?
@@ -13,6 +13,7 @@ module ValidationHelper
   end
 
   def message_variables(validator, message)
+
     line_break_strings = {
       "\r" => "CR",
       "\n" => "LF",
@@ -31,16 +32,26 @@ module ValidationHelper
         :min_value        => constraint(message, validator, 'minimum'),
         :max_value        => constraint(message, validator, 'maximum'),
         :pattern          => constraint(message, validator, 'pattern'),
+        :expected_headers => header_validate(message),
         :header           => schema_field(message, validator).try(:name),
         :value            => message.content,
     }
+
     if validator.headers
       validator.headers.each do |k,v|
         key = "header_#{k.gsub("-", "_")}".to_sym
         variables[key] = v
       end
     end
+
     variables
+  end
+
+  def header_validate(message)
+    if message.constraints.present?
+      expected_header_values = message.constraints["expectedHeader"].present? ? message.constraints["expectedHeader"] : false
+    end
+    expected_header_values
   end
 
   def extra_guidance(validator, message)
@@ -49,11 +60,11 @@ module ValidationHelper
     extra << :s3_upload if message.type == :wrong_content_type && validator.headers["Server"] == "AmazonS3"
     return extra
   end
-  
+
   def badge_markdown(id)
     %{[![#{t(:csv_status)}](#{validation_url(id: id, format: 'svg')})](#{validation_url(id: id)})}
   end
-  
+
   def badge_textile(id)
     %{!#{validation_url(id: id, format: 'svg')}(#{t(:csv_status)})!:#{validation_url(id: id)}}
   end
@@ -73,11 +84,11 @@ module ValidationHelper
   def constraint(message, validator, name)
     schema_field(message, validator).try(:constraints).try(:[], name)
   end
-  
+
   def category_count(message, category)
     message.select{ |m| m.category == category }.count
   end
-  
+
   def category_class(result, type, category)
     category_count(result.send(type), category) > 0 ? type : "active #{type}-none"
   end

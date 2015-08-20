@@ -2,7 +2,7 @@ Feature: Schema Validation
   In order to make sure my CSV files are usable by others
   As a data publisher
   I want to make sure that my CSV files are valid with respect to a schema
-  
+
   Background:
     Given the fixture "csvs/valid.csv" is available at the URL "http://example.org/test.csv"
     Given the fixture "csvs/info.csv" is available at the URL "http://example.org/info.csv"
@@ -11,7 +11,7 @@ Feature: Schema Validation
     Given the fixture "schemas/malformed.json" is available at the URL "http://example.org/malformed.json"
     Given the fixture "csvs/all_constraints.csv" is available at the URL "http://example.org/all_constraints.csv"
     Given the fixture "schemas/all_constraints.json" is available at the URL "http://example.org/all_constraints.json"
-    
+
   Scenario: Enter a URL and a schema URL for validation
     When I go to the homepage
     And I enter "http://example.org/test.csv" in the "url" field
@@ -21,7 +21,7 @@ Feature: Schema Validation
     Then I should see a page of validation results
     And I should see my URL
     And I should see my schema URL
-  
+
   Scenario: Enter a URL and a schema URL for validation without checking the schema checkbox
     When I go to the homepage
     And I enter "http://example.org/test.csv" in the "url" field
@@ -97,13 +97,13 @@ Feature: Schema Validation
     And I attach the file "schemas/valid.json" to the "schema_file" field
     And I press "Validate"
     Then I should see a page of validation results
-  
+
   Scenario: List schemas
     Given there are 30 schemas in the database
     And I visit the schema list page
     Then I should see 25 schemas listed
     And I should see a paginator
-    
+
   Scenario: Store schema information when validating
     When I go to the homepage
     And I enter "http://example.org/test.csv" in the "url" field
@@ -113,7 +113,7 @@ Feature: Schema Validation
     Then I should see a page of validation results
     And I visit the schema list page
     Then I should see "http://example.org/schema.json"
-    
+
   Scenario: Share schemas between validations
     When I go to the homepage
     And I enter "http://example.org/test.csv" in the "url" field
@@ -127,7 +127,7 @@ Feature: Schema Validation
     And I visit the schema list page
     Then I should see 1 schema listed
     Then I should see "http://example.org/schema.json"
-    
+
   Scenario: Don't store uploaded schemas
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
@@ -137,7 +137,7 @@ Feature: Schema Validation
     Then I should see a page of validation results
     And I visit the schema list page
     Then I should see 0 schemas listed
-  
+
   Scenario: Don't store invalid schemas
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
@@ -149,16 +149,16 @@ Feature: Schema Validation
     Then I should see 0 schemas listed
 
   Scenario: Schema details page
-    Given "http://example.org/schema.json" has been previously used for validation 
+    Given "http://example.org/schema.json" has been previously used for validation
     And I visit the schema list page
     And I click on "http://example.org/schema.json"
     Then I should see a schema details page
     And I should see 3 fields
     And I should see "http://example.org/schema.json"
     And I should see "FirstName"
-  
+
   Scenario: Example CSV download
-    Given "http://example.org/schema.json" has been previously used for validation 
+    Given "http://example.org/schema.json" has been previously used for validation
     And I visit the schema list page
     And I click on "http://example.org/schema.json"
     Then I should see a schema details page
@@ -186,7 +186,7 @@ Feature: Schema Validation
     And I should see "The schema says that <code>Username</code> must be at least 5 characters long. Your value, <code>derp</code>, is not long enough."
     And I should see "The schema says that <code>Username</code> must be at most 10 characters long. Your value, <code>derpderpington</code>, is too long."
     And I should see "The schema says that values in <code>Username</code> must match <code>^[A-Za-z0-9_]*$</code>. Your value, <code>derp-derp</code>, does not."
-    And I should see "Malformed header"
+    And I should see "We expected to see the header columns <code>Username,Age,Height,Weight,Password</code>"
     And I should see "There was an unexpected column on row <code>6</code>. Make sure that none of the fields contain commas, are correctly quoted, etc."
     And I should see "There was a missing column on row <code>7</code>. Make sure this row includes all the data that should be there."
     And I should see "Values in the <code>Username</code> column must be unique. <code>derpina</code> has been used at least twice."
