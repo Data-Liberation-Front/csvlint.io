@@ -52,3 +52,5 @@ make sure cucumber dependencies up to date
 * Deployment instructions
 
 * ...
+
+(Please ignore hub test)
