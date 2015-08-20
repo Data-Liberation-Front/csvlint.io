@@ -13,8 +13,7 @@ class ValidationController < ApplicationController
 
   def show
     @validation = Validation.fetch_validation(params[:id], params[:format], params[:revalidate])
-    # byebug - this was used to see what the instance validation had in comparison to the find-by-id validation
-    # above params validation is set to false in the validation loop
+
     raise ActionController::RoutingError.new('Not Found') if @validation.state.nil?
     # @result stores all the validation errors, warnings and information messages
     @result = @validation.validator
@@ -42,7 +41,6 @@ class ValidationController < ApplicationController
       v.update_validation(dialect)
     end
     redirect_to validation_path(v)
-
   end
 
   private
