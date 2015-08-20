@@ -181,6 +181,10 @@ en:
   header_name_guidance_html: |
       We expected to see the header <code>%{header}</code>, but got <code>%{value}</code>.
 
+  malformed_header: "Malformed header, incorrect value "
+  malformed_header_guidance_html: |
+      We expected to see different values for header columns.
+
   missing_column: "Missing column"
   missing_column_guidance_html: |
       There was a missing column on row <code>%{row}</code>. Make sure this row includes all the data that should be there.

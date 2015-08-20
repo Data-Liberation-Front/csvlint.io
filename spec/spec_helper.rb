@@ -11,6 +11,7 @@ require 'webmock/rspec'
 require 'database_cleaner'
 require 'vcr'
 require 'timecop'
+# require 'csvlint'
 
 DatabaseCleaner.strategy = :truncation
 
@@ -31,9 +32,14 @@ end
 
 RSpec.configure do |config|
   include ActionDispatch::TestProcess
+
   
   config.treat_symbols_as_metadata_keys_with_true_values = true
-  
+
+  config.before(:all) do
+    Validation.create_indexes
+  end
+
   WebMock.disable_net_connect!(:allow => [/static.(dev|theodi.org)/, /datapackage\.json/, /package_search/])
   # ## Mock Framework
   #
@@ -57,6 +63,11 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
+
+  config.after(:all) do
+    Validation.remove_indexes
+  end
+
 end
 
 def load_fixture(filename)

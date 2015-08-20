@@ -32,10 +32,14 @@ class ValidationController < ApplicationController
 
   def update
     dialect = build_dialect(params)
+    # build a fresh dialect for comparing a file against
     v = Validation.find(params[:id])
-    # byebug - this byebug was used to compare the above find-by-validation with the show's instance validation
-    # v when retrieved after one update validation loses it's csv_id as is set to nil as it isn't finding the same Validation
-    v.update_validation(dialect)
+    if v.has_attribute?(:expirable_created_at)
+      # has expirable_created_at value
+      v.update_validation(dialect, expiry=true)
+    else
+      v.update_validation(dialect)
+    end
     redirect_to validation_path(v)
 
   end

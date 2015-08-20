@@ -81,8 +81,8 @@
 			input.val(log);
 		});
 
-		$('#schema').click(function() {
-		  $('#schemas').toggleClass('hidden')
+		$('#schema').prop('checked', false).click(function() {
+		  $('#schemas').toggleClass('hidden', !this.checked)
 		})
 
 		$('.btn-clone').click(function() {
