@@ -1,16 +1,10 @@
 source 'https://rubygems.org'
 
-ruby "2.1.0"
-#ruby-gemset=csvlint
-
 gem 'rails', '~> 4.0.12'
 gem 'dotenv-rails'
 
 # Sprockets pinned to avoid a problem in 2.12.3 with our stylesheets
 gem "sprockets", "~> 2.11.3"
-
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -65,7 +59,8 @@ group :development, :test do
   gem 'poltergeist'
   gem 'vcr'
   gem 'cucumber-api-steps', require: false, github: 'theodi/cucumber-api-steps', branch: 'feature-test-content-type'
-  gem 'launchy'
+  # Use sqlite3 as the database for Active Record
+  gem 'sqlite3'
 end
 
 group :development do
@@ -93,7 +88,7 @@ gem 'bootstrap-kaminari-views'
 gem 'data_kitten', github: 'theodi/data_kitten', ref: "e343510bd15e3329c1f2fab35035e248195348be"
 gem 'rubyzip'
 
-gem 'csvlint', github: 'theodi/csvlint.rb'
+gem 'csvlint'
 gem 'rest-client'
 
 gem 'nokogiri', '~> 1.5'

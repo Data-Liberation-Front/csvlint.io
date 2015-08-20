@@ -1,0 +1,19 @@
+.table-of-contents {
+  width: 100%;
+  background: #eee;
+  padding: 0.1em 2em;
+  margin: 0 auto;
+}
+.table-of-contents ul {
+  padding: 0;
+}
+.table-of-contents li {
+  margin: 0 0 0.25em 0;
+}
+.table-of-contents a {
+  text-decoration: none;
+}
+.table-of-contents a:hover,
+.table-of-contents a:active {
+  text-decoration: underline;
+}

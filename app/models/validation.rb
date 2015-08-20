@@ -7,17 +7,19 @@ class Validation
   field :state, type: String
   field :result, type: String
   field :csv_id, type: String
+  field :expirable_created_at, type: Time
 
   index :created_at => 1
+  index({expirable_created_at: 1}, {expire_after_seconds: 24.hours})
+  # invoke the mongo time-to-live feature which will automatically expire entries
+  # - this index is only enabled for a subset of validations, which are validations uploaded as file
 
   belongs_to :schema
   accepts_nested_attributes_for :schema
 
   belongs_to :package
 
-  def self.validate(io, schema_url = nil, schema = nil, dialect = nil)
-    # returns an attributes Hash, creates a private Validator object for updating a Validation record stored in MongoDB
-
+  def self.validate(io, schema_url = nil, schema = nil, dialect = nil, expiry)
     if io.respond_to?(:tempfile)
       # uncertain what state triggers the above
       # byebug
@@ -60,23 +62,28 @@ class Validation
       :url => url,
       :filename => filename,
       :state => state,
-      :result => Marshal.dump(validator).force_encoding("UTF-8"),
-      :csv_id => csv_id
+      :result => Marshal.dump(validator).force_encoding("UTF-8")
     }
+
+    attributes[:expirable_created_at] = Time.now if expiry.eql?(true)
+    # enable the expirable index, initialise it with current time
+
+    attributes[:csv_id] = csv_id if csv_id.present?
+    # do not override csv_id if already part of validation
 
     if schema_url.present?
       # Find matching schema if possible and retrieve
       schema = Schema.where(url: schema_url).first
       attributes[:schema] = schema || { :url => schema_url }
     end
-
+    # byebug
     attributes
 
   end  # end of validate method
 
 
   def self.fetch_validation(id, format, revalidate = nil)
-    # returns a mongo DB object
+    # returns a mongo database record
     v = self.find(id)
     unless revalidate === false
       if ["png", "svg"].include?(format)
@@ -134,32 +141,31 @@ class Validation
   end
 
   def self.create_validation(io, schema_url = nil, schema = nil)
-    # this method is used to both create new validations and compare existing listed validations against their URL
-    # origin to make sure original file is still valid
+    # this method instantate the Object then calls its validate method. Below conditional discriminates between URL CSV
+    # and uploaded CSV. Uploaded CSVs = do not retain
+    # this method invokes the validate method below rather than self.validate
+    # returns validation object
     if io.class == String
       validation = Validation.find_or_initialize_by(url: io)
+      expiry = false
     else
       validation = Validation.create
+      expiry = true
     end
-    validation.validate(io, schema_url, schema)
+    validation.validate(io, schema_url, schema, expiry)
+    # expiry is set to true or false based on inferring that uploaded file meets the do not retain criteria
     validation
   end
 
-  # the following two methods seem designed to cater for edge case instances where a Validation object would be created
-
-  def validate(io, schema_url = nil, schema = nil)
-    # this method is included to cover cases where a Validation object is initialised without calling the constructer EG
-    # newObject = new Validation.validate(all_the_params), i.e. when Validation.create() is utilised
-    validation = Validation.validate(io, schema_url, schema)
+  def validate(io, schema_url = nil, schema = nil, expiry)
+    validation = Validation.validate(io, schema_url, schema, nil, expiry)
     self.update_attributes(validation)
     # update_attributes is a method from Mongoid
   end
 
-  def update_validation(dialect = nil)
+  def update_validation(dialect = nil, expiry=nil)
     loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
-    validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect)
-    # above invokes self.validate method
-    # byebug
+    validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect, expiry)
     self.update_attributes(validation)
     # update mongoDB record
     self
@@ -200,6 +206,18 @@ class Validation
   # Empty method? Intended functionality?
   def badge
 
+  end
+
+  def self.clean_up(hours)
+    Validation.where(:created_at.lt => hours.hours.ago, :csv_id.ne => nil).each do |validation|
+      Mongoid::GridFs.delete(validation.csv_id)
+      validation.csv_id = nil
+      validation.save
+    end
+  rescue => e
+    Airbrake.notify(e) if ENV['CSVLINT_AIRBRAKE_KEY'] # Exit cleanly, but still notify airbrake
+  ensure
+    Validation.delay(run_at: 24.hours.from_now).clean_up(24)
   end
 
 end

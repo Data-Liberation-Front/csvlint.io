@@ -1,0 +1,31 @@
+<% content_for :title do %>
+  Privacy Policy
+<% end %>
+
+<h2>How Your Data is Stored</h2>
+
+<p>
+  CSVLint handles data storage differently depending on whether you have inputted
+  a URL link to your file or an uploaded file.
+</p>
+
+<h3>URL</h3>
+<ul>
+  <li>
+    <b>File data:</b> Not stored locally. URL address to file is stored in the validation.
+  </li>
+  <li>
+    <b>File validation:</b> Stored and added to the list of <a href="/validation">Recent validations</a>.
+  </li>
+</ul>
+<h3>Uploaded file</h3>
+<ul>
+  <li>
+    <b>File data:</b> Stored temporarily in order to allow validation and
+    deleted automatically after 24 hours have elapsed since upload.
+  </li>
+  <li>
+    <b>File validation:</b> Data deemed as pre-publication. Validations are not
+    logged and are not listed in the public validation list.
+  </li>
+</ul>
