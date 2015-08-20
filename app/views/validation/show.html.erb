@@ -20,9 +20,6 @@
               <%= t(:not_found_html) %>
 
               <%= render :partial => 'revalidate' %>
-              <!--revalidate partial has its own logic which means that it will not render UNLESS -->
-              <!--@validation.url.nil? && @validation.schema.nil?-->
-              <!--therefore it does not render for uploads-->
             </div>
           <% else %>
              <div class="col-sm-4">
@@ -39,12 +36,8 @@
               <%= link_to '<i class="fa fa-cloud-download"></i> '.html_safe + t(:standardised_csv_download), validation_path(@validation, format: :csv), class: 'btn btn-primary btn-lg' %>
 
               <%= render :partial => 'revalidate' %>
-               <!--revalidate partial has its own logic which means that it will not render UNLESS -->
-               <!--@validation.url.nil? && @validation.schema.nil?-->
-               <!--therefore it does not render for uploads-->
              </div>
              <div class="col-sm-8">
-               <!--render the header table for at a glance error counts-->
                <table class="table table-hover report-results">
                  <tr>
                    <th></th>
@@ -81,8 +74,7 @@
 
 <% unless @validation.state == "not_found" %>
 
-  <% if @result.warnings.select { |warning| warning.type == :check_options }.any? ||
-          @result.errors.select { |error| error.type == :line_breaks}.any? %>
+  <% if @result.warnings.select { |warning| warning.type == :check_options }.any? %>
     <%= form_tag validation_path(params[:id]), id: 'revalidate', class: 'form-inline alert alert-warning' do %>
       <p><%= t(:resubmit) %></p>
 
@@ -116,7 +108,6 @@
   <% end %>
 
   <%= error_and_warning_count(@result.errors, @result.warnings, wrapper: :h2) %>
-    <!--call to the validation_helper-->
 
   <%= render :partial => 'errors' %>
 

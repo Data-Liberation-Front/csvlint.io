@@ -1,6 +1,8 @@
 class SchemasController < ApplicationController
 
   # schemas are only persisted to database in the case of a URL existing on processing of data
+  # all instance variables in this controller are retrieved from the persisted data, in this instance a MongoDB
+  # This explains the sparseness of the Schema model
 
   def index
     if params[:uri]

@@ -45,6 +45,7 @@ module ValidationHelper
     end
 
     variables
+
   end
 
   def header_validate(message)
