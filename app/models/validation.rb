@@ -58,6 +58,9 @@ class Validation
       validator.remove_instance_variable(:@source)
     end
 
+    # Don't save the data
+    validator.remove_instance_variable(:@data) rescue nil
+
     attributes = {
       :url => url,
       :filename => filename,
