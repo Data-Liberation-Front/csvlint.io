@@ -22,7 +22,7 @@ end
 
 When(/^I press "(.*?)"$/) do |name|
   click_button name
-  # save_and_open_page
+  save_and_open_page
 end
 
 When(/^I attach the file "(.*?)" to the "(.*?)" field$/) do |file, field_name|
