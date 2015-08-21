@@ -201,3 +201,20 @@ Feature: CSV Validation
     And that CSV file should have a field "status"
     And that CSV file should have double-quoted fields
     And that CSV file should use CRLF line endings
+
+  Scenario: Standardised CSV download with file
+    When I go to the homepage
+    And I attach the file "csvs/revalidate.csv" to the "file" field
+    And I press "Validate"
+    And I enter ";" in the "Field delimiter" field
+    And I enter "'" in the "Quote character" field
+    And I select "LF (\n)" from the "Line terminator" dropdown
+    And I press "Revalidate"
+    Then I should see a page of validation results
+    When I click on "Download Standardised CSV"
+    Then a CSV file should be downloaded
+    And that CSV file should have a field "firstname"
+    And that CSV file should have a field "lastname"
+    And that CSV file should have a field "status"
+    And that CSV file should have double-quoted fields
+    And that CSV file should use CRLF line endings
