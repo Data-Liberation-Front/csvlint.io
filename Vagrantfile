@@ -20,6 +20,7 @@ nodesets = [
 
 require "yaml"
 y = YAML.load File.open ".chef/rackspace_secrets.yaml"
+# load credentials, uncomment this if running the service locally
 
 Vagrant.configure("2") do |config|
 
