@@ -50,14 +50,15 @@
         <span class="spinner"><i class="glyphicon glyphicon-ok"></i></span>
         <%= t(:validate).titleize %>
       </button>
-
-      <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
+        <div id="ajax-error" class="hidden">
+        <span class="close" data-dismiss="alert" aria-label="close">&times;</span>
+          <strong>Warning!</strong>
+        </div>
+        <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
       <% end %>
   </div>
 
 </div>
-
-
 
 <% content_for :extra_javascript do %>
 
@@ -94,32 +95,32 @@
 
 		$('#validation_form').submit(function(e){
 		  e.preventDefault();
+
 		  $('#submit i').attr('class', 'fa fa-refresh fa-spin')
 
-  		  files = [];
-        urls = [];
-        validation_count = 0;
+            files = [];
+            urls = [];
+            validation_count = 0;
 
-  		  $.each($("#schema_file")[0].files, function(index, file) {
-  		    file.category = "schema"
-  		    files.push(file);
-  	    });
+          $.each($("#schema_file")[0].files, function(index, file) {
+            file.category = "schema"
+            files.push(file);
+          });
 
-  		  $.each($("#upload_file")[0].files, function(index, file) {
-  		    file.category = "csv"
-  		    files.push(file)
-          validation_count++;
-  	    });
-
-
-        $( "input[name='urls[]']" ).each(function(){
-          if ($(this).val().length > 0) {
-            urls.push($(this).val());
+          $.each($("#upload_file")[0].files, function(index, file) {
+            file.category = "csv"
+            files.push(file)
             validation_count++;
-          }
-        });
+          });
 
-  		  readFiles(files, function(files, schema_file) {
+          $( "input[name='urls[]']" ).each(function(){
+            if ($(this).val().length > 0) {
+              urls.push($(this).val());
+              validation_count++;
+            }
+          });
+
+          readFiles(files, function(files, schema_file) {
 
           postdata = {
             "files_data[]": files,
@@ -129,10 +130,10 @@
             "urls[]": urls,
           }
 
-  		    postData(postdata);
-  		  });
+            postData(postdata);
+          });
 
-		})
+		}) // end on submit function
 
 		function readFiles(files, callback) {
 		  csvs = [];
@@ -169,17 +170,25 @@
 		function postData(data) {
 		  var AUTH_TOKEN = $('input[name=authenticity_token]').attr('value');
 
-      $.ajax(
-        {
-          url: "<%= package_index_path(format: :json) %>?&authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
-          type: "POST",
-          data: data,
-          success:function(data, textStatus, jqXHR) {
-            package_url = data.package.url
-            checkPackage();
-          }
-        }
-      );
+          $.ajax(
+            {
+              url: "<%= package_index_path(format: :json) %>?&authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
+              type: "POST",
+              data: data,
+              success:function(data, textStatus, jqXHR) {
+                package_url = data.package.url
+                checkPackage();
+              },
+                error: function(req, status, err){
+                    var infobox = $('#ajax-error');
+                    infobox.removeClass('hidden');
+                    infobox.addClass('alert alert-danger').fadeIn('slow');
+                    infobox.append("The request couldn't complete. Your file may be too large for our servers, but wer're working on improvements <a href=\"https://github.com/theodi/csvlint/issues\">here");
+                    //  infobox.append("<br>"+err); // if you want a verbose output
+                    $('#submit i').removeClass('fa fa-refresh fa-spin'); // stop the spinner
+                }
+            }
+          );
 		}
 
 		function checkPackage() {
