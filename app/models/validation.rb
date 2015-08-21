@@ -7,6 +7,7 @@ class Validation
   field :state, type: String
   field :result, type: String
   field :csv_id, type: String
+  field :parse_options, type: Hash
   field :expirable_created_at, type: Time
 
   index :created_at => 1
@@ -65,7 +66,8 @@ class Validation
       :url => url,
       :filename => filename,
       :state => state,
-      :result => Marshal.dump(validator).force_encoding("UTF-8")
+      :result => Marshal.dump(validator).force_encoding("UTF-8"),
+      :parse_options => Validation.generate_options(validator.dialect)
     }
 
     attributes[:expirable_created_at] = Time.now if expiry.eql?(true)
@@ -190,7 +192,6 @@ class Validation
       end
       file
     end
-
   end
 
   def check_validation
@@ -226,6 +227,14 @@ class Validation
     Airbrake.notify(e) if ENV['CSVLINT_AIRBRAKE_KEY'] # Exit cleanly, but still notify airbrake
   ensure
     Validation.delay(run_at: 24.hours.from_now).clean_up(24)
+  end
+
+  def self.generate_options(dialect)
+    {
+      col_sep: dialect["delimiter"],
+      row_sep: dialect["lineTerminator"],
+      quote_char: dialect["quoteChar"],
+    }
   end
 
 end
