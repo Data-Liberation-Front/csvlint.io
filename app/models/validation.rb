@@ -7,6 +7,7 @@ class Validation
   field :state, type: String
   field :result, type: String
   field :csv_id, type: String
+  field :parse_options, type: Hash
   field :expirable_created_at, type: Time
 
   index :created_at => 1
@@ -58,11 +59,15 @@ class Validation
       validator.remove_instance_variable(:@source)
     end
 
+    # Don't save the data
+    validator.remove_instance_variable(:@data) rescue nil
+
     attributes = {
       :url => url,
       :filename => filename,
       :state => state,
-      :result => Marshal.dump(validator).force_encoding("UTF-8")
+      :result => Marshal.dump(validator).force_encoding("UTF-8"),
+      :parse_options => Validation.generate_options(validator.dialect)
     }
 
     attributes[:expirable_created_at] = Time.now if expiry.eql?(true)
@@ -173,16 +178,20 @@ class Validation
 
   def csv
     # method that retrieves stored entire CSV file from mongoDB
-    unless self.csv_id.nil?
+    if self.url
+      csv = open(self.url).read
+    elsif self.csv_id
       # above line means this method triggers only when user opts to revalidate their CSV with suggested prompts
-      stored_csv = Mongoid::GridFs.get(self.csv_id)
+      csv = Mongoid::GridFs.get(self.csv_id).data
+    end
+
+    if csv
       file = Tempfile.new('csv')
       File.open(file, "w") do |f|
-        f.write stored_csv.data
+        f.write csv
       end
       file
     end
-
   end
 
   def check_validation
@@ -219,6 +228,14 @@ class Validation
     Airbrake.notify(e) if ENV['CSVLINT_AIRBRAKE_KEY'] # Exit cleanly, but still notify airbrake
   ensure
     Validation.delay(run_at: 24.hours.from_now).clean_up(24)
+  end
+
+  def self.generate_options(dialect)
+    {
+      col_sep: dialect["delimiter"],
+      row_sep: dialect["lineTerminator"],
+      quote_char: dialect["quoteChar"],
+    }
   end
 
 end
