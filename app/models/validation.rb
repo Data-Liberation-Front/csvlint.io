@@ -176,12 +176,17 @@ class Validation
 
   def csv
     # method that retrieves stored entire CSV file from mongoDB
-    unless self.csv_id.nil?
+    if self.url
+      csv = open(self.url).read
+    elsif self.csv_id
       # above line means this method triggers only when user opts to revalidate their CSV with suggested prompts
-      stored_csv = Mongoid::GridFs.get(self.csv_id)
+      csv = Mongoid::GridFs.get(self.csv_id).data
+    end
+
+    if csv
       file = Tempfile.new('csv')
       File.open(file, "w") do |f|
-        f.write stored_csv.data
+        f.write csv
       end
       file
     end
