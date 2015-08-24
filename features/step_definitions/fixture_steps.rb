@@ -43,3 +43,16 @@ end
 Given(/^"(.*?)" has been previously used for validation$/) do |url|
   FactoryGirl.create :schema, url: url
 end
+
+Given(/^the data exceeds the amount the proxy can handle/) do
+  # step implementation to get Cucumber and Capybara to catch the HTTP errors that are thrown by the dev environment
+  #stub_request(:post, 'localhost/package.json').
+  #    to_return(:status => 413)
+
+  # allow(PackageController).to receive(:create).and_return("I actually know nothing of worth") #works
+  allow_any_instance_of(PackageController).to receive(:create).and_raise(ArgumentError)
+  # allow(Package).to receive(:nginx).and_return( render :nothing => true, :status => 413) # breaks with undefined method `render'
+  # allow(Package).to receive(:nginx) { render :nothing => true, :status => 413 } # still breaks with undefined method render
+  # byebug
+
+end
