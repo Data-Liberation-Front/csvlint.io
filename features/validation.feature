@@ -218,3 +218,11 @@ Feature: CSV Validation
     And that CSV file should have a field "status"
     And that CSV file should have double-quoted fields
     And that CSV file should use CRLF line endings
+
+  Scenario: Validation with Github raw URL
+    Given the fixture "csvs/valid.csv" is available at the URL "https://raw.githubusercontent.com/username/project/master/test.csv"
+    And the URL "https://raw.githubusercontent.com/username/project/master/test.csv" returns a Content-Type of "text/plain; charset=utf-8"
+    When I go to the homepage
+    And I enter "https://raw.githubusercontent.com/username/project/master/test.csv" in the "url" field
+    And I press "Validate"
+    Then I should see "It looks like your CSV is hosted on Github."
