@@ -7,8 +7,8 @@ class ValidationController < ApplicationController
 
   def index
     @validations = Validation.where(:url.ne => nil)
-                   .order_by(:created_at.desc)
-                   .page(params[:page]).per(7)
+                       .order_by(:created_at.desc)
+                       .page(params[:page]).per(7)
   end
 
   def show
@@ -45,32 +45,32 @@ class ValidationController < ApplicationController
 
   private
 
-    def standardised_csv(validation)
-      data = CSV.parse(validation.csv, validation.parse_options.symbolize_keys)
-      CSV.generate(standard_csv_options) do |csv|
-        data.each do |row|
-          csv << row if row
-        end
+  def standardised_csv(validation)
+    data = CSV.parse(validation.csv, validation.parse_options.symbolize_keys)
+    CSV.generate(standard_csv_options) do |csv|
+      data.each do |row|
+        csv << row if row
       end
     end
+  end
 
-    def build_dialect(params)
-      case params[:line_terminator]
+  def build_dialect(params)
+    case params[:line_terminator]
       when "auto"
         line_terminator = :auto
       when "\\n"
         line_terminator = "\n"
       when "\\r\\n"
         line_terminator = "\r\n"
-      end
+    end
 
-      {
+    {
         "header" => params[:header],
         "delimiter" => params[:delimiter],
         "skipInitialSpace" => params[:skip_initial_space],
         "lineTerminator" => line_terminator,
         "quoteChar" => params[:quote_char]
-      }.reject {|k,v| v.nil?}
-    end
+    }.reject {|k,v| v.nil?}
+  end
 
 end

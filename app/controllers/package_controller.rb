@@ -16,8 +16,8 @@ class PackageController < ApplicationController
       io = io.map! do |io|
         stored_csv = Mongoid::GridFs.put(StringIO.new(io.read))
         {
-          :csv_id => stored_csv.id,
-          :filename => io.original_filename
+            :csv_id => stored_csv.id,
+            :filename => io.original_filename
         }
       end
 
