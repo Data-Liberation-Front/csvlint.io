@@ -170,8 +170,7 @@ if(!r.support) {
 		$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
 
 			var input = $(this).parents('.input-group').find(':text'),
-				log = numFiles > 1 ? numFiles + ' files selected' : label;
-
+            log = numFiles > 1 ? numFiles + ' files selected' : label;
 			input.val(log);
 		});
 
@@ -189,6 +188,8 @@ if(!r.support) {
 		$('#validation_form').submit(function(e){
 		  e.preventDefault();
 		  $('#submit i').attr('class', 'fa fa-refresh fa-spin')
+//            console.log("testing scope of resumable object");
+//            console.log(r.files[0].file);
 
   		  files = [];
           urls = [];
@@ -199,11 +200,21 @@ if(!r.support) {
   		    files.push(file);
   	      });
 
-  		  $.each($("#upload_file")[0].files, function(index, file) {
-  		    file.category = "csv"
-  		    files.push(file)
-            validation_count++;
-  	      });
+//  		  $.each($("#upload_file")[0].files, function(index, file) {
+////              console.log(file);
+//  		    file.category = "csv"
+//  		    files.push(file)
+//            validation_count++;
+//  	      });
+
+            $.each(r.files[0], function(index, file) {
+//                console.log(file);
+                file.category = "csv"
+                files.push(file)
+                validation_count++;
+            });
+
+
 
           $( "input[name='urls[]']" ).each(function(){
             if ($(this).val().length > 0) {
