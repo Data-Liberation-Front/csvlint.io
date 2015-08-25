@@ -194,6 +194,14 @@ class Validation
     end
   end
 
+  def parse_options
+    if self.read_attribute(:parse_options).nil?
+      self.parse_options = Validation.generate_options(self.validator.dialect)
+      save
+    end
+    self.read_attribute(:parse_options)
+  end
+
   def check_validation
     # this method should only be called against URL listed validations i.e. 'added to list of recent validations'
     unless url.blank?
