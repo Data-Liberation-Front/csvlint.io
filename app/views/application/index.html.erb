@@ -60,6 +60,24 @@
 
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" style="left: auto;" role="document">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Warning</h4>
+      </div>
+      <div class="modal-body alert-danger">
+        <strong>Warning!</strong> The request couldn't complete. Your file may be too large for our servers, but we're working on improvements <a href=\"https://github.com/theodi/csvlint/issues\">here
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <% content_for :extra_javascript do %>
 
 <script type="text/javascript">
@@ -180,6 +198,7 @@
                 checkPackage();
               },
                 error: function(req, status, err){
+                    $('#myModal').modal('show');
                     var infobox = $('#ajax-error');
                     infobox.removeClass('hidden');
                     infobox.addClass('alert alert-danger').fadeIn('slow');
