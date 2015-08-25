@@ -51,8 +51,8 @@
         <%= t(:validate).titleize %>
       </button>
         <div id="ajax-error" class="hidden">
-        <span class="close" data-dismiss="alert" aria-label="close">&times;</span>
-        <p id="ajax-info"></p>
+          <button type="button" id="dismiss-ajax-alert" class="close">&times;</button>
+          <p id="ajax-info"></p>
         </div>
         <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
       <% end %>
@@ -60,23 +60,6 @@
 
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" style="left: auto;" role="document">
-    <div class="modal-content ">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Warning</h4>
-      </div>
-      <div class="modal-body alert-danger">
-        <strong>Warning!</strong> The request couldn't complete. Your file may be too large for our servers, but we're working on improvements <a href=\"https://github.com/theodi/csvlint/issues\">here
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <% content_for :extra_javascript do %>
 
@@ -91,6 +74,7 @@
 
 	$(document).ready( function() {
 	  var count = 1
+
 
 		$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
 
@@ -198,19 +182,23 @@
                 checkPackage();
               },
                 error: function(req, status, err){
-                    $('#myModal').modal('show');
                     var infobox = $('#ajax-error');
+                    $('#ajax-info').html("<strong>Warning!</strong> The request couldn't complete. Your file may be too large for our servers, but wer're working on improvements <a href=\"https://github.com/theodi/csvlint/issues\">here");
                     infobox.removeClass('hidden');
                     infobox.addClass('alert alert-danger').fadeIn('slow');
-                    $('#ajax-info').html("<strong>Warning!</strong> The request couldn't complete. Your file may be too large for our servers, but wer're working on improvements <a href=\"https://github.com/theodi/csvlint/issues\">here");
                     //  infobox.append("<br>"+err); // if you want a verbose output
                     $('#submit i').removeClass('fa fa-refresh fa-spin'); // stop the spinner
                 }
             }
           );
 		}
+        // the below is a shortcut of bootstrap functionality by jQuery
+        $('#dismiss-ajax-alert').click(function(){
+            $('#ajax-error').addClass('hidden');
+        });
 
-		function checkPackage() {
+
+        function checkPackage() {
 		   setInterval(function(){
           $.ajax({ url: package_url + ".json", success: function(data){
             if (data.package.validations.length == validation_count) {
