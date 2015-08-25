@@ -27,6 +27,7 @@ class ChunksController < ApplicationController
         #chunk path based on the parameters
         chunk = "#{dir}/#{params[:resumableFilename]}.part#{params[:resumableChunkNumber]}"
 
+
         #Create chunks directory when not present on system
         if !File.directory?(dir)
           FileUtils.mkdir(dir, :mode => 0700)
