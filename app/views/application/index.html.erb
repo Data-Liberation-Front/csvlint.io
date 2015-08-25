@@ -52,7 +52,7 @@
       </button>
         <div id="ajax-error" class="hidden">
         <span class="close" data-dismiss="alert" aria-label="close">&times;</span>
-          <strong>Warning!</strong>
+        <p id="ajax-info"></p>
         </div>
         <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
       <% end %>
@@ -183,7 +183,7 @@
                     var infobox = $('#ajax-error');
                     infobox.removeClass('hidden');
                     infobox.addClass('alert alert-danger').fadeIn('slow');
-                    infobox.append("The request couldn't complete. Your file may be too large for our servers, but wer're working on improvements <a href=\"https://github.com/theodi/csvlint/issues\">here");
+                    $('#ajax-info').html("<strong>Warning!</strong> The request couldn't complete. Your file may be too large for our servers, but wer're working on improvements <a href=\"https://github.com/theodi/csvlint/issues\">here");
                     //  infobox.append("<br>"+err); // if you want a verbose output
                     $('#submit i').removeClass('fa fa-refresh fa-spin'); // stop the spinner
                 }
