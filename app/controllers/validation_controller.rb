@@ -46,7 +46,7 @@ class ValidationController < ApplicationController
   private
 
     def standardised_csv(validation)
-      data = Marshal.load(validation.result).data
+      data = CSV.parse(validation.csv, validation.parse_options.symbolize_keys)
       CSV.generate(standard_csv_options) do |csv|
         data.each do |row|
           csv << row if row

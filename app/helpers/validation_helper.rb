@@ -55,10 +55,11 @@ module ValidationHelper
     expected_header_values
   end
 
-  def extra_guidance(validator, message)
+  def extra_guidance(validator, validation, message)
     extra = []
     extra << :old_content_type if message.type == :wrong_content_type && validator.content_type == "text/comma-separated-values"
     extra << :s3_upload if message.type == :wrong_content_type && validator.headers["Server"] == "AmazonS3"
+    extra << :github if message.type == :wrong_content_type && validation.url.to_s.match(/raw.githubusercontent.com/)
     return extra
   end
 

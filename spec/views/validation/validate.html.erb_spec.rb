@@ -22,7 +22,8 @@ describe "validation/_message.html.erb", type: :view do
       validator.stub(:line_breaks) { "\n" }
       validator.stub(:schema) { nil }
 
-      validator
+      @validation = Validation.create(result: validator)
+
       render :partial => "validation/message", :locals => { :message => message, :validator => validator }
 
       rendered.should include v

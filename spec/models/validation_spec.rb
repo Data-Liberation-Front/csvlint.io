@@ -67,4 +67,18 @@ describe Validation, type: :model do
     Validation.count.should == 1
   end
 
+  it "parse options should be created with validation" do
+    @file = mock_upload('csvs/valid.csv')
+    validation = Validation.create_validation(@file)
+    validation.parse_options.should_not == nil
+  end
+
+  it "should generate parse options for older validations" do
+    @file = mock_upload('csvs/valid.csv')
+    validation = Validation.create_validation(@file)
+    validation.parse_options = nil
+    validation.save
+    validation.parse_options.should_not == nil
+  end
+
 end
