@@ -201,16 +201,15 @@ if(!r.support) {
   	      });
 
 //  		  $.each($("#upload_file")[0].files, function(index, file) {
-////              console.log(file);
 //  		    file.category = "csv"
 //  		    files.push(file)
 //            validation_count++;
 //  	      });
 
-            $.each(r.files[0], function(index, file) {
+            $.each(r.files, function(index, file) {
 //                console.log(file);
-                file.category = "csv"
-                files.push(file)
+                file.file.category = "csv"
+                files.push(file.file)
                 validation_count++;
             });
 
