@@ -7,3 +7,7 @@ require 'mongoid'
     Validation.remove_indexes
     Validation.create_indexes
   end
+
+  After ('@rackmock') do
+    RackMock.reset
+  end

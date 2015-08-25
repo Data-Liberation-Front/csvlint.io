@@ -37,13 +37,13 @@ Feature: CSV Validation
     And I press "Validate"
     Then I should see "There appears to be a problem with the URL you supplied."
 
+  @rackmock @javascript
   Scenario: Validation of a URL that 413s
-    # attempted feature for testing jQuery .ajax method in application/index.html.erb
-    When I go to the homepage
-    Given the data exceeds the amount the proxy can handle
+    Given I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
-    And I press "Validate"
-    Then I should not see "The request couldn't complete"
+    And the data exceeds the amount the proxy can handle
+    When I press "Validate"
+    Then I should see "The request couldn't complete"
 
   Scenario: Upload a file for validation
     When I go to the homepage

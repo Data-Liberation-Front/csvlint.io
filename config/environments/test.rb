@@ -1,3 +1,5 @@
+require 'rack_mock'
+
 Csvlint::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -33,4 +35,6 @@ Csvlint::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+  
+  config.middleware.use RackMock
 end
