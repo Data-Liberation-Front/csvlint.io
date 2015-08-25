@@ -19,11 +19,9 @@ class RackMock
   def call(env)
     @@mocks.each_pair do |path, response|
       if env["PATH_INFO"] =~ /#{path}/
-        puts "MOCKING #{path}"
         return response
       end
     end
-    puts "NOPE #{env["PATH_INFO"]}"
     @app.call(env)
   end
                   
