@@ -157,6 +157,10 @@ en:
      <strong>Note</strong>: It appears that you are using Amazon S3 to deliver your data. You must set the content type of the object when uploading
      the data to S3 to ensure that it is delivered correctly.
 
+  github_guidance_html: |
+    <strong>Note</strong>: It looks like your CSV is hosted on Github. To get the correct <code>Content-Type</code> headers, please consider
+    using <a href="https://help.github.com/articles/what-are-github-pages/">Github Pages</a>, or use a service like <a href="https://rawgit.com/">RawGit</a>.
+
   whitespace: "Unexpected whitespace"
   whitespace_guidance_html: |
      Quoted columns in the CSV should not have any leading or trailing whitespace.<br>

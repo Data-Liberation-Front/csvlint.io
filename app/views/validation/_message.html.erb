@@ -11,7 +11,7 @@
 <% if i18n_set?("#{message.type}_guidance_html") %>
   <p><%= t("#{message.type}_guidance_html", message_variables(validator, message) ) %></p>
 <% end %>
-<% extra_guidance(validator, message).each do |extra| %>
+<% extra_guidance(validator, @validation, message).each do |extra| %>
 	<% if i18n_set?("#{extra}_guidance_html") %>
 	  <p><%= t("#{extra}_guidance_html", message_variables(validator, message) ) %></p>
 	<% end %>
