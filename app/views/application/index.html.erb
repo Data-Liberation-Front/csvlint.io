@@ -28,9 +28,24 @@
 
           <label for="upload_file" class="options">Or upload a file:</label>
           <div class="input-group">
-            <%= file_field_tag 'files[]', multiple: true, class: 'file-chooser btn-info btn-lg', id: 'upload_file', title: 'Choose a file' %>
+            <%= button_tag 'Choose a file', type: 'button', id: 'upload_button', class: 'btn-info btn-lg' %>
+            <label style = "padding:8pt;" id="file_name"></label>
+            <!--  add upload image back to button -->
           </div>
 
+          <div class="resumable-progress">
+            <table>
+              <tr>
+                <td width="100%"><div class="progress-container"><div class="progress-bar"></div></div></td>
+                <td class="progress-text" nowrap="nowrap"></td>
+                <td class="progress-pause" nowrap="nowrap">
+                  <a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><%= image_tag "resume.png" %></a>
+                  <a href="#" onclick="r.pause(); return(false);" class="progress-pause-link"><<%= image_tag "pause.png" %>/a>
+                  <a href="#" onclick="r.cancel(); return(false);" class="progress-cancel-link"><%= image_tag "cancel.png" %></a>
+                </td>
+              </tr>
+            </table>
+          </div>
 
         <div class="checkbox">
           <label>
@@ -59,24 +74,6 @@
       Your browser, unfortunately, is not supported by Resumable.js. The library requires support for <a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a> along with <a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">file slicing</a>.
     </div>
 
-    <div class="resumable-drop" ondragenter="jQuery(this).addClass('resumable-dragover');" ondragend="jQuery(this).removeClass('resumable-dragover');" ondrop="jQuery(this).removeClass('resumable-dragover');">
-      Drop video files here to upload or <a class="resumable-browse"><u>select from your computer</u></a>
-    </div>
-
-    <div class="resumable-progress">
-      <table>
-        <tr>
-          <td width="100%"><div class="progress-container"><div class="progress-bar"></div></div></td>
-          <td class="progress-text" nowrap="nowrap"></td>
-          <td class="progress-pause" nowrap="nowrap">
-            <a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><img src="resume.png" title="Resume upload" /></a>
-            <a href="#" onclick="r.pause(); return(false);" class="progress-pause-link"><img src="pause.png" title="Pause upload" /></a>
-            <a href="#" onclick="r.cancel(); return(false);" class="progress-cancel-link"><img src="cancel.png" title="Cancel upload" /></a>
-          </td>
-        </tr>
-      </table>
-    </div>
-
   </div>
 
 </div>
@@ -101,9 +98,8 @@ if(!r.support) {
     $('.resumable-error').show();
 } else {
     // Show a place for dropping/selecting files
-    $('.resumable-drop').show();
-    r.assignDrop($('.resumable-drop')[0]);
-    r.assignBrowse($('.resumable-browse')[0]);
+    r.assignBrowse(document.getElementById('upload_button'));
+
 
     // Handle file add event
     r.on('fileAdded', function(file){
@@ -130,8 +126,7 @@ if(!r.support) {
     r.on('fileSuccess', function(file,message){
         // Reflect that the file upload has completed
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
-        console.log("resumable thinks its done");
-        console.log(file.file);
+        document.getElementById("file_name").innerHTML = file.file.name;
     });
     r.on('fileError', function(file, message){
         // Reflect that the file upload has resulted in error
@@ -188,8 +183,6 @@ if(!r.support) {
 		$('#validation_form').submit(function(e){
 		  e.preventDefault();
 		  $('#submit i').attr('class', 'fa fa-refresh fa-spin')
-//            console.log("testing scope of resumable object");
-//            console.log(r.files[0].file);
 
   		  files = [];
           urls = [];
@@ -200,14 +193,7 @@ if(!r.support) {
   		    files.push(file);
   	      });
 
-//  		  $.each($("#upload_file")[0].files, function(index, file) {
-//  		    file.category = "csv"
-//  		    files.push(file)
-//            validation_count++;
-//  	      });
-
             $.each(r.files, function(index, file) {
-//                console.log(file);
                 file.file.category = "csv"
                 files.push(file.file)
                 validation_count++;
