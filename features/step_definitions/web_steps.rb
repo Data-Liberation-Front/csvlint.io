@@ -27,8 +27,14 @@ end
 
 When(/^I attach the file "(.*?)" to the "(.*?)" field$/) do |file, field_name|
   @file = file
-  field_name = "files[]" if field_name == "file"
-  attach_file(field_name.to_sym, File.join(Rails.root, 'fixtures', @file))
+  if field_name == "schema_file"
+    attach_file(field_name.to_sym, File.join(Rails.root, 'fixtures', @file))
+  else
+    # Move the file from the fixures to /tmp
+    FileUtils.cp(File.join(Rails.root, 'fixtures', file), File.join('/', 'tmp', file))
+    # inject the file location into the hidden field
+    find(:xpath, "//input[@name='files[]']").set(file)
+  end
 end
 
 Then(/^I should see "(.*?)"$/) do |text|
