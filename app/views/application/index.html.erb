@@ -61,6 +61,8 @@
             <div class="input-group">
               <%= file_field_tag 'schema_file', class: 'file-chooser btn-info btn-lg', title: 'browse' %>
             </div>
+            <input type="hidden" name="files[]" />
+            <div id="file_paths"></div>
       </div>
 
       <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit">
@@ -126,6 +128,8 @@ if(!r.support) {
     r.on('fileSuccess', function(file,message){
         // Reflect that the file upload has completed
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
+        path = file.file.uniqueIdentifier + "/" + file.file.name;
+        $('#file_paths').append( "<input type='hidden' name='files[]' value='" + path + "' />" )
         document.getElementById("file_name").innerHTML = file.file.name;
     });
     r.on('fileError', function(file, message){
@@ -185,33 +189,31 @@ if(!r.support) {
 		  $('#submit i').attr('class', 'fa fa-refresh fa-spin')
 
   		  files = [];
-          urls = [];
-          validation_count = 0;
+        urls = [];
+        paths = [];
+        validation_count = 0;
 
   		  $.each($("#schema_file")[0].files, function(index, file) {
   		    file.category = "schema"
   		    files.push(file);
-  	      });
+  	    });
 
-            $.each(r.files, function(index, file) {
-                file.file.category = "csv"
-                files.push(file.file)
-                validation_count++;
-            });
+        $( "#file_paths input" ).each(function(){
+          paths.push(this.value);
+          validation_count++;
+        })
 
-
-
-          $( "input[name='urls[]']" ).each(function(){
-            if ($(this).val().length > 0) {
-                urls.push($(this).val());
-                validation_count++;
-            }
-          });
+        $( "input[name='urls[]']" ).each(function(){
+          if ($(this).val().length > 0) {
+              urls.push($(this).val());
+              validation_count++;
+          }
+        });
 
   		  readFiles(files, function(files, schema_file) {
 
               postdata = {
-                "files_data[]": files,
+                "files[]": paths,
                 "schema": $('#schema').prop("checked") ? 1 : 0,
                 "schema_data": schema_file,
                 "schema_url": $('#schema_url').val(),
