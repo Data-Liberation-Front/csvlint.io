@@ -79,7 +79,7 @@ class PackageController < ApplicationController
 
     def remove_blanks!
       params[:urls].reject! { |url| url.blank? } unless params[:urls].blank?
-      params[:files_data].reject! { |data| data.blank? } unless params[:files_data].blank?
+      params[:files].reject! { |data| data.blank? } unless params[:files].blank?
     end
 
     def load_schema
