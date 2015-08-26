@@ -10,27 +10,27 @@ class PackageController < ApplicationController
   before_filter(:only => [:show]) { alternate_formats [:json] }
 
   def create
-    io = params[:urls].presence || params[:files].presence
+    urls = params[:urls].presence
 
-    if io.first.respond_to?(:tempfile)
-      io = io.map! do |io|
-        stored_csv = Mongoid::GridFs.put(StringIO.new(io.read))
+    if !params[:files].blank?
+      files = params[:files].map! do |file|
+        f = File.open("/tmp/#{file}")
+        stored_csv = Mongoid::GridFs.put(f)
         {
           :csv_id => stored_csv.id,
-          :filename => io.original_filename
+          :filename => file.split("/").last
         }
       end
-
     end
 
-    redirect_to root_path and return if io.nil?
+    redirect_to root_path and return if urls.blank? && files.nil?
 
     if params[:format] == "json"
       @package = Package.create
-      @package.delay.create_package(io, @schema_url, @schema)
+      @package.delay.create_package(urls || files, @schema_url, @schema)
     else
       package = Package.create
-      package.create_package(io, @schema_url, @schema)
+      package.create_package(urls || files, @schema_url, @schema)
 
       if package.validations.count == 1
         redirect_to validation_path(package.validations.first)
@@ -56,7 +56,6 @@ class PackageController < ApplicationController
     def preprocess
       remove_blanks!
       # pass files to function and return data as ActionDispatch object
-      params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
       params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank?
       redirect_to root_path and return unless urls_valid? || params[:files].presence
       load_schema
