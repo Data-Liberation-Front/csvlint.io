@@ -4,10 +4,8 @@
 .resumable-dragover {padding:30px; color:#555; background-color:#ddd; border:1px solid #999;}
 
 /* Uploader: Progress bar */
-.resumable-progress {margin:30px 0 30px 0; width:100%; display:none;}
-.progress-container {height:7px; background:#9CBD94; position:relative; }
-.progress-bar {position:absolute; top:0; left:0; bottom:0; background:#45913A; width:0;}
-.progress-text {font-size:11px; line-height:9px; padding-left:10px;}
+.resumable-progress {margin: 15px 0 15px -15px; display:none; }
+.progress-text {font-size:11px; line-height:9px; padding-left:10px; }
 .progress-pause {padding:0 0 0 7px;}
 .progress-resume-link {display:none;}
 .is-paused .progress-resume-link {display:inline;}

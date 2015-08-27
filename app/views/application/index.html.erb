@@ -34,18 +34,18 @@
             <!--  add upload image back to button -->
           </div>
 
-          <div class="resumable-progress">
-            <table>
-              <tr>
-                <td width="100%"><div class="progress-container"><div class="progress-bar"></div></div></td>
-                <td class="progress-text" nowrap="nowrap"></td>
-                <td class="progress-pause" nowrap="nowrap">
-                  <a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><%= image_tag "resume.png" %></a>
-                  <a href="#" onclick="r.pause(); return(false);" class="progress-pause-link"><<%= image_tag "pause.png" %>/a>
-                  <a href="#" onclick="r.cancel(); return(false);" class="progress-cancel-link"><%= image_tag "cancel.png" %></a>
-                </td>
-              </tr>
-            </table>
+          <div class="resumable-progress row">
+            <div class="progress-container col-md-11">
+              <div class="progress">
+                <div class="progress-bar" role="progressbar"></div>
+              </div>
+            </div>
+            <div class="progress-text"></div>
+            <div class="progress-pause col-md-1">
+              <a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><i class="glyphicon glyphicon-play"></i></a>
+              <a href="#" onclick="r.pause(); return(false);" class="progress-pause-link"><i class="glyphicon glyphicon-pause"></i></a>
+              <a href="#" onclick="r.cancel(); return(false);" class="progress-cancel-link"><i class="glyphicon glyphicon-stop"></i></a>
+            </div>
           </div>
 
         <div class="checkbox">
