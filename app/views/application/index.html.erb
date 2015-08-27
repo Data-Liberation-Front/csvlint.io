@@ -28,7 +28,7 @@
 
           <label for="upload_file" class="options">Or upload a file:</label>
           <div class="input-group">
-            <%= button_tag 'Choose a file', type: 'button', id: 'upload_button', class: 'btn-info btn-lg' %>
+            <%= button_tag '<i class="glyphicon glyphicon-cloud-upload"></i> Choose a file'.html_safe, type: 'button', id: 'upload_button', class: 'btn-info btn-lg' %>
             <label style = "padding:8pt;" id="file_name"></label>
             <!--  add upload image back to button -->
           </div>
