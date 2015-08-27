@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe PackageController, type: :controller do
-  
+
   describe "POST 'create'" do
 
     it "redirects to root if no URL is supplied" do
@@ -35,7 +35,7 @@ describe PackageController, type: :controller do
       validation = Validation.first
       response.location.should == validation_url(validation)
     end
-    
+
     it "supports multiple urls" do
        mock_file("http://example.com/test.csv", 'csvs/valid.csv')
        mock_file("http://example.com/test2.csv", 'csvs/valid.csv')
@@ -50,19 +50,19 @@ describe PackageController, type: :controller do
        package.validations.count.should == 3
        response.location.should == package_url(package)
     end
-    
+
     it "supports multiple files" do
       post 'create', files: [
-                        mock_upload('csvs/valid.csv'),
-                        mock_upload('csvs/valid.csv'),
-                        mock_upload('csvs/valid.csv')
-                      ]                
+                        mock_upload('valid.csv'),
+                        mock_upload('valid.csv'),
+                        mock_upload('valid.csv')
+                      ]
       response.should be_redirect
       package = Package.first
-      package.validations.count.should == 3      
+      package.validations.count.should == 3
       response.location.should == package_url(package)
     end
-    
+
     it "supports multiple zip urls" do
        mock_file("http://example.com/valid.zip", 'csvs/valid.zip')
        mock_file("http://example.com/multiple_files.zip", 'csvs/multiple_files.zip')
@@ -75,29 +75,29 @@ describe PackageController, type: :controller do
        package.validations.count.should == 4
        response.location.should == package_url(package)
     end
-    
+
     it "supports multiple zip files" do
       post 'create', files: [
-                        mock_upload('csvs/valid.zip', 'application/zip'),
-                        mock_upload('csvs/multiple_files.zip', 'application/zip'),
+                        mock_upload('valid.zip'),
+                        mock_upload('multiple_files.zip'),
                       ]
       response.should be_redirect
       package = Package.first
       package.validations.count.should == 4
       response.location.should == package_url(package)
     end
-    
+
     it "supports data URLs" do
       post 'create', files_data: [
                             create_data_uri('csvs/valid.csv')
                           ]
-            
+
       response.should be_redirect
       package = Package.first
       package.validations.count.should == 1
       response.location.should == validation_url(package.validations.first)
     end
-    
+
     it "supports multiple data URLs" do
       post 'create', files_data: [
                             create_data_uri('csvs/valid.csv'),
@@ -105,13 +105,13 @@ describe PackageController, type: :controller do
                             create_data_uri('csvs/valid.csv'),
                             create_data_uri('csvs/valid.csv')
                           ]
-            
+
       response.should be_redirect
       package = Package.first
       package.validations.count.should == 4
       response.location.should == package_url(package)
     end
-    
+
     it "supports single zip files as data URLs" do
       post 'create', files_data: [
                         create_data_uri('csvs/valid.zip', 'application/zip'),
@@ -121,7 +121,7 @@ describe PackageController, type: :controller do
       package.validations.count.should == 1
       response.location.should == validation_url(package.validations.first)
     end
-    
+
     it "supports multiple zip files as data URLs" do
       post 'create', files_data: [
                         create_data_uri('csvs/valid.zip', 'application/zip'),
@@ -132,7 +132,7 @@ describe PackageController, type: :controller do
       package.validations.count.should == 4
       response.location.should == package_url(package)
     end
-    
+
     it "supports schema uploads as data URLs" do
       mock_file("http://example.com/test.csv", 'csvs/all_constraints.csv')
       post 'create', urls: [
@@ -164,7 +164,7 @@ describe PackageController, type: :controller do
   end
 
   describe "POST 'create' HTML" do
-    
+
     it "has no warnings or errors for valid CSV" do
       mock_file("http://example.com/test.csv", 'csvs/valid.csv')
       post 'create', urls: ['http://example.com/test.csv']
@@ -173,7 +173,7 @@ describe PackageController, type: :controller do
       validation.warnings.should be_empty
       validation.errors.should be_empty
     end
-    
+
     it "has warnings or errors for warning CSV" do
       mock_file("http://example.com/test.csv", 'csvs/warnings.csv')
       post 'create', urls: ['http://example.com/test.csv']
@@ -182,15 +182,15 @@ describe PackageController, type: :controller do
       validation.warnings.should_not be_empty
       validation.errors.should be_empty
     end
-    
+
     it "has errors for error CSV" do
       mock_file("http://example.com/test.csv", 'csvs/errors.csv')
       post 'create', urls: ['http://example.com/test.csv']
-      response.should be_redirect      
+      response.should be_redirect
       validation = Marshal.load(Validation.first.result)
       validation.errors.should_not be_empty
     end
-    
+
   end
 
 end
