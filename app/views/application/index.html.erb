@@ -30,6 +30,7 @@
           <div class="input-group">
             <%= button_tag '<i class="glyphicon glyphicon-cloud-upload"></i> Choose a file'.html_safe, type: 'button', id: 'upload_button', class: 'btn-info btn-lg' %>
             <label style = "padding:8pt;" id="file_name"></label>
+            <div id="file_paths"></div>
             <!--  add upload image back to button -->
           </div>
 
@@ -62,7 +63,6 @@
               <%= file_field_tag 'schema_file', class: 'file-chooser btn-info btn-lg', title: 'browse' %>
             </div>
             <input type="hidden" name="files[]" />
-            <div id="file_paths"></div>
       </div>
 
       <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit">
