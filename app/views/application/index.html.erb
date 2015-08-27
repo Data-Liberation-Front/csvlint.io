@@ -280,7 +280,7 @@ if(!r.support) {
 		function checkPackage() {
 		   setInterval(function(){
               $.ajax({ url: package_url + ".json", success: function(data){
-                if (data.package.validations.length == validation_count) {
+                if (data.package.validations.length >= validation_count) {
                   document.location.href = package_url
                 }
               }, dataType: "json"});
