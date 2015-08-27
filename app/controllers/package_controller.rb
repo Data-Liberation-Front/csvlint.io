@@ -57,6 +57,7 @@ class PackageController < ApplicationController
       remove_blanks!
       # pass files to function and return data as ActionDispatch object
       params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank?
+      params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
       redirect_to root_path and return unless urls_valid? || params[:files].presence
       load_schema
       Zipfile.check!(params)
@@ -112,32 +113,29 @@ class PackageController < ApplicationController
       Package.create_package( sources, params[:schema_url], @schema )
     end
 
+    def read_data_url(data)
+      file_array = data.split(";", 2)
+      uri = URI::Data.new(file_array[1])
+      {
+        filename: file_array[0],
+        body: open(uri).read
+      }
+    end
+
     def read_files(data)
-      # returns an ActionDispatch file
-      # this process is not evaluated by the feature tests because they can be preprocessed as ActionDispatch files
       files = []
       data = [data] if data.class == String
       # converts the base64 schema to an array for parsing below
       data.each do |data|
-
-        file_array = data.split(";", 2)
-        filename = file_array[0]
-        uri = URI::Data.new(file_array[1])
-
-        io = open(uri)
-        basename = File.basename(filename)
-        tempfile = Tempfile.new(basename)
+        file = read_data_url(data)
+        filename = (File.basename(file[:filename]) + Time.now.to_i.to_s).parameterize
+        tempfile = File.new(File.join('/', 'tmp', filename), "w+")
         tempfile.binmode
-        tempfile.write(io.read)
+        tempfile.write(file[:body])
         tempfile.rewind
-        file = ActionDispatch::Http::UploadedFile.new(:filename => filename,
-                                                      :tempfile => tempfile
-                                                      )
-        file.content_type = io.content_type
-        files << file
+        files << File.basename(tempfile.path)
       end
       files
-
     end
 
 end
