@@ -126,13 +126,17 @@ if(!r.support) {
     r.on('complete', function(){
         // Hide pause/resume when the upload has completed
         $('.resumable-progress .progress-resume-link, .resumable-progress .progress-pause-link').hide();
+        if (r.files.length == 1) {
+          document.getElementById("file_name").innerHTML = r.files[0].file.name;
+        } else {
+          document.getElementById("file_name").innerHTML = r.files.length + " files"
+        }
     });
     r.on('fileSuccess', function(file,message){
         // Reflect that the file upload has completed
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
         path = file.file.uniqueIdentifier + "/" + file.file.name;
         $('#file_paths').append( "<input type='hidden' name='files[]' value='" + path + "' />" )
-        document.getElementById("file_name").innerHTML = file.file.name;
     });
     r.on('fileError', function(file, message){
         // Reflect that the file upload has resulted in error
