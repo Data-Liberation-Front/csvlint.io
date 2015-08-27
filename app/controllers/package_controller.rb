@@ -132,7 +132,7 @@ class PackageController < ApplicationController
       # converts the base64 schema to an array for parsing below
       data.each do |data|
         file = read_data_url(data)
-        filename = (File.basename(file[:filename]) + Time.now.to_i.to_s).parameterize
+        filename = Time.now.to_i.to_s + File.basename(file[:filename])
         tempfile = File.new(File.join('/', 'tmp', filename), "w+")
         tempfile.binmode
         tempfile.write(file[:body])
