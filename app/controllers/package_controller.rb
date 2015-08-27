@@ -56,7 +56,7 @@ class PackageController < ApplicationController
     def preprocess
       remove_blanks!
       # pass files to function and return data as ActionDispatch object
-      params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank?
+      #params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank?
       params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
       redirect_to root_path and return unless urls_valid? || params[:files].presence
       load_schema
@@ -86,17 +86,21 @@ class PackageController < ApplicationController
     def load_schema
       # Check that schema checkbox is ticked
       return unless params[:schema] == "1"
-      # Load schema
-      io = params[:schema_url].presence || params[:schema_file].presence
-      if io.class == String
-        @schema = Csvlint::Schema.load_from_json_table(io)
-        @schema_url = params[:schema_url]
-        # byebug
-      else
-        begin
-          schema_json = JSON.parse( File.new( params[:schema_file].tempfile ).read() )
-          @schema = Csvlint::Schema.from_json_table( nil, schema_json )
 
+      # Load schema
+      if params[:schema_url].presence
+        @schema = Csvlint::Schema.load_from_json_table(params[:schema_url])
+        @schema_url = params[:schema_url]
+      elsif params[:schema_data] || params[:schema_file]
+        if params[:schema_data]
+          data = read_data_url(params[:schema_data])[:body]
+        else
+          data = params[:schema_file].tempfile.read
+        end
+
+        begin
+          json = JSON.parse(data)
+          @schema = Csvlint::Schema.from_json_table( nil, json )
         rescue JSON::ParserError
           # catch JSON parse error
           # this rescue requires further work, currently in place to catch malformed or bad json uploaded schemas
