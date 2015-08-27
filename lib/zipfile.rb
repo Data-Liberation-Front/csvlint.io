@@ -1,22 +1,20 @@
 require 'zip'
 
 class Zipfile
-  
-  def self.check!(p)    
+
+  def self.check!(p)
     if p[:urls].presence && p[:urls].count > 0
       type = :urls
     elsif p[:files].presence
       type = :files
-    else
-      type = :files_data
     end
-    
+
     files = []
     p[type].each do |source|
-      if Zipfile.is_zipfile?(source) 
+      if Zipfile.is_zipfile?(source)
         Zipfile.unzip(source, files, type)
       else
-        files << source 
+        files << source
       end
     end
     p[type] = files
@@ -24,26 +22,26 @@ class Zipfile
   end
 
   def self.is_zipfile?(source)
-    if source.respond_to?(:tempfile)
-      return source.content_type == "application/zip"
-    else
-      return File.extname(source) == ".zip"
-    end
+    File.extname(source) == ".zip"
   end
 
   def self.unzip(source, files, type)
     if type == :urls
-      file = Tempfile.new(source.split("/").last)
+      FileUtils.mkdir_p(File.join('/', 'tmp', 'csvs', DateTime.now.to_s))
+      file = File.new(File.join('/', 'tmp', 'csvs', DateTime.now.to_s, source.split("/").last), "w+")
       file.binmode
       file.write open(source).read
       file.rewind
     else
-      file = source.path
+      file = File.join('/', 'tmp', source)
     end
+
     Zip::File.open(file) do |zipfile|
       zipfile.each do |entry|
         next if entry.name =~ /__MACOSX/ or entry.name =~ /\.DS_Store/
-        files << Zipfile.read(entry)
+        destination = File.join(File.expand_path("..", file), entry.name)
+        entry.extract(destination)
+        files << destination.split("/").drop(2).join("/")
       end
     end
   end
@@ -56,5 +54,5 @@ class Zipfile
     tempfile.rewind
     ActionDispatch::Http::UploadedFile.new(:filename => filename, :tempfile => tempfile)
   end
-  
+
 end
