@@ -1,5 +1,5 @@
 class ChunksController < ApplicationController
-  
+
   layout nil
 
       #GET /chunk
@@ -45,25 +45,28 @@ class ChunksController < ApplicationController
         if (currentSize + params[:resumableCurrentChunkSize].to_i) >= filesize
 
           #Create a target file
-          File.open("#{dir}/#{params[:resumableFilename]}","a") do |target|
-            #Loop trough the chunks
-            for i in 1..params[:resumableChunkNumber].to_i
-              #Select the chunk
-              chunk = File.open("#{dir}/#{params[:resumableFilename]}.part#{i}", 'r').read
+          target_file = Tempfile.new(params[:resumableFilename])
 
-              #Write chunk into target file
-              chunk.each_line do |line|
-                target << line
-              end
+          for i in 1..params[:resumableChunkNumber].to_i
+            #Select the chunk
+            chunk = File.open("#{dir}/#{params[:resumableFilename]}.part#{i}", 'r').read
 
-              #Deleting chunk
-              FileUtils.rm "#{dir}/#{params[:resumableFilename]}.part#{i}", :force => true
+            #Write chunk into target file
+            chunk.each_line do |line|
+              target_file.write(line)
             end
-            puts "File saved to #{dir}/#{params[:resumableFilename]}"
-          end
-        end
 
-        render :nothing => true, :status => 200
+            #Deleting chunk
+            FileUtils.rm "#{dir}/#{params[:resumableFilename]}.part#{i}", :force => true
+          end
+
+          target_file.rewind
+          target_file.close
+
+          render json: { file: target_file.path }, :status => 200
+        else
+          render :nothing => true, :status => 200
+        end
       end
 
 end
