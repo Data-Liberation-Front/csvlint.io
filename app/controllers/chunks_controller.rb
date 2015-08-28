@@ -1,3 +1,5 @@
+require 'stored_csv'
+
 class ChunksController < ApplicationController
 
   layout nil
@@ -61,11 +63,8 @@ class ChunksController < ApplicationController
           end
 
           target_file.rewind
-          stored_csv = Mongoid::GridFs.put(target_file)
-          stored_csv.metadata = { filename: params[:resumableFilename] }
-          stored_csv.save
-          target_file.close
-          target_file.unlink
+
+          stored_csv = StoredCSV.save(target_file, params[:resumableFilename])
 
           render json: { id: stored_csv.id.to_s }, :status => 200
         else
