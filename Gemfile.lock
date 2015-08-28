@@ -86,7 +86,7 @@ GEM
       rails (>= 3.1)
     bootstrap-sass (3.1.1.1)
       sass (~> 3.2)
-    bson (3.1.2)
+    bson (3.1.1)
     bson_ext (1.5.1)
     builder (3.1.4)
     byebug (5.0.0)
@@ -496,6 +496,7 @@ DEPENDENCIES
   alternate_rails!
   bootstrap-kaminari-views
   bootstrap-sass (~> 3.1.1)
+  bson (= 3.1.1)
   bson_ext
   byebug
   coffee-rails (~> 4.0.0)
@@ -544,3 +545,6 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   vcr
   webmock
+
+BUNDLED WITH
+   1.10.6
