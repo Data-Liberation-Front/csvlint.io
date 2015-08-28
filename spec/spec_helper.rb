@@ -92,10 +92,11 @@ def mock_uploaded_file(file, content_type = "text/csv")
 end
 
 def mock_upload(file)
-  destination = File.join('csvs', Time.now.to_i.to_s, file)
-  FileUtils.mkdir_p(File.join('/', 'tmp', 'csvs', Time.now.to_i.to_s))
-  FileUtils.cp(File.join(Rails.root, 'fixtures', 'csvs', file), File.join('/', 'tmp', destination))
-  destination
+  tempfile = Tempfile.new([file, File.extname(file)])
+  file = File.read(File.join(Rails.root, 'fixtures', 'csvs', file))
+  tempfile.write(file)
+  tempfile.rewind
+  tempfile.path
 end
 
 def create_data_uri(file, content_type = "text/csv")
