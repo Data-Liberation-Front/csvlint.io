@@ -6,7 +6,7 @@ describe ChunksController, type: :controller do
 
     it "returns 404 if chunk does not exist" do
       get 'show', resumableIdentifier: "error", resumableFilename: "error", resumableChunkNumber: "error"
-      response.code.should == "404 "
+      response.code.should == "404"
     end
 
     it "returns 200 if chunk exists" do
