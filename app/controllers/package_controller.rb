@@ -99,7 +99,7 @@ class PackageController < ApplicationController
         end
 
         begin
-          json = JSON.parse(data)
+          json = JSON.parse(data.read)
           @schema = Csvlint::Schema.from_json_table( nil, json )
         rescue JSON::ParserError
           # catch JSON parse error
