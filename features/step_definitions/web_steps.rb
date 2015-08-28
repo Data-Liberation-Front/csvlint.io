@@ -31,9 +31,12 @@ When(/^I attach the file "(.*?)" to the "(.*?)" field$/) do |file, field_name|
     attach_file(field_name.to_sym, File.join(Rails.root, 'fixtures', @file))
   else
     # Move the file from the fixures to /tmp
-    FileUtils.cp(File.join(Rails.root, 'fixtures', file), File.join('/', 'tmp', file))
+    tempfile = Tempfile.new([File.basename(file), File.extname(file)])
+    file = File.read(File.join(Rails.root, 'fixtures', file))
+    tempfile.write(file)
+    tempfile.rewind
     # inject the file location into the hidden field
-    find(:xpath, "//input[@name='files[]']").set(file)
+    find(:xpath, "//input[@name='files[]']").set(tempfile.path)
   end
 end
 
