@@ -54,13 +54,4 @@ class Zipfile
     end
   end
 
-  def self.read(entry)
-    filename = entry.name
-    basename = File.basename(filename)
-    tempfile = Tempfile.new(basename)
-    tempfile.write(entry.get_input_stream.read)
-    tempfile.rewind
-    ActionDispatch::Http::UploadedFile.new(:filename => filename, :tempfile => tempfile)
-  end
-
 end
