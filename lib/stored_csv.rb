@@ -8,7 +8,7 @@ class StoredCSV
     stored_csv.save
 
     file.close
-    file.unlink
+    file.unlink rescue nil
     stored_csv
   end
 

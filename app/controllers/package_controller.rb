@@ -1,6 +1,7 @@
 require 'uri'
 require 'zipfile'
 require 'data_uri/open_uri'
+require 'stored_csv'
 
 class PackageController < ApplicationController
   before_filter :preprocess, :only => :create
@@ -121,7 +122,7 @@ class PackageController < ApplicationController
       uri = URI::Data.new(file_array[1])
       {
         filename: file_array[0],
-        body: open(uri).read
+        body: open(uri)
       }
     end
 
@@ -131,11 +132,8 @@ class PackageController < ApplicationController
       # converts the base64 schema to an array for parsing below
       data.each do |data|
         file = read_data_url(data)
-        tempfile = Tempfile.new([File.basename(file[:filename]), File.extname(file[:filename])])
-        tempfile.binmode
-        tempfile.write(file[:body])
-        tempfile.rewind
-        files << tempfile.path
+        stored_csv = StoredCSV.save(file[:body], File.basename(file[:filename]))
+        files << stored_csv.id
       end
       files
     end
