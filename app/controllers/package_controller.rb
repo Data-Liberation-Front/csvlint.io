@@ -13,24 +13,14 @@ class PackageController < ApplicationController
   def create
     urls = params[:urls].presence
 
-    if !params[:files].blank?
-      files = params[:files].map! do |id|
-        stored_csv = Mongoid::GridFs.get(id)
-        {
-          :csv_id => id,
-          :filename => stored_csv.metadata[:filename]
-        }
-      end
-    end
-
-    redirect_to root_path and return if urls.blank? && files.nil?
+    redirect_to root_path and return if urls.blank? && @files.nil?
 
     if params[:format] == "json"
       @package = Package.create
-      @package.delay.create_package(urls || files, @schema_url, @schema)
+      @package.delay.create_package(@files || urls, @schema_url, @schema)
     else
       package = Package.create
-      package.create_package(urls || files, @schema_url, @schema)
+      package.create_package(@files || urls, @schema_url, @schema)
 
       if package.validations.count == 1
         redirect_to validation_path(package.validations.first)
@@ -55,14 +45,24 @@ class PackageController < ApplicationController
 
     def preprocess
       remove_blanks!
-      # pass files to function and return data as ActionDispatch object
-      #params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank?
       params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
       fetch_files unless params[:files].blank?
+      unzip_urls unless params[:urls].blank?
       redirect_to root_path and return unless urls_valid? || params[:files].presence
       load_schema
-      Zipfile.check!(params)
     end
+
+    def unzip_urls
+      @files = []
+      params[:urls].each do |url|
+        if File.extname(url) == ".zip"
+          @files << unzip(File.basename(url), open(url).read)
+        end
+      end
+      @files.flatten!
+      @files = nil if @files.count == 0
+    end
+
     def fetch_files
       @files = []
       params[:files].each do |id|
