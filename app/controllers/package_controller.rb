@@ -122,13 +122,13 @@ class PackageController < ApplicationController
         @schema_url = params[:schema_url]
       elsif params[:schema_data] || params[:schema_file]
         if params[:schema_data]
-          data = read_data_url(params[:schema_data])[:body]
+          data = read_data_url(params[:schema_data])[:body].read
         else
           data = params[:schema_file].tempfile.read
         end
 
         begin
-          json = JSON.parse(data.read)
+          json = JSON.parse(data)
           @schema = Csvlint::Schema.from_json_table( nil, json )
         rescue JSON::ParserError
           # catch JSON parse error
