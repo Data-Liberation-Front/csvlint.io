@@ -12,6 +12,7 @@ require 'database_cleaner'
 require 'vcr'
 require 'timecop'
 # require 'csvlint'
+require 'stored_csv'
 
 DatabaseCleaner.strategy = :truncation
 
@@ -91,12 +92,10 @@ def mock_uploaded_file(file, content_type = "text/csv")
   upload_file
 end
 
-def mock_upload(file)
-  tempfile = Tempfile.new([file, File.extname(file)])
-  file = File.read(File.join(Rails.root, 'fixtures', 'csvs', file))
-  tempfile.write(file)
-  tempfile.rewind
-  tempfile.path
+def mock_upload(filename)
+  file = File.open(File.join(Rails.root, 'fixtures', 'csvs', filename))
+  csv = StoredCSV.save(file, filename)
+  csv.id
 end
 
 def create_data_uri(file, content_type = "text/csv")
