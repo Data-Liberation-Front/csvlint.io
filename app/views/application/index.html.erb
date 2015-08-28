@@ -129,7 +129,6 @@ if(!r.support) {
         $('.resumable-progress .progress-pause-link').hide();
     });
     r.on('complete', function(){
-        debugger;
         // Hide pause/resume when the upload has completed
         $('.resumable-progress .progress-resume-link, .resumable-progress .progress-pause-link').hide();
         if (r.files.length == 1) {
@@ -142,7 +141,7 @@ if(!r.support) {
         json = JSON.parse(message)
         // Reflect that the file upload has completed
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
-        $('#file_paths').append( "<input type='hidden' name='files[]' value='" + json.file + "' />" )
+        $('#file_paths').append( "<input type='hidden' name='files[]' value='" + json.id + "' />" )
     });
     r.on('fileError', function(file, message){
         // Reflect that the file upload has resulted in error
