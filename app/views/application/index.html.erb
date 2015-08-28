@@ -94,7 +94,12 @@ var r = new Resumable({
     chunkSize:1*1024*1024,
     simultaneousUploads:4,
     testChunks:false,
-    throttleProgressCallbacks:1
+    throttleProgressCallbacks:1,
+    generateUniqueIdentifier: function(file) {
+      var relativePath = file.webkitRelativePath||file.fileName||file.name; // Some confusion in different versions of Firefox
+      var timestamp = Math.floor(Date.now() / 1000)
+      return(timestamp + '-' + relativePath.replace(/[^0-9a-zA-Z_-]/img, ''));
+    }
 });
 // Resumable.js isn't supported, fall back on a different method
 if(!r.support) {
@@ -124,6 +129,7 @@ if(!r.support) {
         $('.resumable-progress .progress-pause-link').hide();
     });
     r.on('complete', function(){
+        debugger;
         // Hide pause/resume when the upload has completed
         $('.resumable-progress .progress-resume-link, .resumable-progress .progress-pause-link').hide();
         if (r.files.length == 1) {
