@@ -58,9 +58,38 @@ class PackageController < ApplicationController
       # pass files to function and return data as ActionDispatch object
       #params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank?
       params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
+      fetch_files unless params[:files].blank?
       redirect_to root_path and return unless urls_valid? || params[:files].presence
       load_schema
       Zipfile.check!(params)
+    end
+    def fetch_files
+      @files = []
+      params[:files].each do |id|
+        @files << fetch_file(id)
+      end
+      @files.flatten!
+    end
+
+    def fetch_file(id)
+      stored_csv = Mongoid::GridFs.get(id)
+      filename = stored_csv.metadata[:filename]
+      if File.extname(filename) == ".zip"
+        unzip(filename, stored_csv.data)
+      else
+        {
+          :csv_id => id,
+          :filename => filename
+        }
+      end
+    end
+
+    def unzip(filename, data)
+      tempfile = Tempfile.new(filename)
+      tempfile.binmode
+      tempfile.write(data)
+      tempfile.rewind
+      Zipfile.unzip(tempfile, :file)
     end
 
     def urls_valid?
