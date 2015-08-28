@@ -3,14 +3,7 @@ require 'zip'
 class Zipfile
 
   def self.unzip(source, type)
-    if type == :urls
-      file = Tempfile.new(source.split("/").last)
-      file.binmode
-      file.write open(source).read
-      file.rewind
-    else
-      file = File.open(source)
-    end
+    file = File.open(source)
 
     files = []
 
