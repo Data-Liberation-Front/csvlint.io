@@ -60,13 +60,8 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
-  config.before(:each) do
-    FileUtils.mkdir(File.join('/', 'tmp', 'csvs'))
-  end
-
   config.after(:each) do
     DatabaseCleaner.clean
-    FileUtils.rm_r(File.join('/', 'tmp', 'csvs'))
   end
 
   config.after(:all) do
