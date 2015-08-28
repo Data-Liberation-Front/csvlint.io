@@ -1,3 +1,5 @@
+require 'stored_csv'
+
 When(/^I go to the homepage$/) do
   visit root_path
 end
@@ -30,13 +32,10 @@ When(/^I attach the file "(.*?)" to the "(.*?)" field$/) do |file, field_name|
   if field_name == "schema_file"
     attach_file(field_name.to_sym, File.join(Rails.root, 'fixtures', @file))
   else
-    # Move the file from the fixures to /tmp
-    tempfile = Tempfile.new([File.basename(file), File.extname(file)])
-    file = File.read(File.join(Rails.root, 'fixtures', file))
-    tempfile.write(file)
-    tempfile.rewind
+    file_path = File.open(File.join(Rails.root, 'fixtures', file))
+    csv = StoredCSV.save(file_path, File.basename(file))
     # inject the file location into the hidden field
-    find(:xpath, "//input[@name='files[]']").set(tempfile.path)
+    find(:xpath, "//input[@name='files[]']").set(csv.id)
   end
 end
 
