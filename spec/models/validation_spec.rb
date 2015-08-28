@@ -42,6 +42,7 @@ describe Validation, type: :model do
       validation.check_validation
       validation.state.should == "invalid"
     end
+    Timecop.return
   end
 
   it "should not requeue a validation for images if revalidate is set to false" do
