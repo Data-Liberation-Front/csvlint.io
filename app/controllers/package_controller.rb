@@ -14,7 +14,7 @@ class PackageController < ApplicationController
 
     if !params[:files].blank?
       files = params[:files].map! do |file|
-        f = File.open("/tmp/#{file}")
+        f = File.open(file)
         stored_csv = Mongoid::GridFs.put(f)
         {
           :csv_id => stored_csv.id,
