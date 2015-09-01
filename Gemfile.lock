@@ -46,6 +46,13 @@ GIT
       rake
       rest-client
 
+GIT
+  remote: git://github.com/theodi/resumable-upload.git
+  revision: 1fd29b553ae594f8e2ea253bc5c88b9c595ef297
+  specs:
+    resumable_upload (0.0.1)
+      rails (~> 4.0.13)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -530,6 +537,7 @@ DEPENDENCIES
   rack-google-analytics
   rails (~> 4.0.12)
   rest-client
+  resumable_upload (= 0.0.1)!
   rspec-rails
   rubyzip
   sass-rails (~> 4.0.0)
