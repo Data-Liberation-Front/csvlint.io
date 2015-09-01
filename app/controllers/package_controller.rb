@@ -46,9 +46,10 @@ class PackageController < ApplicationController
     def preprocess
       remove_blanks!
       params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
+      process_files unless params[:standard_files].blank?
       fetch_files unless params[:files].blank?
       unzip_urls unless params[:urls].blank?
-      redirect_to root_path and return unless urls_valid? || params[:files].presence
+      redirect_to root_path and return unless urls_valid? || (params[:files] || params[:standard_files]).presence
       load_schema
     end
 
@@ -61,6 +62,16 @@ class PackageController < ApplicationController
       end
       @files.flatten!
       @files = nil if @files.count == 0
+    end
+
+    def process_files
+      @files = []
+      params[:standard_files].each do |f|
+        filename = f.original_filename
+        stored_csv = StoredCSV.save(f.tempfile, filename)
+        @files << fetch_file(stored_csv.id)
+      end
+      @files.flatten!
     end
 
     def fetch_files
