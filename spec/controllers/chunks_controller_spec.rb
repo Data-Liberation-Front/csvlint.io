@@ -36,20 +36,6 @@ describe ChunksController, type: :controller do
         resumableChunkNumber: "1", resumableChunkSize: "5", resumableCurrentChunkSize: "5", resumableTotalSize: "1",
         file: mock_file
       response.code.should == "200"
-      json = JSON.parse(response.body)
-      json['id'].should_not be_nil
-    end
-
-    it "saves a complete file to gridfs" do
-      mock_file = mock_uploaded_file("chunks/spec_chunk.part1", nil)
-      resumable_file_name = "spec_chunk"
-      post 'create', resumableIdentifier: "spec_chunk_id", resumableFilename: resumable_file_name,
-        resumableChunkNumber: "1", resumableChunkSize: "5", resumableCurrentChunkSize: "5", resumableTotalSize: "1",
-        file: mock_file
-
-      json = JSON.parse(response.body)
-      file = Mongoid::GridFs.get(json['id'])
-      file.data.should == mock_file.tempfile.read
     end
 
   end

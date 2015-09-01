@@ -6,7 +6,6 @@ Csvlint::Application.routes.draw do
   resources :validation
   resources :schemas
   resources :package
-  resource :chunk, :only => [:create, :show]
 
   get 'about', to: 'application#about', as: 'about'
   get 'statistics', to: 'summary#index', as: 'statistics'
