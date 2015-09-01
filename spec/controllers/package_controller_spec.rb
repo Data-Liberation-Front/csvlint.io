@@ -161,38 +161,6 @@ describe PackageController, type: :controller do
       validator.errors[9].type.should == :below_minimum
     end
 
-    it "supports standard file uploads" do
-      post 'create', standard_files: [
-        mock_uploaded_file('csvs/valid.csv')
-      ]
-      response.should be_redirect
-      validation = Validation.first
-      response.location.should == validation_url(validation)
-    end
-
-    it "supports multiple standard file uploads" do
-      post 'create', standard_files: [
-        mock_uploaded_file('csvs/valid.csv'),
-        mock_uploaded_file('csvs/valid.csv'),
-        mock_uploaded_file('csvs/valid.csv')
-      ]
-      response.should be_redirect
-      package = Package.first
-      package.validations.count.should == 3
-      response.location.should == package_url(package)
-    end
-
-    it "supports multiple standard upload zip files" do
-      post 'create', standard_files: [
-                        mock_uploaded_file('csvs/valid.zip'),
-                        mock_uploaded_file('csvs/multiple_files.zip'),
-                      ]
-      response.should be_redirect
-      package = Package.first
-      package.validations.count.should == 4
-      response.location.should == package_url(package)
-    end
-
   end
 
   describe "POST 'create' HTML" do

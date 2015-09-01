@@ -28,8 +28,7 @@
 
           <label for="upload_file" class="options">Or upload a file:</label>
           <div class="input-group">
-            <%= file_field_tag 'standard_files[]', title: 'Choose Files', id: 'standard_files', multiple: 'multiple' %>
-            <%= button_tag '<i class="glyphicon glyphicon-cloud-upload"></i> Choose a file'.html_safe, type: 'button', id: 'upload_button', class: 'btn-info btn-lg hidden' %>
+            <%= button_tag '<i class="glyphicon glyphicon-cloud-upload"></i> Choose a file'.html_safe, type: 'button', id: 'upload_button', class: 'btn-info btn-lg' %>
             <label style = "padding:8pt;" id="file_name"></label>
             <div id="file_paths"></div>
             <!--  add upload image back to button -->
@@ -89,7 +88,6 @@
 
 
 <script type="text/javascript">
-$('#standard_files').addClass('hidden');
 // resumable
 var r = new Resumable({
     target:'/chunk',
@@ -106,12 +104,11 @@ var r = new Resumable({
 // Resumable.js isn't supported, fall back on a different method
 if(!r.support) {
     console.log("support error");
-    $('#standard_files').removeClass('hidden');
     $('.resumable-error').show();
 } else {
-    $('#upload_button').removeClass('hidden');
     // Show a place for dropping/selecting files
     r.assignBrowse(document.getElementById('upload_button'));
+
 
     // Handle file add event
     r.on('fileAdded', function(file){
