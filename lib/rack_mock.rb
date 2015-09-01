@@ -1,18 +1,19 @@
 # Replaces particular requests with a mock in order to do things like
 # test javascript failure modes via Cucumber.
 class RackMock
-  
+
   def initialize(app)
     @@mocks ||= {}
-    @app = app       
-  end                
-  
+    @app = app
+  end
+
   def self.mock(path, status, headers = {}, body = "")
     @@mocks ||= {}
     @@mocks[path] = [status, headers, body]
   end
 
   def self.reset
+    sleep 5
     @@mocks = {}
   end
 
@@ -24,5 +25,5 @@ class RackMock
     end
     @app.call(env)
   end
-                  
-end  
+
+end
