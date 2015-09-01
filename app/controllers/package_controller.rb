@@ -1,6 +1,7 @@
 require 'uri'
 require 'zipfile'
 require 'data_uri/open_uri'
+require 'stored_csv'
 
 class PackageController < ApplicationController
   before_filter :preprocess, :only => :create
@@ -10,27 +11,16 @@ class PackageController < ApplicationController
   before_filter(:only => [:show]) { alternate_formats [:json] }
 
   def create
-    io = params[:urls].presence || params[:files].presence
+    urls = params[:urls].presence
 
-    if io.first.respond_to?(:tempfile)
-      io = io.map! do |io|
-        stored_csv = Mongoid::GridFs.put(StringIO.new(io.read))
-        {
-          :csv_id => stored_csv.id,
-          :filename => io.original_filename
-        }
-      end
-
-    end
-
-    redirect_to root_path and return if io.nil?
+    redirect_to root_path and return if urls.blank? && @files.nil?
 
     if params[:format] == "json"
       @package = Package.create
-      @package.delay.create_package(io, @schema_url, @schema)
+      @package.delay.create_package(@files || urls, @schema_url, @schema)
     else
       package = Package.create
-      package.create_package(io, @schema_url, @schema)
+      package.create_package(@files || urls, @schema_url, @schema)
 
       if package.validations.count == 1
         redirect_to validation_path(package.validations.first)
@@ -55,12 +45,51 @@ class PackageController < ApplicationController
 
     def preprocess
       remove_blanks!
-      # pass files to function and return data as ActionDispatch object
       params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
-      params[:schema_file] = read_files(params[:schema_data]).first unless params[:schema_data].blank?
+      fetch_files unless params[:files].blank?
+      unzip_urls unless params[:urls].blank?
       redirect_to root_path and return unless urls_valid? || params[:files].presence
       load_schema
-      Zipfile.check!(params)
+    end
+
+    def unzip_urls
+      @files = []
+      params[:urls].each do |url|
+        if File.extname(url) == ".zip"
+          @files << unzip(File.basename(url), open(url).read)
+        end
+      end
+      @files.flatten!
+      @files = nil if @files.count == 0
+    end
+
+    def fetch_files
+      @files = []
+      params[:files].each do |id|
+        @files << fetch_file(id)
+      end
+      @files.flatten!
+    end
+
+    def fetch_file(id)
+      stored_csv = Mongoid::GridFs.get(id)
+      filename = stored_csv.metadata[:filename]
+      if File.extname(filename) == ".zip"
+        unzip(filename, stored_csv.data)
+      else
+        {
+          :csv_id => id,
+          :filename => filename
+        }
+      end
+    end
+
+    def unzip(filename, data)
+      tempfile = Tempfile.new(filename)
+      tempfile.binmode
+      tempfile.write(data)
+      tempfile.rewind
+      Zipfile.unzip(tempfile, :file)
     end
 
     def urls_valid?
@@ -80,23 +109,27 @@ class PackageController < ApplicationController
 
     def remove_blanks!
       params[:urls].reject! { |url| url.blank? } unless params[:urls].blank?
-      params[:files_data].reject! { |data| data.blank? } unless params[:files_data].blank?
+      params[:files].reject! { |data| data.blank? } unless params[:files].blank?
     end
 
     def load_schema
       # Check that schema checkbox is ticked
       return unless params[:schema] == "1"
-      # Load schema
-      io = params[:schema_url].presence || params[:schema_file].presence
-      if io.class == String
-        @schema = Csvlint::Schema.load_from_json_table(io)
-        @schema_url = params[:schema_url]
-        # byebug
-      else
-        begin
-          schema_json = JSON.parse( File.new( params[:schema_file].tempfile ).read() )
-          @schema = Csvlint::Schema.from_json_table( nil, schema_json )
 
+      # Load schema
+      if params[:schema_url].presence
+        @schema = Csvlint::Schema.load_from_json_table(params[:schema_url])
+        @schema_url = params[:schema_url]
+      elsif params[:schema_data] || params[:schema_file]
+        if params[:schema_data]
+          data = read_data_url(params[:schema_data])[:body].read
+        else
+          data = params[:schema_file].tempfile.read
+        end
+
+        begin
+          json = JSON.parse(data)
+          @schema = Csvlint::Schema.from_json_table( nil, json )
         rescue JSON::ParserError
           # catch JSON parse error
           # this rescue requires further work, currently in place to catch malformed or bad json uploaded schemas
@@ -113,32 +146,25 @@ class PackageController < ApplicationController
       Package.create_package( sources, params[:schema_url], @schema )
     end
 
+    def read_data_url(data)
+      file_array = data.split(";", 2)
+      uri = URI::Data.new(file_array[1])
+      {
+        filename: file_array[0],
+        body: open(uri)
+      }
+    end
+
     def read_files(data)
-      # returns an ActionDispatch file
-      # this process is not evaluated by the feature tests because they can be preprocessed as ActionDispatch files
       files = []
       data = [data] if data.class == String
       # converts the base64 schema to an array for parsing below
       data.each do |data|
-
-        file_array = data.split(";", 2)
-        filename = file_array[0]
-        uri = URI::Data.new(file_array[1])
-
-        io = open(uri)
-        basename = File.basename(filename)
-        tempfile = Tempfile.new(basename)
-        tempfile.binmode
-        tempfile.write(io.read)
-        tempfile.rewind
-        file = ActionDispatch::Http::UploadedFile.new(:filename => filename,
-                                                      :tempfile => tempfile
-                                                      )
-        file.content_type = io.content_type
-        files << file
+        file = read_data_url(data)
+        stored_csv = StoredCSV.save(file[:body], File.basename(file[:filename]))
+        files << stored_csv.id
       end
       files
-
     end
 
 end

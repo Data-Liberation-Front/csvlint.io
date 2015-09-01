@@ -61,6 +61,7 @@ group :development, :test do
   gem 'cucumber-api-steps', require: false, github: 'theodi/cucumber-api-steps', branch: 'feature-test-content-type'
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
+  gem 'resumable_upload', '0.0.1', github: "theodi/resumable-upload"
 end
 
 group :development do
@@ -81,6 +82,7 @@ end
 
 gem 'rack-google-analytics'
 gem 'mongoid'
+gem 'bson', '3.1.1'
 gem 'mongoid-grid_fs', github: 'ahoward/mongoid-grid_fs'
 gem 'bson_ext'
 gem 'kaminari'

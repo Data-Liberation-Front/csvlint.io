@@ -7,3 +7,11 @@ require 'mongoid'
     Validation.remove_indexes
     Validation.create_indexes
   end
+
+  Before do
+    FileUtils.mkdir(File.join('/', 'tmp', 'csvs'))
+  end
+
+  After do
+    FileUtils.rm_r(File.join('/', 'tmp', 'csvs'))
+  end

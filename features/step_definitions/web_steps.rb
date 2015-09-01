@@ -1,3 +1,5 @@
+require 'stored_csv'
+
 When(/^I go to the homepage$/) do
   visit root_path
 end
@@ -27,8 +29,14 @@ end
 
 When(/^I attach the file "(.*?)" to the "(.*?)" field$/) do |file, field_name|
   @file = file
-  field_name = "files[]" if field_name == "file"
-  attach_file(field_name.to_sym, File.join(Rails.root, 'fixtures', @file))
+  if field_name == "schema_file"
+    attach_file(field_name.to_sym, File.join(Rails.root, 'fixtures', @file))
+  else
+    file_path = File.open(File.join(Rails.root, 'fixtures', file))
+    csv = StoredCSV.save(file_path, File.basename(file))
+    # inject the file location into the hidden field
+    find(:xpath, "//input[@name='files[]']").set(csv.id)
+  end
 end
 
 Then(/^I should see "(.*?)"$/) do |text|

@@ -12,4 +12,6 @@ Csvlint::Application.routes.draw do
   get 'privacy_policy', to: 'application#privacy', as: 'privacy_policy'
   get 'documentation', to: 'application#documentation', as: 'documentation'
 
+  mount ResumableUpload::Engine => "/app"
+
 end

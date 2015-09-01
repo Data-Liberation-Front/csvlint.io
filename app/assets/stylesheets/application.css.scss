@@ -143,6 +143,7 @@ background-color: $odiOrange;
   }
   a.btn-lg, button.btn-lg{
     @include button-size(10px, 30px, 18px, 18px, 6px);
+    border: 0;
   }
 
   #schemas{
