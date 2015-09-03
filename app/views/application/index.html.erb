@@ -3,7 +3,6 @@
 <% end %>
 <%= javascript_include_tag "resumable.js" %>
 <%= stylesheet_link_tag "resumable.css" %>
-
 <div class="row">
   <div class="col-md-6">
     <p class="lead">CSV looks easy, but it can be hard to make a CSV file that other people can read easily.</p>
@@ -90,7 +89,7 @@
 <script type="text/javascript">
 // resumable
 var r = new Resumable({
-    target:'/chunk',
+    target:'<%= ResumableUpload::Engine.routes.url_helpers.chunk_path %>',
     chunkSize:1*1024*1024,
     simultaneousUploads:4,
     testChunks:false,
