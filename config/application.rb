@@ -35,7 +35,11 @@ module Csvlint
         origins '*'
         resource '*', :headers => :any, :methods => [:get]
       end
-    end 
+    end
+
+    config.assets.precompile += %w{
+      resumable.css
+    }
 
   end
 end
