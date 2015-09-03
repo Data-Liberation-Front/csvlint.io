@@ -133,10 +133,9 @@ if(!r.support) {
         }
     });
     r.on('fileSuccess', function(file,message){
-        json = JSON.parse(message)
         // Reflect that the file upload has completed
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
-        $('#file_paths').append( "<input type='hidden' name='files[]' value='" + json.id + "' />" )
+        $('#file_paths').append( "<input type='hidden' name='file_ids[]' value='" + file.uniqueIdentifier + "' />" )
     });
     r.on('fileError', function(file, message){
         // Reflect that the file upload has resulted in error
