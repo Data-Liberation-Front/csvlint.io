@@ -61,7 +61,6 @@ group :development, :test do
   gem 'cucumber-api-steps', require: false, github: 'theodi/cucumber-api-steps', branch: 'feature-test-content-type'
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
-  gem 'resumable_upload', '0.0.1', github: "theodi/resumable-upload"
 end
 
 group :development do
@@ -103,3 +102,5 @@ gem 'jquery-dotdotdot-rails'
 gem 'alternate_rails', github: 'theodi/alternate-rails'
 gem 'rack-cors'
 gem 'byebug'
+
+gem 'resumable_upload', '0.0.1', github: "theodi/resumable-upload"
