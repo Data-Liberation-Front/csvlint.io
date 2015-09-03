@@ -46,6 +46,15 @@ GIT
       rake
       rest-client
 
+GIT
+  remote: git://github.com/theodi/resumable-upload.git
+  revision: e2091c11fa41cc7f4205f9aa0183b00c77200910
+  specs:
+    resumable_upload (0.0.1)
+      mongoid
+      mongoid-grid_fs
+      rails (~> 4.0.13)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -86,7 +95,7 @@ GEM
       rails (>= 3.1)
     bootstrap-sass (3.1.1.1)
       sass (~> 3.2)
-    bson (3.1.2)
+    bson (3.1.1)
     bson_ext (1.5.1)
     builder (3.1.4)
     byebug (5.0.0)
@@ -496,6 +505,7 @@ DEPENDENCIES
   alternate_rails!
   bootstrap-kaminari-views
   bootstrap-sass (~> 3.1.1)
+  bson (= 3.1.1)
   bson_ext
   byebug
   coffee-rails (~> 4.0.0)
@@ -529,6 +539,7 @@ DEPENDENCIES
   rack-google-analytics
   rails (~> 4.0.12)
   rest-client
+  resumable_upload (= 0.0.1)!
   rspec-rails
   rubyzip
   sass-rails (~> 4.0.0)
@@ -544,3 +555,6 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   vcr
   webmock
+
+BUNDLED WITH
+   1.10.6

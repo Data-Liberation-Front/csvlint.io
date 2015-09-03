@@ -1,7 +1,8 @@
 <% content_for :title do %>
   Check your CSV files with CSVLint
 <% end %>
-
+<%= javascript_include_tag "resumable.js" %>
+<%= stylesheet_link_tag "resumable.css" %>
 <div class="row">
   <div class="col-md-6">
     <p class="lead">CSV looks easy, but it can be hard to make a CSV file that other people can read easily.</p>
@@ -26,9 +27,25 @@
 
           <label for="upload_file" class="options">Or upload a file:</label>
           <div class="input-group">
-            <%= file_field_tag 'files[]', multiple: true, class: 'file-chooser btn-info btn-lg', id: 'upload_file', title: 'Choose a file' %>
+            <%= button_tag '<i class="glyphicon glyphicon-cloud-upload"></i> Choose a file'.html_safe, type: 'button', id: 'upload_button', class: 'btn-info btn-lg' %>
+            <label style = "padding:8pt;" id="file_name"></label>
+            <div id="file_paths"></div>
+            <!--  add upload image back to button -->
           </div>
 
+          <div class="resumable-progress row">
+            <div class="progress-container col-md-11">
+              <div class="progress">
+                <div class="progress-bar" role="progressbar"></div>
+              </div>
+            </div>
+            <div class="progress-text"></div>
+            <div class="progress-pause col-md-1">
+              <a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><i class="glyphicon glyphicon-play"></i></a>
+            </div>
+          </div>
+
+          <ul class="resumable-list"></ul>
 
         <div class="checkbox">
           <label>
@@ -44,6 +61,7 @@
             <div class="input-group">
               <%= file_field_tag 'schema_file', class: 'file-chooser btn-info btn-lg', title: 'browse' %>
             </div>
+            <input type="hidden" name="files[]" />
       </div>
 
       <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit">
@@ -53,6 +71,10 @@
 
       <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
       <% end %>
+    <div class="resumable-error">
+      Your browser, unfortunately, is not supported by Resumable.js. The library requires support for <a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a> along with <a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">file slicing</a>.
+    </div>
+
   </div>
 
 </div>
@@ -61,7 +83,86 @@
 
 <% content_for :extra_javascript do %>
 
+
 <script type="text/javascript">
+// resumable
+var r = new Resumable({
+    target:'<%= ResumableUpload::Engine.routes.url_helpers.chunk_path %>',
+    chunkSize:1*1024*1024,
+    simultaneousUploads:4,
+    testChunks:false,
+    throttleProgressCallbacks:1,
+    generateUniqueIdentifier: function(file) {
+      var relativePath = file.webkitRelativePath||file.fileName||file.name; // Some confusion in different versions of Firefox
+      var timestamp = Math.floor(Date.now() / 1000)
+      return(timestamp + '-' + relativePath.replace(/[^0-9a-zA-Z_-]/img, ''));
+    }
+});
+// Resumable.js isn't supported, fall back on a different method
+if(!r.support) {
+    console.log("support error");
+    $('.resumable-error').show();
+} else {
+    // Show a place for dropping/selecting files
+    r.assignBrowse(document.getElementById('upload_button'));
+
+
+    // Handle file add event
+    r.on('fileAdded', function(file){
+        // Show progress pabr
+        $('.resumable-progress, .resumable-list').show();
+        // Show pause, hide resume
+        $('.resumable-progress .progress-resume-link').hide();
+        $('.resumable-progress .progress-pause-link').show();
+        // Add the file to the list
+        $('.resumable-list').append('<li class="resumable-file-'+file.uniqueIdentifier+'">Uploading <span class="resumable-file-name"></span> <span class="resumable-file-progress"></span>');
+        $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-name').html(file.fileName);
+        // Actually start the upload
+        r.upload();
+    });
+    r.on('pause', function(){
+        // Show resume, hide pause
+        $('.resumable-progress .progress-resume-link').show();
+        $('.resumable-progress .progress-pause-link').hide();
+    });
+    r.on('complete', function(){
+        // Hide pause/resume when the upload has completed
+        $('.resumable-progress .progress-resume-link, .resumable-progress .progress-pause-link').hide();
+        if (r.files.length == 1) {
+          document.getElementById("file_name").innerHTML = r.files[0].file.name;
+        } else {
+          document.getElementById("file_name").innerHTML = r.files.length + " files"
+        }
+    });
+    r.on('fileSuccess', function(file,message){
+        json = JSON.parse(message)
+        // Reflect that the file upload has completed
+        $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
+        $('#file_paths').append( "<input type='hidden' name='files[]' value='" + json.id + "' />" )
+    });
+    r.on('fileError', function(file, message){
+        // Reflect that the file upload has resulted in error
+        $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(file could not be uploaded: '+message+')');
+    });
+    r.on('fileProgress', function(file){
+        // Handle progress for both the file and the overall upload
+        $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html(Math.floor(file.progress()*100) + '%');
+        $('.progress-bar').css({width:Math.floor(r.progress()*100) + '%'});
+    });
+    r.on('cancel', function(){
+        $('.resumable-file-progress').html('canceled');
+    });
+    r.on('uploadStart', function(){
+        // Show pause, hide resume
+        $('.resumable-progress .progress-resume-link').hide();
+        $('.resumable-progress .progress-pause-link').show();
+    });
+}
+
+</script>
+
+<script type="text/javascript">
+  // original jquery
 	$(document)
 		.on('change', '.btn-file :file', function() {
 			var input = $(this),
@@ -76,8 +177,7 @@
 		$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
 
 			var input = $(this).parents('.input-group').find(':text'),
-				log = numFiles > 1 ? numFiles + ' files selected' : label;
-
+            log = numFiles > 1 ? numFiles + ' files selected' : label;
 			input.val(log);
 		});
 
@@ -98,6 +198,7 @@
 
   		  files = [];
         urls = [];
+        paths = [];
         validation_count = 0;
 
   		  $.each($("#schema_file")[0].files, function(index, file) {
@@ -105,31 +206,28 @@
   		    files.push(file);
   	    });
 
-  		  $.each($("#upload_file")[0].files, function(index, file) {
-  		    file.category = "csv"
-  		    files.push(file)
+        $( "#file_paths input" ).each(function(){
+          paths.push(this.value);
           validation_count++;
-  	    });
-
+        })
 
         $( "input[name='urls[]']" ).each(function(){
           if ($(this).val().length > 0) {
-            urls.push($(this).val());
-            validation_count++;
+              urls.push($(this).val());
+              validation_count++;
           }
         });
 
   		  readFiles(files, function(files, schema_file) {
 
-          postdata = {
-            "files_data[]": files,
-            "schema": $('#schema').prop("checked") ? 1 : 0,
-            "schema_data": schema_file,
-            "schema_url": $('#schema_url').val(),
-            "urls[]": urls,
-          }
-
-  		    postData(postdata);
+              postdata = {
+                "files[]": paths,
+                "schema": $('#schema').prop("checked") ? 1 : 0,
+                "schema_data": schema_file,
+                "schema_url": $('#schema_url').val(),
+                "urls[]": urls,
+              }
+              postData(postdata);
   		  });
 
 		})
@@ -148,48 +246,47 @@
 	        }
 		      if (!--count) callback(csvs, schema_file);
 		    });
-      });
+          });
 		}
 
 		function buildFile(file) {
 		  return file.filename + ";" + file.data;
 		}
 
-		function readFile(file, callback) {
-  	  var reader = new FileReader();
-      reader.onload = function(event) {
-        object = {};
-        object.filename = file.name;
-        object.data = event.target.result;
-        callback(object);
-      };
-      reader.readAsDataURL(file);
-		}
+        function readFile(file, callback) {
+          var reader = new FileReader();
+          reader.onload = function(event) {
+            object = {};
+            object.filename = file.name;
+            object.data = event.target.result;
+            callback(object);
+          };
+          reader.readAsDataURL(file);
+        }
 
 		function postData(data) {
 		  var AUTH_TOKEN = $('input[name=authenticity_token]').attr('value');
-
-      $.ajax(
-        {
-          url: "<%= package_index_path(format: :json) %>?&authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
-          type: "POST",
-          data: data,
-          success:function(data, textStatus, jqXHR) {
-            package_url = data.package.url
-            checkPackage();
-          }
-        }
-      );
+          $.ajax(
+            {
+              url: "<%= package_index_path(format: :json) %>?&authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
+              type: "POST",
+              data: data,
+              success:function(data, textStatus, jqXHR) {
+                package_url = data.package.url
+                checkPackage();
+              }
+            }
+          );
 		}
 
 		function checkPackage() {
 		   setInterval(function(){
-          $.ajax({ url: package_url + ".json", success: function(data){
-            if (data.package.validations.length == validation_count) {
-              document.location.href = package_url
-            }
-          }, dataType: "json"});
-      }, 5000);
+              $.ajax({ url: package_url + ".json", success: function(data){
+                if (data.package.validations.length >= validation_count) {
+                  document.location.href = package_url
+                }
+              }, dataType: "json"});
+           }, 5000);
 		}
 
 	});

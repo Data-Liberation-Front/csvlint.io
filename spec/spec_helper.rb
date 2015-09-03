@@ -12,6 +12,7 @@ require 'database_cleaner'
 require 'vcr'
 require 'timecop'
 # require 'csvlint'
+require 'stored_csv'
 
 DatabaseCleaner.strategy = :truncation
 
@@ -33,7 +34,7 @@ end
 RSpec.configure do |config|
   include ActionDispatch::TestProcess
 
-  
+
   config.treat_symbols_as_metadata_keys_with_true_values = true
 
   config.before(:all) do
@@ -59,7 +60,7 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
-  
+
   config.after(:each) do
     DatabaseCleaner.clean
   end
@@ -81,7 +82,7 @@ def mock_file(url, file, content_type = "text/csv")
   stub_request(:head, url).to_return(:status => 200)
 end
 
-def mock_upload(file, content_type = "text/csv")
+def mock_uploaded_file(file, content_type = "text/csv")
   upload_file = fixture_file_upload(File.join(Rails.root, 'fixtures', file), content_type)
   class << upload_file
     # The reader method is present in a real invocation,
@@ -91,9 +92,14 @@ def mock_upload(file, content_type = "text/csv")
   upload_file
 end
 
+def mock_upload(filename)
+  file = File.open(File.join(Rails.root, 'fixtures', 'csvs', filename))
+  csv = StoredCSV.save(file, filename)
+  csv.id
+end
+
 def create_data_uri(file, content_type = "text/csv")
   contents = File.read File.join(Rails.root, 'fixtures', file)
   base64 = Base64.encode64(contents).gsub("\n",'')
   "#{file};data:#{content_type};base64,#{base64}"
 end
-  

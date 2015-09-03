@@ -81,6 +81,7 @@ end
 
 gem 'rack-google-analytics'
 gem 'mongoid'
+gem 'bson', '3.1.1'
 gem 'mongoid-grid_fs', github: 'ahoward/mongoid-grid_fs'
 gem 'bson_ext'
 gem 'kaminari'
@@ -101,3 +102,5 @@ gem 'jquery-dotdotdot-rails'
 gem 'alternate_rails', github: 'theodi/alternate-rails'
 gem 'rack-cors'
 gem 'byebug'
+
+gem 'resumable_upload', '0.0.1', github: "theodi/resumable-upload"
