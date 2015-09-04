@@ -44,9 +44,9 @@ class PackageController < ApplicationController
   private
 
     def preprocess
-      join_chunks
       remove_blanks!
       params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
+      join_chunks unless params[:file_ids].blank?
       fetch_files unless params[:files].blank?
       unzip_urls unless params[:urls].blank?
       redirect_to root_path and return unless urls_valid? || params[:files].presence
