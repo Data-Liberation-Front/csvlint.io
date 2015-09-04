@@ -1,4 +1,5 @@
 require 'stored_csv'
+require File.join(Rails.root, 'spec', 'fixture_helpers')
 
 When(/^I go to the homepage$/) do
   visit root_path
@@ -32,10 +33,8 @@ When(/^I attach the file "(.*?)" to the "(.*?)" field$/) do |file, field_name|
   if field_name == "schema_file"
     attach_file(field_name.to_sym, File.join(Rails.root, 'fixtures', @file))
   else
-    file_path = File.open(File.join(Rails.root, 'fixtures', file))
-    csv = StoredCSV.save(file_path, File.basename(file))
-    # inject the file location into the hidden field
-    find(:xpath, "//input[@name='files[]']").set(csv.id)
+    filename = @file.split("/").last
+    find(:xpath, "//input[@name='file_ids[]']").set(mock_upload(filename))
   end
 end
 
