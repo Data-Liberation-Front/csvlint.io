@@ -218,7 +218,7 @@ if(!r.support) {
   		  readFiles(files, function(files, schema_file) {
 
               postdata = {
-                "files[]": paths,
+                "file_ids[]": paths,
                 "schema": $('#schema').prop("checked") ? 1 : 0,
                 "schema_data": schema_file,
                 "schema_url": $('#schema_url').val(),
