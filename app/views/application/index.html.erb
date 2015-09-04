@@ -27,7 +27,7 @@
           <div class="input-group">
             <%= button_tag '<i class="glyphicon glyphicon-cloud-upload"></i> Choose a file'.html_safe, type: 'button', id: 'upload_button', class: 'btn-info btn-lg' %>
             <label style = "padding:8pt;" id="file_name"></label>
-            <div id="file_paths"></div>
+            <div id="file_ids"></div>
             <!--  add upload image back to button -->
           </div>
 
@@ -135,7 +135,7 @@ if(!r.support) {
     r.on('fileSuccess', function(file,message){
         // Reflect that the file upload has completed
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
-        $('#file_paths').append( "<input type='hidden' name='file_ids[]' value='" + file.uniqueIdentifier + "' />" )
+        $('#file_ids').append( "<input type='hidden' name='file_ids[]' value='" + file.uniqueIdentifier + "' />" )
     });
     r.on('fileError', function(file, message){
         // Reflect that the file upload has resulted in error
@@ -203,7 +203,7 @@ if(!r.support) {
   		    files.push(file);
   	    });
 
-        $( "#file_paths input" ).each(function(){
+        $( "#file_ids input" ).each(function(){
           paths.push(this.value);
           validation_count++;
         })
