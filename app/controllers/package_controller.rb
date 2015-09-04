@@ -44,12 +44,36 @@ class PackageController < ApplicationController
   private
 
     def preprocess
+      join_chunks
       remove_blanks!
       params[:files] = read_files(params[:files_data]) unless params[:files_data].blank?
       fetch_files unless params[:files].blank?
       unzip_urls unless params[:urls].blank?
       redirect_to root_path and return unless urls_valid? || params[:files].presence
       load_schema
+    end
+
+    def join_chunks
+      #When all chunks are uploaded
+      #need resumableIdentifier and resumableChunkNumber (resumableFilename)
+      #Create a target file
+      target_file = Tempfile.new(params[:files])
+      target_file.binmode
+      chunks = Mongoid::GridFs::Fs::File.where({"metadata.resumableFilename" => params[:resumableFilename]})
+      chunks.each do |chunk|
+      # for i in 1..params[:resumableChunkNumber].to_i
+      #   #Select the chunk
+      #   chunk = Mongoid::GridFs.find({"metadata.resumableFilename" => params[:resumableFilename],
+      #     "metadata.resumableChunkNumber" => "#{i}"})
+        chunk.data.each_line do |line|
+          target_file.write(line)
+        end
+        # StoredChunk.destroy(chunk)
+      end
+
+      target_file.rewind
+
+      stored_csv = StoredCSV.save(target_file, params[:resumableFilename])
     end
 
     def unzip_urls
