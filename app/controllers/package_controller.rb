@@ -54,28 +54,23 @@ class PackageController < ApplicationController
     end
 
     def join_chunks
-      #When all chunks are uploaded
-      #need resumableIdentifier and resumableChunkNumber (resumableFilename)
-      #Create a target file
-      target_file = Tempfile.new(params[:files])
-      target_file.binmode
-      require "byebug"
-      byebug
-      chunks = Mongoid::GridFs::File.where("metadata.resumableFilename" => params[:files])
-      chunks.each do |chunk|
-      # for i in 1..params[:resumableChunkNumber].to_i
-      #   #Select the chunk
-      #   chunk = Mongoid::GridFs.find({"metadata.resumableFilename" => params[:resumableFilename],
-      #     "metadata.resumableChunkNumber" => "#{i}"})
-        chunk.data.each_line do |line|
-          target_file.write(line)
+      params[:files] ||= []
+      params[:file_ids].each do |f|
+        target_file = Tempfile.new(f)
+        target_file.binmode
+        chunks = Mongoid::GridFs::File.where("metadata.resumableFilename" => f)
+        chunks.each do |chunk|
+          chunk.data.each_line do |line|
+            target_file.write(line)
+          end
+          chunk.delete
         end
-        # StoredChunk.destroy(chunk)
+
+        target_file.rewind
+
+        stored_csv = StoredCSV.save(target_file, f)
+        params[:files] << stored_csv.id
       end
-
-      target_file.rewind
-
-      stored_csv = StoredCSV.save(target_file, params[:resumableFilename])
     end
 
     def unzip_urls
