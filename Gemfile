@@ -103,4 +103,4 @@ gem 'alternate_rails', github: 'theodi/alternate-rails'
 gem 'rack-cors'
 gem 'byebug'
 
-gem 'resumable_upload', '0.0.1', github: "theodi/resumable-upload"
+gem 'resumable_upload', '0.0.1', github: "theodi/resumable-upload", branch: 'feature-slim-down-controller'
