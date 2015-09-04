@@ -1,5 +1,7 @@
+require 'process_package'
+
 Then(/^my CSV should be placed in a background job$/) do
-  Package.any_instance.should_receive(:delay).and_call_original
+  ProcessPackage.any_instance.should_receive(:delay).and_call_original
 end
 
 When(/^I wait for the ajax request to finish$/) do
