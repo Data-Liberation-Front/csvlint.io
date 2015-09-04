@@ -80,11 +80,6 @@ class ProcessPackage
     Zipfile.unzip(tempfile, :file)
   end
 
-  def check_for_package
-    sources = @params[:urls].presence || @params[:files].presence
-    Package.create_package( sources, @params[:schema_url], @schema )
-  end
-
   def read_data_url(data)
     file_array = data.split(";", 2)
     uri = URI::Data.new(file_array[1])
@@ -114,7 +109,7 @@ class ProcessPackage
     # Load schema
     if @params[:schema_url].presence
       @schema = Csvlint::Schema.load_from_json_table(@params[:schema_url])
-      @schema_url = params[:schema_url]
+      @schema_url = @params[:schema_url]
     elsif @params[:schema_data] || @params[:schema_file]
       if @params[:schema_data]
         data = read_data_url(@params[:schema_data])[:body].read
