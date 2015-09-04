@@ -11,7 +11,7 @@ class ProcessPackage
   end
 
   def process
-    @files = read_files(@params[:files_data]) unless @params[:files_data].blank?
+    read_files unless @params[:files_data].blank?
     join_chunks unless @params[:file_ids].blank?
     fetch_files unless @params[:files].blank?
     unzip_urls unless @params[:urls].blank?
@@ -94,16 +94,17 @@ class ProcessPackage
     }
   end
 
-  def read_files(data)
-    files = []
+  def read_files
+    @files = []
+    data = @params[:files_data]
     data = [data] if data.class == String
     # converts the base64 schema to an array for parsing below
     data.each do |data|
       file = read_data_url(data)
       stored_csv = StoredCSV.save(file[:body], File.basename(file[:filename]))
-      files << stored_csv.id
+      @files << fetch_file(stored_csv.id)
     end
-    files
+    @files.flatten!
   end
 
   def load_schema
