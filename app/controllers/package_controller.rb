@@ -59,7 +59,9 @@ class PackageController < ApplicationController
       #Create a target file
       target_file = Tempfile.new(params[:files])
       target_file.binmode
-      chunks = Mongoid::GridFs::Fs::File.where({"metadata.resumableFilename" => params[:resumableFilename]})
+      require "byebug"
+      byebug
+      chunks = Mongoid::GridFs::File.where("metadata.resumableFilename" => params[:files])
       chunks.each do |chunk|
       # for i in 1..params[:resumableChunkNumber].to_i
       #   #Select the chunk
