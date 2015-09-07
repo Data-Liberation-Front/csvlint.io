@@ -1,5 +1,3 @@
-require 'process_package'
-
 class PackageController < ApplicationController
   before_filter :preprocess, :only => :create
 
@@ -9,11 +7,10 @@ class PackageController < ApplicationController
 
   def create
     @package = Package.create
-    processor = ProcessPackage.new(params, @package.id)
     if params[:format] == "json"
-      processor.delay.process
+      @package.delay.process(params)
     else
-      processor.process
+      @package.process(params)
 
       if @package.validations.count == 1
         redirect_to validation_path(@package.validations.first)

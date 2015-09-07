@@ -1,3 +1,5 @@
+require 'process_package'
+
 class LocalDataset < DataKitten::Dataset
   extend DataKitten::PublishingFormats::Datapackage
 
@@ -32,6 +34,10 @@ class Package
     }
 
     return attributes
+  end
+
+  def process(params)
+    ProcessPackage.new(params, self.id).process
   end
 
   def create_package(sources, schema_url = nil, schema = nil)
