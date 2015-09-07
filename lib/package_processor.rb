@@ -4,7 +4,7 @@ require 'stored_csv'
 require 'schema_processor'
 require 'processor_helpers'
 
-class ProcessPackage
+class PackageProcessor
   include ProcessorHelpers
 
   def initialize(params, package_id)
