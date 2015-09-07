@@ -25,6 +25,7 @@
 
           <label for="upload_file" class="options">Or upload a file:</label>
           <div class="input-group">
+            <%= file_field_tag 'files[]', title: 'Choose Files', id: 'standard_files', multiple: 'multiple' %>
             <%= button_tag '<i class="glyphicon glyphicon-cloud-upload"></i> Choose a file'.html_safe, type: 'button', id: 'upload_button', class: 'btn-info btn-lg' %>
             <label style = "padding:8pt;" id="file_name"></label>
             <div id="file_ids"></div>
@@ -96,9 +97,13 @@ var r = new Resumable({
       return(timestamp + '-' + relativePath.replace(/[^0-9a-zA-Z_-]/img, ''));
     }
 });
+
+$('#standard_files').addClass('hidden');
+
 // Resumable.js isn't supported, fall back on a different method
 if(!r.support) {
     console.log("support error");
+    $('#standard_files').removeClass('hidden');
     $('.resumable-error').show();
 } else {
     // Show a place for dropping/selecting files

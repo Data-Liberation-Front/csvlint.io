@@ -15,7 +15,7 @@ class PackageProcessor
   def process
     read_files unless @params[:files_data].blank?
     join_chunks unless @params[:file_ids].blank?
-    fetch_files unless @params[:files].blank?
+    open_files unless @params[:files].blank?
     unzip_urls unless @params[:urls].blank?
     package = Package.find(@package_id)
     if @params[:schema].nil?
@@ -27,7 +27,7 @@ class PackageProcessor
   end
 
   def join_chunks
-    @params[:files] ||= []
+    @files ||= []
     @params[:file_ids].each do |f|
       target_file = Tempfile.new(f)
       target_file.binmode
@@ -42,7 +42,7 @@ class PackageProcessor
       target_file.rewind
 
       stored_csv = StoredCSV.save(target_file, f)
-      @params[:files] << stored_csv.id
+      @files << fetch_file(stored_csv.id)
     end
   end
 
@@ -70,12 +70,12 @@ class PackageProcessor
     @files = nil if @files.count == 0
   end
 
-  def fetch_files
-    @files = []
-    @params[:files].each do |id|
-      @files << fetch_file(id)
+  def open_files
+    @files ||= []
+    @params[:files].each do |file|
+      stored_csv = StoredCSV.save(file.tempfile, file.original_filename)
+      @files << fetch_file(stored_csv.id)
     end
-    @files.flatten!
   end
 
   def fetch_file(id)
