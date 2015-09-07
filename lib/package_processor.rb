@@ -18,6 +18,7 @@ class PackageProcessor
     open_files unless @params[:files].blank?
     unzip_urls unless @params[:urls].blank?
     package = Package.find(@package_id)
+
     if @params[:schema].nil?
       package.create_package(@files || @params[:urls])
     else
@@ -44,6 +45,7 @@ class PackageProcessor
       stored_csv = StoredCSV.save(target_file, f)
       @files << fetch_file(stored_csv.id)
     end
+    @files.flatten!
   end
 
   def read_files
