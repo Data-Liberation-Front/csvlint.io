@@ -17,8 +17,15 @@ class PackageProcessor
     join_chunks unless @params[:file_ids].blank?
     open_files unless @params[:files].blank?
     unzip_urls unless @params[:urls].blank?
-    package = Package.find(@package_id)
 
+    create_package
+  end
+
+  def package
+    Package.find(@package_id)
+  end
+
+  def create_package
     if @params[:schema].nil?
       package.create_package(@files || @params[:urls])
     else
