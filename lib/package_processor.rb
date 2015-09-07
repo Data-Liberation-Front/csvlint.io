@@ -39,11 +39,11 @@ class PackageProcessor
     @params[:file_ids].each do |f|
       target_file = Tempfile.new(f)
       target_file.binmode
-      chunks = Mongoid::GridFs::File.where("metadata.resumableFilename" => f)
+      chunks = Mongoid::GridFs::File.where("metadata.resumableFilename" => f).to_a
+      chunks.sort_by! { |s| s.metadata["resumableChunkNumber"].to_i }
+
       chunks.each do |chunk|
-        chunk.data.each_line do |line|
-          target_file.write(line)
-        end
+        target_file.write(chunk.data)
         chunk.delete
       end
 
