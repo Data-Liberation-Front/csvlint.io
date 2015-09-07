@@ -1,9 +1,11 @@
 require 'uri'
 require 'zipfile'
-require 'data_uri/open_uri'
 require 'stored_csv'
+require 'schema_processor'
+require 'processor_helpers'
 
 class ProcessPackage
+  include ProcessorHelpers
 
   def initialize(params, package_id)
     @params = params
@@ -15,9 +17,13 @@ class ProcessPackage
     join_chunks unless @params[:file_ids].blank?
     fetch_files unless @params[:files].blank?
     unzip_urls unless @params[:urls].blank?
-    load_schema
     package = Package.find(@package_id)
-    package.create_package(@files || @params[:urls], @schema_url, @schema)
+    if @params[:schema].nil?
+      package.create_package(@files || @params[:urls])
+    else
+      schema = SchemaProcessor.new(url: @params[:schema_url], file: @params[:schema_file], data: @params[:schema_data])
+      package.create_package(@files || @params[:urls], schema.url, schema.schema)
+    end
   end
 
   def join_chunks
@@ -38,6 +44,19 @@ class ProcessPackage
       stored_csv = StoredCSV.save(target_file, f)
       @params[:files] << stored_csv.id
     end
+  end
+
+  def read_files
+    @files = []
+    data = @params[:files_data]
+    data = [data] if data.class == String
+    # converts the base64 schema to an array for parsing below
+    data.each do |data|
+      file = read_data_url(data)
+      stored_csv = StoredCSV.save(file[:body], File.basename(file[:filename]))
+      @files << fetch_file(stored_csv.id)
+    end
+    @files.flatten!
   end
 
   def unzip_urls
@@ -79,56 +98,5 @@ class ProcessPackage
     tempfile.rewind
     Zipfile.unzip(tempfile, :file)
   end
-
-  def read_data_url(data)
-    file_array = data.split(";", 2)
-    uri = URI::Data.new(file_array[1])
-    {
-      filename: file_array[0],
-      body: open(uri)
-    }
-  end
-
-  def read_files
-    @files = []
-    data = @params[:files_data]
-    data = [data] if data.class == String
-    # converts the base64 schema to an array for parsing below
-    data.each do |data|
-      file = read_data_url(data)
-      stored_csv = StoredCSV.save(file[:body], File.basename(file[:filename]))
-      @files << fetch_file(stored_csv.id)
-    end
-    @files.flatten!
-  end
-
-  def load_schema
-    # Check that schema checkbox is ticked
-    return unless @params[:schema] == "1"
-
-    # Load schema
-    if @params[:schema_url].presence
-      @schema = Csvlint::Schema.load_from_json_table(@params[:schema_url])
-      @schema_url = @params[:schema_url]
-    elsif @params[:schema_data] || @params[:schema_file]
-      if @params[:schema_data]
-        data = read_data_url(@params[:schema_data])[:body].read
-      else
-        data = @params[:schema_file].tempfile.read
-      end
-
-      begin
-        json = JSON.parse(data)
-        @schema = Csvlint::Schema.from_json_table( nil, json )
-      rescue JSON::ParserError
-        # catch JSON parse error
-        # this rescue requires further work, currently in place to catch malformed or bad json uploaded schemas
-        @schema = Csvlint::Schema.new(nil, [], "malformed", "malformed")
-      end
-    end
-    # Get schema URL from parameters
-    @schema_url = @params[:schema_url]
-  end
-
 
 end
