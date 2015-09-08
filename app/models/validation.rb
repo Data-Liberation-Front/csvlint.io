@@ -188,7 +188,7 @@ class Validation
     if csv
       file = Tempfile.new('csv')
       File.open(file, "w") do |f|
-        f.write csv
+        f.write csv.encode("UTF-8", :invalid => :replace, :undef => :replace, :replace => "?")
       end
       file
     end

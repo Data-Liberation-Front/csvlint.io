@@ -52,7 +52,7 @@ describe PackageController, type: :controller do
     end
 
     it "supports multiple files" do
-      post 'create', files: [
+      post 'create', file_ids: [
                         mock_upload('valid.csv'),
                         mock_upload('valid.csv'),
                         mock_upload('valid.csv')
@@ -77,7 +77,7 @@ describe PackageController, type: :controller do
     end
 
     it "supports multiple zip files" do
-      post 'create', files: [
+      post 'create', file_ids: [
                         mock_upload('valid.zip'),
                         mock_upload('multiple_files.zip'),
                       ]

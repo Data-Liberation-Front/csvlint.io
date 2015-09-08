@@ -25,9 +25,10 @@
 
           <label for="upload_file" class="options">Or upload a file:</label>
           <div class="input-group">
-            <%= button_tag '<i class="glyphicon glyphicon-cloud-upload"></i> Choose a file'.html_safe, type: 'button', id: 'upload_button', class: 'btn-info btn-lg' %>
+            <%= file_field_tag 'files[]', title: 'Choose Files', id: 'standard_files', multiple: 'multiple' %>
+            <%= button_tag '<i class="glyphicon glyphicon-cloud-upload"></i> Choose a file'.html_safe, type: 'button', id: 'upload_button', class: 'btn-info btn-lg hidden' %>
             <label style = "padding:8pt;" id="file_name"></label>
-            <div id="file_paths"></div>
+            <div id="file_ids"></div>
             <!--  add upload image back to button -->
           </div>
 
@@ -59,7 +60,7 @@
             <div class="input-group">
               <%= file_field_tag 'schema_file', class: 'file-chooser btn-info btn-lg', title: 'browse' %>
             </div>
-            <input type="hidden" name="files[]" />
+            <input type="hidden" name="file_ids[]" />
       </div>
 
       <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit">
@@ -96,11 +97,16 @@ var r = new Resumable({
       return(timestamp + '-' + relativePath.replace(/[^0-9a-zA-Z_-]/img, ''));
     }
 });
+
+$('#standard_files').addClass('hidden');
+
 // Resumable.js isn't supported, fall back on a different method
 if(!r.support) {
     console.log("support error");
+    $('#standard_files').removeClass('hidden');
     $('.resumable-error').show();
 } else {
+    $('#upload_button').removeClass('hidden');
     // Show a place for dropping/selecting files
     r.assignBrowse(document.getElementById('upload_button'));
 
@@ -133,10 +139,9 @@ if(!r.support) {
         }
     });
     r.on('fileSuccess', function(file,message){
-        json = JSON.parse(message)
         // Reflect that the file upload has completed
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
-        $('#file_paths').append( "<input type='hidden' name='files[]' value='" + json.id + "' />" )
+        $('#file_ids').append( "<input type='hidden' name='file_ids[]' value='" + file.uniqueIdentifier + "' />" )
     });
     r.on('fileError', function(file, message){
         // Reflect that the file upload has resulted in error
@@ -204,7 +209,7 @@ if(!r.support) {
   		    files.push(file);
   	    });
 
-        $( "#file_paths input" ).each(function(){
+        $( "#file_ids input" ).each(function(){
           paths.push(this.value);
           validation_count++;
         })
@@ -219,7 +224,7 @@ if(!r.support) {
   		  readFiles(files, function(files, schema_file) {
 
               postdata = {
-                "files[]": paths,
+                "file_ids[]": paths,
                 "schema": $('#schema').prop("checked") ? 1 : 0,
                 "schema_data": schema_file,
                 "schema_url": $('#schema_url').val(),
