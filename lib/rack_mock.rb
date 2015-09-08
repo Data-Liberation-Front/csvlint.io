@@ -1,5 +1,6 @@
 # Replaces particular requests with a mock in order to do things like
 # test javascript failure modes via Cucumber.
+# :nocov:
 class RackMock
 
   def initialize(app)
@@ -27,3 +28,4 @@ class RackMock
   end
 
 end
+# :nocov:
