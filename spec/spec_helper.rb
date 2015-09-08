@@ -12,6 +12,8 @@ require 'database_cleaner'
 require 'vcr'
 require 'timecop'
 # require 'csvlint'
+require 'stored_csv'
+require 'fixture_helpers'
 
 DatabaseCleaner.strategy = :truncation
 
@@ -33,7 +35,7 @@ end
 RSpec.configure do |config|
   include ActionDispatch::TestProcess
 
-  
+
   config.treat_symbols_as_metadata_keys_with_true_values = true
 
   config.before(:all) do
@@ -59,7 +61,7 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
-  
+
   config.after(:each) do
     DatabaseCleaner.clean
   end
@@ -69,31 +71,3 @@ RSpec.configure do |config|
   end
 
 end
-
-def load_fixture(filename)
-  File.read(File.join(Rails.root, 'fixtures', filename))
-end
-
-def mock_file(url, file, content_type = "text/csv")
-  stub_request(:get, "http://example.org/api/2/rest/dataset/#{url.split("/").last}").to_return(:status => 404, :body => "", :headers => {})
-  stub_request(:get, "http://example.com/api/3/action/package_show?id=#{url.split("/").last}").to_return(:status => 404, :body => "", :headers => {})
-  stub_request(:get, url).to_return(body: load_fixture(file), headers: {"Content-Type" => "#{content_type}; charset=utf-8; header=present"})
-  stub_request(:head, url).to_return(:status => 200)
-end
-
-def mock_upload(file, content_type = "text/csv")
-  upload_file = fixture_file_upload(File.join(Rails.root, 'fixtures', file), content_type)
-  class << upload_file
-    # The reader method is present in a real invocation,
-    # but missing from the fixture object for some reason (Rails 3.1.1)
-    attr_reader :tempfile
-  end
-  upload_file
-end
-
-def create_data_uri(file, content_type = "text/csv")
-  contents = File.read File.join(Rails.root, 'fixtures', file)
-  base64 = Base64.encode64(contents).gsub("\n",'')
-  "#{file};data:#{content_type};base64,#{base64}"
-end
-  

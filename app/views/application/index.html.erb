@@ -1,7 +1,6 @@
 <% content_for :title do %>
   Check your CSV files with CSVLint
 <% end %>
-
 <div class="row">
   <div class="col-md-6">
     <p class="lead">CSV looks easy, but it can be hard to make a CSV file that other people can read easily.</p>
@@ -26,9 +25,26 @@
 
           <label for="upload_file" class="options">Or upload a file:</label>
           <div class="input-group">
-            <%= file_field_tag 'files[]', multiple: true, class: 'file-chooser btn-info btn-lg', id: 'upload_file', title: 'Choose a file' %>
+            <%= file_field_tag 'files[]', title: 'Choose Files', id: 'standard_files', multiple: 'multiple' %>
+            <%= button_tag '<i class="glyphicon glyphicon-cloud-upload"></i> Choose a file'.html_safe, type: 'button', id: 'upload_button', class: 'btn-info btn-lg hidden' %>
+            <label style = "padding:8pt;" id="file_name"></label>
+            <div id="file_ids"></div>
+            <!--  add upload image back to button -->
           </div>
 
+          <div class="resumable-progress row">
+            <div class="progress-container col-md-11">
+              <div class="progress">
+                <div class="progress-bar" role="progressbar"></div>
+              </div>
+            </div>
+            <div class="progress-text"></div>
+            <div class="progress-pause col-md-1">
+              <a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><i class="glyphicon glyphicon-play"></i></a>
+            </div>
+          </div>
+
+          <ul class="resumable-list"></ul>
 
         <div class="checkbox">
           <label>
@@ -44,26 +60,112 @@
             <div class="input-group">
               <%= file_field_tag 'schema_file', class: 'file-chooser btn-info btn-lg', title: 'browse' %>
             </div>
+            <input type="hidden" name="file_ids[]" />
       </div>
 
       <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit">
         <span class="spinner"><i class="glyphicon glyphicon-ok"></i></span>
         <%= t(:validate).titleize %>
       </button>
-        <div id="ajax-error" class="hidden">
-          <button type="button" id="dismiss-ajax-alert" class="close">&times;</button>
-          <p id="ajax-info"></p>
-        </div>
-        <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
+
+      <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
       <% end %>
+    <div class="resumable-error">
+      Your browser, unfortunately, is not supported by Resumable.js. The library requires support for <a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a> along with <a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">file slicing</a>.
+    </div>
+
   </div>
 
 </div>
 
 
+
 <% content_for :extra_javascript do %>
 
+
 <script type="text/javascript">
+// resumable
+var r = new Resumable({
+    target:'<%= ResumableUpload::Engine.routes.url_helpers.chunk_path %>',
+    chunkSize:1*1024*1024,
+    simultaneousUploads:4,
+    testChunks:false,
+    throttleProgressCallbacks:1,
+    generateUniqueIdentifier: function(file) {
+      var relativePath = file.webkitRelativePath||file.fileName||file.name; // Some confusion in different versions of Firefox
+      var timestamp = Math.floor(Date.now() / 1000)
+      return(timestamp + '-' + relativePath.replace(/[^0-9a-zA-Z_-]/img, ''));
+    }
+});
+
+$('#standard_files').addClass('hidden');
+
+// Resumable.js isn't supported, fall back on a different method
+if(!r.support) {
+    console.log("support error");
+    $('#standard_files').removeClass('hidden');
+    $('.resumable-error').show();
+} else {
+    $('#upload_button').removeClass('hidden');
+    // Show a place for dropping/selecting files
+    r.assignBrowse(document.getElementById('upload_button'));
+
+
+    // Handle file add event
+    r.on('fileAdded', function(file){
+        // Show progress pabr
+        $('.resumable-progress, .resumable-list').show();
+        // Show pause, hide resume
+        $('.resumable-progress .progress-resume-link').hide();
+        $('.resumable-progress .progress-pause-link').show();
+        // Add the file to the list
+        $('.resumable-list').append('<li class="resumable-file-'+file.uniqueIdentifier+'">Uploading <span class="resumable-file-name"></span> <span class="resumable-file-progress"></span>');
+        $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-name').html(file.fileName);
+        // Actually start the upload
+        r.upload();
+    });
+    r.on('pause', function(){
+        // Show resume, hide pause
+        $('.resumable-progress .progress-resume-link').show();
+        $('.resumable-progress .progress-pause-link').hide();
+    });
+    r.on('complete', function(){
+        // Hide pause/resume when the upload has completed
+        $('.resumable-progress .progress-resume-link, .resumable-progress .progress-pause-link').hide();
+        if (r.files.length == 1) {
+          document.getElementById("file_name").innerHTML = r.files[0].file.name;
+        } else {
+          document.getElementById("file_name").innerHTML = r.files.length + " files"
+        }
+    });
+    r.on('fileSuccess', function(file,message){
+        // Reflect that the file upload has completed
+        $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
+        $('#file_ids').append( "<input type='hidden' name='file_ids[]' value='" + file.uniqueIdentifier + "' />" )
+    });
+    r.on('fileError', function(file, message){
+        // Reflect that the file upload has resulted in error
+        $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(file could not be uploaded: '+message+')');
+    });
+    r.on('fileProgress', function(file){
+        // Handle progress for both the file and the overall upload
+        $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html(Math.floor(file.progress()*100) + '%');
+        $('.progress-bar').css({width:Math.floor(r.progress()*100) + '%'});
+    });
+    r.on('cancel', function(){
+        $('.resumable-file-progress').html('canceled');
+    });
+    r.on('uploadStart', function(){
+        // Show pause, hide resume
+        $('.resumable-progress .progress-resume-link').hide();
+        $('.resumable-progress .progress-pause-link').show();
+    });
+}
+
+</script>
+
+<script type="text/javascript">
+  // original jquery
 	$(document)
 		.on('change', '.btn-file :file', function() {
 			var input = $(this),
@@ -75,12 +177,10 @@
 	$(document).ready( function() {
 	  var count = 1
 
-
 		$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
 
 			var input = $(this).parents('.input-group').find(':text'),
-				log = numFiles > 1 ? numFiles + ' files selected' : label;
-
+            log = numFiles > 1 ? numFiles + ' files selected' : label;
 			input.val(log);
 		});
 
@@ -97,45 +197,43 @@
 
 		$('#validation_form').submit(function(e){
 		  e.preventDefault();
-
 		  $('#submit i').attr('class', 'fa fa-refresh fa-spin')
 
-            files = [];
-            urls = [];
-            validation_count = 0;
+  		  files = [];
+        urls = [];
+        paths = [];
+        validation_count = 0;
 
-          $.each($("#schema_file")[0].files, function(index, file) {
-            file.category = "schema"
-            files.push(file);
-          });
+  		  $.each($("#schema_file")[0].files, function(index, file) {
+  		    file.category = "schema"
+  		    files.push(file);
+  	    });
 
-          $.each($("#upload_file")[0].files, function(index, file) {
-            file.category = "csv"
-            files.push(file)
-            validation_count++;
-          });
+        $( "#file_ids input" ).each(function(){
+          paths.push(this.value);
+          validation_count++;
+        })
 
-          $( "input[name='urls[]']" ).each(function(){
-            if ($(this).val().length > 0) {
+        $( "input[name='urls[]']" ).each(function(){
+          if ($(this).val().length > 0) {
               urls.push($(this).val());
               validation_count++;
-            }
-          });
-
-          readFiles(files, function(files, schema_file) {
-
-          postdata = {
-            "files_data[]": files,
-            "schema": $('#schema').prop("checked") ? 1 : 0,
-            "schema_data": schema_file,
-            "schema_url": $('#schema_url').val(),
-            "urls[]": urls,
           }
+        });
 
-            postData(postdata);
-          });
+  		  readFiles(files, function(files, schema_file) {
 
-		}) // end on submit function
+              postdata = {
+                "file_ids[]": paths,
+                "schema": $('#schema').prop("checked") ? 1 : 0,
+                "schema_data": schema_file,
+                "schema_url": $('#schema_url').val(),
+                "urls[]": urls,
+              }
+              postData(postdata);
+  		  });
+
+		})
 
 		function readFiles(files, callback) {
 		  csvs = [];
@@ -151,27 +249,26 @@
 	        }
 		      if (!--count) callback(csvs, schema_file);
 		    });
-      });
+          });
 		}
 
 		function buildFile(file) {
 		  return file.filename + ";" + file.data;
 		}
 
-		function readFile(file, callback) {
-  	  var reader = new FileReader();
-      reader.onload = function(event) {
-        object = {};
-        object.filename = file.name;
-        object.data = event.target.result;
-        callback(object);
-      };
-      reader.readAsDataURL(file);
-		}
+        function readFile(file, callback) {
+          var reader = new FileReader();
+          reader.onload = function(event) {
+            object = {};
+            object.filename = file.name;
+            object.data = event.target.result;
+            callback(object);
+          };
+          reader.readAsDataURL(file);
+        }
 
 		function postData(data) {
 		  var AUTH_TOKEN = $('input[name=authenticity_token]').attr('value');
-
           $.ajax(
             {
               url: "<%= package_index_path(format: :json) %>?&authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
@@ -181,31 +278,26 @@
                 package_url = data.package.url
                 checkPackage();
               },
-                error: function(req, textStatus, errorThrown){
-                    var infobox = $('#ajax-error');
-                    $('#ajax-info').html("<strong>Warning! "+errorThrown+"</strong><br>The request couldn't complete. We're working on improvements (see <a href=\"https://github.com/theodi/csvlint/issues\">here</a> for more), and check here for a list of common failures");
-                    infobox.removeClass('hidden');
-                    infobox.addClass('alert alert-danger').fadeIn('slow');
-                    //  infobox.append("<br>"+err); // if you want a verbose output
-                    $('#submit i').removeClass('fa fa-refresh fa-spin'); // stop the spinner
-                }
+              error: function(req, textStatus, errorThrown){
+                  var infobox = $('#ajax-error');
+                  $('#ajax-info').html("<strong>Warning! "+errorThrown+"</strong><br>The request couldn't complete. We're working on improvements (see <a href=\"https://github.com/theodi/csvlint/issues\">here</a> for more), and check here for a list of common failures");
+                  infobox.removeClass('hidden');
+                  infobox.addClass('alert alert-danger').fadeIn('slow');
+                  //  infobox.append("<br>"+err); // if you want a verbose output
+                  $('#submit i').removeClass('fa fa-refresh fa-spin'); // stop the spinner
+              }
             }
           );
 		}
-        // the below is a shortcut of bootstrap functionality by jQuery
-        $('#dismiss-ajax-alert').click(function(){
-            $('#ajax-error').addClass('hidden');
-        });
 
-
-        function checkPackage() {
+		function checkPackage() {
 		   setInterval(function(){
-          $.ajax({ url: package_url + ".json", success: function(data){
-            if (data.package.validations.length == validation_count) {
-              document.location.href = package_url
-            }
-          }, dataType: "json"});
-      }, 5000);
+              $.ajax({ url: package_url + ".json", success: function(data){
+                if (data.package.validations.length >= validation_count) {
+                  document.location.href = package_url
+                }
+              }, dataType: "json"});
+           }, 5000);
 		}
 
 	});
