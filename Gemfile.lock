@@ -48,7 +48,7 @@ GIT
 
 GIT
   remote: git://github.com/theodi/resumable-upload.git
-  revision: fef956fb2afcd0dc3a112a6cf58266070f85eb62
+  revision: d8de6b6ffc843b66b70318b4105fa56691ac6cc4
   specs:
     resumable_upload (0.0.1)
       bson (= 3.1.1)
