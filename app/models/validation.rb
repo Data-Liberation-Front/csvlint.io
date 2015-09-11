@@ -91,7 +91,7 @@ class Validation
     # returns a mongo database record
     v = self.find(id)
 
-    unless revalidate.to_s === "false"
+    unless revalidate.to_s == "false"
       if ["png", "svg"].include?(format)
         # suspect the above functions tied to the use of badges as hyperlinks to valid schemas & csvs
         v.delay.check_validation
