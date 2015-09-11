@@ -277,6 +277,14 @@ if(!r.support) {
               success:function(data, textStatus, jqXHR) {
                 package_url = data.package.url
                 checkPackage();
+              },
+              error: function(req, textStatus, errorThrown){
+                  var infobox = $('#ajax-error');
+                  $('#ajax-info').html("<strong>Warning! "+errorThrown+"</strong><br>The request couldn't complete. We're working on improvements (see <a href=\"https://github.com/theodi/csvlint/issues\">here</a> for more), and check here for a list of common failures");
+                  infobox.removeClass('hidden');
+                  infobox.addClass('alert alert-danger').fadeIn('slow');
+                  //  infobox.append("<br>"+err); // if you want a verbose output
+                  $('#submit i').removeClass('fa fa-refresh fa-spin'); // stop the spinner
               }
             }
           );

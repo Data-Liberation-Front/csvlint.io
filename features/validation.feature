@@ -37,6 +37,14 @@ Feature: CSV Validation
     And I press "Validate"
     Then I should see "There appears to be a problem with the URL you supplied."
 
+  @rackmock @javascript
+  Scenario: Validation of a URL that 413s
+    Given I go to the homepage
+    And I attach the file "csvs/valid.csv" to the "file" field
+    And the data exceeds the amount the proxy can handle
+    When I press "Validate"
+    Then I should see "The request couldn't complete"
+
   Scenario: Upload a file for validation
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field

@@ -47,3 +47,7 @@ end
 Given(/^"(.*?)" has been previously used for validation$/) do |url|
   FactoryGirl.create :schema, url: url
 end
+
+Given(/^the data exceeds the amount the proxy can handle/) do
+  RackMock.mock("/package", 413)
+end

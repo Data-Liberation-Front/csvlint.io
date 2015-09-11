@@ -17,6 +17,7 @@
 //= require iframe-auto-height
 //= require bootstrap/bootstrap-dropdown.js
 //= require bootstrap/bootstrap-modal.js
+//= require bootstrap/bootstrap-alert.js
 //= require bootstrap.file-input.js
 //= require resumable.js
 
