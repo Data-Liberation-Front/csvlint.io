@@ -27,11 +27,11 @@
           <label for="upload_file" class="options">Or upload a file:</label>
 
           <div class="input-group" id="streaming_graceful_fallback">
-            <%= file_field_tag 'files[]', title: 'Choose Files', id: 'standard_files', multiple: 'multiple', accept: '.csv' %>
+            <%= file_field_tag 'files[]', title: 'Choose Files', id: 'standard_files', multiple: 'multiple', accept: '.csv, .tsv, .txt' %>
             <label id="browsebutton" style="font-weight: normal !important;" class="btn-info btn-lg text-right" for="resumable_streaming_files"><span style="margin-right:10px"><i class="glyphicon glyphicon-cloud-upload"></i></span>Choose A File</label>
           </div>
           <div class="input-group" id="streaming">
-            <%= file_field_tag 'files[]', title: 'Choose Files', id: 'resumable_streaming_files', multiple: 'multiple', accept: '.csv' %>
+            <%= file_field_tag 'files[]', title: 'Choose Files', id: 'resumable_streaming_files', multiple: 'multiple', accept: '.csv, .tsv, .txt' %>
             <label id="browsebutton" style="font-weight: normal !important;" class="btn-info btn-lg text-right" for="resumable_streaming_files"><span style="margin-right:10px"><i class="glyphicon glyphicon-cloud-upload"></i></span>Choose A File</label>
             <div id="file_ids"></div>
           </div>
@@ -53,7 +53,7 @@
         <div class="checkbox">
           <label>
             <%= check_box_tag 'schema' %>
-            <%= label_tag 'schema', 'Add optional schema'%>
+            <%= label_tag 'schema', 'Add optional schema (in .json format)'%>
           </label>
         </div>
 
