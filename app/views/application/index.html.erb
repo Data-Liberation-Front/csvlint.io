@@ -114,17 +114,6 @@ if(!r.support) {
     $('#resumable_streaming_files').addClass('hidden');
     // Show a place for dropping/selecting files
     r.assignBrowse(document.getElementById('resumable_streaming_files'));
-
-//    console.log(JSON.stringify(r,null,2));
-//    console.log(JSON.stringify(document.getElementById('upload_button'),null,2));
-//    console.log(document.getElementById('upload_button').childNodes);
-//    console.log(document.getElementsByClassName('input-group'));
-//    console.log(document.getElementById('upload_button').lastChild.setAttribute("accept", "text/csv"));
-//    console.log(document.getElementById('upload_button').lastChild);
-
-//    document.getElementById('upload_button').setAttribute("accept", "csv");
-//    r.assignBrowse(document.getElementById('standard_files'));
-
     // Handle file add event
     r.on('fileAdded', function(file){
         // Show progress pabr
