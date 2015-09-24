@@ -26,17 +26,16 @@
 
           <label for="upload_file" class="options">Or upload a file:</label>
 
-        <div class="input-group" id="streaming">
-          <%= file_field_tag 'files[]', id: 'resumable_streaming_files', class: 'file-chooser btn-info btn-lg', title: 'browse', multiple: 'multiple', accept: '.csv, .tsv, .txt, .zip' %>
-          <div id="file_ids"></div>
-        </div>
+          <div class="input-group" id="streaming">
+            <%= file_field_tag 'files[]', id: 'resumable_streaming_files', class: 'file-chooser btn-info btn-lg', title: 'browse', multiple: 'multiple', accept: '.csv, .tsv, .txt, .zip' %>
+            <div id="file_ids"></div>
+          </div>
 
           <div class="input-group" id="streaming_graceful_fallback">
             <%= file_field_tag 'files[]', id: 'standard_files', class: 'file-chooser btn-info btn-lg', title: 'browse', multiple: 'multiple', accept: '.csv, .tsv, .txt, .zip' %>
             <div id="file_ids"></div>
             <label style = "padding:8pt;" id="file_name"></label>
           </div>
-
 
           <div class="resumable-progress row">
             <div class="progress-container col-md-11">
@@ -220,8 +219,6 @@ if(!r.support) {
                   validation_count++;
               }
             });
-            console.log("function that invokes postData");
-            console.log(files);
             readFiles(files, function(files, schema_file) {
 
               postdata = {
@@ -277,8 +274,6 @@ if(!r.support) {
               type: "POST",
               data: data,
               success:function(data, textStatus, jqXHR) {
-                  console.log(data);
-                package_url = data.package.url
                 checkPackage();
               },
               error: function(req, textStatus, errorThrown){
