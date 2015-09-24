@@ -140,6 +140,7 @@ if(r.support) {
         // Reflect that the file upload has completed
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
         $('#file_ids').append( "<input type='hidden' name='file_ids[]' value='" + file.uniqueIdentifier + "' />" )
+        // TODO this logic integral for correct function of async functions later
     });
     r.on('fileError', function(file, message){
         // Reflect that the file upload has resulted in error
