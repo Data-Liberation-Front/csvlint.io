@@ -29,7 +29,6 @@
         <div class="input-group" id="streaming">
           <%= file_field_tag 'files[]', id: 'resumable_streaming_files', class: 'file-chooser btn-info btn-lg', title: 'browse', accept: '.csv, .tsv, .txt, .zip' %>
           <div id="file_ids"></div>
-          <label style = "padding:8pt;" id="file_name"></label>
         </div>
 
 
@@ -138,11 +137,7 @@ if(!r.support) {
     r.on('complete', function(){
         // Hide pause/resume when the upload has completed
         $('.resumable-progress .progress-resume-link, .resumable-progress .progress-pause-link').hide();
-        if (r.files.length == 1) {
-          document.getElementById("file_name").innerHTML = r.files[0].file.name;
-        } else {
-          document.getElementById("file_name").innerHTML = r.files.length + " files"
-        }
+
     });
     r.on('fileSuccess', function(file,message){
         // Reflect that the file upload has completed
