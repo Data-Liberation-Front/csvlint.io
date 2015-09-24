@@ -25,9 +25,14 @@
           </div>
 
           <label for="upload_file" class="options">Or upload a file:</label>
-        <div class="input-group">
-        <%= file_field_tag 'file[]', id: 'resumable_streaming_files', class: 'file-chooser btn-info btn-lg', title: 'browse', accept: '.csv, .tsv, .txt, .zip' %>
+
+        <div class="input-group" id="streaming">
+          <%= file_field_tag 'files[]', id: 'resumable_streaming_files', class: 'file-chooser btn-info btn-lg', title: 'browse', accept: '.csv, .tsv, .txt, .zip' %>
+          <div id="file_ids"></div>
+          <label style = "padding:8pt;" id="file_name"></label>
         </div>
+
+
           <div class="input-group" id="streaming_graceful_fallback">
             <%= file_field_tag 'files[]', title: 'Choose Files', id: 'standard_files', multiple: 'multiple', accept: '.csv, .tsv, .txt, .zip' %>
             <label id="browsebutton" style="font-weight: normal !important;" class="btn-info btn-lg text-right" for="streaming_graceful_fallback"><span style="margin-right:10px"><i class="glyphicon glyphicon-cloud-upload"></i></span>Choose A File</label>
@@ -200,29 +205,29 @@ if(!r.support) {
 		  e.preventDefault();
 		  $('#submit i').attr('class', 'fa fa-refresh fa-spin')
 
-  		  files = [];
-        urls = [];
-        paths = [];
-        validation_count = 0;
+  		    files = [];
+            urls = [];
+            paths = [];
+            validation_count = 0;
+            $.each($("#schema_file")[0].files, function(index, file) {
+                file.category = "schema"
+                files.push(file);
+            });
 
-  		  $.each($("#schema_file")[0].files, function(index, file) {
-  		    file.category = "schema"
-  		    files.push(file);
-  	    });
-
-        $( "#file_ids input" ).each(function(){
-          paths.push(this.value);
-          validation_count++;
-        })
-
-        $( "input[name='urls[]']" ).each(function(){
-          if ($(this).val().length > 0) {
-              urls.push($(this).val());
+            $( "#file_ids input" ).each(function(){
+              paths.push(this.value);
               validation_count++;
-          }
-        });
+            })
 
-  		  readFiles(files, function(files, schema_file) {
+            $( "input[name='urls[]']" ).each(function(){
+              if ($(this).val().length > 0) {
+                  urls.push($(this).val());
+                  validation_count++;
+              }
+            });
+            console.log("function that invokes postData");
+            console.log(files);
+            readFiles(files, function(files, schema_file) {
 
               postdata = {
                 "file_ids[]": paths,
@@ -231,10 +236,11 @@ if(!r.support) {
                 "schema_url": $('#schema_url').val(),
                 "urls[]": urls,
               }
+                console.log(JSON.stringify(postdata, null, 2));
               postData(postdata);
-  		  });
+            });
 
-		})
+		}) // end validation form submit
 
 		function readFiles(files, callback) {
 		  csvs = [];
@@ -276,6 +282,7 @@ if(!r.support) {
               type: "POST",
               data: data,
               success:function(data, textStatus, jqXHR) {
+                  console.log(data);
                 package_url = data.package.url
                 checkPackage();
               },
