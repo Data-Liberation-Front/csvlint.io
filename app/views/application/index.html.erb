@@ -104,15 +104,18 @@ $('#streaming_graceful_fallback').addClass('hidden');
 $('#streaming').addClass('hidden');
 
 // Resumable.js isn't supported, fall back on a different method
-if(r.support) {
+if(!r.support) {
     console.log("support error");
     $('#streaming_graceful_fallback').removeClass('hidden');
     $('.resumable-error').show();
 } else {
     $('#streaming').removeClass('hidden');
-//    $('#resumable_streaming_files').addClass('hidden');
     // Show a place for dropping/selecting files
     r.assignBrowse(document.getElementById('resumable_streaming_files'));
+    assignEventTriggers(r);
+}
+
+function assignEventTriggers(r){
     // Handle file add event
     r.on('fileAdded', function(file){
         // Show progress pabr
@@ -136,12 +139,14 @@ if(r.support) {
         $('.resumable-progress .progress-resume-link, .resumable-progress .progress-pause-link').hide();
 
     });
+
     r.on('fileSuccess', function(file,message){
         // Reflect that the file upload has completed
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
         $('#file_ids').append( "<input type='hidden' name='file_ids[]' value='" + file.uniqueIdentifier + "' />" )
         // TODO this logic integral for correct function of async functions later
     });
+
     r.on('fileError', function(file, message){
         // Reflect that the file upload has resulted in error
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(file could not be uploaded: '+message+')');
@@ -174,7 +179,7 @@ if(r.support) {
 	});
 
 	$(document).ready( function() {
-	  var count = 1
+	  var count = 1; // TODO - what does this do?
 
 		$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
 
@@ -192,8 +197,8 @@ if(r.support) {
 		  cloned.find('input:first').attr('id', 'url_' + count);
 		  $('.btn-clone:first').appendTo('.url-template:last');
 		  count = count + 1
-		})
-
+		});
+        console.log(r);
 		$('#validation_form').submit(function(e){
 		  e.preventDefault();
 		  $('#submit i').attr('class', 'fa fa-refresh fa-spin')
