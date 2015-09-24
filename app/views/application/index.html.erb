@@ -32,8 +32,9 @@
         </div>
 
           <div class="input-group" id="streaming_graceful_fallback">
-            <%= file_field_tag 'files[]', title: 'Choose Files', id: 'standard_files', multiple: 'multiple', accept: '.csv, .tsv, .txt, .zip' %>
-            <label id="browsebutton" style="font-weight: normal !important;" class="btn-info btn-lg text-right" for="streaming_graceful_fallback"><span style="margin-right:10px"><i class="glyphicon glyphicon-cloud-upload"></i></span>Choose A File</label>
+            <%= file_field_tag 'files[]', id: 'standard_files', class: 'file-chooser btn-info btn-lg', title: 'browse', multiple: 'multiple', accept: '.csv, .tsv, .txt, .zip' %>
+            <div id="file_ids"></div>
+            <label style = "padding:8pt;" id="file_name"></label>
           </div>
 
 
