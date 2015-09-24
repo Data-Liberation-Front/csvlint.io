@@ -28,12 +28,12 @@
 
           <div class="input-group" id="streaming">
             <%= file_field_tag 'files[]', id: 'resumable_streaming_files', class: 'file-chooser btn-info btn-lg', title: 'browse', multiple: 'multiple', accept: '.csv, .tsv, .txt, .zip' %>
-            <div id="file_ids"></div>
+            <div class="file_ids"></div>
           </div>
 
           <div class="input-group" id="streaming_graceful_fallback">
             <%= file_field_tag 'files[]', id: 'standard_files', class: 'file-chooser btn-info btn-lg', title: 'browse', multiple: 'multiple', accept: '.csv, .tsv, .txt, .zip' %>
-            <div id="file_ids"></div>
+            <div class="file_ids"></div>
             <label style = "padding:8pt;" id="file_name"></label>
           </div>
 
@@ -141,7 +141,7 @@ if(!r.support) {
     r.on('fileSuccess', function(file,message){
         // Reflect that the file upload has completed
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
-        $('#file_ids').append( "<input type='hidden' name='file_ids[]' value='" + file.uniqueIdentifier + "' />" )
+        $('.file_ids').append( "<input type='hidden' name='file_ids[]' value='" + file.uniqueIdentifier + "' />" )
     });
     r.on('fileError', function(file, message){
         // Reflect that the file upload has resulted in error
@@ -208,7 +208,7 @@ if(!r.support) {
                 files.push(file);
             });
 
-            $( "#file_ids input" ).each(function(){
+            $( "'.file_ids' input" ).each(function(){
               paths.push(this.value);
               validation_count++;
             })
