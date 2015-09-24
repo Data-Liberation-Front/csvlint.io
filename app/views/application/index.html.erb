@@ -25,18 +25,15 @@
           </div>
 
           <label for="upload_file" class="options">Or upload a file:</label>
-
+            <!--the below divs are conditionally displayed depending on whether the resumable js library has a satisfactory browser environment-->
           <div class="input-group" id="streaming">
             <%= file_field_tag 'files[]', id: 'resumable_streaming_files', class: 'file-chooser btn-info btn-lg', title: 'browse', multiple: 'multiple', accept: '.csv, .tsv, .txt, .zip' %>
-
           </div>
-
           <div class="input-group" id="streaming_graceful_fallback">
             <%= file_field_tag 'files[]', id: 'standard_files', class: 'file-chooser btn-info btn-lg', title: 'browse', multiple: 'multiple', accept: '.csv, .tsv, .txt, .zip' %>
-
             <label style = "padding:8pt;" id="file_name"></label>
           </div>
-        <div id="file_ids"></div>
+          <div id="file_ids"></div>
           <div class="resumable-progress row">
             <div class="progress-container col-md-11">
               <div class="progress">
@@ -104,9 +101,10 @@ var r = new Resumable({
 });
 
 $('#streaming_graceful_fallback').addClass('hidden');
+$('#streaming').addClass('hidden');
 
 // Resumable.js isn't supported, fall back on a different method
-if(!r.support) {
+if(r.support) {
     console.log("support error");
     $('#streaming_graceful_fallback').removeClass('hidden');
     $('.resumable-error').show();
