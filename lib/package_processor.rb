@@ -13,8 +13,10 @@ class PackageProcessor
   end
 
   def process
+    # TODO when the file_helper is used without JS it is sending params with both  :file_ids and :files, triggering join_chunks AND open_files
     read_files unless @params[:files_data].blank?
     join_chunks unless @params[:file_ids].blank?
+    # TODO - the above is always triggered, need to know why that is
     open_files unless @params[:files].blank?
     unzip_urls unless @params[:urls].blank?
 
@@ -31,6 +33,9 @@ class PackageProcessor
     else
       schema = SchemaProcessor.new(url: @params[:schema_url], file: @params[:schema_file], data: @params[:schema_data])
       package.create_package(@files || @params[:urls], schema.url, schema.schema)
+      # TODO the problem might be happening here - if @files has too many variables
+      # then sources.each do |source| block creates extra validations
+      # and
     end
   end
 
@@ -80,9 +85,11 @@ class PackageProcessor
   end
 
   def open_files
+
     @files ||= []
     @params[:files].each do |file|
       stored_csv = StoredCSV.save(file.tempfile, file.original_filename)
+      # Tempfile, String
       @files << fetch_file(stored_csv.id)
     end
   end

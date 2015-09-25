@@ -13,6 +13,7 @@ class PackageController < ApplicationController
       @package.process(params)
 
       if @package.validations.count == 1
+        # TODO so the error is resulting from something happening to make two validations produce when there should only be one
         redirect_to validation_path(@package.validations.first)
       else
         redirect_to package_path(@package)

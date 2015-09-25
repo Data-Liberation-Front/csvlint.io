@@ -41,8 +41,10 @@ class Package
   end
 
   def create_package(sources, schema_url = nil, schema = nil)
+    # TODO if error has occured with no js upload sources contains the following
+    # TODO [{:csv_id=><BSON::ObjectId:0x70287628401660 data=5605239d537465724a00000e>, :filename=>""}, {:csv_id=><BSON::ObjectId:0x70287689130320 data=5605239d537465724a00000f>, :filename=>"larger_csv.csv"}]
     return nil if sources.count == 0
-
+    byebug
     if sources.first.class == Hash
       sources.map! { |io|
         {
