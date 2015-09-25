@@ -15,7 +15,11 @@ class PackageProcessor
   def process
     # TODO when the file_helper is used without JS it is sending params with both  :file_ids and :files, triggering join_chunks AND open_files
     read_files unless @params[:files_data].blank?
-    join_chunks unless @params[:file_ids].blank?
+    # join_chunks unless @params[:file_ids].blank?
+    if @params[:file_ids]
+      join_chunks unless !@params[:file_ids].any?(&:present?)
+    end
+    # && !@params[:file_ids].any?(&:present?)
     # join_chunks if @params[:file_ids].any?
     # TODO - the above is always triggered, need to know why that is
     open_files unless @params[:files].blank?
@@ -43,6 +47,7 @@ class PackageProcessor
   end
 
   def join_chunks
+    # byebug
     @files ||= []
     @params[:file_ids].each do |f|
       target_file = Tempfile.new(f)
