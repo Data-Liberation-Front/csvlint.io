@@ -58,19 +58,26 @@
             <%= url_field_tag 'schema_url', '', class: 'form-control', placeholder: t(:enter_schema_url)%>
             <p>Or upload a file:</p>
             <div class="input-group">
-              <%= file_field_tag 'schema_file', class: 'file-chooser btn-info btn-lg', title: 'browse' %>
+              <%= file_field_tag 'schema_file',  title: 'browse' %>
+              <%= label_tag 'schema_file', '<i class="glyphicon glyphicon-cloud-upload"></i> Choose a file'.html_safe, class: 'btn-info btn-lg label-upload hidden', id: 'schema_upload_label' %>
+
             </div>
             <input type="hidden" name="file_ids[]" />
 
       </div>
+
+
+        <!--<%= file_field_tag 'schema_file', title: 'browse', class: 'hidden' %>-->
+        <!--&lt;!&ndash;<label id="browsebutton" style="font-weight: normal !important;" class="file-chooser btn-info btn-lg" for="schema_file"><span style="margin-right:10px"><i class="glyphicon glyphicon-cloud-upload"></i></span>Choose A File</label>&ndash;&gt;-->
+        <!--<label id="browsebutton" class="file-chooser btn-info btn-lg" for="schema_file"><span class="glyphicon glyphicon-cloud-upload"></span>Browse</label>-->
 
       <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit">
         <span class="spinner"><i class="glyphicon glyphicon-ok"></i></span>
         <%= t(:validate).titleize %>
       </button>
 
-      <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
-      <% end %>
+        <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
+    <% end %>
     <div class="resumable-error">
       Your browser, unfortunately, is not supported by Resumable.js. The library requires support for <a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a> along with <a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">file slicing</a>.
     </div>
@@ -100,6 +107,8 @@ var r = new Resumable({
 });
 
 $('#standard_files').addClass('hidden');
+$('#schema_file').addClass('hidden');
+$('#schema_upload_label').removeClass('hidden');
 
 // Resumable.js isn't supported, fall back on a different method
 if(!r.support) {
