@@ -34,6 +34,7 @@ When(/^I attach the file "(.*?)" to the "(.*?)" field$/) do |file, field_name|
   else
     filename = @file.split("/").last
     first(:xpath, "//input[@name='file_ids[]']", visible: false).set(mock_upload(filename))
+    # this must be a workaround
   end
 end
 

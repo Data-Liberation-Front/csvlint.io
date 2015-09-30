@@ -13,8 +13,15 @@ class PackageProcessor
   end
 
   def process
+    # TODO when the file_helper is used without JS it is sending params with both  :file_ids and :files, triggering join_chunks AND open_files
     read_files unless @params[:files_data].blank?
-    join_chunks unless @params[:file_ids].blank?
+    # join_chunks unless @params[:file_ids].blank?
+    if @params[:file_ids]
+      join_chunks unless !@params[:file_ids].any?(&:present?)
+    end
+    # && !@params[:file_ids].any?(&:present?)
+    # join_chunks if @params[:file_ids].any?
+    # TODO - the above is always triggered, need to know why that is
     open_files unless @params[:files].blank?
     unzip_urls unless @params[:urls].blank?
 
@@ -26,15 +33,22 @@ class PackageProcessor
   end
 
   def create_package
-    if @params[:schema].nil?
+    if (@params[:schema_data].nil? && @params[:schema_file].nil? && @params[:schema_url].nil?)
+      # the above verbosity covers all the ways that schemas can be passed when no JS functionality accounted for
       package.create_package(@files || @params[:urls])
     else
       schema = SchemaProcessor.new(url: @params[:schema_url], file: @params[:schema_file], data: @params[:schema_data])
+      # TODO - fallback schema upload does not have schema or schema_data attributes
+      # byebug
       package.create_package(@files || @params[:urls], schema.url, schema.schema)
+      # TODO the problem might be happening here - if @files has too many variables
+      # then sources.each do |source| block creates extra validations
+      # and
     end
   end
 
   def join_chunks
+    # byebug
     @files ||= []
     @params[:file_ids].each do |f|
       target_file = Tempfile.new(f)
@@ -80,9 +94,11 @@ class PackageProcessor
   end
 
   def open_files
+
     @files ||= []
     @params[:files].each do |file|
       stored_csv = StoredCSV.save(file.tempfile, file.original_filename)
+      # Tempfile, String
       @files << fetch_file(stored_csv.id)
     end
   end
