@@ -186,14 +186,7 @@ if(!r.support) {
 			input.trigger('fileselect', [numFiles, label]);
 	});
 
-    $(document).on('change', '#schemas :input', function(){
 
-        if(!$('#schemas .file-input-type').length){
-            $('#schemas .input-group').append('<span class="file-input-type"></span>');
-        }
-
-        $('.file-input-type').html($("#schema_file")[0].files[0].name);
-    })
 
 	$(document).ready( function() {
 	  var count = 1
@@ -208,6 +201,16 @@ if(!r.support) {
 		$('#schema').prop('checked', false).click(function() {
 		  $('#schemas').toggleClass('hidden', !this.checked)
 		})
+
+        $(document).on('change', '#schemas :input', function(){
+
+            if(!$('#schemas .file-input-type').length){
+                $('#schemas .input-group').append('<span class="file-input-type"></span>');
+            }
+            if($("#schema_file")[0].files.length) {
+                $('.file-input-type').html($("#schema_file")[0].files[0].name);
+            }
+        })
 
 		$('.btn-clone').click(function() {
 		  cloned = $('.url-template:first').clone().appendTo('#url').removeClass('hidden');
