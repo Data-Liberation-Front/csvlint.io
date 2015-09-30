@@ -108,6 +108,7 @@ var r = new Resumable({
 
 $('#standard_files').addClass('hidden');
 $('#schema_file').addClass('hidden');
+$('#schemas').addClass('hidden');
 $('#schema_upload_label').removeClass('hidden');
 
 // Resumable.js isn't supported, fall back on a different method
@@ -185,6 +186,15 @@ if(!r.support) {
 			input.trigger('fileselect', [numFiles, label]);
 	});
 
+    $(document).on('change', '#schemas :input', function(){
+
+        if(!$('#schemas .file-input-type').length){
+            $('#schemas .input-group').append('<span class="file-input-type"></span>');
+        }
+
+        $('.file-input-type').html($("#schema_file")[0].files[0].name);
+    })
+
 	$(document).ready( function() {
 	  var count = 1
 
@@ -216,6 +226,7 @@ if(!r.support) {
         validation_count = 0;
 
   		  $.each($("#schema_file")[0].files, function(index, file) {
+              console.log(file);
   		    file.category = "schema"
   		    files.push(file);
   	    });
