@@ -34,6 +34,7 @@ class PackageProcessor
 
   def create_package
     if (@params[:schema_data].nil? && @params[:schema_file].nil? && @params[:schema_url].nil?)
+      # the above verbosity covers all the ways that schemas can be passed when no JS functionality accounted for
       package.create_package(@files || @params[:urls])
     else
       schema = SchemaProcessor.new(url: @params[:schema_url], file: @params[:schema_file], data: @params[:schema_data])
