@@ -8,7 +8,7 @@
     <p>CSVLint helps you to check that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
 
     <p>Just enter the location of the file you want to check, or upload it. If you have a schema which describes the
-    contents of the CSV file, you can also give its URL or upload it. <a href="/about">Read more...</a></p>
+    contents of the CSV file, you can also provide its URL or upload a JSON file. <a href="/about">Read more...</a></p>
   </div>
   <div class="col-md-6 primary">
     <%= form_tag package_index_path, multipart: true, id: "validation_form" do %>
@@ -65,11 +65,6 @@
             <input type="hidden" name="file_ids[]" />
 
       </div>
-
-
-        <!--<%= file_field_tag 'schema_file', title: 'browse', class: 'hidden' %>-->
-        <!--&lt;!&ndash;<label id="browsebutton" style="font-weight: normal !important;" class="file-chooser btn-info btn-lg" for="schema_file"><span style="margin-right:10px"><i class="glyphicon glyphicon-cloud-upload"></i></span>Choose A File</label>&ndash;&gt;-->
-        <!--<label id="browsebutton" class="file-chooser btn-info btn-lg" for="schema_file"><span class="glyphicon glyphicon-cloud-upload"></span>Browse</label>-->
 
       <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit">
         <span class="spinner"><i class="glyphicon glyphicon-ok"></i></span>
