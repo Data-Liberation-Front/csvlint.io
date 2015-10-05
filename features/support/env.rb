@@ -74,6 +74,9 @@ VCR.configure do |c|
   c.cassette_library_dir = 'features/cassettes'
   c.default_cassette_options = { :record => :once }
   c.ignore_hosts "static.dev", "127.0.0.1"
+  c.ignore_request do |request|
+    request.uri.match /(.+)?[example|gov|githubusercontent]\..+/
+  end
 end
 
 VCR.cucumber_tags do |t|

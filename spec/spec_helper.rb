@@ -30,6 +30,9 @@ VCR.configure do |c|
   c.default_cassette_options = { :record => :once }
   c.hook_into :webmock
   c.configure_rspec_metadata!
+  c.ignore_request do |request|
+    request.uri.match /(.+)?[example|gov]\..+/
+  end
 end
 
 RSpec.configure do |config|
