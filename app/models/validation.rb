@@ -240,6 +240,7 @@ class Validation
   end
 
   def self.generate_options(dialect)
+    dialect ||= {}
     {
       col_sep: dialect["delimiter"],
       row_sep: dialect["lineTerminator"],
