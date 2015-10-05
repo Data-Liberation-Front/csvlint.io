@@ -170,7 +170,7 @@ class Validation
   end
 
   def update_validation(dialect = nil, expiry=nil)
-    loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
+    loaded_schema = schema ? Csvlint::Schema.load_from_json(schema.url) : nil
     validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect, expiry)
     self.update_attributes(validation)
     # update mongoDB record
