@@ -24,6 +24,8 @@
             </div>
           </div>
 
+          <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
+
           <label for="upload_file" class="options">Or upload a file:</label>
             <!--the below divs are conditionally displayed depending on whether the resumable js library has a satisfactory browser environment-->
           <div class="input-group" id="streaming">
@@ -69,8 +71,6 @@
         <span class="spinner"><i class="glyphicon glyphicon-ok"></i></span>
         <%= t(:validate).titleize %>
       </button>
-
-      <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
       <% end %>
     <div class="resumable-error">
       Your browser, unfortunately, is not supported by Resumable.js. The library requires support for <a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a> along with <a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">file slicing</a>.
