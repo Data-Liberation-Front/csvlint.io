@@ -11,7 +11,6 @@
     contents of the CSV file, you can also give its URL or upload it. <a href="/about">Read more...</a></p>
   </div>
   <div class="col-md-6 primary">
-    <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate <a href="/privacy_policy">private data</a> then upload file(s) from your computer, using the "Browse" button below.</p>
     <%= form_tag package_index_path, multipart: true, id: "validation_form" do %>
           <div id="url">
             <div class="input-group url-template url-group hidden" style="margin-top: 5px">
@@ -24,6 +23,8 @@
               <!--include a hover here-->
             </div>
           </div>
+
+          <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate <a href="/privacy_policy">private data</a> then upload file(s) from your computer, using the "Browse" button below.</p>
 
           <label for="upload_file" class="options">Or upload a file:</label>
 
