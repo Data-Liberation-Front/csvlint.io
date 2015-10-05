@@ -8,7 +8,8 @@
     <p>CSVLint helps you to check that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
 
     <p>Just enter the location of the file you want to check, or upload it. If you have a schema which describes the
-    contents of the CSV file, you can also give its URL or upload it. <a href="/about">Read more...</a></p>
+    contents of the CSV file, you can also give its URL or upload it.</p>
+    <p>CSVLint currently only supports validation of delimiter-separated values (dsv) files. It is also possible to upload a .zip file of (dsv) files. <a href="/about">Read more...</a></p>
   </div>
   <div class="col-md-6 primary">
     <%= form_tag package_index_path, multipart: true, id: "validation_form" do %>
@@ -20,22 +21,21 @@
             <div class="input-group url-group">
               <%= url_field_tag 'urls[]', '', class: 'form-control', id: 'url_0', placeholder: t(:enter_url) %>
               <span class="input-group-btn btn btn-info btn-clone btn-square-icon">+</span>
-              <!--include a hover here-->
             </div>
           </div>
 
-          <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate <a href="/privacy_policy">private data</a> then upload file(s) from your computer, using the "Browse" button below.</p>
+          <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
 
           <label for="upload_file" class="options">Or upload a file:</label>
-
-          <div class="input-group">
-            <%= file_field_tag 'files[]', title: 'Choose Files', id: 'standard_files', multiple: 'multiple' %>
-            <%= button_tag '<i class="glyphicon glyphicon-cloud-upload"></i> Browse'.html_safe, type: 'button', id: 'upload_button', class: 'btn-info btn-lg hidden' %>
-            <label style = "padding:8pt;" id="file_name"></label>
-            <div id="file_ids"></div>
-            <!--  add upload image back to button -->
+            <!--the below divs are conditionally displayed depending on whether the resumable js library has a satisfactory browser environment-->
+          <div class="input-group" id="streaming">
+            <%= file_field_tag 'files[]', id: 'resumable_streaming_files', class: 'file-chooser btn-info btn-lg', title: 'browse', multiple: 'multiple', accept: '.csv, .tsv, .txt, .zip' %>
           </div>
-
+          <div class="input-group" id="streaming_graceful_fallback">
+            <%= file_field_tag 'files[]', id: 'standard_files', class: 'file-chooser btn-info btn-lg', title: 'browse', multiple: 'multiple', accept: '.csv, .tsv, .txt, .zip' %>
+            <label style = "padding:8pt;" id="file_name"></label>
+          </div>
+          <div id="file_ids"></div>
           <div class="resumable-progress row">
             <div class="progress-container col-md-11">
               <div class="progress">
@@ -53,7 +53,7 @@
         <div class="checkbox">
           <label>
             <%= check_box_tag 'schema' %>
-            <%= label_tag 'schema', 'Add optional schema'%>
+            <%= label_tag 'schema', 'Add optional schema (in .json format)'%>
           </label>
         </div>
 
@@ -71,7 +71,6 @@
         <span class="spinner"><i class="glyphicon glyphicon-ok"></i></span>
         <%= t(:validate).titleize %>
       </button>
-
       <% end %>
     <div class="resumable-error">
       Your browser, unfortunately, is not supported by Resumable.js. The library requires support for <a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a> along with <a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">file slicing</a>.
@@ -101,19 +100,22 @@ var r = new Resumable({
     }
 });
 
-$('#standard_files').addClass('hidden');
+$('#streaming_graceful_fallback').addClass('hidden');
+$('#streaming').addClass('hidden');
 
 // Resumable.js isn't supported, fall back on a different method
 if(!r.support) {
     console.log("support error");
-    $('#standard_files').removeClass('hidden');
+    $('#streaming_graceful_fallback').removeClass('hidden');
     $('.resumable-error').show();
 } else {
-    $('#upload_button').removeClass('hidden');
+    $('#streaming').removeClass('hidden');
     // Show a place for dropping/selecting files
-    r.assignBrowse(document.getElementById('upload_button'));
+    r.assignBrowse(document.getElementById('resumable_streaming_files'));
+    assignEventTriggers(r);
+}
 
-
+function assignEventTriggers(r){
     // Handle file add event
     r.on('fileAdded', function(file){
         // Show progress pabr
@@ -135,17 +137,16 @@ if(!r.support) {
     r.on('complete', function(){
         // Hide pause/resume when the upload has completed
         $('.resumable-progress .progress-resume-link, .resumable-progress .progress-pause-link').hide();
-        if (r.files.length == 1) {
-          document.getElementById("file_name").innerHTML = r.files[0].file.name;
-        } else {
-          document.getElementById("file_name").innerHTML = r.files.length + " files"
-        }
+
     });
+
     r.on('fileSuccess', function(file,message){
         // Reflect that the file upload has completed
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
         $('#file_ids').append( "<input type='hidden' name='file_ids[]' value='" + file.uniqueIdentifier + "' />" )
+        // TODO this logic integral for correct function of async functions later
     });
+
     r.on('fileError', function(file, message){
         // Reflect that the file upload has resulted in error
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(file could not be uploaded: '+message+')');
@@ -178,7 +179,7 @@ if(!r.support) {
 	});
 
 	$(document).ready( function() {
-	  var count = 1
+	  var count = 1; // TODO - what does this do?
 
 		$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
 
@@ -196,35 +197,33 @@ if(!r.support) {
 		  cloned.find('input:first').attr('id', 'url_' + count);
 		  $('.btn-clone:first').appendTo('.url-template:last');
 		  count = count + 1
-		})
+		});
 
 		$('#validation_form').submit(function(e){
 		  e.preventDefault();
 		  $('#submit i').attr('class', 'fa fa-refresh fa-spin')
 
-  		  files = [];
-        urls = [];
-        paths = [];
-        validation_count = 0;
+  		    files = [];
+            urls = [];
+            paths = [];
+            validation_count = 0;
+            $.each($("#schema_file")[0].files, function(index, file) {
+                file.category = "schema"
+                files.push(file);
+            });
 
-  		  $.each($("#schema_file")[0].files, function(index, file) {
-  		    file.category = "schema"
-  		    files.push(file);
-  	    });
-
-        $( "#file_ids input" ).each(function(){
-          paths.push(this.value);
-          validation_count++;
-        })
-
-        $( "input[name='urls[]']" ).each(function(){
-          if ($(this).val().length > 0) {
-              urls.push($(this).val());
+            $( "#file_ids input" ).each(function(){
+              paths.push(this.value);
               validation_count++;
-          }
-        });
+            })
 
-  		  readFiles(files, function(files, schema_file) {
+            $( "input[name='urls[]']" ).each(function(){
+              if ($(this).val().length > 0) {
+                  urls.push($(this).val());
+                  validation_count++;
+              }
+            });
+            readFiles(files, function(files, schema_file) {
 
               postdata = {
                 "file_ids[]": paths,
@@ -233,10 +232,11 @@ if(!r.support) {
                 "schema_url": $('#schema_url').val(),
                 "urls[]": urls,
               }
+                console.log(JSON.stringify(postdata, null, 2));
               postData(postdata);
-  		  });
+            });
 
-		})
+		}) // end validation form submit
 
 		function readFiles(files, callback) {
 		  csvs = [];
