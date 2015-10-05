@@ -57,6 +57,7 @@ class Validation
       # It's a file!
       url = nil
       validator.remove_instance_variable(:@source)
+      validator.remove_instance_variable(:@source_url) if validator.instance_variable_defined?(:@source_url)
     end
 
     # Don't save the data
