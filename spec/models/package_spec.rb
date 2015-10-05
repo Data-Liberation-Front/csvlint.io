@@ -48,7 +48,7 @@ describe Package, type: :model do
       schema_url = "http://example.org/schema.json"
       mock_file(schema_url, 'schemas/valid.json', 'application/javascript')
 
-      schema = Csvlint::Schema.load_from_json_table(schema_url)
+      schema = Csvlint::Schema.load_from_json(schema_url)
       package = Package.new
       package = package.create_package(@urls, schema_url, schema)
 
@@ -87,7 +87,7 @@ describe Package, type: :model do
       schema_url = "http://example.org/schema.json"
       mock_file(schema_url, 'schemas/valid.json', 'application/javascript')
 
-      schema = Csvlint::Schema.load_from_json_table(schema_url)
+      schema = Csvlint::Schema.load_from_json(schema_url)
       package = Package.new
       package = package.create_package(@files, schema_url, schema)
 

@@ -57,6 +57,7 @@ class Validation
       # It's a file!
       url = nil
       validator.remove_instance_variable(:@source)
+      validator.remove_instance_variable(:@source_url) if validator.instance_variable_defined?(:@source_url)
     end
 
     # Don't save the data
@@ -170,7 +171,7 @@ class Validation
   end
 
   def update_validation(dialect = nil, expiry=nil)
-    loaded_schema = schema ? Csvlint::Schema.load_from_json_table(schema.url) : nil
+    loaded_schema = schema ? Csvlint::Schema.load_from_json(schema.url) : nil
     validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect, expiry)
     self.update_attributes(validation)
     # update mongoDB record
@@ -240,6 +241,7 @@ class Validation
   end
 
   def self.generate_options(dialect)
+    dialect ||= {}
     {
       col_sep: dialect["delimiter"],
       row_sep: dialect["lineTerminator"],

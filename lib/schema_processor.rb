@@ -21,7 +21,7 @@ class SchemaProcessor
   end
 
   def from_url
-    Csvlint::Schema.load_from_json_table(@url)
+    Csvlint::Schema.load_from_json(@url)
   end
 
   def from_data
