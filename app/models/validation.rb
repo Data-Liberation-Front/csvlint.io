@@ -65,6 +65,9 @@ class Validation
     # Don't save the lambda either
     validator.remove_instance_variable(:@lambda) rescue nil
 
+    # Headers are set as a Typhoeus::Response::Header, but this has a proc, so we cast as a hash
+    # TODO: We really need to stop dumping the whole object here
+    validator.instance_variable_set("@headers", {}.merge(validator.headers))
 
     attributes = {
       :url => url,
