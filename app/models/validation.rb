@@ -36,7 +36,7 @@ class Validation
     end
 
     # Validate
-    validator = Csvlint::Validator.new( io, dialect, schema && schema.fields.empty? ? nil : schema )
+    validator = Csvlint::Validator.new( io, (dialect || {}), schema && schema.fields.empty? ? nil : schema )
     # ternary evaluation above follows the following format::  condition ? if_true : if_false
     check_schema(validator, schema) unless schema.nil?
     # in prior versions this method only executed on schema_url.nil, a condition that caused some schema uploads to pass
