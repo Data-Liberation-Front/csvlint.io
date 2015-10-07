@@ -62,6 +62,9 @@ class Validation
 
     # Don't save the data
     validator.remove_instance_variable(:@data) rescue nil
+    # Don't save the lambda either
+    validator.remove_instance_variable(:@lambda) rescue nil
+
 
     attributes = {
       :url => url,
