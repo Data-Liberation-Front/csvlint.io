@@ -40,7 +40,7 @@ module ValidationHelper
     if validator.headers
       validator.headers.each do |k,v|
         key = "header_#{k.gsub("-", "_")}".to_sym
-        variables[key.downcase] = v
+        variables[key] = v
       end
     end
 
