@@ -15,6 +15,27 @@ class LocalDataset < DataKitten::Dataset
   end
 end
 
+class RemoteDataset < DataKitten::Dataset
+
+  def initialize(url)
+    @access_url = url
+    detect_publishing_format
+  end
+
+  def detect_publishing_format
+     [
+       DataKitten::PublishingFormats::Datapackage,
+       DataKitten::PublishingFormats::CKAN
+     ].each do |format|
+       if format.supported?(self)
+         extend format
+         break
+       end
+    end
+  end
+
+end
+
 class Package
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -72,7 +93,7 @@ class Package
     if source.respond_to?(:body)
       dataset = LocalDataset.new(access_url: source.string_io)
     else
-      dataset = DataKitten::Dataset.new(access_url: source)
+      dataset = RemoteDataset.new(source)
     end
     return nil unless [:ckan, :datapackage].include? dataset.publishing_format
     dataset
