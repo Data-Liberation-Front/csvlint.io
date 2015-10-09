@@ -127,7 +127,7 @@ GEM
       thor (= 0.18.1)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
-    csvlint (0.2.1)
+    csvlint (0.2.2)
       activesupport
       addressable
       colorize
