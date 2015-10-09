@@ -1,3 +1,18 @@
+# Monkey patch line_breaks method to handle older Validator objects that store @line_breaks as strings
+
+module Csvlint
+  class Validator
+    def line_breaks
+      @line_breaks = [@line_breaks].flatten
+      if @line_breaks.uniq.count > 1
+        :mixed
+      else
+        @line_breaks.uniq.first
+      end
+    end
+  end
+end
+
 module ValidationHelper
 
   def error_and_warning_count(errors, warnings, options)
