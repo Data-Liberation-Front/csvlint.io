@@ -127,13 +127,14 @@ GEM
       thor (= 0.18.1)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
-    csvlint (0.2.0)
+    csvlint (0.2.2)
       activesupport
       addressable
       colorize
       escape_utils
       mime-types
       open_uri_redirections
+      typhoeus
       uri_template
     cucumber (1.3.20)
       builder (>= 2.1.2)
