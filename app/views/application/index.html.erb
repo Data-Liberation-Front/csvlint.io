@@ -57,7 +57,7 @@
           </label>
         </div>
 
-      <div id="schemas" class="hidden">
+      <div id="schemas">
 
             <%= url_field_tag 'schema_url', '', class: 'form-control', placeholder: t(:enter_schema_url)%>
             <p>Or upload a file:</p>
@@ -101,6 +101,7 @@ var r = new Resumable({
 });
 
 $('#streaming_graceful_fallback').addClass('hidden');
+$('#schemas').addClass('hidden');
 
 // Resumable.js isn't supported, fall back on a different method
 if(!r.support) {
