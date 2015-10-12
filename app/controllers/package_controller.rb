@@ -56,7 +56,9 @@ class PackageController < ApplicationController
     def remove_blanks!
       params[:urls].reject! { |url| url.blank? } unless params[:urls].blank?
       params[:files].reject! { |data| data.blank? } unless params[:files].blank?
+      params[:file_ids].reject! { |data| data.blank? } unless params[:file_ids].blank?
     end
+
     def files_present?
       params[:files].presence || params[:files_data].presence || params[:file_ids].presence
     end
