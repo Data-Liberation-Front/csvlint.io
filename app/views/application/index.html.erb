@@ -13,6 +13,7 @@
   </div>
   <div class="col-md-6 primary">
     <%= form_tag package_index_path, multipart: true, id: "validation_form" do %>
+          <%= hidden_field_tag 'no_js', '1', id: "no_js" %>
           <div id="url">
             <div class="input-group url-template url-group hidden" style="margin-top: 5px">
               <%= url_field_tag 'urls[]', '', class: 'form-control', placeholder: t(:enter_url)%>
@@ -102,6 +103,7 @@ var r = new Resumable({
 
 $('#streaming_graceful_fallback').addClass('hidden');
 $('#schemas').addClass('hidden');
+$('#no_js').remove();
 
 // Resumable.js isn't supported, fall back on a different method
 if(!r.support) {

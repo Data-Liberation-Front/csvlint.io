@@ -56,3 +56,7 @@ end
 When(/^I click the "(.*?)" tab$/) do |arg1|
   page.find('a[href="#schemafile"]').click
 end
+
+Given(/^Javascript is enabled$/) do
+  find('#no_js').set("")
+end

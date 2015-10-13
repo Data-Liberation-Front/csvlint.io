@@ -26,12 +26,18 @@ class PackageProcessor
   end
 
   def create_package
-    if (!@params[:schema].nil? || @params[:schema_file].present? && @params[:schema_data].blank?)
+    if schema_present?
       schema = SchemaProcessor.new(url: @params[:schema_url], file: @params[:schema_file], data: @params[:schema_data])
       package.create_package(@files || @params[:urls], schema.url, schema.schema)
     else
       package.create_package(@files || @params[:urls])
     end
+  end
+
+  def schema_present?
+    !@params[:schema].nil? ||
+    @params[:schema_file].present? && @params[:no_js].present? ||
+    @params[:schema_url].present? && @params[:no_js].present?
   end
 
   def join_chunks
