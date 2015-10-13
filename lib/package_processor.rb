@@ -26,11 +26,11 @@ class PackageProcessor
   end
 
   def create_package
-    if @params[:schema].nil?
-      package.create_package(@files || @params[:urls])
-    else
+    if (!@params[:schema].nil? || @params[:schema_file].present? && @params[:schema_data].blank?)
       schema = SchemaProcessor.new(url: @params[:schema_url], file: @params[:schema_file], data: @params[:schema_data])
       package.create_package(@files || @params[:urls], schema.url, schema.schema)
+    else
+      package.create_package(@files || @params[:urls])
     end
   end
 
