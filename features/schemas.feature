@@ -25,6 +25,7 @@ Feature: Schema Validation
 
   Scenario: Enter a URL and a schema URL for validation without checking the schema checkbox
     When I go to the homepage
+    And Javascript is enabled
     And I enter "http://example.org/test.csv" in the "url" field
     And I enter "http://example.org/schema.json" in the "schema_url" field
     And I press "Validate"
