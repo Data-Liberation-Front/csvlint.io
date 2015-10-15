@@ -233,9 +233,9 @@ class Validation
 
   end
 
-  def self.clean_up(n)
-    Mongoid::GridFs::File.where(:uploadDate.gte => n.hours.ago).each {|x| Mongoid::GridFs.delete(x.id) }
-    Validation.where(:created_at.gte => n.hours.ago, :csv_id.ne => nil).each do |validation|
+  def self.clean_up(hours)
+    Mongoid::GridFs::File.where(:uploadDate.lt => hours.hours.ago).each {|x| Mongoid::GridFs.delete(x.id) }
+    Validation.where(:created_at.lt => hours.hours.ago, :csv_id.ne => nil).each do |validation|
       Mongoid::GridFs.delete(validation.csv_id)
       validation.csv_id = nil
       validation.save
