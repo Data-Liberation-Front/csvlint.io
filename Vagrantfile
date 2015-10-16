@@ -3,15 +3,23 @@
 
 defaults = {
   count: 1,
-  flavor: /2GB/,
+  flavor: /4GB/,
   image: /Trusty/
 }
 
 nodesets = [
   {
     name: 'csvlint',
-    count: 2,
+    count: 3,
     chef_env: 'csvlint-prod',
+    run_list: [
+      'recipe[chef_csvlint]'
+    ]
+  },
+  {
+    name: 'csvlint-stg',
+    flavor: /2GB/,
+    chef_env: 'csvlint-stg',
     run_list: [
       'recipe[chef_csvlint]'
     ]
