@@ -18,6 +18,10 @@ Then(/^there should be (\d+) stored files in GridFs$/) do |files_no|
   Mongoid::GridFs::File.count.should == files_no.to_i
 end
 
+Then(/^there should be (\d+) stored chunks in GridFs$/) do |files_no|
+  Mongoid::GridFs::Chunk.count.should == files_no.to_i
+end
+
 Then(/^the clean up task should have been requeued$/) do
   Delayed::Job.all.count.should == 1
 end

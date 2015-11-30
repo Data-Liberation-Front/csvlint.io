@@ -10,6 +10,7 @@ Feature: Clean up old uploaded CSVs
     Then there should be 1 validation
     And that validation should not contain a file
     And there should be 0 stored files in GridFs
+    And there should be 0 stored chunks in GridFs
 
   Scenario: CSV not deleted after recent validation
     Given I go to the homepage
@@ -19,6 +20,7 @@ Feature: Clean up old uploaded CSVs
     Then there should be 1 validation
     And that validation should contain a file
     And there should be 1 stored files in GridFs
+    And there should be 1 stored chunks in GridFs
 
   Scenario: Clean up job is requeued
     When we clean up old files

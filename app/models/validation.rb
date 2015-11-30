@@ -38,7 +38,7 @@ class Validation
     # Validate
     validator = Csvlint::Validator.new( io, (dialect || {}), schema && schema.fields.empty? ? nil : schema )
     # ternary evaluation above follows the following format::  condition ? if_true : if_false
-    check_schema(validator, schema) unless schema.nil?
+    check_schema(validator, schema) unless schema.blank?
     # in prior versions this method only executed on schema_url.nil, a condition that caused some schema uploads to pass
     # when they should have failed
     check_dialect(validator, dialect) unless dialect.blank?
@@ -234,16 +234,38 @@ class Validation
   end
 
   def self.clean_up(hours)
-    Mongoid::GridFs::File.where(:uploadDate.lt => hours.hours.ago).each {|x| Mongoid::GridFs.delete(x.id) }
-    Validation.where(:created_at.lt => hours.hours.ago, :csv_id.ne => nil).each do |validation|
-      Mongoid::GridFs.delete(validation.csv_id)
-      validation.csv_id = nil
-      validation.save
-    end
+    delete_files Mongoid::GridFs::File.where(:uploadDate.lte => hours.hours.ago)
+    delete_validations Validation.where(:created_at.lte => hours.hours.ago, :csv_id.ne => nil)
+    delete_orphans
   rescue => e
     Airbrake.notify(e) if ENV['CSVLINT_AIRBRAKE_KEY'] # Exit cleanly, but still notify airbrake
   ensure
     Validation.delay(run_at: 24.hours.from_now).clean_up(24)
+  end
+
+  def self.delete_files(files)
+    files.each do |f|
+      Mongoid::GridFs::Chunk.where(files_id: f.id).each { |chunk| chunk.delete }
+      f.delete
+    end
+  end
+
+  def self.delete_validations(validations)
+    validations.each do |validation|
+      Mongoid::GridFs.delete(validation.csv_id)
+      validation.csv_id = nil
+      validation.save
+    end
+  end
+
+  def self.delete_orphans
+    Mongoid::GridFs::Chunk.each do |c|
+      begin
+        Mongoid::GridFs::File.find(c.files_id)
+      rescue Mongoid::Errors::DocumentNotFound
+        c.delete
+      end
+    end
   end
 
   def self.generate_options(dialect)
