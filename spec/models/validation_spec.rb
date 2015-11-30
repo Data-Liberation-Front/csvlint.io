@@ -105,4 +105,17 @@ describe Validation, type: :model do
     expect(Mongoid::GridFs::File.count).to eq(0)
     expect(Mongoid::GridFs::Chunk.count).to eq(0)
   end
+
+  it "should clean up orphaned files" do
+    5.times do
+      file = Mongoid::GridFs::File.create
+      file.delete
+      5.times { Mongoid::GridFs::Chunk.create(files_id: file.id) }
+    end
+
+    Validation.delete_orphans
+
+    expect(Mongoid::GridFs::Chunk.count).to eq(0)
+  end
+
 end
