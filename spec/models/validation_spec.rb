@@ -96,4 +96,13 @@ describe Validation, type: :model do
     validation.parse_options.should_not == nil
   end
 
+  it "should clean up files and chunks" do
+    file = Mongoid::GridFs::File.create
+    50.times { file.chunks.create }
+
+    Validation.delete_files(Mongoid::GridFs::File.all)
+
+    expect(Mongoid::GridFs::File.count).to eq(0)
+    expect(Mongoid::GridFs::Chunk.count).to eq(0)
+  end
 end
