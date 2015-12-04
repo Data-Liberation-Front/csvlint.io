@@ -26,7 +26,7 @@ describe PackageProcessor do
     expect(@package.validations.count).to eq(1)
   end
 
-  it "creates a package from a chunked file" do
+  it "creates a package from an uploaded file" do
     processor = PackageProcessor.new({
       file_ids: [
         mock_upload('valid.csv')
