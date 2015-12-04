@@ -26,7 +26,7 @@ describe PackageProcessor do
     expect(@package.validations.count).to eq(1)
   end
 
-  it "creates a package from a chunked file" do
+  it "creates a package from an uploaded file" do
     processor = PackageProcessor.new({
       file_ids: [
         mock_upload('valid.csv')
@@ -56,28 +56,6 @@ describe PackageProcessor do
     processor.process
 
     expect(@package.validations.count).to eq(1)
-  end
-
-  it "joins chunks in the correct order" do
-    (0..10).to_a.shuffle.each do |i|
-      tempfile = Tempfile.new(i.to_s)
-      tempfile.binmode
-      tempfile.write(i)
-      tempfile.rewind
-      stored_chunk = Mongoid::GridFs.put(tempfile)
-      stored_chunk.metadata = { resumableFilename: 'chunked_file', resumableChunkNumber: i.to_s}
-      stored_chunk.save
-    end
-
-    processor = PackageProcessor.new({
-      file_ids: ['chunked_file']
-      }, @package.id)
-    processor.join_chunks
-
-    file = processor.instance_variable_get("@files").first
-    file = Mongoid::GridFs.get(file[:csv_id])
-
-    expect(file.data).to eq("012345678910")
   end
 
 end

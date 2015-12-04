@@ -27,12 +27,9 @@ class Validation
       filename = io.original_filename
       csv = File.new(io.tempfile)
       io = File.new(io.tempfile)
-    elsif io.class == Hash && !io[:body].nil?
-      # above not triggered by features, triggered when local file [schema or csv] uploaded
-      filename = io[:filename]
-      csv_id = io[:csv_id]
-      io = StringIO.new(io[:body])
-
+    elsif io.respond_to?(:body)
+      filename = io.key
+      io = StringIO.new(io.body)
     end
 
     # Validate
@@ -178,7 +175,8 @@ class Validation
 
   def update_validation(dialect = nil, expiry=nil)
     loaded_schema = schema ? Csvlint::Schema.load_from_json(schema.url) : nil
-    validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect, expiry)
+    io = self.url.nil? ? StoredCSV.fetch(self.filename) : self.url
+    validation = Validation.validate(io, schema.try(:url), loaded_schema, dialect, expiry)
     self.update_attributes(validation)
     # update mongoDB record
     self
@@ -188,9 +186,9 @@ class Validation
     # method that retrieves stored entire CSV file from mongoDB
     if self.url
       csv = open(self.url).read
-    elsif self.csv_id
+    else
       # above line means this method triggers only when user opts to revalidate their CSV with suggested prompts
-      csv = Mongoid::GridFs.get(self.csv_id).data
+      csv = StoredCSV.fetch(self.filename).body
     end
 
     if csv
@@ -234,38 +232,15 @@ class Validation
   end
 
   def self.clean_up(hours)
-    delete_files Mongoid::GridFs::File.where(:uploadDate.lte => hours.hours.ago)
-    delete_validations Validation.where(:created_at.lte => hours.hours.ago, :csv_id.ne => nil)
-    delete_orphans
+    delete_validations Validation.where(:created_at.lte => hours.hours.ago, :url => nil)
   rescue => e
     Airbrake.notify(e) if ENV['CSVLINT_AIRBRAKE_KEY'] # Exit cleanly, but still notify airbrake
   ensure
     Validation.delay(run_at: 24.hours.from_now).clean_up(24)
   end
 
-  def self.delete_files(files)
-    files.each do |f|
-      Mongoid::GridFs::Chunk.where(files_id: f.id).each { |chunk| chunk.delete }
-      f.delete
-    end
-  end
-
   def self.delete_validations(validations)
-    validations.each do |validation|
-      Mongoid::GridFs.delete(validation.csv_id)
-      validation.csv_id = nil
-      validation.save
-    end
-  end
-
-  def self.delete_orphans
-    Mongoid::GridFs::Chunk.each do |c|
-      begin
-        Mongoid::GridFs::File.find(c.files_id)
-      rescue Mongoid::Errors::DocumentNotFound
-        c.delete
-      end
-    end
+    validations.each { |v| v.delete }
   end
 
   def self.generate_options(dialect)

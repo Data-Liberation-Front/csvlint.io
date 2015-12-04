@@ -6,20 +6,12 @@ Then(/^there should be (\d+) validation$/) do |files|
   Validation.all.count.should == files.to_i
 end
 
-Then(/^that validation should not contain a file$/) do
-  Validation.first.csv_id.should == nil
+Then(/^that validation's file should be deleted$/) do
+  expect(FogStorage.new.find_file(Validation.first.filename)).to eq(nil)
 end
 
-Then(/^that validation should contain a file$/) do
-  Validation.first.csv_id.should_not == nil
-end
-
-Then(/^there should be (\d+) stored files in GridFs$/) do |files_no|
-  Mongoid::GridFs::File.count.should == files_no.to_i
-end
-
-Then(/^there should be (\d+) stored chunks in GridFs$/) do |files_no|
-  Mongoid::GridFs::Chunk.count.should == files_no.to_i
+Then(/^that validation's file should not be deleted$/) do
+  expect(FogStorage.new.find_file(Validation.first.filename)).to_not eq(nil)
 end
 
 Then(/^the clean up task should have been requeued$/) do

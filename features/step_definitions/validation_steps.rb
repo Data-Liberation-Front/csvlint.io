@@ -16,10 +16,6 @@ Then(/^"(.*?)" should be persisted in the database$/) do |filename|
   Validation.first.filename.should =~ /#{filename}/
 end
 
-Then(/^my file should be saved in the database$/) do
-  Validation.first.csv.class.should == Tempfile
-end
-
 Then(/^my file should not be saved in the database$/) do
   Validation.count.should == 0
 end

@@ -96,26 +96,40 @@ describe Validation, type: :model do
     validation.parse_options.should_not == nil
   end
 
-  it "should clean up files and chunks" do
-    file = Mongoid::GridFs::File.create
-    50.times { file.chunks.create }
+  it "should clean up old validations without urls" do
+    @file = mock_uploaded_file('csvs/valid.csv')
 
-    Validation.delete_files(Mongoid::GridFs::File.all)
+    5.times { Validation.create_validation(@file) }
 
-    expect(Mongoid::GridFs::File.count).to eq(0)
-    expect(Mongoid::GridFs::Chunk.count).to eq(0)
+    Timecop.freeze(25.hours.from_now)
+
+    7.times { Validation.create_validation(@file) }
+
+    Validation.clean_up(24)
+
+    expect(Validation.count).to eq(7)
+
+    Timecop.return
   end
 
-  it "should clean up orphaned files" do
-    5.times do
-      file = Mongoid::GridFs::File.create
-      file.delete
-      5.times { Mongoid::GridFs::Chunk.create(files_id: file.id) }
+  it "should not delete validations with urls" do
+    @file = mock_uploaded_file('csvs/valid.csv')
+    mock_file('http://example.com/test.csv', 'csvs/valid.csv')
+
+    5.times { Validation.create_validation(@file) }
+    2.times do |i|
+      url = "http://example.com/test#{i}.csv"
+      mock_file(url, 'csvs/valid.csv')
+      Validation.create_validation(url)
     end
 
-    Validation.delete_orphans
+    Timecop.freeze(25.hours.from_now)
 
-    expect(Mongoid::GridFs::Chunk.count).to eq(0)
+    Validation.clean_up(24)
+
+    expect(Validation.count).to eq(2)
+
+    Timecop.return
   end
 
 end

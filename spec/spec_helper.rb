@@ -15,6 +15,10 @@ require 'timecop'
 require 'stored_csv'
 require 'fixture_helpers'
 
+ENV['AWS_ACCESS_KEY'] = 'fakeaccesskey'
+ENV['AWS_SECRET_ACCESS_KEY'] = 'fakesecret'
+ENV['AWS_BUCKET_NAME'] = 'buckethead'
+
 DatabaseCleaner.strategy = :truncation
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -43,6 +47,15 @@ RSpec.configure do |config|
 
   config.before(:all) do
     Validation.create_indexes
+    Fog.mock!
+  end
+
+  config.before(:each) do
+    FogStorage.new.connection.directories.create(key: ENV['AWS_BUCKET_NAME'])
+  end
+
+  config.after(:each) do
+    Fog::Mock.reset
   end
 
   WebMock.disable_net_connect!(:allow => [/static.(dev|theodi.org)/, /datapackage\.json/, /package_search/])

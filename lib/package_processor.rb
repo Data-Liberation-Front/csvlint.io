@@ -3,6 +3,7 @@ require 'zipfile'
 require 'stored_csv'
 require 'schema_processor'
 require 'processor_helpers'
+require 'fog_storage'
 
 class PackageProcessor
   include ProcessorHelpers
@@ -14,9 +15,11 @@ class PackageProcessor
 
   def process
     read_files unless @params[:files_data].blank?
-    join_chunks unless @params[:file_ids].blank?
+    fetch_uploaded_files unless @params[:file_ids].blank?
     open_files unless @params[:files].blank?
     unzip_urls unless @params[:urls].blank?
+
+    @files.flatten! if @files
 
     create_package
   end
@@ -40,25 +43,11 @@ class PackageProcessor
     @params[:schema_url].present? && @params[:no_js].present?
   end
 
-  def join_chunks
+  def fetch_uploaded_files
     @files ||= []
     @params[:file_ids].each do |f|
-      target_file = Tempfile.new(f)
-      target_file.binmode
-      chunks = Mongoid::GridFs::File.where("metadata.resumableFilename" => f).to_a
-      chunks.sort_by! { |s| s.metadata["resumableChunkNumber"].to_i }
-
-      chunks.each do |chunk|
-        target_file.write(chunk.data)
-        chunk.delete
-      end
-
-      target_file.rewind
-
-      stored_csv = StoredCSV.save(target_file, f)
-      @files << fetch_file(stored_csv.id)
+      @files.push fetch_file f
     end
-    @files.flatten!
   end
 
   def read_files
@@ -68,10 +57,8 @@ class PackageProcessor
     # converts the base64 schema to an array for parsing below
     data.each do |data|
       file = read_data_url(data)
-      stored_csv = StoredCSV.save(file[:body], File.basename(file[:filename]))
-      @files << fetch_file(stored_csv.id)
+      @files << save_file(file[:body], File.basename(file[:filename]))
     end
-    @files.flatten!
   end
 
   def unzip_urls
@@ -81,28 +68,30 @@ class PackageProcessor
         @files << unzip(File.basename(url), open(url).read)
       end
     end
-    @files.flatten!
     @files = nil if @files.count == 0
   end
 
   def open_files
     @files ||= []
     @params[:files].each do |file|
-      stored_csv = StoredCSV.save(file.tempfile, file.original_filename)
-      @files << fetch_file(stored_csv.id)
+      @files << save_file(file.tempfile, file.original_filename)
     end
   end
 
-  def fetch_file(id)
-    stored_csv = Mongoid::GridFs.get(id)
-    filename = stored_csv.metadata[:filename]
+  def save_file(file, filename)
     if File.extname(filename) == ".zip"
-      unzip(filename, stored_csv.data)
+      unzip(filename, file.read)
     else
-      {
-        :csv_id => id,
-        :filename => filename
-      }
+      StoredCSV.save(file, filename)
+    end
+  end
+
+  def fetch_file(filename)
+    if File.extname(filename) == ".zip"
+      file = StoredCSV.fetch(filename)
+      unzip(filename, file.body)
+    else
+      StoredCSV.fetch(filename)
     end
   end
 
