@@ -15,7 +15,7 @@ class PackageProcessor
 
   def process
     read_files unless @params[:files_data].blank?
-    fetch_uploaded_file unless @params[:file_ids].blank?
+    fetch_uploaded_files unless @params[:file_ids].blank?
     open_files unless @params[:files].blank?
     unzip_urls unless @params[:urls].blank?
 
@@ -41,7 +41,7 @@ class PackageProcessor
     @params[:schema_url].present? && @params[:no_js].present?
   end
 
-  def fetch_uploaded_file
+  def fetch_uploaded_files
     @files ||= []
     params[:file_ids].each do |f|
       @files.push StoredCSV.fetch(f)
