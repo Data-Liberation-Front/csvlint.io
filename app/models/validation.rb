@@ -186,7 +186,7 @@ class Validation
     # method that retrieves stored entire CSV file from mongoDB
     if self.url
       csv = open(self.url).read
-    elsif self.csv_id
+    else
       # above line means this method triggers only when user opts to revalidate their CSV with suggested prompts
       csv = StoredCSV.fetch(self.filename).body
     end
