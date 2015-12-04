@@ -188,7 +188,7 @@ class Validation
       csv = open(self.url).read
     elsif self.csv_id
       # above line means this method triggers only when user opts to revalidate their CSV with suggested prompts
-      csv = Mongoid::GridFs.get(self.csv_id).data
+      csv = StoredCSV.fetch(self.filename).body
     end
 
     if csv
