@@ -3,6 +3,7 @@ require 'zipfile'
 require 'stored_csv'
 require 'schema_processor'
 require 'processor_helpers'
+require 'fog_storage'
 
 class PackageProcessor
   include ProcessorHelpers
@@ -40,25 +41,15 @@ class PackageProcessor
     @params[:schema_url].present? && @params[:no_js].present?
   end
 
-  def join_chunks
+  def fetch_uploaded_file
     @files ||= []
-    @params[:file_ids].each do |f|
-      target_file = Tempfile.new(f)
-      target_file.binmode
-      chunks = Mongoid::GridFs::File.where("metadata.resumableFilename" => f).to_a
-      chunks.sort_by! { |s| s.metadata["resumableChunkNumber"].to_i }
-
-      chunks.each do |chunk|
-        target_file.write(chunk.data)
-        chunk.delete
-      end
-
-      target_file.rewind
-
-      stored_csv = StoredCSV.save(target_file, f)
-      @files << fetch_file(stored_csv.id)
+    params[:file_ids].each do |f|
+      @files.push StoredCSV.fetch(f)
     end
-    @files.flatten!
+  end
+
+  def fog
+    FogStorage.new
   end
 
   def read_files
@@ -69,7 +60,7 @@ class PackageProcessor
     data.each do |data|
       file = read_data_url(data)
       stored_csv = StoredCSV.save(file[:body], File.basename(file[:filename]))
-      @files << fetch_file(stored_csv.id)
+      @files << stored_csv
     end
     @files.flatten!
   end
@@ -89,20 +80,7 @@ class PackageProcessor
     @files ||= []
     @params[:files].each do |file|
       stored_csv = StoredCSV.save(file.tempfile, file.original_filename)
-      @files << fetch_file(stored_csv.id)
-    end
-  end
-
-  def fetch_file(id)
-    stored_csv = Mongoid::GridFs.get(id)
-    filename = stored_csv.metadata[:filename]
-    if File.extname(filename) == ".zip"
-      unzip(filename, stored_csv.data)
-    else
-      {
-        :csv_id => id,
-        :filename => filename
-      }
+      @files << stored_csv
     end
   end
 

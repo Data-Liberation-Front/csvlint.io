@@ -15,6 +15,10 @@ require 'timecop'
 require 'stored_csv'
 require 'fixture_helpers'
 
+ENV['AWS_ACCESS_KEY'] = 'fakeaccesskey'
+ENV['AWS_SECRET_ACCESS_KEY'] = 'fakesecret'
+ENV['AWS_BUCKET_NAME'] = 'buckethead'
+
 DatabaseCleaner.strategy = :truncation
 
 # Requires supporting ruby files with custom matchers and macros, etc,

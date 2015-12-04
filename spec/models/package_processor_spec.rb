@@ -80,4 +80,14 @@ describe PackageProcessor do
     expect(file.data).to eq("012345678910")
   end
 
+  it "gives us a FogStorage object" do
+    processor = PackageProcessor.new({
+      file_ids: ['chunked_file']
+    }, @package.id)
+
+    expect(processor.fog).to be_a FogStorage
+  end
+
+  it ''
+
 end

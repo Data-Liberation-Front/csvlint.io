@@ -1,15 +1,13 @@
-require 'mongoid/grid_fs'
+require 'fog_storage'
 
 class StoredCSV
 
   def self.save(file, filename)
-    stored_csv = Mongoid::GridFs.put(file)
-    stored_csv.metadata = { filename: filename }
-    stored_csv.save
+    FogStorage.new.create_file file, filename
+  end
 
-    file.close
-    file.unlink rescue nil
-    stored_csv
+  def self.fetch filename
+    FogStorage.new.find_file filename
   end
 
 end
