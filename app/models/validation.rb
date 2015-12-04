@@ -232,20 +232,11 @@ class Validation
   end
 
   def self.clean_up(hours)
-    delete_files Mongoid::GridFs::File.where(:uploadDate.lte => hours.hours.ago)
     delete_validations Validation.where(:created_at.lte => hours.hours.ago, :csv_id.ne => nil)
-    delete_orphans
   rescue => e
     Airbrake.notify(e) if ENV['CSVLINT_AIRBRAKE_KEY'] # Exit cleanly, but still notify airbrake
   ensure
     Validation.delay(run_at: 24.hours.from_now).clean_up(24)
-  end
-
-  def self.delete_files(files)
-    files.each do |f|
-      Mongoid::GridFs::Chunk.where(files_id: f.id).each { |chunk| chunk.delete }
-      f.delete
-    end
   end
 
   def self.delete_validations(validations)
@@ -253,16 +244,6 @@ class Validation
       Mongoid::GridFs.delete(validation.csv_id)
       validation.csv_id = nil
       validation.save
-    end
-  end
-
-  def self.delete_orphans
-    Mongoid::GridFs::Chunk.each do |c|
-      begin
-        Mongoid::GridFs::File.find(c.files_id)
-      rescue Mongoid::Errors::DocumentNotFound
-        c.delete
-      end
     end
   end
 
