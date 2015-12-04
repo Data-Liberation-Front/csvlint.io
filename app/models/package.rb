@@ -64,16 +64,6 @@ class Package
   def create_package(sources, schema_url = nil, schema = nil)
     return nil if sources.count == 0
 
-    if sources.first.class == Hash
-      sources.map! { |io|
-        {
-          :body => Mongoid::GridFs.get(io[:csv_id]).data,
-          :csv_id => io[:csv_id],
-          :filename => io[:filename]
-        }
-      }
-    end
-
     if sources.count == 1 && possible_package?(sources.first)
       dataset = create_dataset(sources.first)
       return create_datapackage(dataset) unless dataset.nil?
