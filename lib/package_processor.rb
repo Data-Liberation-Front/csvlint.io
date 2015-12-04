@@ -43,7 +43,7 @@ class PackageProcessor
 
   def fetch_uploaded_files
     @files ||= []
-    params[:file_ids].each do |f|
+    @params[:file_ids].each do |f|
       @files.push StoredCSV.fetch(f)
     end
   end
