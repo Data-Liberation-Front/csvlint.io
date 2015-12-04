@@ -19,6 +19,8 @@ class PackageProcessor
     open_files unless @params[:files].blank?
     unzip_urls unless @params[:urls].blank?
 
+    @files.flatten! if @files
+
     create_package
   end
 
@@ -44,12 +46,8 @@ class PackageProcessor
   def fetch_uploaded_files
     @files ||= []
     @params[:file_ids].each do |f|
-      @files.push StoredCSV.fetch(f)
+      @files.push fetch_file f
     end
-  end
-
-  def fog
-    FogStorage.new
   end
 
   def read_files
@@ -59,10 +57,8 @@ class PackageProcessor
     # converts the base64 schema to an array for parsing below
     data.each do |data|
       file = read_data_url(data)
-      stored_csv = StoredCSV.save(file[:body], File.basename(file[:filename]))
-      @files << stored_csv
+      @files << save_file(file[:body], File.basename(file[:filename]))
     end
-    @files.flatten!
   end
 
   def unzip_urls
@@ -72,15 +68,30 @@ class PackageProcessor
         @files << unzip(File.basename(url), open(url).read)
       end
     end
-    @files.flatten!
     @files = nil if @files.count == 0
   end
 
   def open_files
     @files ||= []
     @params[:files].each do |file|
-      stored_csv = StoredCSV.save(file.tempfile, file.original_filename)
-      @files << stored_csv
+      @files << save_file(file.tempfile, file.original_filename)
+    end
+  end
+
+  def save_file(file, filename)
+    if File.extname(filename) == ".zip"
+      unzip(filename, file.read)
+    else
+      StoredCSV.save(file, filename)
+    end
+  end
+
+  def fetch_file(filename)
+    if File.extname(filename) == ".zip"
+      file = StoredCSV.fetch(filename)
+      unzip(filename, file.body)
+    else
+      StoredCSV.fetch(filename)
     end
   end
 
