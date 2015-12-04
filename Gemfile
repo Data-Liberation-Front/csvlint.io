@@ -103,4 +103,4 @@ gem 'alternate_rails', github: 'theodi/alternate-rails'
 gem 'rack-cors'
 gem 'byebug'
 
-gem 'resumable_upload', path: "../resumable-upload"
+gem 'resumable_upload', github: "theodi/resumable-upload"

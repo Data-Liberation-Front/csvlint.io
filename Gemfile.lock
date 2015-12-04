@@ -46,8 +46,9 @@ GIT
       rake
       rest-client
 
-PATH
-  remote: ../resumable-upload
+GIT
+  remote: git://github.com/theodi/resumable-upload.git
+  revision: 12bbb3f7d05ca53550b7905d0eec97013622520c
   specs:
     resumable_upload (0.0.2)
       bson (= 3.1.1)
