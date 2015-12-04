@@ -26,7 +26,7 @@ def create_data_uri(file, content_type = "text/csv")
 end
 
 def mock_upload(filename)
-  body = File.read(File.join(Rails.root, 'fixtures', 'csvs', filename))
-  StoredCSV.save filename, body
+  body = File.open(File.join(Rails.root, 'fixtures', 'csvs', filename))
+  StoredCSV.save body, filename
   filename
 end
