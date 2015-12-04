@@ -47,6 +47,15 @@ RSpec.configure do |config|
 
   config.before(:all) do
     Validation.create_indexes
+    Fog.mock!
+  end
+
+  config.before(:each) do
+    FogStorage.new.connection.directories.create(key: ENV['AWS_BUCKET_NAME'])
+  end
+
+  config.after(:each) do
+    Fog::Mock.reset
   end
 
   WebMock.disable_net_connect!(:allow => [/static.(dev|theodi.org)/, /datapackage\.json/, /package_search/])
