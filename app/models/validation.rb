@@ -232,7 +232,7 @@ class Validation
   end
 
   def self.clean_up(hours)
-    delete_validations Validation.where(:created_at.lte => hours.hours.ago, :csv_id.ne => nil)
+    delete_validations Validation.where(:created_at.lte => hours.hours.ago, :url => nil)
   rescue => e
     Airbrake.notify(e) if ENV['CSVLINT_AIRBRAKE_KEY'] # Exit cleanly, but still notify airbrake
   ensure
@@ -240,11 +240,7 @@ class Validation
   end
 
   def self.delete_validations(validations)
-    validations.each do |validation|
-      Mongoid::GridFs.delete(validation.csv_id)
-      validation.csv_id = nil
-      validation.save
-    end
+    validations.each { |v| v.delete }
   end
 
   def self.generate_options(dialect)

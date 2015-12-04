@@ -96,4 +96,40 @@ describe Validation, type: :model do
     validation.parse_options.should_not == nil
   end
 
+  it "should clean up old validations without urls" do
+    @file = mock_uploaded_file('csvs/valid.csv')
+
+    5.times { Validation.create_validation(@file) }
+
+    Timecop.freeze(25.hours.from_now)
+
+    7.times { Validation.create_validation(@file) }
+
+    Validation.clean_up(24)
+
+    expect(Validation.count).to eq(7)
+
+    Timecop.return
+  end
+
+  it "should not delete validations with urls" do
+    @file = mock_uploaded_file('csvs/valid.csv')
+    mock_file('http://example.com/test.csv', 'csvs/valid.csv')
+
+    5.times { Validation.create_validation(@file) }
+    2.times do |i|
+      url = "http://example.com/test#{i}.csv"
+      mock_file(url, 'csvs/valid.csv')
+      Validation.create_validation(url)
+    end
+
+    Timecop.freeze(25.hours.from_now)
+
+    Validation.clean_up(24)
+
+    expect(Validation.count).to eq(2)
+
+    Timecop.return
+  end
+
 end
