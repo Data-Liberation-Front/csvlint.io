@@ -26,19 +26,7 @@ def create_data_uri(file, content_type = "text/csv")
 end
 
 def mock_upload(filename)
-  File.open(File.join(Rails.root, 'fixtures', 'csvs', filename)) do |file|
-    chunksize = file.size / 5
-    i = 1
-    until file.eof?
-      tempfile = Tempfile.new(filename)
-      tempfile.binmode
-      tempfile.write(file.read(chunksize))
-      tempfile.rewind
-      stored_chunk = Mongoid::GridFs.put(tempfile)
-      stored_chunk.metadata = { resumableFilename: filename, resumableChunkNumber: i}
-      stored_chunk.save
-      i = i+1
-    end
-  end
+  body = File.read(File.join(Rails.root, 'fixtures', 'csvs', filename))
+  StoredCSV.save filename, body
   filename
 end
