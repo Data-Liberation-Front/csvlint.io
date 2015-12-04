@@ -27,12 +27,9 @@ class Validation
       filename = io.original_filename
       csv = File.new(io.tempfile)
       io = File.new(io.tempfile)
-    elsif io.class == Hash && !io[:body].nil?
-      # above not triggered by features, triggered when local file [schema or csv] uploaded
-      filename = io[:filename]
-      csv_id = io[:csv_id]
-      io = StringIO.new(io[:body])
-
+    elsif io.respond_to?(:body)
+      filename = io.key
+      io = StringIO.new(io.body)
     end
 
     # Validate
