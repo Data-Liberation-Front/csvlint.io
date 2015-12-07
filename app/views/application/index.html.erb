@@ -98,7 +98,7 @@ var r = new Resumable({
     generateUniqueIdentifier: function(file) {
       var relativePath = file.webkitRelativePath||file.fileName||file.name; // Some confusion in different versions of Firefox
       var timestamp = Math.floor(Date.now() / 1000)
-      return(timestamp + '-' + relativePath.replace(/[^0-9a-zA-Z_-]/img, ''));
+      return(timestamp + '-' + relativePath.replace(/[^\w\-\.]+/g, ''));
     }
 });
 
@@ -128,8 +128,9 @@ function assignEventTriggers(r){
         $('.resumable-progress .progress-resume-link').hide();
         $('.resumable-progress .progress-pause-link').show();
         // Add the file to the list
-        $('.resumable-list').append('<li class="resumable-file-'+file.uniqueIdentifier+'">Uploading <span class="resumable-file-name"></span> <span class="resumable-file-progress"></span>');
-        $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-name').html(file.fileName);
+        listClass = file.uniqueIdentifier.split('.')[0]
+        $('.resumable-list').append('<li class="resumable-file-'+listClass+'">Uploading <span class="resumable-file-name"></span> <span class="resumable-file-progress"></span>');
+        $('.resumable-file-'+listClass+' .resumable-file-name').html(file.fileName);
         // Actually start the upload
         r.upload();
     });
