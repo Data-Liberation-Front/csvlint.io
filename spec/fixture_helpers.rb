@@ -26,7 +26,16 @@ def create_data_uri(file, content_type = "text/csv")
 end
 
 def mock_upload(filename)
-  body = File.open(File.join(Rails.root, 'fixtures', 'csvs', filename))
-  StoredCSV.save body, filename
-  filename
+  identfier = rand(36**8).to_s(36)
+  unique_filename = "#{identfier}#{filename}"
+  @i = 0
+
+  File.open(File.join(Rails.root, 'fixtures', 'csvs', filename)) do |file|
+    chunksize = file.size / 5
+    until file.eof?
+      @i = @i+1
+      StoredChunk.save(unique_filename, file.read(chunksize), @i)
+    end
+  end
+  "#{unique_filename},#{@i}"
 end
