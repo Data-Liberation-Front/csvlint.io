@@ -2,6 +2,7 @@ require 'rack_mock'
 
 Csvlint::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  config.allow_concurrency = false
 
   # The test environment is used exclusively to run your application's
   # test suite. You never need to work with it otherwise. Remember that
@@ -35,6 +36,6 @@ Csvlint::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
-  
+
   config.middleware.use RackMock
 end
