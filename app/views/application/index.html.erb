@@ -147,7 +147,7 @@ function assignEventTriggers(r){
     r.on('fileSuccess', function(file,message){
         // Reflect that the file upload has completed
         $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
-        $('#file_ids').append( "<input type='hidden' name='file_ids[]' value='" + file.uniqueIdentifier + "' />" )
+        $('#file_ids').append( "<input type='hidden' name='file_ids[]' value='" + file.uniqueIdentifier + "' data:chunk_count='"+ file.chunks.length +"' />" )
         // TODO this logic integral for correct function of async functions later
     });
 
@@ -209,7 +209,7 @@ function assignEventTriggers(r){
 
   		    files = [];
             urls = [];
-            paths = [];
+            chunked_files = [];
             validation_count = 0;
             $.each($("#schema_file")[0].files, function(index, file) {
                 file.category = "schema"
@@ -217,7 +217,10 @@ function assignEventTriggers(r){
             });
 
             $( "#file_ids input" ).each(function(){
-              paths.push(this.value);
+              file = []
+              file.push(this.value);
+              file.push(this.attributes['data:chunk_count'].value);
+              chunked_files.push(file)
               validation_count++;
             })
 
@@ -230,7 +233,7 @@ function assignEventTriggers(r){
             readFiles(files, function(files, schema_file) {
 
               postdata = {
-                "file_ids[]": paths,
+                "file_ids[]": chunked_files,
                 "schema": $('#schema').prop("checked") ? 1 : 0,
                 "schema_data": schema_file,
                 "schema_url": $('#schema_url').val(),
