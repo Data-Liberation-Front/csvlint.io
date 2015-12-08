@@ -13,6 +13,7 @@ require 'vcr'
 require 'timecop'
 # require 'csvlint'
 require 'stored_csv'
+require 'stored_chunk'
 require 'fixture_helpers'
 
 ENV['AWS_ACCESS_KEY'] = 'fakeaccesskey'

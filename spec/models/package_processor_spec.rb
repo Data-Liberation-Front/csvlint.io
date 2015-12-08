@@ -58,4 +58,21 @@ describe PackageProcessor do
     expect(@package.validations.count).to eq(1)
   end
 
+  it "joins chunks in the correct order" do
+    (1..10).to_a.shuffle.each do |i|
+      StoredChunk.save('chunked_file', i.to_s, i)
+    end
+
+    processor = PackageProcessor.new({
+      file_ids: [
+        'chunked_file,10'
+      ]
+    }, @package.id)
+    processor.fetch_uploaded_files
+
+    file = FogStorage.new.find_file('chunked_file')
+
+    expect(file.body).to eq("12345678910")
+  end
+
 end

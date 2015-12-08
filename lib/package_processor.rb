@@ -3,6 +3,7 @@ require 'zipfile'
 require 'stored_csv'
 require 'schema_processor'
 require 'processor_helpers'
+require 'stored_chunk'
 require 'fog_storage'
 
 class PackageProcessor
@@ -46,7 +47,9 @@ class PackageProcessor
   def fetch_uploaded_files
     @files ||= []
     @params[:file_ids].each do |f|
-      @files.push fetch_file f
+      info = f.split(',')
+      file = StoredChunk.join(info[0], info[1])
+      @files.push fetch_file(file.key)
     end
   end
 
