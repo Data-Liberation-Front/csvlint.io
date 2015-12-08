@@ -149,7 +149,7 @@ function assignEventTriggers(r){
         // Reflect that the file upload has completed
         listClass = file.uniqueIdentifier.split('.')[0]
         $('.resumable-file-'+ listClass +' .resumable-file-progress').html('(completed)');
-        $('#file_ids').append( "<input type='hidden' name='file_ids[]' value='" + listClass + "' data:chunk_count='"+ file.chunks.length +"' />" )
+        $('#file_ids').append( "<input type='hidden' name='file_ids[]' value='" + file.uniqueIdentifier + "' data:chunk_count='"+ file.chunks.length +"' />" )
         // TODO this logic integral for correct function of async functions later
     });
 
