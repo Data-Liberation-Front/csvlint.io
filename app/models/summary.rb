@@ -57,6 +57,7 @@ class Summary
         end
       end
     end
+    summary.save
     summary
   end
 
