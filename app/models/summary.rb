@@ -37,11 +37,10 @@ class Summary
     summary.create_level_summary( errors_breakdown: Hash.new(0), warnings_breakdown: Hash.new(0), info_messages_breakdown: Hash.new(0) )
     summary.create_category_summary( structure_breakdown: Hash.new(0), schema_breakdown: Hash.new(0), context_breakdown: Hash.new(0) )
 
-
-
     validations.each do |validation|
       summary.states[validation.state] += 1
-      summary.hosts[ source_host(validation) ] += 1
+      host = source_host(validation.url)
+      summary.hosts[host] += 1 unless host.nil?
       validator = validation.validator
       messages = []
       [:errors, :warnings, :info_messages].each do |level|
@@ -63,11 +62,13 @@ class Summary
 
   private
 
-    def self.source_host(validation)
-      host = URI.parse(validation.url).host.downcase
-      host = host.start_with?('www.') ? host[4..-1] : host
-      #TODO better option?
-      host.gsub(".", "\uff0e")
-    end
+  def self.source_host(url)
+    host = URI.parse(url.to_s).host
+    return if host.nil?
+    host.downcase!
+    host = host.start_with?('www.') ? host[4..-1] : host
+    #TODO better option?
+    host.gsub(".", "\uff0e")
+  end
 
 end
