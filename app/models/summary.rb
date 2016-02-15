@@ -32,7 +32,7 @@ class Summary
     # retrieve validations from Mongo Datastore, ordered in reverse by date created
 
     summary.sources = validations.length
-    summary.states = Hash.new 0
+    summary.states = {"warnings"=>0, "valid"=>0, "not_found"=>0, "invalid"=>0}
     summary.hosts = Hash.new 0
     summary.create_level_summary( errors_breakdown: Hash.new(0), warnings_breakdown: Hash.new(0), info_messages_breakdown: Hash.new(0) )
     summary.create_category_summary( structure_breakdown: Hash.new(0), schema_breakdown: Hash.new(0), context_breakdown: Hash.new(0) )
