@@ -23,6 +23,17 @@ Feature: Schema Validation
     And I should see my URL
     And I should see my schema URL
 
+  Scenario: Enter a URL and a datapackage URL for validation
+    Given the fixture "datapackages/datapackage-with-schema.json" is available at the URL "http://example.com/datapackage.json"
+    When I go to the homepage
+    And I enter "http://example.org/test.csv" in the "url" field
+    And I check the "schema" checkbox
+    And I enter "http://example.com/datapackage.json" in the "schema_url" field
+    And I press "Validate"
+    Then I should see a page of validation results
+    And I should see my URL
+    And I should see my schema URL
+
   Scenario: Enter a URL and a schema URL for validation without checking the schema checkbox
     When I go to the homepage
     And Javascript is enabled
