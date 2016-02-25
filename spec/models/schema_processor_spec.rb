@@ -39,4 +39,26 @@ describe SchemaProcessor do
     expect(schema.fields[2].name).to eq("Insult")
   end
 
+  context "with datapackage" do
+    before(:each) do
+      @file = mock_uploaded_file('datapackages/datapackage-with-schema.json', 'application/json')
+      @schema = SchemaProcessor.new(file: @file)
+    end
+
+    it "detects a datapackage" do
+      expect(@schema.is_datapackage?).to eq(true)
+    end
+
+    it "reads a schema from a datapackage" do
+      schema = @schema.schema
+
+      expect(schema.fields.count).to eq(5)
+      expect(schema.fields[0].name).to eq("Username")
+      expect(schema.fields[1].name).to eq("Age")
+      expect(schema.fields[2].name).to eq("Height")
+      expect(schema.fields[3].name).to eq("Weight")
+      expect(schema.fields[4].name).to eq("Password")
+    end
+  end
+
 end
