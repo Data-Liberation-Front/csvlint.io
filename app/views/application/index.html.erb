@@ -65,6 +65,19 @@
             <div class="input-group">
               <%= file_field_tag 'schema_file', class: 'file-chooser btn-info btn-lg', title: 'browse' %>
             </div>
+
+            <div class="schema-progress-container row hidden">
+              <div class="col-md-11">
+                <div class="progress">
+                  <div class="schema-progress-bar progress-bar" role="progressbar"></div>
+                </div>
+
+                <ul class="schema-text hidden">
+
+                </ul>
+              </div>
+            </div>
+
             <input type="hidden" name="file_ids[]" />
       </div>
 
@@ -197,6 +210,19 @@ function assignEventTriggers(r){
 		$('#schema').prop('checked', false).click(function() {
 		  $('#schemas').toggleClass('hidden', !this.checked)
 		})
+
+    $('#schema_file').change(function() {
+      $('.schema-progress-bar').width('0')
+      $('.schema-progress-container').removeClass('hidden');
+      var fileName = $(this).val().split('\\').reverse()[0];
+      $('.schema-text').removeClass('hidden');
+      $('.schema-text').append('<li>')
+      var li = $('.schema-text').find('li')
+      li.html('Uploading ' + fileName )
+      $('.schema-progress-bar').animate({width: '100%'}, 1200, 'swing', function() {
+        li.html('Uploading ' + fileName + ' (completed)' )
+      })
+    })
 
 		$('.btn-clone').click(function() {
 		  cloned = $('.url-template:first').clone().appendTo('#url').removeClass('hidden');

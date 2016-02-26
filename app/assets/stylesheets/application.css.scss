@@ -279,3 +279,13 @@ font-weight: bold;
   height: 30px;
   width: 100%;
 }
+
+.schema-text {
+  overflow: auto;
+  margin-left: -20px;
+  font-size: 0.9em;
+}
+
+.schema-progress-container {
+  margin: 15px 0 5px -15px;
+}
