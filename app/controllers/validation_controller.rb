@@ -7,14 +7,14 @@ class ValidationController < ApplicationController
   before_filter(:only => [:index]) { alternate_formats [:json, :csv] }
 
   def index
-    @validations = Validation.where(:url.ne => nil)
+    @validations = Validation.without(:result).where(:url.ne => nil)
                        .order_by(:created_at.desc)
                        .page(params[:page]).per(7)
 
     respond_to do |wants|
       wants.html
       wants.json
-      wants.csv { send_data as_csv(@validations.per(Validation.count)), type: "text/csv; charset=utf-8; header=present", disposition: "attachment"  }
+      wants.csv { send_data as_csv(@validations.per(Validation.without(:result).count)), type: "text/csv; charset=utf-8; header=present", disposition: "attachment"  }
     end
   end
 
