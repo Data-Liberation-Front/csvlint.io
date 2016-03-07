@@ -14,7 +14,7 @@ class ValidationController < ApplicationController
     respond_to do |wants|
       wants.html
       wants.json
-      wants.csv { send_data as_csv(@validations.per(Validation.count)), type: "text/csv; charset=utf-8; headers=true", disposition: "attachment"  }
+      wants.csv { send_data as_csv(@validations.per(Validation.count)), type: "text/csv; charset=utf-8; header=present", disposition: "attachment"  }
     end
   end
 

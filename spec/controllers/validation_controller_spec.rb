@@ -18,7 +18,7 @@ describe ValidationController, type: :controller do
 
       get 'index', format: "csv"
 
-      expect(response.content_type).to eq('text/csv; charset=utf-8; headers=true')
+      expect(response.content_type).to eq('text/csv; charset=utf-8; header=present')
 
       csv = CSV.parse(response.body)
       expect(csv.count).to eq(11)
