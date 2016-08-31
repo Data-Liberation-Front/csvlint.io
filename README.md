@@ -3,7 +3,7 @@
 [![Code Climate](https://codeclimate.com/github/theodi/csvlint.png)](https://codeclimate.com/github/theodi/csvlint)
 [![Dependency Status](https://gemnasium.com/theodi/csvlint.png)](https://gemnasium.com/theodi/csvlint)
 [![License](http://b.adge.me/:license-mit-green.svg)](http://theodi.mit-license.org/)
-
+ 
 # CSVLint
 
 This README would normally document whatever steps are necessary to get the
