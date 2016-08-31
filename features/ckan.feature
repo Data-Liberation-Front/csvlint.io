@@ -7,7 +7,7 @@ Feature: Load from CKAN repositories
     And I press "Validate"
     Then I should be redirected to my package page
     And I should see "We've noticed that you have submitted a URL that refers to a CKAN dataset."
-    And I should see "https://www.gov.uk/government/publications/disposal-database-house-of-commons-report"
+    And I should see "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/253423/20131025_HoC_report_Oct_2013.csv"
     And my datapackage should be persisited in the database
 
   Scenario: Ignore non-csv resources
@@ -19,7 +19,7 @@ Feature: Load from CKAN repositories
     And I should see "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/61944/ndpb-high-earners.csv"
     And I should not see "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/60516/150k-decision-notice.pdf"
     And my datapackage should be persisited in the database
-    
+
   Scenario: Load multiple CSVs from a CKAN url
   When I go to the homepage
   And I enter the CKAN repository "http://data.gov.uk/dataset/uk-civil-service-high-earners" in the url field
