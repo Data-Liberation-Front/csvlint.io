@@ -2,6 +2,7 @@
   "name": "csvlint",
   "description": "",
   "scripts": {
+    
   },
   "env": {
     "AWS_ACCESS_KEY": {
@@ -35,11 +36,11 @@
   "formation": {
     "worker": {
       "quantity": 1,
-      "size": "Standard-1X"
+      "size": "free"
     },
     "web": {
       "quantity": 1,
-      "size": "Standard-1X"
+      "size": "free"
     }
   },
   "addons": [
