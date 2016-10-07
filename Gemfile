@@ -82,7 +82,7 @@ end
 gem 'rack-google-analytics'
 gem 'mongoid'
 gem 'bson', '3.1.1'
-gem 'mongoid-grid_fs', github: 'ahoward/mongoid-grid_fs'
+gem 'mongoid-grid_fs', '~> 2.2'
 gem 'bson_ext'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'

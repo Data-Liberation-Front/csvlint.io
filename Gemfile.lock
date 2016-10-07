@@ -1,12 +1,4 @@
 GIT
-  remote: git://github.com/ahoward/mongoid-grid_fs.git
-  revision: 98fbd15cdd3e545ad2b6f22d74721d57183e5a7c
-  specs:
-    mongoid-grid_fs (2.1.0)
-      mime-types (>= 1.0, < 3.0)
-      mongoid (>= 3.0, < 5.0)
-
-GIT
   remote: git://github.com/theodi/alternate-rails.git
   revision: 83a5b8b73655283b2d9729eeae848488881eecc4
   specs:
@@ -388,7 +380,7 @@ GEM
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     method_source (0.8.2)
-    mime-types (2.6.2)
+    mime-types (2.99.3)
     mini_portile (0.6.2)
     minitest (4.7.5)
     mongoid (4.0.2)
@@ -399,6 +391,9 @@ GEM
     mongoid-compatibility (0.4.0)
       activesupport
       mongoid (>= 2.0)
+    mongoid-grid_fs (2.3.0)
+      mime-types (>= 1.0, < 4.0)
+      mongoid (>= 3.0, < 7.0)
     moped (2.0.7)
       bson (~> 3.0)
       connection_pool (~> 2.0)
@@ -653,7 +648,7 @@ DEPENDENCIES
   jquery-rails
   kaminari
   mongoid
-  mongoid-grid_fs!
+  mongoid-grid_fs (~> 2.2)
   newrelic_rpm
   nokogiri (~> 1.5)
   poltergeist
