@@ -33,14 +33,6 @@
     }
   },
   "formation": {
-    "delayed_job": {
-      "quantity": 1,
-      "size": "Standard-1X"
-    },
-    "thin": {
-      "quantity": 1,
-      "size": "Standard-1X"
-    },
     "worker": {
       "quantity": 1,
       "size": "Standard-1X"
