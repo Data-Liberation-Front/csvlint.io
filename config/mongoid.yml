@@ -71,7 +71,7 @@ test:
 production:
   sessions:
     default:
-      uri: <%= ENV['CSVLINT_MONGODB_URL'] %>
+      uri: <%= ENV['CSVLINT_MONGODB_URL'] || ENV['MONGODB_URI']%>
       options:
         ssl: true
         max_retries: 1
