@@ -39,7 +39,7 @@ gem 'foreman', "< 0.65.0"
 
 group :production do
   gem 'thin'
-  gem 'mysql2'
+  gem 'rails_12factor'
 end
 
 group :development, :test do
