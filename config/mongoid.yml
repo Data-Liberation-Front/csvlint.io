@@ -16,5 +16,3 @@ production:
   clients:
     default:
       uri: <%= ENV['CSVLINT_MONGODB_URL'] || ENV['MONGODB_URI']%>
-      options:
-        ssl: true
