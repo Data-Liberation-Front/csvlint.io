@@ -15,14 +15,14 @@ describe Validation, type: :model do
       @file = mock_uploaded_file('csvs/valid.csv')
       validation = Validation.create_validation(@file)
       # retrieve the mongo collection associated with above created file, ensure that the expirable field is present
-      validation.collection.indexes[expirable_created_at: 1].present?.should == true
+      validation.collection.indexes.get(expirable_created_at: 1).present?.should == true
     end
 
     it "should have an expiry value of 24 hours" do
       @file = mock_uploaded_file('csvs/valid.csv')
       validation = Validation.create_validation(@file)
       # retrieve the mongo collection associated with above created file, ensure that the expirable field is set to 24 hours
-      validation.collection.indexes[expirable_created_at: 1].select{|k,v| k=="expireAfterSeconds"}.has_value?(24.hours.to_i)
+      validation.collection.indexes.get(expirable_created_at: 1).select{|k,v| k=="expireAfterSeconds"}.has_value?(24.hours.to_i)
     end
 
   end
