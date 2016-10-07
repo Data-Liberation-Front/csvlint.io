@@ -80,7 +80,7 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'rack-google-analytics'
-gem 'mongoid'
+gem 'mongoid', '~> 5.0'
 gem 'bson', '3.1.1'
 gem 'mongoid-grid_fs', '~> 2.2'
 gem 'bson_ext'
