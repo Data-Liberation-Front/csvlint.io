@@ -7,14 +7,6 @@ GIT
       mongoid (>= 3.0, < 5.0)
 
 GIT
-  remote: git://github.com/collectiveidea/delayed_job_mongoid.git
-  revision: 5fe9d249d45d735564d26d8fba41f04b123995c7
-  specs:
-    delayed_job_mongoid (2.1.0)
-      delayed_job (>= 3.0, < 5)
-      mongoid (>= 3.0, < 5)
-
-GIT
   remote: git://github.com/theodi/alternate-rails.git
   revision: 83a5b8b73655283b2d9729eeae848488881eecc4
   specs:
@@ -158,8 +150,12 @@ GEM
       json
       json-schema
       rest-client
-    delayed_job (4.0.6)
-      activesupport (>= 3.0, < 5.0)
+    delayed_job (4.1.2)
+      activesupport (>= 3.0, < 5.1)
+    delayed_job_mongoid (2.2.0)
+      delayed_job (>= 3.0, < 5)
+      mongoid (>= 3.0, < 6)
+      mongoid-compatibility
     diff-lcs (1.2.5)
     dotenv (0.7.0)
     dotenv-rails (0.7.0)
@@ -400,11 +396,14 @@ GEM
       moped (~> 2.0.0)
       origin (~> 2.1)
       tzinfo (>= 0.3.37)
-    moped (2.0.6)
+    mongoid-compatibility (0.4.0)
+      activesupport
+      mongoid (>= 2.0)
+    moped (2.0.7)
       bson (~> 3.0)
       connection_pool (~> 2.0)
       optionable (~> 0.2.0)
-    multi_json (1.11.2)
+    multi_json (1.12.1)
     multi_test (0.1.2)
     multipart-post (2.0.0)
     nenv (0.2.0)
@@ -418,7 +417,7 @@ GEM
       shellany (~> 0.0)
     open_uri_redirections (0.2.1)
     optionable (0.2.0)
-    origin (2.1.1)
+    origin (2.2.0)
     poltergeist (1.6.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -604,7 +603,7 @@ GEM
       coffee-rails
     typhoeus (0.7.2)
       ethon (>= 0.7.4)
-    tzinfo (0.3.45)
+    tzinfo (0.3.51)
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
@@ -640,7 +639,7 @@ DEPENDENCIES
   data_kitten!
   data_uri
   database_cleaner
-  delayed_job_mongoid!
+  delayed_job_mongoid (~> 2.2)
   dotenv-rails
   factory_girl_rails
   faker
