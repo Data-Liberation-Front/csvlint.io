@@ -2,6 +2,7 @@
   "name": "csvlint",
   "description": "",
   "scripts": {
+    
   },
   "env": {
     "AWS_ACCESS_KEY": {
@@ -13,9 +14,6 @@
     "AWS_SECRET_ACCESS_KEY": {
       "required": true
     },
-    "CSVLINT_MONGODB_URL": {
-      "required": true
-    },
     "CSVLINT_SESSION_SECRET": {
       "generator": "secret"
     },
@@ -24,34 +22,20 @@
     },
     "RACK_ENV": {
       "required": true
-    },
-    "RAILS_ENV": {
-      "required": true
-    },
-    "SESSION_SECRET_CSVLINT": {
-      "generator": "secret"
     }
   },
   "formation": {
-    "delayed_job": {
-      "quantity": 1,
-      "size": "Standard-1X"
-    },
-    "thin": {
-      "quantity": 1,
-      "size": "Standard-1X"
-    },
     "worker": {
       "quantity": 1,
-      "size": "Standard-1X"
+      "size": "free"
     },
     "web": {
       "quantity": 1,
-      "size": "Standard-1X"
+      "size": "free"
     }
   },
   "addons": [
-    "mongolab",
+    "mongolab:sandbox",
     "heroku-postgresql"
   ],
   "buildpacks": [

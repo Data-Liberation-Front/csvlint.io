@@ -39,7 +39,7 @@ gem 'foreman', "< 0.65.0"
 
 group :production do
   gem 'thin'
-  gem 'mysql2'
+  gem 'rails_12factor'
 end
 
 group :development, :test do
@@ -80,9 +80,9 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'rack-google-analytics'
-gem 'mongoid'
+gem 'mongoid', '~> 5.0'
 gem 'bson', '3.1.1'
-gem 'mongoid-grid_fs', github: 'ahoward/mongoid-grid_fs'
+gem 'mongoid-grid_fs', '~> 2.2'
 gem 'bson_ext'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
@@ -96,7 +96,7 @@ gem 'nokogiri', '~> 1.5'
 
 gem 'airbrake'
 gem 'font-awesome-rails'
-gem 'delayed_job_mongoid', github: 'collectiveidea/delayed_job_mongoid'
+gem 'delayed_job_mongoid', '~> 2.2'
 gem 'data_uri'
 gem 'jquery-dotdotdot-rails'
 gem 'alternate_rails', github: 'theodi/alternate-rails'

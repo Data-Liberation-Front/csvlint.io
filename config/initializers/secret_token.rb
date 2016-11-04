@@ -10,7 +10,6 @@
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
 if Rails.env.production?
-  raise "Session secret not set!" unless ENV['CSVLINT_SESSION_SECRET']
   Csvlint::Application.config.secret_key_base = ENV['CSVLINT_SESSION_SECRET']
 else
   Csvlint::Application.config.secret_key_base = SecureRandom.hex(32)
