@@ -77,6 +77,4 @@ Csvlint::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
-
-  Rails.application.routes.default_url_options[:secure] = true
 end

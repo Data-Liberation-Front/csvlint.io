@@ -39,4 +39,12 @@ class ApplicationController < ActionController::Base
       send_file File.join(Rails.root, 'app', 'views', 'validation', "#{state}.#{format}"), disposition: 'inline', status: status
     end
 
+    def default_url_options(options={})
+      if Rails.env.production?
+        options.merge({ :secure => true })
+      else
+        options
+      end
+    end
+
 end
