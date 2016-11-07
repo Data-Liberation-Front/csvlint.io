@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
 
     def default_url_options(options={})
       if Rails.env.production?
-        options.merge({ :secure => true })
+        options.merge({ :protocol => 'https' })
       else
         options
       end
