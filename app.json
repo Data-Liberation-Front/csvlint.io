@@ -40,7 +40,7 @@
   "addons": [
     "mongolab:sandbox",
     "heroku-postgresql",
-    "redis-to-go:nano"
+    "redistogo:nano"
   ],
   "buildpacks": [
     {
