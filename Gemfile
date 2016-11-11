@@ -40,6 +40,7 @@ gem 'foreman', "< 0.65.0"
 group :production do
   gem 'thin'
   gem 'rails_12factor'
+  gem 'puma'
 end
 
 group :development, :test do
