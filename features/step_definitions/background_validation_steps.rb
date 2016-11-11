@@ -13,6 +13,7 @@ end
 
 When(/^the CSV has finished processing$/) do
   Sidekiq::Extensions::DelayedClass.drain
+  sleep 5
 end
 
 When(/^I wait for the package to be created$/) do
