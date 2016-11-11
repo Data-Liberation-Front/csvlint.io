@@ -8,10 +8,9 @@ class PackageController < ApplicationController
   def create
     @package = Package.create
     if params[:format] == "json"
-      @package.delay.process(params)
+      Package.delay.process(@package.id, params)
     else
-      @package.process(params)
-
+      Package.process(@package.id, params)
       if @package.validations.count == 1
         redirect_to validation_path(@package.validations.first)
       else

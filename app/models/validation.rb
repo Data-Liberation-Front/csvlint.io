@@ -98,7 +98,7 @@ class Validation
     unless revalidate.to_s == "false"
       if ["png", "svg"].include?(format)
         # suspect the above functions tied to the use of badges as hyperlinks to valid schemas & csvs
-        v.delay.check_validation
+        Validation.delay.check_validation(v.id)
       else
         v.check_validation
       end
@@ -206,6 +206,10 @@ class Validation
       save
     end
     self.read_attribute(:parse_options)
+  end
+
+  def self.check_validation(id)
+    Validation.find(id).check_validation
   end
 
   def check_validation
