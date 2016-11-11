@@ -2,7 +2,7 @@
   "name": "csvlint",
   "description": "",
   "scripts": {
-    
+
   },
   "env": {
     "AWS_ACCESS_KEY": {
@@ -27,16 +27,17 @@
   "formation": {
     "worker": {
       "quantity": 1,
-      "size": "free"
+      "size": "hobby"
     },
     "web": {
       "quantity": 1,
-      "size": "free"
+      "size": "hobby"
     }
   },
   "addons": [
     "mongolab:sandbox",
-    "heroku-postgresql"
+    "heroku-postgresql",
+    "redis-to-go:nano"
   ],
   "buildpacks": [
     {
