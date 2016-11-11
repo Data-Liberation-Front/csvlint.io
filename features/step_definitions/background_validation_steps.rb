@@ -1,7 +1,7 @@
 require 'package_processor'
 
 Then(/^my CSV should be placed in a background job$/) do
-  Package.any_instance.should_receive(:delay).and_call_original
+  Package.should_receive(:delay).and_call_original
 end
 
 When(/^I wait for the ajax request to finish$/) do
@@ -12,8 +12,7 @@ When(/^I wait for the ajax request to finish$/) do
 end
 
 When(/^the CSV has finished processing$/) do
-  Delayed::Job.first.invoke_job
-  sleep 5
+  Sidekiq::Extensions::DelayedClass.drain
 end
 
 When(/^I wait for the package to be created$/) do
