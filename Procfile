@@ -1,2 +1,2 @@
-web: bundle exec thin start -p $PORT -e $RACK_ENV
+web: bundle exec puma -C config/puma.rb
 worker: bundle exec sidekiq
