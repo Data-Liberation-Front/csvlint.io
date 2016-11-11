@@ -22,6 +22,9 @@
     },
     "RACK_ENV": {
       "required": true
+    },
+    "REDIS_PROVIDER": {
+      "value": "REDISTOGO_URL"
     }
   },
   "formation": {
