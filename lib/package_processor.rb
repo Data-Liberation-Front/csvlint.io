@@ -30,7 +30,7 @@ class PackageProcessor
 
     create_package
     pusher_channel.trigger('complete', {
-      url: Rails.application.routes.url_helpers.package_url(@package)
+      url: Rails.application.routes.url_helpers.package_url(package, only_path: true)
     })
   end
 
