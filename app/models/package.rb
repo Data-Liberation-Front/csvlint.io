@@ -57,8 +57,8 @@ class Package
     return attributes
   end
 
-  def process(params)
-    PackageProcessor.new(params, self.id).process
+  def self.process(id, params)
+    PackageProcessor.new(params, id).process
   end
 
   def create_package(sources, schema_url = nil, schema = nil)

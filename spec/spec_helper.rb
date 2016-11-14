@@ -15,6 +15,7 @@ require 'timecop'
 require 'stored_csv'
 require 'stored_chunk'
 require 'fixture_helpers'
+require 'sidekiq/testing'
 
 ENV['AWS_ACCESS_KEY'] = 'fakeaccesskey'
 ENV['AWS_SECRET_ACCESS_KEY'] = 'fakesecret'

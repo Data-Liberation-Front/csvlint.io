@@ -40,6 +40,7 @@ gem 'foreman', "< 0.65.0"
 group :production do
   gem 'thin'
   gem 'rails_12factor'
+  gem 'puma'
 end
 
 group :development, :test do
@@ -96,7 +97,7 @@ gem 'nokogiri', '~> 1.5'
 
 gem 'airbrake'
 gem 'font-awesome-rails'
-gem 'delayed_job_mongoid', '~> 2.2'
+gem 'sidekiq', '~> 4'
 gem 'data_uri'
 gem 'jquery-dotdotdot-rails'
 gem 'alternate_rails', github: 'theodi/alternate-rails'

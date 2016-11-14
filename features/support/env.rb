@@ -11,6 +11,8 @@ require 'capybara/poltergeist'
 require 'vcr'
 require 'cucumber/api_steps'
 
+require 'sidekiq/testing'
+
 ENV['AWS_ACCESS_KEY'] = 'fakeaccesskey'
 ENV['AWS_SECRET_ACCESS_KEY'] = 'fakesecret'
 ENV['AWS_BUCKET_NAME'] = 'buckethead'

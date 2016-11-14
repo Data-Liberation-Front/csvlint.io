@@ -8,6 +8,18 @@ Before ('@data_expiry') do
   Validation.create_indexes
 end
 
-After ('@rackmock') do
+After('@rackmock') do
   RackMock.reset
+end
+
+After do
+  Sidekiq::Extensions::DelayedClass.jobs.clear
+end
+
+Before('@javascript') do
+  Sidekiq::Testing.inline!
+end
+
+After('@javascript') do
+  Sidekiq::Testing.fake!
 end

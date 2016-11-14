@@ -15,7 +15,7 @@ Then(/^that validation's file should not be deleted$/) do
 end
 
 Then(/^the clean up task should have been requeued$/) do
-  Delayed::Job.all.count.should == 1
+  expect(Sidekiq::Extensions::DelayedClass.jobs.count).to eq(1)
 end
 
 Given(/^the clean up job causes an error$/) do

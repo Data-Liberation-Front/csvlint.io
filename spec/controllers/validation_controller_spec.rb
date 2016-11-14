@@ -122,18 +122,19 @@ describe ValidationController, type: :controller do
       mock_file("http://example.com/test.csv", 'csvs/valid.csv')
       Validation.create_validation('http://example.com/test.csv')
       validation = Validation.first
-      Validation.any_instance.should_receive(:delay).and_call_original
-      get 'show', id: validation.id, format: :svg
-      Delayed::Job.count.should == 1
+      expect {
+        get 'show', id: validation.id, format: :svg
+      }.to change(Sidekiq::Extensions::DelayedClass.jobs, :size).by(1)
     end
 
     it "doesn't queue another check when the image is loaded if revalidate is false" do
       mock_file("http://example.com/test.csv", 'csvs/valid.csv')
       Validation.create_validation('http://example.com/test.csv')
       validation = Validation.first
-      Validation.any_instance.should_not_receive(:delay)
-      get 'show', id: validation.id, format: :svg, revalidate: false
-      Delayed::Job.count.should == 0
+      expect(Validation).to_not receive(:delay)
+      expect {
+        get 'show', id: validation.id, format: :svg, revalidate: false
+      }.to change(Sidekiq::Extensions::DelayedClass.jobs, :size).by(0)
     end
 
   end
