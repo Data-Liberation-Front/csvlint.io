@@ -33,7 +33,6 @@ class RemoteDataset < DataKitten::Dataset
        end
     end
   end
-
 end
 
 class Package
