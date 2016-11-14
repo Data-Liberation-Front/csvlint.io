@@ -11,10 +11,10 @@ Feature: Background validation
     When I go to the homepage
     And I enter "http://example.org/test.csv" in the "url" field
     Then my CSV should be placed in a background job
+    And a Pusher notification should be sent
     When I press "Validate"
-    And I wait for the package to be created
+    # We have to do this because I can't get Pusher to work with PhantomJS
     When the CSV has finished processing
-    Then I should be redirected to my validation results
-    And I should see a page of validation results
-    And I should see my URL
+    And I access my page of validation results
+    Then I should see my URL
     And my url should be persisted in the database
