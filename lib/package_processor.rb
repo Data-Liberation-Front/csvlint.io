@@ -5,6 +5,7 @@ require 'schema_processor'
 require 'processor_helpers'
 require 'stored_chunk'
 require 'fog_storage'
+require 'pusher'
 
 class PackageProcessor
   include ProcessorHelpers
@@ -12,6 +13,11 @@ class PackageProcessor
   def initialize(params, package_id)
     @params = params
     @package_id = package_id
+  end
+
+  def pusher_channel
+    channel = "package_#{@package_id}"
+    Pusher[channel]
   end
 
   def process
@@ -23,6 +29,9 @@ class PackageProcessor
     @files.flatten! if @files
 
     create_package
+    pusher_channel.trigger('complete', {
+      url: Rails.application.routes.url_helpers.package_url(@package)
+    })
   end
 
   def package
