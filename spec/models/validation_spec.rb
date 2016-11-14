@@ -7,7 +7,7 @@ describe Validation, type: :model do
     it "should assign a TTL field to any validation formed from an uploaded CSV file" do
       @file = mock_uploaded_file('csvs/valid.csv')
       validation = Validation.create_validation(@file)
-      validation.expirable_created_at.should_not == nil
+      expect(validation.expirable_created_at).not_to eq(nil)
     end
 
 
@@ -15,7 +15,7 @@ describe Validation, type: :model do
       @file = mock_uploaded_file('csvs/valid.csv')
       validation = Validation.create_validation(@file)
       # retrieve the mongo collection associated with above created file, ensure that the expirable field is present
-      validation.collection.indexes.get(expirable_created_at: 1).present?.should == true
+      expect(validation.collection.indexes.get(expirable_created_at: 1).present?).to eq(true)
     end
 
     it "should have an expiry value of 24 hours" do
@@ -30,17 +30,17 @@ describe Validation, type: :model do
   it "should not assign a TTL field to any validation formed from a hyperlinked CSV file" do
     mock_file("http://example.com/test.csv", 'csvs/valid.csv')
     validation = Validation.create_validation("http://example.com/test.csv")
-    validation.expirable_created_at.should == nil
+    expect(validation.expirable_created_at).to eq(nil)
   end
 
   it "should recheck validations after two hours" do
     mock_file("http://example.com/test.csv", 'csvs/valid.csv')
     validation = Validation.create_validation("http://example.com/test.csv")
-    validation.state.should == "valid"
+    expect(validation.state).to eq("valid")
     mock_file("http://example.com/test.csv", 'csvs/errors.csv')
     Timecop.freeze(DateTime.now + 2.hours) do
       validation.check_validation
-      validation.state.should == "invalid"
+      expect(validation.state).to eq("invalid")
     end
     Timecop.return
   end
@@ -48,44 +48,44 @@ describe Validation, type: :model do
   it "should not requeue a validation for images if revalidate is set to false" do
     mock_file("http://example.com/test.csv", 'csvs/valid.csv')
     validation = Validation.create_validation("http://example.com/test.csv")
-    Validation.any_instance.should_not_receive(:delay)
+    expect_any_instance_of(Validation).not_to receive(:delay)
     Validation.fetch_validation(validation.id, "png", false)
   end
 
   it "should not requeue a validation for images if revalidate is set to false as a string" do
     mock_file("http://example.com/test.csv", 'csvs/valid.csv')
     validation = Validation.create_validation("http://example.com/test.csv")
-    Validation.any_instance.should_not_receive(:delay)
+    expect_any_instance_of(Validation).not_to receive(:delay)
     Validation.fetch_validation(validation.id, "png", "false")
   end
 
   it "should not revalidate for html if revalidate is set to false" do
     mock_file("http://example.com/test.csv", 'csvs/valid.csv')
     validation = Validation.create_validation("http://example.com/test.csv")
-    Validation.any_instance.should_not_receive(:check_validation)
+    expect_any_instance_of(Validation).not_to receive(:check_validation)
     Validation.fetch_validation(validation.id, "html", false)
   end
 
   it "should not revalidate for html if revalidate is set to false as a string" do
     mock_file("http://example.com/test.csv", 'csvs/valid.csv')
     validation = Validation.create_validation("http://example.com/test.csv")
-    Validation.any_instance.should_not_receive(:check_validation)
+    expect_any_instance_of(Validation).not_to receive(:check_validation)
     Validation.fetch_validation(validation.id, "html", "false")
   end
 
   it "should only create one validation per url" do
     mock_file("http://example.com/test.csv", 'csvs/valid.csv')
     validation = Validation.create_validation("http://example.com/test.csv")
-    Validation.count.should == 1
+    expect(Validation.count).to eq(1)
 
     validation = Validation.create_validation("http://example.com/test.csv")
-    Validation.count.should == 1
+    expect(Validation.count).to eq(1)
   end
 
   it "parse options should be created with validation" do
     @file = mock_uploaded_file('csvs/valid.csv')
     validation = Validation.create_validation(@file)
-    validation.parse_options.should_not == nil
+    expect(validation.parse_options).not_to eq(nil)
   end
 
   it "should generate parse options for older validations" do
@@ -93,7 +93,7 @@ describe Validation, type: :model do
     validation = Validation.create_validation(@file)
     validation.parse_options = nil
     validation.save
-    validation.parse_options.should_not == nil
+    expect(validation.parse_options).not_to eq(nil)
   end
 
   it "should clean up old validations without urls" do
