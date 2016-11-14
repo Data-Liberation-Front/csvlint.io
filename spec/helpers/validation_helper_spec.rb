@@ -22,7 +22,7 @@ describe ValidationHelper, type: :helper do
 
       num.times { messages << Csvlint::ErrorMessage.new(nil, category, nil, nil, nil, nil) }
 
-      category_count(messages, category).should == num
+      expect(category_count(messages, category)).to eq(num)
     end
 
   end

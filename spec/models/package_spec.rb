@@ -14,7 +14,7 @@ describe Package, type: :model do
     mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
     package = Package.new
     package = package.create_package(['http://example.org/valid.csv'])
-    package.validations.length.should == 1
+    expect(package.validations.length).to eq(1)
   end
 
   context "with multiple URLs" do
@@ -35,13 +35,13 @@ describe Package, type: :model do
     it "creates multiple validations" do
       package = Package.new
       package = package.create_package(@urls)
-      package.validations.length.should == 4
+      expect(package.validations.length).to eq(4)
     end
 
     it "sets the right type" do
       package = Package.new
       package = package.create_package(@urls)
-      package.type.should == "urls"
+      expect(package.type).to eq("urls")
     end
 
     it "creates multiple validations with a schema" do
@@ -54,9 +54,9 @@ describe Package, type: :model do
 
       package.validations.each do |validation|
         result = Marshal.load validation.result
-        result.schema.fields[0].name.should == "FirstName"
-        result.schema.fields[1].name.should == "LastName"
-        result.schema.fields[2].name.should == "Insult"
+        expect(result.schema.fields[0].name).to eq("FirstName")
+        expect(result.schema.fields[1].name).to eq("LastName")
+        expect(result.schema.fields[2].name).to eq("Insult")
       end
     end
   end
@@ -74,13 +74,13 @@ describe Package, type: :model do
     it "creates multiple validations" do
       package = Package.new
       package = package.create_package(@files)
-      package.validations.length.should == 4
+      expect(package.validations.length).to eq(4)
     end
 
     it "sets the right type" do
       package = Package.new
       package = package.create_package(@files)
-      package.type.should == "files"
+      expect(package.type).to eq("files")
     end
 
     it "creates multiple validations with a schema" do
@@ -93,9 +93,9 @@ describe Package, type: :model do
 
       package.validations.each do |validation|
         result = Marshal.load validation.result
-        result.schema.fields[0].name.should == "FirstName"
-        result.schema.fields[1].name.should == "LastName"
-        result.schema.fields[2].name.should == "Insult"
+        expect(result.schema.fields[0].name).to eq("FirstName")
+        expect(result.schema.fields[1].name).to eq("LastName")
+        expect(result.schema.fields[2].name).to eq("Insult")
       end
     end
 
@@ -112,13 +112,13 @@ describe Package, type: :model do
       dataset = DataKitten::Dataset.new(access_url: url)
       package_dataset = Marshal.load(package.dataset)
 
-      package.url.should == url
-      package.validations.length.should == 1
+      expect(package.url).to eq(url)
+      expect(package.validations.length).to eq(1)
 
-      package_dataset.access_url.should == dataset.access_url
-      package_dataset.data_title.should == dataset.data_title
-      package_dataset.description.should == dataset.description
-      package_dataset.resources.should == dataset.resources
+      expect(package_dataset.access_url).to eq(dataset.access_url)
+      expect(package_dataset.data_title).to eq(dataset.data_title)
+      expect(package_dataset.description).to eq(dataset.description)
+      expect(package_dataset.resources).to eq(dataset.resources)
     end
 
     it "creates multiple validations for a datapackage with multiple CSVs" do
@@ -130,7 +130,7 @@ describe Package, type: :model do
       package = Package.new
       package = package.create_package([url])
 
-      package.validations.length.should == 2
+      expect(package.validations.length).to eq(2)
     end
 
     it "loads schema from a datapackage" do
@@ -144,13 +144,13 @@ describe Package, type: :model do
 
       fields = result.schema.fields
 
-      fields.count.should == 5
-      fields[0].name.should == "Username"
-      fields[1].name.should == "Age"
-      fields[2].name.should == "Height"
-      fields[3].name.should == "Weight"
-      fields[4].name.should == "Password"
-      fields[0].constraints["required"].should == true
+      expect(fields.count).to eq(5)
+      expect(fields[0].name).to eq("Username")
+      expect(fields[1].name).to eq("Age")
+      expect(fields[2].name).to eq("Height")
+      expect(fields[3].name).to eq("Weight")
+      expect(fields[4].name).to eq("Password")
+      expect(fields[0].constraints["required"]).to eq(true)
     end
 
     context "with non-CSV resources" do
@@ -163,7 +163,7 @@ describe Package, type: :model do
         package = Package.new
         package = package.create_package([url])
 
-        package.should == nil
+        expect(package).to eq(nil)
       end
 
       it "ignores non-CSV resources" do
@@ -175,7 +175,7 @@ describe Package, type: :model do
         package = Package.new
         package = package.create_package([url])
 
-        package.validations.length.should == 1
+        expect(package.validations.length).to eq(1)
       end
 
     end
@@ -188,7 +188,7 @@ describe Package, type: :model do
 
       package = Package.new
       package = package.create_package(files)
-      package.validations.length.should == 1
+      expect(package.validations.length).to eq(1)
 
     end
 
@@ -198,7 +198,7 @@ describe Package, type: :model do
 
       package = Package.new
       package = package.create_package(files)
-      package.validations.length.should == 1
+      expect(package.validations.length).to eq(1)
 
     end
 
@@ -213,13 +213,13 @@ describe Package, type: :model do
       dataset = DataKitten::Dataset.new(access_url: url)
       package_dataset = Marshal.load(package.dataset)
 
-      package.url.should == url
-      package.validations.length.should == 1
+      expect(package.url).to eq(url)
+      expect(package.validations.length).to eq(1)
 
-      package_dataset.access_url.should == dataset.access_url
-      package_dataset.data_title.should == dataset.data_title
-      package_dataset.description.should == dataset.description
-      package_dataset.resources.should == dataset.resources
+      expect(package_dataset.access_url).to eq(dataset.access_url)
+      expect(package_dataset.data_title).to eq(dataset.data_title)
+      expect(package_dataset.description).to eq(dataset.description)
+      expect(package_dataset.resources).to eq(dataset.resources)
     end
 
     it "creates multiple validations for a datapackage with multiple CSVs", :vcr do
@@ -228,7 +228,7 @@ describe Package, type: :model do
       package = Package.new
       package = package.create_package([url])
 
-      package.validations.length.should == 4
+      expect(package.validations.length).to eq(4)
     end
 
     it "returns nil if there are no CSVs", :vcr do
@@ -236,7 +236,7 @@ describe Package, type: :model do
 
       package = Package.new
       package = package.create_package([url])
-      package.should == nil
+      expect(package).to eq(nil)
     end
 
   end
