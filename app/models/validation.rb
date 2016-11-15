@@ -239,8 +239,6 @@ class Validation
     delete_validations Validation.where(:created_at.lte => hours.hours.ago, :url => nil)
   rescue => e
     Airbrake.notify(e) if ENV['CSVLINT_AIRBRAKE_KEY'] # Exit cleanly, but still notify airbrake
-  ensure
-    Validation.delay(run_at: 24.hours.from_now).clean_up(24)
   end
 
   def self.delete_validations(validations)
