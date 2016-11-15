@@ -106,3 +106,4 @@ gem 'byebug'
 
 gem 'resumable_upload', github: "theodi/resumable-upload"
 gem 'newrelic_rpm'
+gem 'pusher'

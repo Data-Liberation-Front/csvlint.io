@@ -5,6 +5,9 @@ describe PackageProcessor do
 
   before(:each) do
     @package = Package.create
+    mock_client = double(Pusher::Channel)
+    allow(Pusher).to receive(:[]) { mock_client }
+    allow(mock_client).to receive(:trigger)
   end
 
   it "creates a package from a url" do

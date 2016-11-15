@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe PackageController, type: :controller do
 
+  before(:each) do
+    mock_client = double(Pusher::Channel)
+    allow(Pusher).to receive(:[]) { mock_client }
+    allow(mock_client).to receive(:trigger)
+  end
+
   describe "POST 'create'" do
 
     it "redirects to root if no URL is supplied" do

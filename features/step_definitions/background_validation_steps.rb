@@ -22,6 +22,12 @@ When(/^I wait for the package to be created$/) do
   end
 end
 
+Then(/^a Pusher notification should be sent$/) do
+  mock_client = double(Pusher::Channel)
+  expect(Pusher).to receive(:[]) { mock_client }
+  expect(mock_client).to receive(:trigger)
+end
+
 Then(/^I should be redirected to my validation results$/) do
   patiently do
     current_path.should == validation_path(Validation.first)

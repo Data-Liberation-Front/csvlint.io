@@ -60,3 +60,7 @@ end
 Given(/^Javascript is enabled$/) do
   find('#no_js').set("")
 end
+
+When(/^I access my page of validation results$/) do
+  visit('/package/'+ Package.first.id)
+end
