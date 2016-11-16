@@ -28,6 +28,15 @@ describe ValidationController, type: :controller do
 
   describe "POST 'update'" do
 
+    before(:each) do
+      @connection = double(CloudFlare::Connection)
+
+      allow(CloudFlare::Connection).to receive(:new) {
+        allow(@connection).to receive(:zone_file_purge)
+        @connection
+      }
+    end
+
     it "updates a CSV sucessfully" do
        mock_file("http://example.com/test.csv", 'csvs/valid.csv')
        Validation.create_validation('http://example.com/test.csv')
@@ -54,6 +63,13 @@ describe ValidationController, type: :controller do
        expect(validator.warnings.select { |warning| warning.type == :check_options }.count).to eq(0)
 
        expect(response).to be_redirect
+    end
+
+    it 'purges the cache when updating' do
+      mock_file("http://example.com/test.csv", 'csvs/valid.csv')
+      Validation.create_validation('http://example.com/test.csv')
+      expect(@connection).to receive(:zone_file_purge).with('csvlint.io', validation_url(Validation.first))
+      put 'update', id: Validation.first.id
     end
 
   end
