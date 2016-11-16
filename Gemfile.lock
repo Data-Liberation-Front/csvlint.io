@@ -93,6 +93,8 @@ GEM
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
     cliver (0.3.2)
+    cloudflare (2.1.0)
+      json (~> 1)
     coderay (1.1.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
@@ -630,6 +632,7 @@ DEPENDENCIES
   bson (= 3.1.1)
   bson_ext
   byebug
+  cloudflare
   coffee-rails (~> 4.0.0)
   coveralls
   csvlint
