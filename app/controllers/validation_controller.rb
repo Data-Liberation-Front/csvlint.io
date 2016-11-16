@@ -47,6 +47,7 @@ class ValidationController < ApplicationController
     else
       v.update_validation(dialect)
     end
+    cloudflare.zone_file_purge('csvlint.io', validation_url(v))
     redirect_to validation_path(v)
   end
 

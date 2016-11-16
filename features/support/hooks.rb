@@ -12,6 +12,15 @@ After('@rackmock') do
   RackMock.reset
 end
 
+Before('@revalidate') do
+  @connection = double(CloudFlare::Connection)
+
+  allow(CloudFlare::Connection).to receive(:new) {
+    allow(@connection).to receive(:zone_file_purge)
+    @connection
+  }
+end
+
 After do
   Sidekiq::Extensions::DelayedClass.jobs.clear
 end

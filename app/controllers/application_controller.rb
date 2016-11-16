@@ -47,4 +47,8 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def cloudflare
+      @cloudflare ||= CloudFlare::Connection.new(ENV['CLOUDFLARE_API_KEY'], ENV['CLOUDFLARE_EMAIL'])
+    end
+
 end
