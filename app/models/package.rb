@@ -1,4 +1,5 @@
 require 'package_processor'
+require 'lite_kitten/lite_kitten'
 
 class LocalDataset < DataKitten::Dataset
   extend DataKitten::PublishingFormats::Datapackage

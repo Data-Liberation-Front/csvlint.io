@@ -87,7 +87,7 @@ gem 'mongoid-grid_fs', '~> 2.2'
 gem 'bson_ext'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
-gem 'data_kitten', github: 'theodi/data_kitten', ref: "e343510bd15e3329c1f2fab35035e248195348be"
+gem 'data_kitten', github: 'theodi/data_kitten', ref: "e343510bd15e3329c1f2fab35035e248195348be", require: false
 gem 'rubyzip'
 
 gem 'csvlint'
@@ -102,9 +102,7 @@ gem 'data_uri'
 gem 'jquery-dotdotdot-rails'
 gem 'alternate_rails', github: 'theodi/alternate-rails'
 gem 'rack-cors'
-gem 'byebug'
 
 gem 'resumable_upload', github: "theodi/resumable-upload"
-gem 'newrelic_rpm'
 gem 'pusher'
 gem 'cloudflare'
