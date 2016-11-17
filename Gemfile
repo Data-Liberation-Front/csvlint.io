@@ -102,7 +102,6 @@ gem 'data_uri'
 gem 'jquery-dotdotdot-rails'
 gem 'alternate_rails', github: 'theodi/alternate-rails'
 gem 'rack-cors'
-gem 'byebug'
 
 gem 'resumable_upload', github: "theodi/resumable-upload"
 gem 'newrelic_rpm'
