@@ -87,7 +87,7 @@ gem 'mongoid-grid_fs', '~> 2.2'
 gem 'bson_ext'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
-gem 'data_kitten', github: 'theodi/data_kitten', ref: "e343510bd15e3329c1f2fab35035e248195348be"
+gem 'data_kitten', github: 'theodi/data_kitten', ref: "e343510bd15e3329c1f2fab35035e248195348be", require: false
 gem 'rubyzip'
 
 gem 'csvlint'
