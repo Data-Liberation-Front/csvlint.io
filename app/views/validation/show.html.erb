@@ -32,7 +32,8 @@
               <% else %>
                 <p><%= t(:invalid_html) %></p>
               <% end %>
-
+              <p><%= "Total Rows Processed = "+ @result.current_line.to_s %></p>
+               <!--TODO ^ above will return one increment greater than current number of rows, due to current_line's logic-->
               <%= link_to '<i class="fa fa-cloud-download"></i> '.html_safe + t(:standardised_csv_download), validation_path(@validation, format: :csv), class: 'btn btn-primary btn-lg' %>
 
               <%= render :partial => 'revalidate' %>
