@@ -94,6 +94,7 @@ Feature: CSV Validation
     And I load the validation by URL
     Then I should see a page of validation results
     And I should see the number of rows processed
+    And the number of rows processed should equal 3000
     #TODO this is the new addition - decide on how row number is to be evaluated
     And I should see my URL
 
