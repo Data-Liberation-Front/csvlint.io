@@ -2,32 +2,11 @@ language: ruby
 cache: bundler
 sudo: false
 rvm:
-- 2.3.1
-after_success:
-- '[ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && curl
-  -v -X DELETE -u $GITHUB_USER:$GITHUB_PASSWORD "https://api.github.com/repos/$TRAVIS_REPO_SLUG/git/refs/tags/CURRENT"'
-- '[ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && curl
-  -v -X POST -d ''{"ref":"refs/tags/CURRENT","sha":"''$TRAVIS_COMMIT''"}'' --header
-  "Content-Type:application/json" -u $GITHUB_USER:$GITHUB_PASSWORD "https://api.github.com/repos/$TRAVIS_REPO_SLUG/git/refs"'
+- 2.4.1
 services: mongodb
-branches:
-  except:
-  - CURRENT
-notifications:
-  irc:
-    channels:
-    - irc.freenode.net#theodi
-    template:
-    - "%{repository} %{branch} - %{message} %{build_url}"
-    on_success: change
-    on_failure: always
 env:
   global:
-  - secure: aNPTp0UuJAbIJ9mQJcGzJ1e/AqCt7O0aU1SxpPOSgOqqgzaVHjSLMYZM9W7imJmhT8/i9KDWGaae21P+70fSn50aHTE37+ZjpPFr5LP30yet9OFp/KJiNz0jn75mOfKF2AIJrVBkXRpUoK3XJZdYziM39rTqDmhfHkNHSMXtGgA=
-  - secure: DbxFNpCvdwvTRs9Q31pqIlYtBwjhKVBjv8um+itm0EDQV6/dQ0/gMPKr9IMvbHI+X1zdvh08nXfUBuoXxGgDJwU7ejvsM67DyQ6xSSbIv8N1feZgYW71GkGHDyVdGfFRMiPsc8K6jVFywNZ8kEoHREMKJNDodT78UWOtiHgOeX4=
-  - GOVUK_APP_DOMAIN=theodi.org
-  - DEV_DOMAIN=theodi.org
-  - secure: rHwOj/yWOJ2GXa9366KrRgOGZ9FfcWrvQpUyNvpyqTr455vsBfUrBmO4BhhAsgchXONu+sc1PADPuCRWxkx5yCqN+QSbazvsHTg4UggZFjhv8p9ukitVO0jeS4C7ViHkM9df5NVZdbhJSCV57/GMZY0vb68GKRSfpzkkISmOJj4=
-  - secure: UYqF/NqHtae/O/qTF8py70wpSLXJj6zELvtwyWCIIxo/Mwk6Qj7llndhUgnDan+P4PtEHnmcRCFF2TEi3oag3EnXsaiOqb1NFA5zH7hKmYgBBdP8wfgoPEqrfiUY+JlnEBi0Ux7MA2S29kUCyMxCEo6TfzeSXqnIaVtvmBEokA0=
-  - secure: ZWVsPcjT6OdaWLDz18Ex9DA8kPvrIWCUmQwq2PdmRNcuqck7PtPBr409ysHsChxYjWrZ7FEjf4/pL4CRjKZ6iw3xosjbJYaKWLDzc6972bzs1NVsofKWfvbCBJRecaFfwx/enjzsyNFoQvqrwHYbo0oJye0SEwlcU0MIBc4y5CQ=
-  - secure: Cnc76fTG0/8hv/k7Svz0TNOXiht14TrYRrMlYWJeq62ubEjWO9zhk+siUB4yYyfJW2b8D/Swn1z02ohTRjweDNYObcDNO973rrRSstP0xHkdj0ZreVgl831HWkEITf6CSj/rKdZrCcY559+cSh9+58klmwaMUm1piIuDbe1wxzY=
+    - PUSHER_APP_ID=abc123
+    - PUSHER_KEY=abc123
+    - PUSHER_SECRET=abc123
+    - PUSHER_CLUSTER=eu
