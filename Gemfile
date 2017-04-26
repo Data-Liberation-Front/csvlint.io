@@ -28,7 +28,7 @@ gem 'jbuilder', '~> 2.0'
 
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-gem 'foreman', "< 0.65.0"
+gem 'foreman'
 
 group :production do
   gem 'thin'
