@@ -74,4 +74,4 @@ For development add:
 In production add:
 
 * REDIS_PROVIDER
-* SESSION_SECRET_CSVLINT
+* CSVLINT_SESSION_SECRET
