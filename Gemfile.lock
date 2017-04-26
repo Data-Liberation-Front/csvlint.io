@@ -1,9 +1,10 @@
 GIT
   remote: git://github.com/theodi/alternate-rails.git
-  revision: 83a5b8b73655283b2d9729eeae848488881eecc4
+  revision: 988b2797cb91da2087d6769769dd9091af44d0f2
+  ref: v4.2.0
   specs:
-    alternate_rails (0.0.2)
-      rails (>= 3.2.13)
+    alternate_rails (4.2.0)
+      rails (>= 4.2.0)
 
 GIT
   remote: git://github.com/theodi/cucumber-api-steps.git
@@ -112,7 +113,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     colorize (0.7.7)
-    concurrent-ruby (1.0.2)
+    concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
     coveralls (0.7.2)
       multi_json (~> 1.3)
