@@ -3,12 +3,19 @@ require 'zipfile'
 
 class ValidationController < ApplicationController
 
-  before_filter(:only => [:index, :show]) { alternate_formats [:json] }
+  before_filter(:only => [:show]) { alternate_formats [:json] }
+  before_filter(:only => [:index]) { alternate_formats [:json, :csv] }
 
   def index
-    @validations = Validation.where(:url.ne => nil)
+    @validations = Validation.without(:result).where(:url.ne => nil)
                        .order_by(:created_at.desc)
                        .page(params[:page]).per(7)
+
+    respond_to do |wants|
+      wants.html
+      wants.json
+      wants.csv { send_data as_csv(@validations.per(Validation.without(:result).count)), type: "text/csv; charset=utf-8; header=present", disposition: "attachment"  }
+    end
   end
 
   def show
@@ -40,6 +47,7 @@ class ValidationController < ApplicationController
     else
       v.update_validation(dialect)
     end
+    cloudflare.zone_file_purge('csvlint.io', validation_url(v))
     redirect_to validation_path(v)
   end
 
@@ -50,6 +58,23 @@ class ValidationController < ApplicationController
     CSV.generate(standard_csv_options) do |csv|
       data.each do |row|
         csv << row if row
+      end
+    end
+  end
+
+  def as_csv(validations)
+    CSV.generate(standard_csv_options) do |csv|
+      csv << [
+        "File URL",
+        "Status",
+        "Report URL"
+      ]
+      validations.each do |validation|
+        csv << [
+          validation.url,
+          validation.state,
+          validation_url(validation)
+        ]
       end
     end
   end

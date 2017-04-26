@@ -51,7 +51,6 @@ Feature: CSV Validation
     And I press "Validate"
     Then I should see a page of validation results
     And my file should be persisted in the database
-    And my file should be saved in the database
 
   Scenario: Upload a file with warnings
     When I go to the homepage
@@ -162,6 +161,7 @@ Feature: CSV Validation
 #    And I should not see "Check CSV parsing options"
 #    And I should see "Non standard dialect"
 
+  @revalidate
   Scenario: Revalidate CSV using same options should offer revalidation again
     When I go to the homepage
     And I enter "http://example.org/revalidate.csv" in the "url" field
@@ -184,6 +184,7 @@ Feature: CSV Validation
 #    And I should not see "Check CSV parsing options"
 #    And I should see "Non standard dialect"
 
+  @revalidate
   Scenario: Revalidate file using same options should offer revalidation again
     When I go to the homepage
     And I attach the file "csvs/revalidate.csv" to the "file" field
@@ -193,6 +194,7 @@ Feature: CSV Validation
     And I should see "Check CSV parsing options"
     And I should be given the option to revalidate using a different dialect
 
+  @revalidate
   Scenario: Standardised CSV download
     When I go to the homepage
     And I enter "http://example.org/revalidate.csv" in the "url" field
@@ -210,6 +212,7 @@ Feature: CSV Validation
     And that CSV file should have double-quoted fields
     And that CSV file should use CRLF line endings
 
+  @revalidate
   Scenario: Standardised CSV download with file
     When I go to the homepage
     And I attach the file "csvs/revalidate.csv" to the "file" field

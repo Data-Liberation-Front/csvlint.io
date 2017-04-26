@@ -102,7 +102,7 @@ $.fn.bootstrapFileInput = function(prependIcon) {
         fileName = fileName.substring(fileName.lastIndexOf('\\')+1,fileName.length);
       }
 
-      $(this).parent().after('<span class="file-input-name">'+fileName+'</span>');
+      //$(this).parent().after('<span class="file-input-name">'+fileName+'</span>');
     });
 
   });

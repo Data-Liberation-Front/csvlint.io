@@ -12,10 +12,7 @@ class Zipfile
         next if entry.name =~ /__MACOSX/ or entry.name =~ /\.DS_Store/
         file = entry.get_input_stream
         csv = StoredCSV.save(file, entry.name)
-        files << {
-          :csv_id => csv.id,
-          :filename => csv.metadata[:filename]
-        }
+        files << csv
       end
     end
     files

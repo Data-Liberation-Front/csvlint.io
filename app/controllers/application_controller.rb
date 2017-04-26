@@ -39,4 +39,16 @@ class ApplicationController < ActionController::Base
       send_file File.join(Rails.root, 'app', 'views', 'validation', "#{state}.#{format}"), disposition: 'inline', status: status
     end
 
+    def default_url_options(options={})
+      if Rails.env.production?
+        options.merge({ :protocol => 'https' })
+      else
+        options
+      end
+    end
+
+    def cloudflare
+      @cloudflare ||= CloudFlare::Connection.new(ENV['CLOUDFLARE_API_KEY'], ENV['CLOUDFLARE_EMAIL'])
+    end
+
 end

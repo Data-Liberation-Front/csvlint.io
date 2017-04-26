@@ -11,6 +11,12 @@ require 'capybara/poltergeist'
 require 'vcr'
 require 'cucumber/api_steps'
 
+require 'sidekiq/testing'
+
+ENV['AWS_ACCESS_KEY'] = 'fakeaccesskey'
+ENV['AWS_SECRET_ACCESS_KEY'] = 'fakesecret'
+ENV['AWS_BUCKET_NAME'] = 'buckethead'
+
 require 'coveralls'
 Coveralls.wear_merged!('rails')
 
@@ -67,6 +73,15 @@ Capybara.javascript_driver = :poltergeist
 
 After('@timecop') do
   Timecop.return
+end
+
+Before do
+  Fog.mock!
+  FogStorage.new.connection.directories.create(key: ENV['AWS_BUCKET_NAME'])
+end
+
+After do
+  Fog::Mock.reset
 end
 
 VCR.configure do |c|

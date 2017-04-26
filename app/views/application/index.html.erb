@@ -65,6 +65,19 @@
             <div class="input-group">
               <%= file_field_tag 'schema_file', class: 'file-chooser btn-info btn-lg', title: 'browse' %>
             </div>
+
+            <div class="schema-progress-container row hidden">
+              <div class="col-md-11">
+                <div class="progress">
+                  <div class="schema-progress-bar progress-bar" role="progressbar"></div>
+                </div>
+
+                <ul class="schema-text hidden">
+
+                </ul>
+              </div>
+            </div>
+
             <input type="hidden" name="file_ids[]" />
       </div>
 
@@ -84,7 +97,7 @@
 
 
 <% content_for :extra_javascript do %>
-
+<script src="//js.pusher.com/2.2/pusher.min.js"></script>
 
 <script type="text/javascript">
 // resumable
@@ -93,11 +106,12 @@ var r = new Resumable({
     chunkSize:1*1024*1024,
     simultaneousUploads:4,
     testChunks:false,
+    maxFileSize: 200*1024*1024, // Limit filesize to 200MB
     throttleProgressCallbacks:1,
     generateUniqueIdentifier: function(file) {
       var relativePath = file.webkitRelativePath||file.fileName||file.name; // Some confusion in different versions of Firefox
       var timestamp = Math.floor(Date.now() / 1000)
-      return(timestamp + '-' + relativePath.replace(/[^0-9a-zA-Z_-]/img, ''));
+      return(timestamp + '-' + relativePath.replace(/[^\w\-\.]+/g, ''));
     }
 });
 
@@ -127,8 +141,9 @@ function assignEventTriggers(r){
         $('.resumable-progress .progress-resume-link').hide();
         $('.resumable-progress .progress-pause-link').show();
         // Add the file to the list
-        $('.resumable-list').append('<li class="resumable-file-'+file.uniqueIdentifier+'">Uploading <span class="resumable-file-name"></span> <span class="resumable-file-progress"></span>');
-        $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-name').html(file.fileName);
+        listClass = file.uniqueIdentifier.split('.')[0]
+        $('.resumable-list').append('<li class="resumable-file-'+listClass+'">Uploading <span class="resumable-file-name"></span> <span class="resumable-file-progress"></span>');
+        $('.resumable-file-'+listClass+' .resumable-file-name').html(file.fileName);
         // Actually start the upload
         r.upload();
     });
@@ -145,8 +160,9 @@ function assignEventTriggers(r){
 
     r.on('fileSuccess', function(file,message){
         // Reflect that the file upload has completed
-        $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(completed)');
-        $('#file_ids').append( "<input type='hidden' name='file_ids[]' value='" + file.uniqueIdentifier + "' />" )
+        listClass = file.uniqueIdentifier.split('.')[0]
+        $('.resumable-file-'+ listClass +' .resumable-file-progress').html('(completed)');
+        $('#file_ids').append( "<input type='hidden' name='file_ids[]' value='" + file.uniqueIdentifier + "' data:chunk_count='"+ file.chunks.length +"' />" )
         // TODO this logic integral for correct function of async functions later
     });
 
@@ -156,7 +172,7 @@ function assignEventTriggers(r){
     });
     r.on('fileProgress', function(file){
         // Handle progress for both the file and the overall upload
-        $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html(Math.floor(file.progress()*100) + '%');
+        $('.resumable-file-'+file.uniqueIdentifier.split('.')[0]+' .resumable-file-progress').html(Math.floor(file.progress()*100) + '%');
         $('.progress-bar').css({width:Math.floor(r.progress()*100) + '%'});
     });
     r.on('cancel', function(){
@@ -195,6 +211,19 @@ function assignEventTriggers(r){
 		  $('#schemas').toggleClass('hidden', !this.checked)
 		})
 
+    $('#schema_file').change(function() {
+      $('.schema-progress-bar').width('0')
+      $('.schema-progress-container').removeClass('hidden');
+      var fileName = $(this).val().split('\\').reverse()[0];
+      $('.schema-text').removeClass('hidden');
+      $('.schema-text').append('<li>')
+      var li = $('.schema-text').find('li')
+      li.html('Uploading ' + fileName )
+      $('.schema-progress-bar').animate({width: '100%'}, 1200, 'swing', function() {
+        li.html('Uploading ' + fileName + ' (completed)' )
+      })
+    })
+
 		$('.btn-clone').click(function() {
 		  cloned = $('.url-template:first').clone().appendTo('#url').removeClass('hidden');
 		  cloned.find('input:first').attr('id', 'url_' + count);
@@ -208,7 +237,7 @@ function assignEventTriggers(r){
 
   		    files = [];
             urls = [];
-            paths = [];
+            chunked_files = [];
             validation_count = 0;
             $.each($("#schema_file")[0].files, function(index, file) {
                 file.category = "schema"
@@ -216,7 +245,10 @@ function assignEventTriggers(r){
             });
 
             $( "#file_ids input" ).each(function(){
-              paths.push(this.value);
+              file = []
+              file.push(this.value);
+              file.push(this.attributes['data:chunk_count'].value);
+              chunked_files.push(file)
               validation_count++;
             })
 
@@ -229,7 +261,7 @@ function assignEventTriggers(r){
             readFiles(files, function(files, schema_file) {
 
               postdata = {
-                "file_ids[]": paths,
+                "file_ids[]": chunked_files,
                 "schema": $('#schema').prop("checked") ? 1 : 0,
                 "schema_data": schema_file,
                 "schema_url": $('#schema_url').val(),
@@ -281,8 +313,7 @@ function assignEventTriggers(r){
               type: "POST",
               data: data,
               success:function(data, textStatus, jqXHR) {
-                package_url = data.package.url
-                checkPackage();
+                checkPackage(data.package.id);
               },
               error: function(req, textStatus, errorThrown){
                   var infobox = $('#ajax-error');
@@ -296,14 +327,14 @@ function assignEventTriggers(r){
           );
 		}
 
-		function checkPackage() {
-		   setInterval(function(){
-              $.ajax({ url: package_url + ".json", success: function(data){
-                if (data.package.validations.length >= validation_count) {
-                  document.location.href = package_url
-                }
-              }, dataType: "json"});
-           }, 5000);
+		function checkPackage(id) {
+      Pusher.host = 'ws-eu.pusher.com';
+      Pusher.sockjs_host = 'sockjs-eu.pusher.com';
+      var pusher = new Pusher('<%= Pusher.key %>');
+      var channel = pusher.subscribe('package_' + id);
+      channel.bind('complete', function(data) {
+        document.location.href = data.url;
+      });
 		}
 
 	});

@@ -27,18 +27,15 @@ class Validation
       filename = io.original_filename
       csv = File.new(io.tempfile)
       io = File.new(io.tempfile)
-    elsif io.class == Hash && !io[:body].nil?
-      # above not triggered by features, triggered when local file [schema or csv] uploaded
-      filename = io[:filename]
-      csv_id = io[:csv_id]
-      io = StringIO.new(io[:body])
-
+    elsif io.respond_to?(:body)
+      filename = io.key
+      io = StringIO.new(io.body)
     end
 
     # Validate
     validator = Csvlint::Validator.new( io, (dialect || {}), schema && schema.fields.empty? ? nil : schema )
     # ternary evaluation above follows the following format::  condition ? if_true : if_false
-    check_schema(validator, schema) unless schema.nil?
+    check_schema(validator, schema) unless schema.blank?
     # in prior versions this method only executed on schema_url.nil, a condition that caused some schema uploads to pass
     # when they should have failed
     check_dialect(validator, dialect) unless dialect.blank?
@@ -101,7 +98,7 @@ class Validation
     unless revalidate.to_s == "false"
       if ["png", "svg"].include?(format)
         # suspect the above functions tied to the use of badges as hyperlinks to valid schemas & csvs
-        v.delay.check_validation
+        Validation.delay.check_validation(v.id)
       else
         v.check_validation
       end
@@ -178,7 +175,8 @@ class Validation
 
   def update_validation(dialect = nil, expiry=nil)
     loaded_schema = schema ? Csvlint::Schema.load_from_json(schema.url) : nil
-    validation = Validation.validate(self.url || self.csv, schema.try(:url), loaded_schema, dialect, expiry)
+    io = self.url.nil? ? StoredCSV.fetch(self.filename) : self.url
+    validation = Validation.validate(io, schema.try(:url), loaded_schema, dialect, expiry)
     self.update_attributes(validation)
     # update mongoDB record
     self
@@ -188,9 +186,9 @@ class Validation
     # method that retrieves stored entire CSV file from mongoDB
     if self.url
       csv = open(self.url).read
-    elsif self.csv_id
+    else
       # above line means this method triggers only when user opts to revalidate their CSV with suggested prompts
-      csv = Mongoid::GridFs.get(self.csv_id).data
+      csv = StoredCSV.fetch(self.filename).body
     end
 
     if csv
@@ -208,6 +206,10 @@ class Validation
       save
     end
     self.read_attribute(:parse_options)
+  end
+
+  def self.check_validation(id)
+    Validation.find(id).check_validation
   end
 
   def check_validation
@@ -234,16 +236,13 @@ class Validation
   end
 
   def self.clean_up(hours)
-    Mongoid::GridFs::File.where(:uploadDate.lt => hours.hours.ago).each {|x| Mongoid::GridFs.delete(x.id) }
-    Validation.where(:created_at.lt => hours.hours.ago, :csv_id.ne => nil).each do |validation|
-      Mongoid::GridFs.delete(validation.csv_id)
-      validation.csv_id = nil
-      validation.save
-    end
+    delete_validations Validation.where(:created_at.lte => hours.hours.ago, :url => nil)
   rescue => e
     Airbrake.notify(e) if ENV['CSVLINT_AIRBRAKE_KEY'] # Exit cleanly, but still notify airbrake
-  ensure
-    Validation.delay(run_at: 24.hours.from_now).clean_up(24)
+  end
+
+  def self.delete_validations(validations)
+    validations.each { |v| v.delete }
   end
 
   def self.generate_options(dialect)

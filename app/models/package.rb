@@ -1,4 +1,5 @@
 require 'package_processor'
+require 'lite_kitten/lite_kitten'
 
 class LocalDataset < DataKitten::Dataset
   extend DataKitten::PublishingFormats::Datapackage
@@ -33,7 +34,6 @@ class RemoteDataset < DataKitten::Dataset
        end
     end
   end
-
 end
 
 class Package
@@ -57,22 +57,12 @@ class Package
     return attributes
   end
 
-  def process(params)
-    PackageProcessor.new(params, self.id).process
+  def self.process(id, params)
+    PackageProcessor.new(params, id).process
   end
 
   def create_package(sources, schema_url = nil, schema = nil)
     return nil if sources.count == 0
-
-    if sources.first.class == Hash
-      sources.map! { |io|
-        {
-          :body => Mongoid::GridFs.get(io[:csv_id]).data,
-          :csv_id => io[:csv_id],
-          :filename => io[:filename]
-        }
-      }
-    end
 
     if sources.count == 1 && possible_package?(sources.first)
       dataset = create_dataset(sources.first)
