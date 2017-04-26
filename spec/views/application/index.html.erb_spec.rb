@@ -4,7 +4,7 @@ describe "application/index.html.erb", type: :view do
   
   it "should contain a URL entry box" do
     render
-    expect(rendered).to include %{<input class="form-control" id="url_0" name="urls[]" placeholder="Enter URL" type="url" value="" />}
+    expect(rendered).to include %{<input type="url" name="urls[]" id="url_0" value="" class="form-control" placeholder="Enter URL" />}
   end
   
 end
