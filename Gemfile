@@ -1,20 +1,17 @@
 source 'https://rubygems.org'
 ruby '2.3.1'
 
-gem 'rails', '~> 4.0.12'
+gem 'rails', '~> 4.2.8'
 gem 'dotenv-rails'
 
-# Sprockets pinned to avoid a problem in 2.12.3 with our stylesheets
-gem "sprockets", "~> 2.11.3"
-
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails', '~> 5.0'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails', '~> 4.1.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer', platforms: :ruby
@@ -26,15 +23,9 @@ gem 'jquery-rails'
 gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder' #, '~> 1.2'
+gem 'jbuilder', '~> 2.0'
 
-gem 'bootstrap-sass', '~> 3.1.1'
-
-group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', require: false
-end
-
+gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'foreman', "< 0.65.0"
 
@@ -67,6 +58,8 @@ end
 
 group :development do
   gem 'travis'
+  gem 'web-console', '~> 2.0'
+  gem 'spring'
 end
 
 # Use ActiveModel has_secure_password
@@ -78,9 +71,7 @@ end
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]
-
+gem 'bootstrap-sass', '~> 3.1.1'
 gem 'rack-google-analytics'
 gem 'mongoid', '~> 5.0'
 gem 'bson', '3.1.1'
