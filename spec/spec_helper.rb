@@ -5,12 +5,21 @@ Coveralls.wear_merged!('rails')
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'rspec/autorun'
+#require 'rspec/autorun'
 
 require 'webmock/rspec'
 require 'database_cleaner'
 require 'vcr'
 require 'timecop'
+# require 'csvlint'
+require 'stored_csv'
+require 'stored_chunk'
+require 'fixture_helpers'
+require 'sidekiq/testing'
+
+ENV['AWS_ACCESS_KEY'] = 'fakeaccesskey'
+ENV['AWS_SECRET_ACCESS_KEY'] = 'fakesecret'
+ENV['AWS_BUCKET_NAME'] = 'buckethead'
 
 DatabaseCleaner.strategy = :truncation
 
@@ -27,13 +36,30 @@ VCR.configure do |c|
   c.default_cassette_options = { :record => :once }
   c.hook_into :webmock
   c.configure_rspec_metadata!
+  c.ignore_request do |request|
+    request.uri.match /(.+)?[example|gov]\..+/
+  end
 end
 
 RSpec.configure do |config|
   include ActionDispatch::TestProcess
-  
-  config.treat_symbols_as_metadata_keys_with_true_values = true
-  
+
+
+  #config.treat_symbols_as_metadata_keys_with_true_values = true
+
+  config.before(:all) do
+    Validation.create_indexes
+    Fog.mock!
+  end
+
+  config.before(:each) do
+    FogStorage.new.connection.directories.create(key: ENV['AWS_BUCKET_NAME'])
+  end
+
+  config.after(:each) do
+    Fog::Mock.reset
+  end
+
   WebMock.disable_net_connect!(:allow => [/static.(dev|theodi.org)/, /datapackage\.json/, /package_search/])
   # ## Mock Framework
   #
@@ -53,36 +79,24 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
-  
+
   config.after(:each) do
     DatabaseCleaner.clean
   end
-end
 
-def load_fixture(filename)
-  File.read(File.join(Rails.root, 'fixtures', filename))
-end
-
-def mock_file(url, file, content_type = "text/csv")
-  stub_request(:get, "http://example.org/api/2/rest/dataset/#{url.split("/").last}").to_return(:status => 404, :body => "", :headers => {})
-  stub_request(:get, "http://example.com/api/3/action/package_show?id=#{url.split("/").last}").to_return(:status => 404, :body => "", :headers => {})
-  stub_request(:get, url).to_return(body: load_fixture(file), headers: {"Content-Type" => "#{content_type}; charset=utf-8; header=present"})
-  stub_request(:head, url).to_return(:status => 200)
-end
-
-def mock_upload(file, content_type = "text/csv")
-  upload_file = fixture_file_upload(File.join(Rails.root, 'fixtures', file), content_type)
-  class << upload_file
-    # The reader method is present in a real invocation,
-    # but missing from the fixture object for some reason (Rails 3.1.1)
-    attr_reader :tempfile
+  config.after(:all) do
+    Validation.remove_indexes
   end
-  upload_file
-end
 
-def create_data_uri(file, content_type = "text/csv")
-  contents = File.read File.join(Rails.root, 'fixtures', file)
-  base64 = Base64.encode64(contents).gsub("\n",'')
-  "#{file};data:#{content_type};base64,#{base64}"
+
+  # rspec-rails 3 will no longer automatically infer an example group's spec type
+  # from the file location. You can explicitly opt-in to the feature using this
+  # config option.
+  # To explicitly tag specs without using automatic inference, set the `:type`
+  # metadata manually:
+  #
+  #     describe ThingsController, :type => :controller do
+  #       # Equivalent to being in spec/controllers
+  #     end
+  config.infer_spec_type_from_file_location!
 end
-  

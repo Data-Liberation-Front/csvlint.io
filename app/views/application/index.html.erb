@@ -1,7 +1,6 @@
 <% content_for :title do %>
   Check your CSV files with CSVLint
 <% end %>
-
 <div class="row">
   <div class="col-md-6">
     <p class="lead">CSV looks easy, but it can be hard to make a CSV file that other people can read easily.</p>
@@ -9,10 +8,12 @@
     <p>CSVLint helps you to check that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
 
     <p>Just enter the location of the file you want to check, or upload it. If you have a schema which describes the
-    contents of the CSV file, you can also give its URL or upload it. <a href="/about">Read more...</a></p>
+    contents of the CSV file, you can also give its URL or upload it.</p>
+    <p>CSVLint currently only supports validation of delimiter-separated values (dsv) files. It is also possible to upload a .zip file of (dsv) files. <a href="/about">Read more...</a></p>
   </div>
   <div class="col-md-6 primary">
     <%= form_tag package_index_path, multipart: true, id: "validation_form" do %>
+          <%= hidden_field_tag 'no_js', '1', id: "no_js" %>
           <div id="url">
             <div class="input-group url-template url-group hidden" style="margin-top: 5px">
               <%= url_field_tag 'urls[]', '', class: 'form-control', placeholder: t(:enter_url)%>
@@ -24,35 +25,71 @@
             </div>
           </div>
 
+          <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
+
           <label for="upload_file" class="options">Or upload a file:</label>
-          <div class="input-group">
-            <%= file_field_tag 'files[]', multiple: true, class: 'file-chooser btn-info btn-lg', id: 'upload_file', title: 'Choose a file' %>
+            <!--the below divs are conditionally displayed depending on whether the resumable js library has a satisfactory browser environment-->
+          <div class="input-group hidden" id="streaming">
+            <%= file_field_tag 'files[]', id: 'resumable_streaming_files', class: 'file-chooser btn-info btn-lg', title: 'browse', multiple: 'multiple', accept: '.csv, .tsv, .txt, .zip' %>
+          </div>
+          <div class="input-group" id="streaming_graceful_fallback">
+            <%= file_field_tag 'files[]', id: 'standard_files', class: 'file-chooser btn-info btn-lg', title: 'browse', multiple: 'multiple', accept: '.csv, .tsv, .txt, .zip' %>
+            <label style = "padding:8pt;" id="file_name"></label>
+          </div>
+          <div id="file_ids"></div>
+          <div class="resumable-progress row">
+            <div class="progress-container col-md-11">
+              <div class="progress">
+                <div class="progress-bar" role="progressbar"></div>
+              </div>
+            </div>
+            <div class="progress-text"></div>
+            <div class="progress-pause col-md-1">
+              <a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><i class="glyphicon glyphicon-play"></i></a>
+            </div>
           </div>
 
+          <ul class="resumable-list"></ul>
 
         <div class="checkbox">
           <label>
             <%= check_box_tag 'schema' %>
-            <%= label_tag 'schema', 'Add optional schema'%>
+            <%= label_tag 'schema', 'Add optional schema (in .json format)'%>
           </label>
         </div>
 
-      <div id="schemas" class="hidden">
+      <div id="schemas">
 
             <%= url_field_tag 'schema_url', '', class: 'form-control', placeholder: t(:enter_schema_url)%>
             <p>Or upload a file:</p>
             <div class="input-group">
               <%= file_field_tag 'schema_file', class: 'file-chooser btn-info btn-lg', title: 'browse' %>
             </div>
+
+            <div class="schema-progress-container row hidden">
+              <div class="col-md-11">
+                <div class="progress">
+                  <div class="schema-progress-bar progress-bar" role="progressbar"></div>
+                </div>
+
+                <ul class="schema-text hidden">
+
+                </ul>
+              </div>
+            </div>
+
+            <input type="hidden" name="file_ids[]" />
       </div>
 
       <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit">
         <span class="spinner"><i class="glyphicon glyphicon-ok"></i></span>
         <%= t(:validate).titleize %>
       </button>
-
-      <p class="more-information">Submitted urls are recorded in a public <a href="/validation">list of validation reports</a>. If you want to validate private data then upload a file from your computer, using the Browse button below.</p>
       <% end %>
+    <div class="resumable-error">
+      Your browser, unfortunately, is not supported by Resumable.js. The library requires support for <a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a> along with <a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">file slicing</a>.
+    </div>
+
   </div>
 
 </div>
@@ -60,8 +97,98 @@
 
 
 <% content_for :extra_javascript do %>
+<script src="//js.pusher.com/2.2/pusher.min.js"></script>
 
 <script type="text/javascript">
+// resumable
+var r = new Resumable({
+    target:'<%= ResumableUpload::Engine.routes.url_helpers.chunk_path %>',
+    chunkSize:1*1024*1024,
+    simultaneousUploads:4,
+    testChunks:false,
+    maxFileSize: 200*1024*1024, // Limit filesize to 200MB
+    throttleProgressCallbacks:1,
+    generateUniqueIdentifier: function(file) {
+      var relativePath = file.webkitRelativePath||file.fileName||file.name; // Some confusion in different versions of Firefox
+      var timestamp = Math.floor(Date.now() / 1000)
+      return(timestamp + '-' + relativePath.replace(/[^\w\-\.]+/g, ''));
+    }
+});
+
+$('#streaming_graceful_fallback').addClass('hidden');
+$('#schemas').addClass('hidden');
+$('#no_js').remove();
+
+// Resumable.js isn't supported, fall back on a different method
+if(!r.support) {
+    console.log("support error");
+    $('#streaming_graceful_fallback').removeClass('hidden');
+    $('#streaming').addClass('hidden');
+    $('.resumable-error').show();
+} else {
+    $('#streaming').removeClass('hidden');
+    // Show a place for dropping/selecting files
+    r.assignBrowse(document.getElementById('resumable_streaming_files'));
+    assignEventTriggers(r);
+}
+
+function assignEventTriggers(r){
+    // Handle file add event
+    r.on('fileAdded', function(file){
+        // Show progress pabr
+        $('.resumable-progress, .resumable-list').show();
+        // Show pause, hide resume
+        $('.resumable-progress .progress-resume-link').hide();
+        $('.resumable-progress .progress-pause-link').show();
+        // Add the file to the list
+        listClass = file.uniqueIdentifier.split('.')[0]
+        $('.resumable-list').append('<li class="resumable-file-'+listClass+'">Uploading <span class="resumable-file-name"></span> <span class="resumable-file-progress"></span>');
+        $('.resumable-file-'+listClass+' .resumable-file-name').html(file.fileName);
+        // Actually start the upload
+        r.upload();
+    });
+    r.on('pause', function(){
+        // Show resume, hide pause
+        $('.resumable-progress .progress-resume-link').show();
+        $('.resumable-progress .progress-pause-link').hide();
+    });
+    r.on('complete', function(){
+        // Hide pause/resume when the upload has completed
+        $('.resumable-progress .progress-resume-link, .resumable-progress .progress-pause-link').hide();
+
+    });
+
+    r.on('fileSuccess', function(file,message){
+        // Reflect that the file upload has completed
+        listClass = file.uniqueIdentifier.split('.')[0]
+        $('.resumable-file-'+ listClass +' .resumable-file-progress').html('(completed)');
+        $('#file_ids').append( "<input type='hidden' name='file_ids[]' value='" + file.uniqueIdentifier + "' data:chunk_count='"+ file.chunks.length +"' />" )
+        // TODO this logic integral for correct function of async functions later
+    });
+
+    r.on('fileError', function(file, message){
+        // Reflect that the file upload has resulted in error
+        $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('(file could not be uploaded: '+message+')');
+    });
+    r.on('fileProgress', function(file){
+        // Handle progress for both the file and the overall upload
+        $('.resumable-file-'+file.uniqueIdentifier.split('.')[0]+' .resumable-file-progress').html(Math.floor(file.progress()*100) + '%');
+        $('.progress-bar').css({width:Math.floor(r.progress()*100) + '%'});
+    });
+    r.on('cancel', function(){
+        $('.resumable-file-progress').html('canceled');
+    });
+    r.on('uploadStart', function(){
+        // Show pause, hide resume
+        $('.resumable-progress .progress-resume-link').hide();
+        $('.resumable-progress .progress-pause-link').show();
+    });
+}
+
+</script>
+
+<script type="text/javascript">
+  // original jquery
 	$(document)
 		.on('change', '.btn-file :file', function() {
 			var input = $(this),
@@ -71,13 +198,12 @@
 	});
 
 	$(document).ready( function() {
-	  var count = 1
+	  var count = 1; // TODO - what does this do?
 
 		$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
 
 			var input = $(this).parents('.input-group').find(':text'),
-				log = numFiles > 1 ? numFiles + ' files selected' : label;
-
+            log = numFiles > 1 ? numFiles + ' files selected' : label;
 			input.val(log);
 		});
 
@@ -85,54 +211,67 @@
 		  $('#schemas').toggleClass('hidden', !this.checked)
 		})
 
+    $('#schema_file').change(function() {
+      $('.schema-progress-bar').width('0')
+      $('.schema-progress-container').removeClass('hidden');
+      var fileName = $(this).val().split('\\').reverse()[0];
+      $('.schema-text').removeClass('hidden');
+      $('.schema-text').append('<li>')
+      var li = $('.schema-text').find('li')
+      li.html('Uploading ' + fileName )
+      $('.schema-progress-bar').animate({width: '100%'}, 1200, 'swing', function() {
+        li.html('Uploading ' + fileName + ' (completed)' )
+      })
+    })
+
 		$('.btn-clone').click(function() {
 		  cloned = $('.url-template:first').clone().appendTo('#url').removeClass('hidden');
 		  cloned.find('input:first').attr('id', 'url_' + count);
 		  $('.btn-clone:first').appendTo('.url-template:last');
 		  count = count + 1
-		})
+		});
 
 		$('#validation_form').submit(function(e){
 		  e.preventDefault();
 		  $('#submit i').attr('class', 'fa fa-refresh fa-spin')
 
-  		  files = [];
-        urls = [];
-        validation_count = 0;
+  		    files = [];
+            urls = [];
+            chunked_files = [];
+            validation_count = 0;
+            $.each($("#schema_file")[0].files, function(index, file) {
+                file.category = "schema"
+                files.push(file);
+            });
 
-  		  $.each($("#schema_file")[0].files, function(index, file) {
-  		    file.category = "schema"
-  		    files.push(file);
-  	    });
+            $( "#file_ids input" ).each(function(){
+              file = []
+              file.push(this.value);
+              file.push(this.attributes['data:chunk_count'].value);
+              chunked_files.push(file)
+              validation_count++;
+            })
 
-  		  $.each($("#upload_file")[0].files, function(index, file) {
-  		    file.category = "csv"
-  		    files.push(file)
-          validation_count++;
-  	    });
+            $( "input[name='urls[]']" ).each(function(){
+              if ($(this).val().length > 0) {
+                  urls.push($(this).val());
+                  validation_count++;
+              }
+            });
+            readFiles(files, function(files, schema_file) {
 
+              postdata = {
+                "file_ids[]": chunked_files,
+                "schema": $('#schema').prop("checked") ? 1 : 0,
+                "schema_data": schema_file,
+                "schema_url": $('#schema_url').val(),
+                "urls[]": urls,
+              }
+                console.log(JSON.stringify(postdata, null, 2));
+              postData(postdata);
+            });
 
-        $( "input[name='urls[]']" ).each(function(){
-          if ($(this).val().length > 0) {
-            urls.push($(this).val());
-            validation_count++;
-          }
-        });
-
-  		  readFiles(files, function(files, schema_file) {
-
-          postdata = {
-            "files_data[]": files,
-            "schema": $('#schema').prop("checked") ? 1 : 0,
-            "schema_data": schema_file,
-            "schema_url": $('#schema_url').val(),
-            "urls[]": urls,
-          }
-
-  		    postData(postdata);
-  		  });
-
-		})
+		}) // end validation form submit
 
 		function readFiles(files, callback) {
 		  csvs = [];
@@ -148,48 +287,54 @@
 	        }
 		      if (!--count) callback(csvs, schema_file);
 		    });
-      });
+          });
 		}
 
 		function buildFile(file) {
 		  return file.filename + ";" + file.data;
 		}
 
-		function readFile(file, callback) {
-  	  var reader = new FileReader();
-      reader.onload = function(event) {
-        object = {};
-        object.filename = file.name;
-        object.data = event.target.result;
-        callback(object);
-      };
-      reader.readAsDataURL(file);
-		}
+        function readFile(file, callback) {
+          var reader = new FileReader();
+          reader.onload = function(event) {
+            object = {};
+            object.filename = file.name;
+            object.data = event.target.result;
+            callback(object);
+          };
+          reader.readAsDataURL(file);
+        }
 
 		function postData(data) {
 		  var AUTH_TOKEN = $('input[name=authenticity_token]').attr('value');
-
-      $.ajax(
-        {
-          url: "<%= package_index_path(format: :json) %>?&authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
-          type: "POST",
-          data: data,
-          success:function(data, textStatus, jqXHR) {
-            package_url = data.package.url
-            checkPackage();
-          }
-        }
-      );
+          $.ajax(
+            {
+              url: "<%= package_index_path(format: :json) %>?&authenticity_token=" + encodeURIComponent(AUTH_TOKEN),
+              type: "POST",
+              data: data,
+              success:function(data, textStatus, jqXHR) {
+                checkPackage(data.package.id);
+              },
+              error: function(req, textStatus, errorThrown){
+                  var infobox = $('#ajax-error');
+                  $('#ajax-info').html("<strong>Warning! "+errorThrown+"</strong><br>The request couldn't complete. We're working on improvements (see <a href=\"https://github.com/theodi/csvlint/issues\">here</a> for more), and check here for a list of common failures");
+                  infobox.removeClass('hidden');
+                  infobox.addClass('alert alert-danger').fadeIn('slow');
+                  //  infobox.append("<br>"+err); // if you want a verbose output
+                  $('#submit i').removeClass('fa fa-refresh fa-spin'); // stop the spinner
+              }
+            }
+          );
 		}
 
-		function checkPackage() {
-		   setInterval(function(){
-          $.ajax({ url: package_url + ".json", success: function(data){
-            if (data.package.validations.length == validation_count) {
-              document.location.href = package_url
-            }
-          }, dataType: "json"});
-      }, 5000);
+		function checkPackage(id) {
+      Pusher.host = 'ws-eu.pusher.com';
+      Pusher.sockjs_host = 'sockjs-eu.pusher.com';
+      var pusher = new Pusher('<%= Pusher.key %>');
+      var channel = pusher.subscribe('package_' + id);
+      channel.bind('complete', function(data) {
+        document.location.href = data.url;
+      });
 		}
 
 	});

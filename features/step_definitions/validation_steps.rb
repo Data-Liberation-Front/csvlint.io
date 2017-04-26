@@ -8,17 +8,16 @@ end
 
 Then(/^my file should be persisted in the database$/) do
   Validation.count.should == 1
-  Validation.first.filename.should == File.basename(@file)
+  Validation.first.filename.should =~ /#{File.basename(@file)}/
 end
 
 Then(/^"(.*?)" should be persisted in the database$/) do |filename|
   Validation.count.should == 1
-  Validation.first.filename.should == filename
+  Validation.first.filename.should =~ /#{filename}/
 end
 
-
-Then(/^my file should be saved in the database$/) do
-  Validation.first.csv.class.should == Tempfile
+Then(/^my file should not be saved in the database$/) do
+  Validation.count.should == 0
 end
 
 Then(/^my url should be persisted in the database$/) do
@@ -40,14 +39,6 @@ end
 
 Then(/^the validation should not be updated$/) do
   Validation.any_instance.should_not_receive(:update_attributes)
-end
-
-Given(/^it's two weeks in the future$/) do
-  Timecop.freeze(2.weeks.from_now)
-end
-
-Given(/^it's three hours in the future$/) do
-  Timecop.freeze(3.weeks.from_now)
 end
 
 Then(/^I should be given the option to revalidate using a different dialect$/) do

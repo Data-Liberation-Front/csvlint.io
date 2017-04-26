@@ -15,17 +15,18 @@ describe "validation/_message.html.erb", type: :view do
 
       message = Csvlint::ErrorMessage.new(k, nil, nil, nil, nil, nil)
       validator = double("validator")
-      validator.stub(:encoding) { "iso-8859-1" }
-      validator.stub(:content_type) { "text/plain" }
-      validator.stub(:extension) { ".csv" }
-      validator.stub(:headers) { {"content-type" => "text/plain"} }
-      validator.stub(:line_breaks) { "\n" }
-      validator.stub(:schema) { nil }
+      allow(validator).to receive(:encoding) { "iso-8859-1" }
+      allow(validator).to receive(:content_type) { "text/plain" }
+      allow(validator).to receive(:extension) { ".csv" }
+      allow(validator).to receive(:headers) { {"content-type" => "text/plain"} }
+      allow(validator).to receive(:line_breaks) { "\n" }
+      allow(validator).to receive(:schema) { nil }
 
-      validator
+      @validation = Validation.create(result: validator)
+
       render :partial => "validation/message", :locals => { :message => message, :validator => validator }
 
-      rendered.should include v
+      expect(rendered).to include v
     end
 
   end
@@ -39,7 +40,7 @@ describe "validation/_validation.html.erb", type: :view do
     Validation.create_validation('http://example.com/test.csv')
     validation = Validation.first
 
-    validation.should_not_receive(:delay)
+    expect(validation).not_to receive(:delay)
     render :partial => "validation/validation", :locals => { :validation => validation }
   end
 

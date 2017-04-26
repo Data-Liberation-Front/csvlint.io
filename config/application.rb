@@ -35,7 +35,18 @@ module Csvlint
         origins '*'
         resource '*', :headers => :any, :methods => [:get]
       end
-    end 
+    end
+
+    config.assets.precompile += %w{
+      resumable.css
+      html5shiv.js
+      respond.min.js
+      ie9.css
+      ie8.css
+      ie7.css
+      ie6.css
+      jquery.dotdotdot.js
+    }
 
   end
 end

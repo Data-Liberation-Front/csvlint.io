@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
     if params[:uri]
       validator = Validation.where(:url => params[:uri]).first
       if validator.nil?
+
         Validation.delay.create_validation(params[:uri])
         respond_to do |wants|
           wants.html { render status: 202 }
@@ -26,10 +27,28 @@ class ApplicationController < ActionController::Base
   def about
   end
 
+  def privacy
+  end
+
+  def documentation
+  end
+
   private
 
     def render_badge(state, format, status = 200)
       send_file File.join(Rails.root, 'app', 'views', 'validation', "#{state}.#{format}"), disposition: 'inline', status: status
+    end
+
+    def default_url_options(options={})
+      if Rails.env.production?
+        options.merge({ :protocol => 'https' })
+      else
+        options
+      end
+    end
+
+    def cloudflare
+      @cloudflare ||= CloudFlare::Connection.new(ENV['CLOUDFLARE_API_KEY'], ENV['CLOUDFLARE_EMAIL'])
     end
 
 end

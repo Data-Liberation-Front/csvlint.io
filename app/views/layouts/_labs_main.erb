@@ -3,7 +3,8 @@
 
 <head>
 
-    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= stylesheet_link_tag "resumable.css" %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= favicon_link_tag 'favicon.ico' %>
     <%= alternate_auto_discovery_link_tags %>
@@ -50,32 +51,29 @@
 
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav main-nav navbar-right">
-            <% menus = get_menu(menu)%>
-            <% menus.each_index do |i| %>
-                <% menu = menus[i] %>
-                <li class="dropdown<%= ' last' if i == menus.length - 1 %>">
-                    <a href="<%= menu['link'] %>" <% if menu['items'] %> data-target="#" data-toggle="dropdown" <% end %>>
-                        <%= menu['title'] %>
-                        <% if menu['items'] %>
-                         <b class="caret"></b>
-                        <% end %>
+                <li class="dropdown">
+                    <a href="/about">
+                        About
                      </a>
-                     <% if menu['items'] %>
-                        <ul class="dropdown-menu">
-                            <% menu['items'].each do |item| %>
-                                <li><a href="<%= item['link'] %>"><%= item['title'] %></a></li>
-                            <% end %>
-                        </ul>
-                    <% end %>
                 </li>
-            <% end %>
+                <li class="dropdown">
+                    <a href="/validation">
+                        Recent validations
+                     </a>
+                </li>
+                <li class="dropdown">
+                    <a href="/schemas">
+                        Recent schemas
+                     </a>
+                </li>
+                <li class="dropdown last">
+                    <a href="/documentation">
+                        API
+                     </a>
+                </li>
           </ul>
         </div>
     </div>
-
-
-
-
 
       </div>
 
@@ -121,8 +119,8 @@
                 <div class="col-md-4 footer-nav">
                     <nav>
                         <ul class="pull-right list-inline">
-                            <li><a href="/terms-of-use">Terms of use</a></li>
-                            <li><a href="/privacy-policy">Privacy policy</a></li>
+                            <li><a href="/about">About</a></li>
+                            <li><a href="/privacy_policy">Privacy policy</a></li>
                             <li><a href="/cookie-policy">Cookie policy</a></li>
                         </ul>
                     </nav>
@@ -132,6 +130,7 @@
     </footer>
 
     <%= javascript_include_tag "application" %>
+    <% javascript_include_tag "resumable_config.js" %>
 
     <%= yield :extra_javascript %>
 

@@ -1,17 +1,17 @@
 <p><%= t(message.category) %>: <strong><%= t(message.type) %>
 <% if message.row %>
-  on row <%= message.row %>  
+  on row <%= message.row %>
 <% end %>
 <% if message.column %>
   in column <%= message.column %>
 <% end %></strong></p>
-<% if message.content %>
+<% if !message.content.blank?%>
   	<%= content_tag :pre, message.content.to_s.encode("utf-8", :invalid=>:replace, :undef=>:replace) %>
 <% end %>
 <% if i18n_set?("#{message.type}_guidance_html") %>
   <p><%= t("#{message.type}_guidance_html", message_variables(validator, message) ) %></p>
 <% end %>
-<% extra_guidance(validator, message).each do |extra| %>
+<% extra_guidance(validator, @validation, message).each do |extra| %>
 	<% if i18n_set?("#{extra}_guidance_html") %>
 	  <p><%= t("#{extra}_guidance_html", message_variables(validator, message) ) %></p>
 	<% end %>

@@ -1,0 +1,51 @@
+{
+  "name": "csvlint",
+  "description": "",
+  "scripts": {
+
+  },
+  "env": {
+    "AWS_ACCESS_KEY": {
+      "required": true
+    },
+    "AWS_BUCKET_NAME": {
+      "required": true
+    },
+    "AWS_SECRET_ACCESS_KEY": {
+      "required": true
+    },
+    "CSVLINT_SESSION_SECRET": {
+      "generator": "secret"
+    },
+    "LANG": {
+      "required": true
+    },
+    "RACK_ENV": {
+      "required": true
+    },
+    "REDIS_PROVIDER": {
+      "value": "REDISTOGO_URL"
+    }
+  },
+  "formation": {
+    "worker": {
+      "quantity": 1,
+      "size": "hobby"
+    },
+    "web": {
+      "quantity": 1,
+      "size": "hobby"
+    }
+  },
+  "addons": [
+    "mongolab:sandbox",
+    "heroku-postgresql",
+    "redistogo:nano",
+    "pusher:sandbox"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ]
+}

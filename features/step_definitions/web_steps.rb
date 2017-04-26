@@ -1,3 +1,6 @@
+require 'stored_csv'
+require File.join(Rails.root, 'spec', 'fixture_helpers')
+
 When(/^I go to the homepage$/) do
   visit root_path
 end
@@ -26,8 +29,12 @@ end
 
 When(/^I attach the file "(.*?)" to the "(.*?)" field$/) do |file, field_name|
   @file = file
-  field_name = "files[]" if field_name == "file"
-  attach_file(field_name.to_sym, File.join(Rails.root, 'fixtures', @file))
+  if field_name == "schema_file"
+    attach_file(field_name.to_sym, File.join(Rails.root, 'fixtures', @file))
+  else
+    filename = @file.split("/").last
+    first(:xpath, "//input[@name='file_ids[]']", visible: false).set(mock_upload(filename))
+  end
 end
 
 Then(/^I should see "(.*?)"$/) do |text|
@@ -48,4 +55,12 @@ end
 
 When(/^I click the "(.*?)" tab$/) do |arg1|
   page.find('a[href="#schemafile"]').click
+end
+
+Given(/^Javascript is enabled$/) do
+  find('#no_js').set("")
+end
+
+When(/^I access my page of validation results$/) do
+  visit('/package/'+ Package.first.id)
 end

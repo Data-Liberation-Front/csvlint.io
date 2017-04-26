@@ -17,7 +17,9 @@
 //= require iframe-auto-height
 //= require bootstrap/bootstrap-dropdown.js
 //= require bootstrap/bootstrap-modal.js
+//= require bootstrap/bootstrap-alert.js
 //= require bootstrap.file-input.js
+//= require resumable.js
 
 $('a[data-toggle=dropdown]').click(function() {
 	if ($(this).next('.dropdown-menu').css('display') == "block") {

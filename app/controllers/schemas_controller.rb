@@ -1,5 +1,9 @@
 class SchemasController < ApplicationController
 
+  # schemas are only persisted to database in the case of a URL existing on processing of data
+  # all instance variables in this controller are retrieved from the persisted data, in this instance a MongoDB
+  # This explains the sparseness of the Schema model
+
   def index
     if params[:uri]
       schema = Schema.where(url: params[:uri]).first
@@ -13,7 +17,7 @@ class SchemasController < ApplicationController
   
   def show
     @db_schema = Schema.where(id: params[:id]).first
-    @schema = Csvlint::Schema.load_from_json_table(@db_schema.url)
+    @schema = Csvlint::Schema.load_from_json(@db_schema.url)
     respond_to do |wants|
       wants.html
       wants.csv { send_data example_csv(@schema), type: "text/csv; charset=utf-8", disposition: "attachment" }

@@ -1,10 +1,15 @@
+<%= javascript_include_tag "contents_table.js" %>
+<%= stylesheet_link_tag "contents_table" %>
+
 <% content_for :title do %>
   About
 <% end %>
 
 <p>CSV looks easy, but it can be hard to make a CSV file that other people can work with. <strong>CSVLint</strong> helps you to check that your CSV file is readable. And you can use it to check whether it contains the columns and types of values that it should.</p>
 
-<h2>How to Use CSVLint</h2>
+<div class="all-questions">
+
+<h2 id = "how_use_csv">How to Use CSVLint</h2>
 
 <p>Follow these three steps:</p>
 
@@ -26,7 +31,7 @@
 
 <p>On the page that summarises the CSV, you'll also see a badge, which might look like this:</p>
 
-<p><img alt=":csv%20 %20warnings yellow" src="http://b.adge.me/:CSV%20-%20warnings-yellow.svg"></p>
+<p><img alt=":csv%20 %20warnings yellow" src="https://img.shields.io/badge/CSV-warnings-yellow.svg"></p>
 
 <p>If you click on that you'll get a pop-up that gives you some code for embedding the badge in your page. You can put that next to some CSV and it means you and other people will be able to see whether the CSV is valid or not.</p>
 
@@ -46,7 +51,19 @@
 
 <p>The <a href="/schemas">Recent schemas</a> page gives a list of schemas that people have been using to validate their CSV files. See if there's a schema that you could use!</p>
 
-<h2>How to Write Good CSV</h2>
+<h3>Dialects</h3>
+
+<%= image_tag("dialect.png") %>
+
+<br><br>
+
+<p>If your CSV File is sizeable and contains only one row, CSVLint detects that
+  your file may be using a different "dialect". For example, your file may use
+<code>;</code> delimiters to seperate fields rather than the standard
+<code>,</code>. Although it is encouraged to keep to CSV Standard File
+Format, we provide an option to change the dialect to suit your particular file.</p>
+
+<h2 id = "how_write_csv">How to Write Good CSV</h2>
 
 <p>Good CSVs look like this:</p>
 
@@ -114,7 +131,7 @@
    <th>Address3</th>
    <th>City</th>
    <th>County</th>
-   <th>Postcode</th>         
+   <th>Postcode</th>
  </tr>
 </thead>
 <tbody>
@@ -137,52 +154,54 @@
 
 <h3>Common Errors</h3>
 
-<p>We check the following things about the CSV that you publish:</p>
+<p>When checking your CSV, we may return one or more of the following errors:</p>
 
 <ul>
-<li>that there are no encoding errors because of odd characters in the file</li>
-<li>all the line breaks should be the same</li>
-<li>there should be a header line</li>
-<li>all the columns should have a name</li>
-<li>all the column names should be different</li>
-<li>every row in the file should have the same number of columns</li>
-<li>none of the rows should be blank</li>
-<li>all the quotes should be matched up</li>
-<li>there shouldn't be any whitespace between commas and double quotes around fields</li>
+<li><b>Invalid encoding: </b>if there are any odd characters in a file which could cause encoding errors</li>
+<li><b>Line breaks: </b>if line breaks are not the same throughout the file</li>
+<li><b>Undeclared header: </b>if you do not specify in a machine readable way whether or not your CSV has a header row</li>
+<li><b>Ragged rows:</b> if every row in the file doesn't have the same number of columns</li>
+<li><b>Blank rows:</b> if there are any blank rows</li>
+<li><b>Stray/Unclosed quote:</b> if there are any unclosed quotes in the file</li>
+<li><b>Whitespace:</b> if there is any whitespace between commas and double quotes around fields</li>
 </ul>
 
-<p>If we get the CSV from a URL, then we also check:</p>
+<p>If we get the CSV from a URL, then we also check for these errors:</p>
 
 <ul>
-<li>that the file exists (we don't get a <code>404 Not Found</code> response)</li>
-<li>that the content type isn't set to something other than <code>text/csv</code></li>
+<li><b>Not found: </b>if the file doesn't exist (we get a <code>404 Not Found</code> response)</li>
+<li><b>Wrong content type: </b>if the content type isn't set <code>text/csv</code></li>
 </ul>
-
-<p>If you don't do all the things above, then you'll get an error message.</p>
 
 <h3>Common Warnings</h3>
 
-<p>We warn you if:</p>
+<p>We also return the following warnings:</p>
 
 <ul>
-<li>you don't use UTF-8 as the encoding for the file</li>
-<li>the CSV file only contains a single comma-separated column; this usually means you're using a separator other than a comma</li>
-<li>any column contains inconsistent values, for example if most values in a column are numeric but there's a significant proportion that aren't</li>
+  <li><b>Encoding:</b> if you don't use UTF-8 as the encoding for the file</li>
+  <li><b>Check options:</b> if the CSV file only contains a single comma-separated column; this usually means you're using a separator other than a comma</li>
+  <li><b>Inconsistent values:</b> if any column contains inconsistent values, for example if most values in a column are numeric but there's a significant proportion that aren't</li>
+  <li><b>Empty column name:</b> if all the columns don't have a name</li>
+  <li><b>Duplicate column name:</b> if all the column names aren't unique</li>
+  <li><b>Title row:</b> if there appears to be a title field in the first row of the CSV</li>
 </ul>
 
-<p>and if we get the CSV from a URL, we also warn you if:</p>
+<p>and if we get the CSV from a URL, we return these warnings:</p>
 
 <ul>
-<li>you don't provide a <code>Content-Type</code> HTTP header</li>
-<li>you don't specify an encoding with a <code>charset</code> parameter</li>
-<li>it looks like you're serving an Excel file rather than CSV (because the suffix for the file is <code>.xls</code>)</li>
+  <li><b>No content type:</b> if you don't provide a <code>Content-Type</code> HTTP header</li>
+  <li><b>No encoding:</b> if you don't specify an encoding with a <code>charset</code> parameter</li>
+  <li><b>Excel:</b> if it looks like you're serving an Excel file rather than CSV (because the suffix for the file is <code>.xls</code> and there is no 'Content-Type' header)</li>
 </ul>
 
 <h3>Extra Information</h3>
 
-<p>We let you know if you use line breaks that aren't <code>CRLF</code> (Windows line endings). That's because <a href="http://tools.ietf.org/html/rfc4180">RFC4180</a>, which is the closest thing to standard CSV that there is, says that you should use <code>CRLF</code> line endings.</p>
+<ul>
+  <li><b>Non RFC line breaks:</b> We let you know if you use line breaks that aren't <code>CRLF</code> (Windows line endings). That's because <a href="http://tools.ietf.org/html/rfc4180">RFC4180</a>, which is the closest thing to standard CSV that there is, says that you should use <code>CRLF</code> line endings.</li>
+  <li><b>Assumed header:</b> We assume that a header is present.</li>
+</ul>
 
-<h2>How to Write a Schema</h2>
+<h2 id = "how_write_schema">How to Write a Schema</h2>
 
 <p>We currently recognise schemas that use the <a href="http://dataprotocols.org/json-table-schema/">JSON Table Schema</a>, with a few modifications.</p>
 
@@ -190,28 +209,28 @@
 
 <pre><code>{
     "fields": [
-        { 
-            "name": "OrganisationId", 
+        {
+            "name": "OrganisationId",
             "title": "Organisation ID",
-            "constraints": { 
+            "constraints": {
                 "required": true,
                 "type": "http://www.w3.org/TR/xmlschema-2/#int"
-            } 
+            }
         },
-        { 
-            "name": "WeekDay", 
+        {
+            "name": "WeekDay",
             "title": "Day of the week",
-            "constraints": { 
-                "required": true, 
+            "constraints": {
+                "required": true,
                 "pattern": "(Mon|Tue|Wednes|Thurs|Fri|Satur|Sun)day"
-            } 
+            }
         },
-        { 
-            "name": "Times", 
-            "constraints": { 
-                "required": true, 
-                "pattern": "(0[0-9]|1[0-2]):[0-5][0-9]-(0[0-9]|1[0-2]):[0-5][0-9]" 
-            } 
+        {
+            "name": "Times",
+            "constraints": {
+                "required": true,
+                "pattern": "(0[0-9]|1[0-2]):[0-5][0-9]-(0[0-9]|1[0-2]):[0-5][0-9]"
+            }
         },
         {
             "name": "IsOpen",
@@ -314,11 +333,74 @@
 
 <p>Use of an unknown data type will result in the column failing to validate.</p>
 
-<p>CSVLint will give validation error messages if these constraints aren't met. In addition we check that each column name in the CSV file is the same as the name for the column in the same position in the schema.</p>
+<p>CSVLint will give schema validation error and warning messages if these constraints aren't met. In addition we check that each column name in the CSV file is the same as the name for the column in the same position in the schema.</p>
 
-<p>We also warn you if:</p>
+<h3>Common Errors</h3>
+
+<p>We check the following things about the schema that you provide:</p>
 
 <ul>
-<li>a column specified in the schema is missing entirely</li>
-<li>there are additional columns in the CSV file</li>
+  <li>
+    <b>Missing value:</b> a column marked as `required` in the schema has no value</li>
+  <li>
+    <b>Minimum length:</b> a column with a `minLength` constraint has a value that is too short
+  </li>
+  <li>
+    <b>Maximum length:</b> a column with a `maxLength` constraint has a value that is too long
+  </li>
+  <li>
+    <b>Pattern:</b> a column with a `pattern` constraint has a value that doesn't match the regular expression
+  </li>
+  <li>
+    <b>Invalid regex:</b> a regular expression pattern defined in the schema is not in valid regex form
+  </li>
+  <li>
+    <b>Unique:</b> a column with a `unique` constraint contains non-unique values
+  </li>
+  <li>
+    <b>Below minimum:</b> a column with a `minimum` constraint contains a value that is below the minimum
+  </li>
+  <li>
+    <b>Above maximum:</b> a column with a `maximum` constraint contains a value that is above the maximum
+  </li>
 </ul>
+
+<h3>Common Warnings</h3>
+
+<ul>
+  <li>
+    <b>Header name:</b> the header in the CSV has a column name that doesn't match the schema
+  </li>
+  <li>
+    <b>Missing column:</b> a row in the CSV file has a missing column, that is specified in the schema
+  </li>
+  <li>
+    <b>Extra column:</b> a row in the CSV file has an extra column
+  </li>
+</ul>
+
+<p>
+  Please check the privacy policy for information on how we store CSVLint data.
+</p>
+
+<p>
+  CSVLint should be able to handle files up to around 100MB.
+</p>
+
+<h2>Acknowledgements</h2>
+
+<a href="http://project.dapaas.eu/">
+  <%= image_tag "dapaas_logo.jpg", height: '96', width: '160' %>
+</a>
+
+<br><br>
+
+<p>
+  Development of this tool was partly supported by the
+  <a href="http://project.dapaas.eu/">DaPaaS</a> project,
+  co-funded by the European Commission under the Seventh Framework Programme (FP7 2007-2013).
+  The DaPaaS project has also developed the <a href="https://datagraft.net/">DataGraft platform</a> 
+  where you can transform and publish your data online in tabular and linked data form.
+</p>
+
+</div>

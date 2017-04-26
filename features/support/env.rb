@@ -11,6 +11,12 @@ require 'capybara/poltergeist'
 require 'vcr'
 require 'cucumber/api_steps'
 
+require 'sidekiq/testing'
+
+ENV['AWS_ACCESS_KEY'] = 'fakeaccesskey'
+ENV['AWS_SECRET_ACCESS_KEY'] = 'fakesecret'
+ENV['AWS_BUCKET_NAME'] = 'buckethead'
+
 require 'coveralls'
 Coveralls.wear_merged!('rails')
 
@@ -69,11 +75,23 @@ After('@timecop') do
   Timecop.return
 end
 
+Before do
+  Fog.mock!
+  FogStorage.new.connection.directories.create(key: ENV['AWS_BUCKET_NAME'])
+end
+
+After do
+  Fog::Mock.reset
+end
+
 VCR.configure do |c|
   c.hook_into :webmock
   c.cassette_library_dir = 'features/cassettes'
   c.default_cassette_options = { :record => :once }
   c.ignore_hosts "static.dev", "127.0.0.1"
+  c.ignore_request do |request|
+    request.uri.match /(.+)?[example|gov|githubusercontent]\..+/
+  end
 end
 
 VCR.cucumber_tags do |t|

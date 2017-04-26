@@ -1,6 +1,6 @@
 Given(/^the fixture "(.*?)" is available at the URL "(.*?)"$/) do |filename, url|
   body = File.read(File.join(Rails.root, 'fixtures', filename))
-  stub_request(:get, url).to_return(body: body, headers: {"Content-Type" => "text/csv; charset=utf-8; header=present"})  
+  stub_request(:get, url).to_return(body: body, headers: {"Content-Type" => "text/csv; charset=utf-8; header=present"})
   stub_request(:head, url).to_return(:status => 200)
 end
 
@@ -40,6 +40,14 @@ Given(/^the URL "(.*?)" returns a status of "(.*?)"$/) do |url, status|
   stub_request(:any, url).to_return(:status => status)
 end
 
+Given(/^the URL "(.*?)" returns a Content\-Type of "(.*?)"$/) do |url, content_type|
+  stub_request(:any, url).to_return(:headers => {"Content-Type" => content_type})
+end
+
 Given(/^"(.*?)" has been previously used for validation$/) do |url|
   FactoryGirl.create :schema, url: url
+end
+
+Given(/^the data exceeds the amount the proxy can handle/) do
+  RackMock.mock("/package", 413)
 end

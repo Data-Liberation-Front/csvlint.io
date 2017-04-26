@@ -37,13 +37,20 @@ Feature: CSV Validation
     And I press "Validate"
     Then I should see "There appears to be a problem with the URL you supplied."
 
+  @rackmock @javascript
+  Scenario: Validation of a URL that 413s
+    Given I go to the homepage
+    And I attach the file "csvs/valid.csv" to the "file" field
+    And the data exceeds the amount the proxy can handle
+    When I press "Validate"
+    Then I should see "The request couldn't complete"
+
   Scenario: Upload a file for validation
     When I go to the homepage
     And I attach the file "csvs/valid.csv" to the "file" field
     And I press "Validate"
     Then I should see a page of validation results
     And my file should be persisted in the database
-    And my file should be saved in the database
 
   Scenario: Upload a file with warnings
     When I go to the homepage
@@ -141,19 +148,20 @@ Feature: CSV Validation
     Then I should see a page of validation results
     And I should be given the option to revalidate using a different dialect
 
-  Scenario: Revalidate CSV using new options
-    When I go to the homepage
-    And I enter "http://example.org/revalidate.csv" in the "url" field
-    And I press "Validate"
-    And I enter ";" in the "Field delimiter" field
-    And I enter "'" in the "Quote character" field
-    And I select "LF (\n)" from the "Line terminator" dropdown
-    And I press "Revalidate"
-    Then I should see a page of validation results
-    And I should see "<strong>Congratulations!</strong> Your CSV is valid!"
-    And I should not see "Check CSV parsing options"
-    And I should see "Non standard dialect"
+#  Scenario: Revalidate CSV using new options
+#    When I go to the homepage
+#    And I enter "http://example.org/revalidate.csv" in the "url" field
+#    And I press "Validate"
+#    And I enter ";" in the "Field delimiter" field
+#    And I enter "'" in the "Quote character" field
+#    And I select "LF (\n)" from the "Line terminator" dropdown
+#    And I press "Revalidate"
+#    Then I should see a page of validation results
+#    And I should see "<strong>Congratulations!</strong> Your CSV is valid!"
+#    And I should not see "Check CSV parsing options"
+#    And I should see "Non standard dialect"
 
+  @revalidate
   Scenario: Revalidate CSV using same options should offer revalidation again
     When I go to the homepage
     And I enter "http://example.org/revalidate.csv" in the "url" field
@@ -163,19 +171,20 @@ Feature: CSV Validation
     And I should see "Check CSV parsing options"
     And I should be given the option to revalidate using a different dialect
 
-  Scenario: Revalidate file using new options
-    When I go to the homepage
-    And I attach the file "csvs/revalidate.csv" to the "file" field
-    And I press "Validate"
-    And I enter ";" in the "Field delimiter" field
-    And I enter "'" in the "Quote character" field
-    And I select "LF (\n)" from the "Line terminator" dropdown
-    And I press "Revalidate"
-    Then I should see a page of validation results
-    And I should see "<strong>Congratulations!</strong> Your CSV is valid!"
-    And I should not see "Check CSV parsing options"
-    And I should see "Non standard dialect"
+#  Scenario: Revalidate file using new options
+#    When I go to the homepage
+#    And I attach the file "csvs/revalidate.csv" to the "file" field
+#    And I press "Validate"
+#    And I enter ";" in the "Field delimiter" field
+#    And I enter "'" in the "Quote character" field
+#    And I select "LF (\n)" from the "Line terminator" dropdown
+#    And I press "Revalidate"
+#    Then I should see a page of validation results
+#    And I should see "<strong>Congratulations!</strong> Your CSV is valid!"
+#    And I should not see "Check CSV parsing options"
+#    And I should see "Non standard dialect"
 
+  @revalidate
   Scenario: Revalidate file using same options should offer revalidation again
     When I go to the homepage
     And I attach the file "csvs/revalidate.csv" to the "file" field
@@ -185,6 +194,7 @@ Feature: CSV Validation
     And I should see "Check CSV parsing options"
     And I should be given the option to revalidate using a different dialect
 
+  @revalidate
   Scenario: Standardised CSV download
     When I go to the homepage
     And I enter "http://example.org/revalidate.csv" in the "url" field
@@ -201,3 +211,29 @@ Feature: CSV Validation
     And that CSV file should have a field "status"
     And that CSV file should have double-quoted fields
     And that CSV file should use CRLF line endings
+
+  @revalidate
+  Scenario: Standardised CSV download with file
+    When I go to the homepage
+    And I attach the file "csvs/revalidate.csv" to the "file" field
+    And I press "Validate"
+    And I enter ";" in the "Field delimiter" field
+    And I enter "'" in the "Quote character" field
+    And I select "LF (\n)" from the "Line terminator" dropdown
+    And I press "Revalidate"
+    Then I should see a page of validation results
+    When I click on "Download Standardised CSV"
+    Then a CSV file should be downloaded
+    And that CSV file should have a field "firstname"
+    And that CSV file should have a field "lastname"
+    And that CSV file should have a field "status"
+    And that CSV file should have double-quoted fields
+    And that CSV file should use CRLF line endings
+
+  Scenario: Validation with Github raw URL
+    Given the fixture "csvs/valid.csv" is available at the URL "https://raw.githubusercontent.com/username/project/master/test.csv"
+    And the URL "https://raw.githubusercontent.com/username/project/master/test.csv" returns a Content-Type of "text/plain; charset=utf-8"
+    When I go to the homepage
+    And I enter "https://raw.githubusercontent.com/username/project/master/test.csv" in the "url" field
+    And I press "Validate"
+    Then I should see "It looks like your CSV is hosted on Github."
