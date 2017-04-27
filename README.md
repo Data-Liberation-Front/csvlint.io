@@ -14,6 +14,8 @@ CSVlint is a rails app designed to act as a continuous validation service, so th
 
 The validation code is actually all done in a [Ruby gem](https://github.com/theodi/csvlint.rb) that can also be freely reused in other projects
 
+Follow the [public feature roadmap for Open Data Pathway](https://trello.com/b/2xc7Q0kd/labs-public-toolbox-roadmap?menu=filter&filter=label:Pathway)
+
 ## Development
 
 ### Requirements
