@@ -98,13 +98,13 @@ S3_BUCKET=<YOURNEWS3BUCKETNAME>
 
 ## System dependencies and Configuration
 
-*Install mongo*
-`brew install mongo red`is (if using brew)
+Install mongo:  
+    `brew install mongo redis` (if using brew)
 
-*make a data directory for mongo databases*
+make a data directory for mongo databases  
 `sudo mkdir -p /data/db`
 
-*change directory ownership so that mongo can do its thing*
+change directory ownership so that mongodb can operate    
 `sudo chown -R $USERNAME /data/`
 
 ### Development: Running the full application locally
@@ -115,23 +115,28 @@ Checkout the repository and run ```bundle``` in the checked out directory.
 
 #### Database initialization
 
-run mongo  
-`mongod`
+run mongo  : `mongod`
 
-run redis  
-`redis-server`
+run redis  : `redis-server`
 
 #### Services (job queues, cache servers, search engines, etc.)
 
-to initialise the app run this in root dir of app
+to initialise the app run this in root directory of app
 
 `foreman start`
 
 ### Tests
 
-ensure phantomjs is installed, `brew install phantomjs` (or however you prefer)
+ensure phantomjs is installed, `brew install phantomjs` (or however you prefer)  
 
-To run the entire suite of rspec unit tests and cucumber features execute `bundle exec rake`
+To run the entire suite of rspec unit tests and cucumber features execute  
+`bundle exec rake`
+
+alternatively execute each suite separately with  
+
+for unit tests execute `bundle exec rspec`
+
+for Cucumber features execute `bundle exec cucumber`
 
 ### Rake Tasks
 
