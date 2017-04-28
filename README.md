@@ -3,7 +3,7 @@
 [![Code Climate](https://codeclimate.com/github/theodi/csvlint.png)](https://codeclimate.com/github/theodi/csvlint)
 [![Dependency Status](https://gemnasium.com/theodi/csvlint.png)](https://gemnasium.com/theodi/csvlint)
 [![License](http://b.adge.me/:license-mit-green.svg)](http://theodi.mit-license.org/)
- 
+
 # CSVLint
 
 CSVlint is an online validation tool for CSV files. It validates conformity of CSV releases to standards, checks for missing or malformed data, and can validate against both CSVW and Datapackage schema standards.
@@ -104,10 +104,21 @@ Install mongo:
     `brew install mongo redis` (if using brew)
 
 make a data directory for mongo databases  
-`sudo mkdir -p /data/db`
+  `sudo mkdir -p /data/db`
 
 change directory ownership so that mongodb can operate    
-`sudo chown -R $USERNAME /data/`
+  `sudo chown -R $USERNAME /data/`
+
+
+
+### Known issues
+
+`bundle`
+`brew install openssl # if not installed`
+`gem install eventmachine -v '1.0.7' -- --with-cppflags=-I/usr/local/opt/openssl/include`
+`gem install libv8 -v '3.16.14.13' -- --with-system-v8`
+`gem install therubyracer -- --with-v8-dir=/usr/local/opt/v8-315 `
+  https://github.com/shakacode/react-webpack-rails-tutorial/issues/266 ~ rubyracer with CSVlint
 
 ### Development: Running the full application locally
 
@@ -145,5 +156,3 @@ for Cucumber features execute `bundle exec cucumber`
 ## Deployment
 
 ### Deployment on Heroku
-
-
