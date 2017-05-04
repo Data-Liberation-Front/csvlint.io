@@ -109,15 +109,6 @@ make a data directory for mongo databases
 change directory ownership so that mongodb can operate    
   `sudo chown -R $USERNAME /data/`
 
-
-### Known issues
-
-`brew install openssl # if not installed`  
-`gem install eventmachine -v '1.0.7' -- --with-cppflags=-I/usr/local/opt/openssl/include`  
-`gem install libv8 -v '3.16.14.13' -- --with-system-v8`  
-`gem install therubyracer -- --with-v8-dir=/usr/local/opt/v8-315 `  
-https://github.com/shakacode/react-webpack-rails-tutorial/issues/266 ~ rubyracer with CSVlint
-
 ### Development: Running the full application locally
 
 Pre-requisites: AWS account, Pusher Account - these instructions assume you have these in place already.
@@ -135,6 +126,14 @@ run redis  : `redis-server`
 to initialise the app run this in root directory of app
 
 `foreman start`
+
+### Known issues & Troubleshooting
+
+`brew install openssl # if not installed`  
+`gem install eventmachine -v '1.0.7' -- --with-cppflags=-I/usr/local/opt/openssl/include`  
+`gem install libv8 -v '3.16.14.13' -- --with-system-v8`  
+`gem install therubyracer -- --with-v8-dir=/usr/local/opt/v8-315 `  
+https://github.com/shakacode/react-webpack-rails-tutorial/issues/266 ~ rubyracer with CSVlint
 
 ### Tests
 
