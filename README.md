@@ -132,7 +132,7 @@ run redis  : `redis-server`
 
 #### Services (job queues, cache servers, search engines, etc.)
 
-to initialise the app run this in root directory of app (note this command runs the DB background jobs listed above)
+to initialise the app run this in root directory of app
 
 `foreman start`
 
@@ -150,6 +150,10 @@ for unit tests execute `bundle exec rspec`
 for Cucumber features execute `bundle exec cucumber`
 
 ### Rake Tasks
+
+`rake csvs:clean_up`  
+`rake summary:generate`  
+`rake clean_up:dupes`  
 
 ## Deployment
 
