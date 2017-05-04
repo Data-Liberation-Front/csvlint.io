@@ -129,6 +129,8 @@ to initialise the app run this in root directory of app
 
 ### Known issues & Troubleshooting
 
+If you have trouble running bundle try these (if you see errors relating to `openssl`, `eventmachine` or `therubyracer`)
+
 `brew install openssl # if not installed`  
 `gem install eventmachine -v '1.0.7' -- --with-cppflags=-I/usr/local/opt/openssl/include`  
 `gem install libv8 -v '3.16.14.13' -- --with-system-v8`  
