@@ -5,6 +5,7 @@ Feature: CSV Validation
 
   Background:
     Given the fixture "csvs/valid.csv" is available at the URL "http://example.org/test.csv"
+    Given the fixture "csvs/3000_rows.csv" is available at the URL "http://example.org/large.csv"
     Given the fixture "csvs/info.csv" is available at the URL "http://example.org/info.csv"
     Given the fixture "csvs/errors.csv" is available at the URL "http://example.org/errors.csv"
     Given the fixture "csvs/revalidate.csv" is available at the URL "http://example.org/revalidate.csv"
@@ -83,6 +84,18 @@ Feature: CSV Validation
     When the CSV has finished processing
     And I load the validation by URL
     Then I should see a page of validation results
+    And I should see my URL
+
+  Scenario: Validate a large CSV by url
+    Given I have not already validated the URL "http://example.org/large.csv"
+    When I load the validation by URL
+    Then I should get a 202 response
+    When the CSV has finished processing
+    And I load the validation by URL
+    Then I should see a page of validation results
+    And I should see the number of rows processed
+    And the number of rows processed should equal 3000
+    #TODO this is the new addition - decide on how row number is to be evaluated
     And I should see my URL
 
   Scenario: Validate a CSV and request badge

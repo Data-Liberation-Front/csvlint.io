@@ -6,6 +6,18 @@ Then(/^I should see my URL$/) do
   page.body.should include(@url)
 end
 
+Then(/^I should see the number of rows processed/) do
+  page.body.should include("Total Rows Processed")
+  # TODO - decide how to incorporate the number returned
+  end
+
+Then(/^the number of rows processed should equal (\d+)/) do | row_count|
+  page.body.should include("Total Rows Processed = #{row_count}")
+  # TODO - decide how to incorporate the number returned
+end
+
+
+
 Then(/^my file should be persisted in the database$/) do
   Validation.count.should == 1
   Validation.first.filename.should =~ /#{File.basename(@file)}/
