@@ -29,17 +29,19 @@ The application uses mongod and redis databases as background jobs for data pers
 ### Environment variables
 
 For running tests:
-
-* PUSHER_APP_ID
-* PUSHER_KEY
-* PUSHER_SECRET
-* PUSHER_CLUSTER
+```
+PUSHER_APP_ID
+PUSHER_KEY
+PUSHER_SECRET
+PUSHER_CLUSTER
+```
 
 For development add:
-
-* AWS_ACCESS_KEY
-* AWS_BUCKET_NAME
-* AWS_SECRET_ACCESS_KEY
+```
+AWS_ACCESS_KEY
+AWS_BUCKET_NAME
+AWS_SECRET_ACCESS_KEY
+```
 
 In production add:
 
