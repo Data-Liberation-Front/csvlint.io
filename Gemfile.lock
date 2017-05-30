@@ -422,7 +422,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.99.3)
     mini_portile2 (2.1.0)
-    minitest (5.10.1)
+    minitest (5.10.2)
     mongo (2.1.2)
       bson (~> 3.0)
     mongoid (5.1.4)
@@ -439,7 +439,7 @@ GEM
     nenv (0.2.0)
     net-http-persistent (2.9.4)
     net-http-pipeline (1.0.1)
-    nokogiri (1.7.1)
+    nokogiri (1.7.2)
       mini_portile2 (~> 2.1.0)
     notiffany (0.0.6)
       nenv (~> 0.1)
@@ -464,7 +464,7 @@ GEM
       json
       websocket (~> 1.0)
     pusher-signature (0.1.8)
-    rack (1.6.5)
+    rack (1.6.8)
     rack-cors (0.4.0)
     rack-google-analytics (1.2.0)
       actionpack
@@ -649,8 +649,9 @@ GEM
       pusher-client (~> 0.4)
       typhoeus (~> 0.6, >= 0.6.8)
     trollop (2.1.2)
-    turbolinks (2.5.3)
-      coffee-rails
+    turbolinks (5.0.1)
+      turbolinks-source (~> 5)
+    turbolinks-source (5.0.3)
     typhoeus (0.7.2)
       ethon (>= 0.7.4)
     tzinfo (1.2.3)
