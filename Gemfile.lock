@@ -147,7 +147,7 @@ GEM
     curb (0.9.3)
     daemons (1.2.4)
     data_uri (0.1.0)
-    database_cleaner (1.5.3)
+    database_cleaner (1.6.1)
     datapackage (0.0.4)
       colorize
       json
