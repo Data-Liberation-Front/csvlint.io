@@ -74,7 +74,7 @@ end
 
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'rack-google-analytics'
-gem 'mongoid', '~> 5.0'
+gem 'mongoid', '~> 5.1'
 gem 'bson', '3.1.1'
 gem 'mongoid-grid_fs', '~> 2.2'
 gem 'bson_ext'
