@@ -577,7 +577,7 @@ GEM
       rspec-mocks (~> 3.3.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
-    rubyzip (1.1.7)
+    rubyzip (1.2.1)
     safe_yaml (1.0.4)
     sass (3.4.23)
     sass-rails (5.0.6)
