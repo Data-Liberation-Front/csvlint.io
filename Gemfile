@@ -86,7 +86,7 @@ gem 'rubyzip'
 gem 'csvlint'
 gem 'rest-client'
 
-gem 'nokogiri', '~> 1.5'
+gem 'nokogiri', '~> 1.8'
 
 gem 'airbrake'
 gem 'font-awesome-rails'

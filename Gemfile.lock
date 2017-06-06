@@ -712,7 +712,7 @@ DEPENDENCIES
   kaminari
   mongoid (~> 5.1)
   mongoid-grid_fs (~> 2.2)
-  nokogiri (~> 1.5)
+  nokogiri (~> 1.8)
   poltergeist
   pry
   puma
