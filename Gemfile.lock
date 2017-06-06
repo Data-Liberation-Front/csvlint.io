@@ -373,8 +373,8 @@ GEM
     i18n (0.8.4)
     inflecto (0.0.2)
     ipaddress (0.8.3)
-    jbuilder (2.6.4)
-      activesupport (>= 3.0.0)
+    jbuilder (2.7.0)
+      activesupport (>= 4.2.0)
       multi_json (>= 1.2)
     jquery-dotdotdot-rails (1.6.5)
       railties (>= 3.1)
@@ -706,7 +706,7 @@ DEPENDENCIES
   guard-bundler
   guard-cucumber
   guard-rspec
-  jbuilder (~> 2.6)
+  jbuilder (~> 2.7)
   jquery-dotdotdot-rails
   jquery-rails
   kaminari
