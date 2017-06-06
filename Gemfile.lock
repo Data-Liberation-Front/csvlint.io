@@ -105,9 +105,9 @@ GEM
     cloudflare (2.1.0)
       json (~> 1)
     coderay (1.1.1)
-    coffee-rails (4.1.1)
+    coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
-      railties (>= 4.0.0, < 5.1.x)
+      railties (>= 4.0.0)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -688,7 +688,7 @@ DEPENDENCIES
   bson (= 3.1.1)
   bson_ext
   cloudflare
-  coffee-rails (~> 4.1.0)
+  coffee-rails (~> 4.2.2)
   coveralls
   csvlint
   cucumber-api-steps!
