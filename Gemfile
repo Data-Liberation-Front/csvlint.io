@@ -90,7 +90,7 @@ gem 'nokogiri', '~> 1.5'
 
 gem 'airbrake'
 gem 'font-awesome-rails'
-gem 'sidekiq', '= 4.2.4'
+gem 'sidekiq', '= 5.0.2'
 gem 'data_uri'
 gem 'jquery-dotdotdot-rails'
 gem 'alternate_rails', github: 'theodi/alternate-rails', ref: 'v4.2.0'
