@@ -59,7 +59,7 @@ end
 
 group :development do
   gem 'travis'
-  gem 'web-console', '~> 2.0'
+  gem 'web-console', '~> 3.3'
   gem 'spring'
 end
 
