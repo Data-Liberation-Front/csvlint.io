@@ -90,7 +90,7 @@ GEM
       rails (>= 3.1)
     bootstrap-sass (3.1.1.1)
       sass (~> 3.2)
-    bson (3.1.1)
+    bson (3.2.6)
     bson_ext (1.5.1)
     builder (3.2.3)
     capybara (2.4.4)
@@ -694,7 +694,7 @@ DEPENDENCIES
   alternate_rails!
   bootstrap-kaminari-views
   bootstrap-sass (~> 3.1.1)
-  bson (= 3.1.1)
+  bson (= 3.2.6)
   bson_ext
   cloudflare
   coffee-rails (~> 4.2.2)
