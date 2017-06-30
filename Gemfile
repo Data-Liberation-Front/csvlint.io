@@ -12,7 +12,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 4.2.2'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer', platforms: :ruby
@@ -59,7 +59,7 @@ end
 
 group :development do
   gem 'travis'
-  gem 'web-console', '~> 2.0'
+  gem 'web-console', '~> 3.3'
   gem 'spring'
 end
 
@@ -75,7 +75,7 @@ end
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'rack-google-analytics'
 gem 'mongoid', '~> 5.1'
-gem 'bson', '3.1.1'
+gem 'bson', '3.2.6'
 gem 'mongoid-grid_fs', '~> 2.2'
 gem 'bson_ext'
 gem 'kaminari'
