@@ -474,7 +474,7 @@ GEM
     rack-google-analytics (1.2.0)
       actionpack
       activesupport
-    rack-protection (1.5.3)
+    rack-protection (2.0.0)
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -555,7 +555,7 @@ GEM
     rdf-xsd (2.0.0)
       rdf (~> 2.0)
     rdoc (4.3.0)
-    redis (3.3.1)
+    redis (3.3.3)
     ref (2.0.0)
     rest-client (2.0.2)
       http-cookie (>= 1.0.2, < 2.0)
@@ -596,11 +596,11 @@ GEM
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
     shellany (0.0.1)
-    sidekiq (4.2.4)
+    sidekiq (5.0.4)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
-      redis (~> 3.2, >= 3.2.1)
+      redis (~> 3.3, >= 3.3.3)
     simplecov (0.14.1)
       docile (~> 1.1.0)
       json (>= 1.8, < 3)
@@ -734,7 +734,7 @@ DEPENDENCIES
   rubyzip
   sass-rails (~> 5.0)
   sdoc (~> 0.4.2)
-  sidekiq (= 4.2.4)
+  sidekiq (= 5.0.4)
   simplecov (~> 0.14.1)
   spring
   sqlite3
