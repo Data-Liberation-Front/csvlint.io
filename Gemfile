@@ -72,7 +72,7 @@ end
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
 
-gem 'bootstrap-sass', '~> 3.1.1'
+gem 'bootstrap-sass', '~> 3.3.7'
 gem 'rack-google-analytics'
 gem 'mongoid', '~> 5.1'
 gem 'bson', '3.2.7'
