@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.4.1'
 
 gem 'rake', '~> 11.0'
-gem 'rails', '~> 4.2.8'
+gem 'rails', '~> 4.2.9'
 gem 'dotenv-rails'
 
 # Use SCSS for stylesheets
@@ -12,7 +12,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 4.2.2'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer', platforms: :ruby
@@ -24,9 +24,9 @@ gem 'jquery-rails'
 gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
+gem 'jbuilder', '~> 2.7'
 
-gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'sdoc', '~> 0.4.2', group: :doc
 
 gem 'foreman'
 
@@ -41,7 +41,7 @@ group :development, :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'coveralls', require: false
-  gem 'simplecov', '~> 0.7.1'
+  gem 'simplecov', '~> 0.14.1'
   gem 'guard-rspec'
   gem 'guard-cucumber'
   gem 'guard-bundler'
@@ -59,7 +59,7 @@ end
 
 group :development do
   gem 'travis'
-  gem 'web-console', '~> 2.0'
+  gem 'web-console', '~> 3.3'
   gem 'spring'
 end
 
@@ -74,8 +74,8 @@ end
 
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'rack-google-analytics'
-gem 'mongoid', '~> 5.0'
-gem 'bson', '3.1.1'
+gem 'mongoid', '~> 5.1'
+gem 'bson', '3.2.7'
 gem 'mongoid-grid_fs', '~> 2.2'
 gem 'bson_ext'
 gem 'kaminari'
@@ -86,7 +86,7 @@ gem 'rubyzip'
 gem 'csvlint'
 gem 'rest-client'
 
-gem 'nokogiri', '~> 1.5'
+gem 'nokogiri', '~> 1.8'
 
 gem 'airbrake'
 gem 'font-awesome-rails'
