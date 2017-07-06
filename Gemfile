@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.4.1'
 
 gem 'rake', '~> 11.0'
-gem 'rails', '~> 4.2.8'
+gem 'rails', '~> 4.2.9'
 gem 'dotenv-rails'
 
 # Use SCSS for stylesheets
@@ -75,7 +75,7 @@ end
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'rack-google-analytics'
 gem 'mongoid', '~> 5.1'
-gem 'bson', '3.2.6'
+gem 'bson', '3.2.7'
 gem 'mongoid-grid_fs', '~> 2.2'
 gem 'bson_ext'
 gem 'kaminari'
