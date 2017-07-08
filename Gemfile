@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.4.1'
 
 gem 'rake', '~> 11.0'
-gem 'rails', '~> 4.2.8'
+gem 'rails', '~> 4.2.9'
 gem 'dotenv-rails'
 
 # Use SCSS for stylesheets
@@ -12,7 +12,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 4.2.2'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer', platforms: :ruby
@@ -24,7 +24,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.6'
+gem 'jbuilder', '~> 2.7'
 
 gem 'sdoc', '~> 0.4.2', group: :doc
 
@@ -52,14 +52,14 @@ group :development, :test do
   gem 'faker'
   gem 'poltergeist'
   gem 'vcr'
-  gem 'cucumber-api-steps', require: false, github: 'theodi/cucumber-api-steps', branch: 'feature-test-content-type'
+  gem 'cucumber-api-steps', require: false, git: 'https://github.com/theodi/cucumber-api-steps.git', branch: 'feature-test-content-type'
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
 end
 
 group :development do
   gem 'travis'
-  gem 'web-console', '~> 2.0'
+  gem 'web-console', '~> 3.3'
   gem 'spring'
 end
 
@@ -74,28 +74,28 @@ end
 
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'rack-google-analytics'
-gem 'mongoid', '~> 5.0'
-gem 'bson', '3.1.1'
+gem 'mongoid', '~> 5.1'
+gem 'bson', '3.2.7'
 gem 'mongoid-grid_fs', '~> 2.2'
 gem 'bson_ext'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
-gem 'data_kitten', github: 'theodi/data_kitten', ref: "e343510bd15e3329c1f2fab35035e248195348be", require: false
+gem 'data_kitten', git: 'https://github.com/theodi/data_kitten.git', ref: "e343510bd15e3329c1f2fab35035e248195348be", require: false
 gem 'rubyzip'
 
 gem 'csvlint'
 gem 'rest-client'
 
-gem 'nokogiri', '~> 1.5'
+gem 'nokogiri', '~> 1.8'
 
 gem 'airbrake'
 gem 'font-awesome-rails'
 gem 'sidekiq', '= 4.2.4'
 gem 'data_uri'
 gem 'jquery-dotdotdot-rails'
-gem 'alternate_rails', github: 'theodi/alternate-rails', ref: 'v4.2.0'
+gem 'alternate_rails', git: 'https://github.com/theodi/alternate-rails.git', ref: 'v4.2.0'
 gem 'rack-cors'
 
-gem 'resumable_upload', github: "theodi/resumable-upload"
+gem 'resumable_upload', git: 'https://github.com/theodi/resumable-upload'
 gem 'pusher'
 gem 'cloudflare'
