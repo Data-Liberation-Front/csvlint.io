@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.4.1'
 
 gem 'rake', '~> 11.0'
-gem 'rails', '~> 4.2.8'
+gem 'rails', '~> 4.2.9'
 gem 'dotenv-rails'
 
 # Use SCSS for stylesheets
@@ -52,7 +52,7 @@ group :development, :test do
   gem 'faker'
   gem 'poltergeist'
   gem 'vcr'
-  gem 'cucumber-api-steps', require: false, github: 'theodi/cucumber-api-steps', branch: 'feature-test-content-type'
+  gem 'cucumber-api-steps', require: false, git: 'https://github.com/theodi/cucumber-api-steps.git', branch: 'feature-test-content-type'
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
 end
@@ -80,7 +80,7 @@ gem 'mongoid-grid_fs', '~> 2.2'
 gem 'bson_ext'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
-gem 'data_kitten', github: 'theodi/data_kitten', ref: "e343510bd15e3329c1f2fab35035e248195348be", require: false
+gem 'data_kitten', git: 'https://github.com/theodi/data_kitten.git', ref: "e343510bd15e3329c1f2fab35035e248195348be", require: false
 gem 'rubyzip'
 
 gem 'csvlint'
@@ -93,9 +93,9 @@ gem 'font-awesome-rails'
 gem 'sidekiq', '= 4.2.4'
 gem 'data_uri'
 gem 'jquery-dotdotdot-rails'
-gem 'alternate_rails', github: 'theodi/alternate-rails', ref: 'v4.2.0'
+gem 'alternate_rails', git: 'https://github.com/theodi/alternate-rails.git', ref: 'v4.2.0'
 gem 'rack-cors'
 
-gem 'resumable_upload', github: "theodi/resumable-upload"
+gem 'resumable_upload', git: 'https://github.com/theodi/resumable-upload'
 gem 'pusher'
 gem 'cloudflare'
