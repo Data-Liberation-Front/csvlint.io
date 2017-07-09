@@ -16,7 +16,7 @@ Ensure that the [tests](https://github.com/theodi/csvlint/blob/master/README.md#
 All contributions to the codebase - whether fork or pull request - will be reviewed per the below criteria.
 To increase your chances of your push being accepted please be aware of the following
 - Write [well formed commit messages](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
-- Follow our [style guide recommendations](https://github.com/theodi/toolbox/blob/README.md#code-style-guide)
+- Follow our [style guide recommendations](https://github.com/theodi/toolbox/blob/master/README.md#code-style-guide)
 - Write tests for all changes (additions or refactors of existing code). 
 - Of the github integrations we use two will be utilised to check appraise your contribution. In order of priority these are
     - Travis ensures that all tests (existing and additions) pass
