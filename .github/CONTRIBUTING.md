@@ -3,7 +3,7 @@
 CSVlint is open source, and contributions are gratefully accepted! 
 Details on how to contribute are below. By participating in this project, you agree to abide by our [Code of Conduct](https://github.com/theodi/csvlint/blob/master/.github/CODE_OF_CONDUCT.md).
 
-Before you start coding, please reach out to us either on our [gitter channel](https://gitter.im/theodi/toolbox) or by tagging a repository administrator on the issue ticket you are interested in contributing towards to indicate your interest in helping.
+Before you start coding on an issue, please reach out to us either on our [gitter channel](https://gitter.im/theodi/toolbox) or leave a comment on the issue ticket you are interested in contributing towards to indicate your interest in helping.
 
 If this is your first time contributing to the ODI’s codebase you will need to [create a fork of this repository](https://help.github.com/articles/fork-a-repo/).
 
