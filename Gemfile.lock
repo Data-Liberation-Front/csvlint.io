@@ -365,7 +365,7 @@ GEM
       tilt
     hamster (3.0.0)
       concurrent-ruby (~> 1.0)
-    hashdiff (0.3.2)
+    hashdiff (0.3.7)
     highline (1.7.8)
     htmlentities (4.3.4)
     http-cookie (1.0.3)
@@ -671,7 +671,7 @@ GEM
       activemodel (>= 4.2)
       debug_inspector
       railties (>= 4.2)
-    webmock (3.0.1)
+    webmock (3.1.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
