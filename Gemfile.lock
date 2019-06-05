@@ -457,6 +457,9 @@ GEM
       activerecord
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
+    kaminari-mongoid (1.0.1)
+      kaminari-core (~> 1.0)
+      mongoid
     launchy (2.4.3)
       addressable (~> 2.3)
     ld-patch (0.3.3)
@@ -840,6 +843,7 @@ DEPENDENCIES
   jquery-dotdotdot-rails
   jquery-rails
   kaminari
+  kaminari-mongoid
   mongoid (~> 5.1)
   mongoid-grid_fs (~> 2.2)
   nokogiri (~> 1.8)
