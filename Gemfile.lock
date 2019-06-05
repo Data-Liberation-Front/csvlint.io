@@ -392,9 +392,21 @@ GEM
       addressable (~> 2.3.8)
     jsonpath (0.5.6)
       multi_json
-    kaminari (0.16.3)
-      actionpack (>= 3.0.0)
-      activesupport (>= 3.0.0)
+    kaminari (1.1.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.1.1)
+      kaminari-activerecord (= 1.1.1)
+      kaminari-core (= 1.1.1)
+    kaminari-actionview (1.1.1)
+      actionview
+      kaminari-core (= 1.1.1)
+    kaminari-activerecord (1.1.1)
+      activerecord
+      kaminari-core (= 1.1.1)
+    kaminari-core (1.1.1)
+    kaminari-mongoid (1.0.1)
+      kaminari-core (~> 1.0)
+      mongoid
     launchy (2.4.3)
       addressable (~> 2.3)
     libv8 (3.16.14.19)
@@ -721,6 +733,7 @@ DEPENDENCIES
   jquery-dotdotdot-rails
   jquery-rails
   kaminari
+  kaminari-mongoid
   mongoid (~> 5.1)
   mongoid-grid_fs (~> 2.2)
   nokogiri (~> 1.8)
