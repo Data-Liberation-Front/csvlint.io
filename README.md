@@ -64,7 +64,7 @@ PUSHER_SECRET=
 
 NOTE: You may be set up for a non-default Pusher cluster (The default is ```us-east-1```), which causes some confusion. Look at your App overiew on pusher.com and get the Cluster value from the 'Keys' section. Add this to your ```.env``` file as ```PUSHER_CLUSTER=```
 
-Create an AWS S3 bucket and grant it's permissions accordingly
+Create an AWS S3 bucket and grant its permissions accordingly
 
 1. Log in to your AWS account and create an S3 bucket with a sensible name
 2. Now head to the AWS IAM (Identity and Access Management page)
