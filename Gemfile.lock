@@ -131,7 +131,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     colorize (0.8.1)
-    concurrent-ruby (1.1.5)
+    concurrent-ruby (1.1.6)
     connection_pool (2.2.2)
     console (1.3.1)
     coveralls (0.8.21)
@@ -563,12 +563,12 @@ GEM
       json
       websocket (~> 1.0)
     pusher-signature (0.1.8)
-    rack (1.6.11)
+    rack (1.6.13)
     rack-cors (1.0.3)
     rack-google-analytics (1.2.0)
       actionpack
       activesupport
-    rack-protection (2.0.5)
+    rack-protection (2.0.8.1)
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -667,7 +667,7 @@ GEM
     rdf-xsd (3.0.1)
       rdf (~> 3.0)
     rdoc (4.3.0)
-    redis (3.3.5)
+    redis (4.1.3)
     ref (2.0.0)
     regexp_parser (1.5.1)
     rest-client (2.0.2)
@@ -722,11 +722,11 @@ GEM
       rdf-xsd (>= 2.2, < 4.0)
       sparql (>= 2.2, < 4.0)
       sxp (~> 1.0)
-    sidekiq (4.2.4)
-      concurrent-ruby (~> 1.0)
-      connection_pool (~> 2.2, >= 2.2.0)
+    sidekiq (5.2.7)
+      connection_pool (~> 2.2, >= 2.2.2)
+      rack (>= 1.5.0)
       rack-protection (>= 1.5.0)
-      redis (~> 3.2, >= 3.2.1)
+      redis (>= 3.3.5, < 5)
     simplecov (0.14.1)
       docile (~> 1.1.0)
       json (>= 1.8, < 3)
@@ -862,7 +862,7 @@ DEPENDENCIES
   rubyzip
   sass-rails (~> 5.0)
   sdoc (~> 0.4.2)
-  sidekiq (= 4.2.4)
+  sidekiq (= 5.2.7)
   simplecov (~> 0.14.1)
   spring
   sqlite3
