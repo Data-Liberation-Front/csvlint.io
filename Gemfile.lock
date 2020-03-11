@@ -564,7 +564,8 @@ GEM
       websocket (~> 1.0)
     pusher-signature (0.1.8)
     rack (1.6.13)
-    rack-cors (1.0.3)
+    rack-cors (1.0.5)
+      rack (>= 1.6.0)
     rack-google-analytics (1.2.0)
       actionpack
       activesupport
