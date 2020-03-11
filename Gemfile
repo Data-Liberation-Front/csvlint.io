@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.4.1'
 
-gem 'rake', '~> 12.3'
+gem 'rake', '~> 13.0'
 gem 'rails', '~> 4.2.9'
 gem 'dotenv-rails'
 
@@ -87,7 +87,7 @@ gem 'rubyzip'
 gem 'csvlint'
 gem 'rest-client'
 
-gem 'nokogiri', '~> 1.8'
+gem 'nokogiri', '~> 1.10'
 
 gem 'airbrake'
 gem 'font-awesome-rails'
