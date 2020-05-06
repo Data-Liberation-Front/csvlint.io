@@ -2,7 +2,7 @@ language: ruby
 cache: bundler
 sudo: false
 rvm:
-- 2.4.1
+- 2.4.10
 services: mongodb
 env:
   global:
