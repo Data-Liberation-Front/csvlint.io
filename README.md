@@ -102,14 +102,16 @@ S3_BUCKET=<YOURNEWS3BUCKETNAME>
 
 ## System dependencies and Configuration
 
-Install mongo:  
+Install mongo:
     `brew install mongo redis` (if using brew)
 
-make a data directory for mongo databases  
+make a data directory for mongo databases
   `sudo mkdir -p /data/db`
 
-change directory ownership so that mongodb can operate    
+change directory ownership so that mongodb can operate
   `sudo chown -R $USERNAME /data/`
+
+You may have problems installing `libv8` on macOS. See https://gist.github.com/fernandoaleman/868b64cd60ab2d51ab24e7bf384da1ca for a solution if so.
 
 ### Development: Running the full application locally
 
@@ -133,20 +135,20 @@ to initialise the app run this in root directory of app
 
 If you have trouble running bundle try these (if you see errors relating to `openssl`, `eventmachine` or `therubyracer`)
 
-`brew install openssl # if not installed`  
-`gem install eventmachine -v '1.0.7' -- --with-cppflags=-I/usr/local/opt/openssl/include`  
-`gem install libv8 -v '3.16.14.13' -- --with-system-v8`  
-`gem install therubyracer -- --with-v8-dir=/usr/local/opt/v8-315 `  
+`brew install openssl # if not installed`
+`gem install eventmachine -v '1.0.7' -- --with-cppflags=-I/usr/local/opt/openssl/include`
+`gem install libv8 -v '3.16.14.13' -- --with-system-v8`
+`gem install therubyracer -- --with-v8-dir=/usr/local/opt/v8-315 `
 https://github.com/shakacode/react-webpack-rails-tutorial/issues/266 ~ rubyracer with CSVlint
 
 ### Tests
 
-ensure phantomjs is installed, `brew install phantomjs` (or however you prefer)  
+ensure phantomjs is installed, `brew install phantomjs` (or however you prefer)
 
-To run the entire suite of rspec unit tests and cucumber features execute  
+To run the entire suite of rspec unit tests and cucumber features execute
 `bundle exec rake`
 
-alternatively execute each suite separately with  
+alternatively execute each suite separately with
 
 for unit tests execute `bundle exec rspec`
 
@@ -154,9 +156,9 @@ for Cucumber features execute `bundle exec cucumber`
 
 ### Rake Tasks
 
-`rake csvs:clean_up`  
-`rake summary:generate`  
-`rake clean_up:dupes`  
+`rake csvs:clean_up`
+`rake summary:generate`
+`rake clean_up:dupes`
 
 ## Deployment
 
