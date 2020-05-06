@@ -10,3 +10,5 @@ env:
     - PUSHER_KEY=abc123
     - PUSHER_SECRET=abc123
     - PUSHER_CLUSTER=eu
+before_script:
+  - gem install bundler -v "1.17.3"
