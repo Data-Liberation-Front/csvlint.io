@@ -205,6 +205,14 @@ describe Package, type: :model do
   end
 
   context "with a CKAN URL" do
+
+    # Stub out more of the new CSVW auto detection requests
+    # These only get hit in these tests, the rest are stubbed globally in spec_helper.rb
+    before :each do
+      stub_request(:get, /-metadata\.json/).
+        to_return(:status => 404)
+    end
+
     it "creates a validation for a CKAN package with a single CSV", :vcr do
       url = 'http://data.gov.uk/dataset/uk-open-access-non-vosa-sites'
 
