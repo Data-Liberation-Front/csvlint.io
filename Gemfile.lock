@@ -183,8 +183,8 @@ GEM
     factory_girl_rails (4.8.0)
       factory_girl (~> 4.8.0)
       railties (>= 3.0.0)
-    faker (1.8.6)
-      i18n (>= 0.7)
+    faker (2.2.1)
+      i18n (>= 0.8)
     faraday (0.12.1)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.11.0.1)
@@ -763,11 +763,11 @@ DEPENDENCIES
   airbrake
   alternate_rails!
   bootstrap-kaminari-views
-  bootstrap-sass (~> 3.1.1)
-  bson (= 3.2.7)
+  bootstrap-sass (~> 3.1)
+  bson (~> 3.2)
   bson_ext
   cloudflare
-  coffee-rails (~> 4.2.2)
+  coffee-rails (~> 4.2)
   coveralls
   csvlint (~> 0.4)
   cucumber-api-steps!
@@ -798,7 +798,7 @@ DEPENDENCIES
   pusher
   rack-cors
   rack-google-analytics
-  rails (= 4.2.11.1)
+  rails (~> 4.2)
   rails_12factor
   rake (~> 12.3)
   rest-client
@@ -806,9 +806,9 @@ DEPENDENCIES
   rspec-rails
   rubyzip
   sass-rails (~> 5.0)
-  sdoc (~> 0.4.2)
-  sidekiq (= 4.2.4)
-  simplecov (~> 0.16.1)
+  sdoc (~> 0.4)
+  sidekiq (~> 4.2)
+  simplecov (~> 0.16)
   spring
   sqlite3
   therubyracer
