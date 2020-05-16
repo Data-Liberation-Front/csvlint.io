@@ -41,7 +41,7 @@ group :development, :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'coveralls', require: false
-  gem 'simplecov', '~> 0.14.1'
+  gem 'simplecov', '~> 0.16.1'
   gem 'guard-rspec'
   gem 'guard-cucumber'
   gem 'guard-bundler'
