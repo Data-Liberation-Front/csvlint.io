@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.4.10'
 
 gem 'rake', '~> 12.3'
-gem 'rails', '4.2.10'
+gem 'rails', '4.2.11.1'
 gem 'dotenv-rails'
 
 # Use SCSS for stylesheets
