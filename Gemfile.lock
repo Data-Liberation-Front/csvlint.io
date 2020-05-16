@@ -472,9 +472,9 @@ GEM
       mongo (~> 2.1)
       origin (~> 2.2)
       tzinfo (>= 0.3.37)
-    mongoid-grid_fs (2.3.0)
+    mongoid-grid_fs (2.4.0)
       mime-types (>= 1.0, < 4.0)
-      mongoid (>= 3.0, < 7.0)
+      mongoid (>= 3.0, < 8.0)
     multi_json (1.14.1)
     multi_test (0.1.2)
     multipart-post (2.0.0)
@@ -786,7 +786,7 @@ DEPENDENCIES
   kaminari
   kaminari-mongoid
   mongoid (~> 5.1)
-  mongoid-grid_fs (~> 2.2)
+  mongoid-grid_fs (~> 2.4)
   nokogiri (~> 1.8)
   poltergeist
   pry
