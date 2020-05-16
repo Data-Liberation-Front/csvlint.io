@@ -725,6 +725,7 @@ DEPENDENCIES
   data_kitten!
   data_uri
   database_cleaner
+  datapackage (= 0.0.4)
   dotenv-rails
   factory_girl_rails
   faker

@@ -85,6 +85,7 @@ gem 'data_kitten', git: 'https://github.com/theodi/data_kitten.git', ref: "e3435
 gem 'rubyzip'
 
 gem 'csvlint', '~> 0.4'
+gem 'datapackage', '0.0.4' # temporarily pinned to avoid breaking the build
 gem 'rest-client'
 
 gem 'nokogiri', '~> 1.8'
