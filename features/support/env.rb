@@ -90,7 +90,7 @@ VCR.configure do |c|
   c.default_cassette_options = { :record => :once }
   c.ignore_hosts "static.dev", "127.0.0.1"
   c.ignore_request do |request|
-    request.uri.match /(.+)?[example|gov|githubusercontent]\..+/
+    request.uri.match /\.well-known\/csvm|-metadata\.json|example\.com|example\.org|\.pusher\.com/
   end
 end
 

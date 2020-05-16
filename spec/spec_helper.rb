@@ -36,8 +36,9 @@ VCR.configure do |c|
   c.default_cassette_options = { :record => :once }
   c.hook_into :webmock
   c.configure_rspec_metadata!
+  # Stub out CSVW autodetection requests for now
   c.ignore_request do |request|
-    request.uri.match /(.+)?[example|gov]\..+/
+    request.uri.match /\.well-known\/csvm|example\.com|example\.org/
   end
 end
 
@@ -60,7 +61,6 @@ RSpec.configure do |config|
     Fog::Mock.reset
   end
 
-  WebMock.disable_net_connect!(:allow => [/static.(dev|theodi.org)/, /datapackage\.json/, /package_search/])
   # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
