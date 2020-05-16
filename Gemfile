@@ -84,7 +84,7 @@ gem 'bootstrap-kaminari-views'
 gem 'data_kitten', git: 'https://github.com/theodi/data_kitten.git', ref: "e343510bd15e3329c1f2fab35035e248195348be", require: false
 gem 'rubyzip'
 
-gem 'csvlint'
+gem 'csvlint', '~> 0.4'
 gem 'rest-client'
 
 gem 'nokogiri', '~> 1.8'

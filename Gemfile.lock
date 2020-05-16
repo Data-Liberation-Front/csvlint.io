@@ -110,7 +110,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    colorize (0.7.7)
+    colorize (0.8.1)
     concurrent-ruby (1.1.6)
     connection_pool (2.2.1)
     coveralls (0.8.21)
@@ -122,13 +122,16 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.6)
-    csvlint (0.2.2)
+    csvlint (0.4.0)
       activesupport
       addressable
       colorize
       escape_utils
       mime-types
+      net-http-persistent (< 3.0)
       open_uri_redirections
+      rack
+      thor
       typhoeus
       uri_template
     cucumber (1.3.20)
@@ -167,8 +170,8 @@ GEM
     equivalent-xml (0.6.0)
       nokogiri (>= 1.4.3)
     erubis (2.7.0)
-    escape_utils (1.1.0)
-    ethon (0.10.1)
+    escape_utils (1.2.1)
+    ethon (0.12.0)
       ffi (>= 1.3.0)
     eventmachine (1.2.3)
     excon (0.55.0)
@@ -184,7 +187,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.11.0.1)
       faraday (>= 0.7.4, < 1.0)
-    ffi (1.9.18)
+    ffi (1.12.2)
     fission (0.5.0)
       CFPropertyList (~> 2.2)
     fog (1.40.0)
@@ -716,7 +719,7 @@ DEPENDENCIES
   cloudflare
   coffee-rails (~> 4.2.2)
   coveralls
-  csvlint
+  csvlint (~> 0.4)
   cucumber-api-steps!
   cucumber-rails
   data_kitten!
