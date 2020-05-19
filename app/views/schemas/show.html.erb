@@ -1,6 +1,6 @@
 <p>
   <%= link_to schemas_url do %>
-    <i class="glyphicon glyphicon-chevron-left"></i> Back to Recent Schemas
+    <i class="fa fa-chevron-left"></i> Back to Recent Schemas
   <% end %>
 </p>
 
@@ -29,12 +29,12 @@
     <th><%= t :constraint_unique %></th>
     <th><%= t :constraint_type %></th>
     <th><%= t :constraint_value_constraints %></th>
-    <th><%= t :field_title %>/<%= t :field_description %></th>    
+    <th><%= t :field_title %>/<%= t :field_description %></th>
   </tr>
   <% @schema.fields.each_with_index do |field, i| %>
     <tr>
       <td>
-		<%= i+1 %>     
+		<%= i+1 %>
       </td>
       <td>
         <code><%= field.name %></code>
@@ -53,22 +53,22 @@
 		<% else %>
 		  <a href="http://www.w3.org/2001/XMLSchema#string">
 		  	<%= t :xsd_string %>
-		  </a>	
+		  </a>
 		<% end %>
 		<% if date_type?( field ) %>
 			<br/>
 			<code><%= date_pattern( field ) %></code>
 		<% end %>
-      </td>            
+      </td>
       <td>
         <% value_constraints( field ).each_pair do |key, value| %>
           <%= t "constraint_#{key}".to_sym %>: <%= value %><br/>
         <% end %>
-      </td> 
+      </td>
       <td>
         <% if field.title %><%= field.title %><br/><% end %>
         <i><%= field.description %></i>
-      </td>           
+      </td>
     </tr>
   <% end %>
 </table>
