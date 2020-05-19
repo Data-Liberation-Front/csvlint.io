@@ -48,7 +48,7 @@ group :development, :test do
   gem 'webmock', require: false
   gem 'pry'
   gem 'timecop'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'faker'
   gem 'poltergeist'
   gem 'vcr'

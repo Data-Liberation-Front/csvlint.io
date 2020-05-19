@@ -11,10 +11,10 @@ describe ValidationController, type: :controller do
         "invalid",
         "not_found",
       ].each_with_index do |state, i|
-        (i + 1).times { |i| FactoryGirl.create :validation, url: "http://data.com/data#{i}.csv", state: state }
+        (i + 1).times { |i| FactoryBot.create :validation, url: "http://data.com/data#{i}.csv", state: state }
       end
 
-      5.times { FactoryGirl.create :validation, url: nil }
+      5.times { FactoryBot.create :validation, url: nil }
 
       get 'index', format: "csv"
 
