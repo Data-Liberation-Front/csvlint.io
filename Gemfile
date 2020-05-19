@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.4.10'
 
-gem 'rake', '~> 12.3'
+gem 'rake', '~> 13.0'
 gem 'rails', '~> 4.2'
 gem 'dotenv-rails'
 
@@ -77,7 +77,7 @@ gem 'rack-google-analytics'
 gem 'mongoid', '~> 5.1'
 gem 'kaminari-mongoid'
 gem 'bson', '~> 3.2'
-gem 'mongoid-grid_fs', '~> 2.2'
+gem 'mongoid-grid_fs', '~> 2.4'
 gem 'bson_ext'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
