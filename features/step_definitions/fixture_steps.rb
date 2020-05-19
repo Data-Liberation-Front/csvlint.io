@@ -20,7 +20,7 @@ end
 
 Given(/^there are (\d+) schemas in the database$/) do |num|
   num.to_i.times do |n|
-    FactoryGirl.create :schema
+    FactoryBot.create :schema
   end
 end
 
@@ -45,7 +45,7 @@ Given(/^the URL "(.*?)" returns a Content\-Type of "(.*?)"$/) do |url, content_t
 end
 
 Given(/^"(.*?)" has been previously used for validation$/) do |url|
-  FactoryGirl.create :schema, url: url
+  FactoryBot.create :schema, url: url
 end
 
 Given(/^the data exceeds the amount the proxy can handle/) do
