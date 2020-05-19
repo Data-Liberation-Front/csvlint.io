@@ -40,7 +40,7 @@ $.fn.bootstrapFileInput = function(prependIcon) {
     $elem.wrap('<a class="file-input-wrapper btn btn-default ' + className + '"></a>').parent().prepend(buttonWord);
 
     if(prependIcon)
-      $elem.parent().prepend('<i class="glyphicon glyphicon-cloud-upload"></i> ')
+      $elem.parent().prepend('<i class="fa fa-cloud-upload"></i> ')
   })
 
   // After we have found all of the file inputs let's apply a listener for tracking the mouse movement.
