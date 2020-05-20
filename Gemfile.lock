@@ -805,7 +805,7 @@ DEPENDENCIES
   rake (~> 13.0)
   rest-client
   resumable_upload!
-  rspec-rails
+  rspec-rails (< 4)
   rubyzip
   sass-rails (~> 6.0)
   sdoc (~> 1.1)
