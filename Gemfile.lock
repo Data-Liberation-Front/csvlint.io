@@ -8,13 +8,12 @@ GIT
 
 GIT
   remote: https://github.com/theodi/cucumber-api-steps.git
-  revision: f8f9254614c64adb76fac3b6065cc9a10dc4f51b
+  revision: de7cf3a3b59fe6fa87a226fd1b7dc8187b28ee3b
   branch: feature-test-content-type
   specs:
-    cucumber-api-steps (0.13)
-      cucumber (>= 1.2.1)
+    cucumber-api-steps (0.14.0)
+      cucumber (>= 2.0.2)
       jsonpath (>= 0.1.2)
-      rspec (>= 2.12.0)
 
 GIT
   remote: https://github.com/theodi/data_kitten.git
@@ -87,7 +86,7 @@ GEM
     arel (6.0.4)
     autoprefixer-rails (9.7.6)
       execjs
-    backports (3.17.1)
+    backports (3.17.2)
     bcp47 (0.3.3)
       i18n
     bootstrap-kaminari-views (0.0.5)
@@ -413,8 +412,9 @@ GEM
       rdf (~> 3.0)
     json-schema (2.6.2)
       addressable (~> 2.3.8)
-    jsonpath (0.5.6)
+    jsonpath (1.0.5)
       multi_json
+      to_regexp (~> 0.2.1)
     kaminari (1.2.0)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.0)
@@ -730,6 +730,7 @@ GEM
     timecop (0.9.1)
     tins (1.25.0)
       sync
+    to_regexp (0.2.1)
     travis (1.8.13)
       backports
       faraday (~> 0.9)
