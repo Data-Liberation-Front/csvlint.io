@@ -741,7 +741,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.4)
     uri_template (0.7.0)
-    vcr (5.1.0)
+    vcr (6.0.0)
     web-console (3.3.0)
       activemodel (>= 4.2)
       debug_inspector
