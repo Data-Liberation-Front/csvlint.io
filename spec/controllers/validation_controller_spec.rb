@@ -2,30 +2,6 @@ require 'spec_helper'
 
 describe ValidationController, type: :controller do
 
-  describe "GET 'index'" do
-
-    it 'generates a CSV of all validations with a url' do
-      [
-        "valid",
-        "warnings",
-        "invalid",
-        "not_found",
-      ].each_with_index do |state, i|
-        (i + 1).times { |i| FactoryBot.create :validation, url: "http://data.com/data#{i}.csv", state: state }
-      end
-
-      5.times { FactoryBot.create :validation, url: nil }
-
-      get 'index', format: "csv"
-
-      expect(response.content_type).to eq('text/csv; charset=utf-8; header=present')
-
-      csv = CSV.parse(response.body)
-      expect(csv.count).to eq(11)
-    end
-
-  end
-
   describe "POST 'update'" do
 
     before(:each) do
