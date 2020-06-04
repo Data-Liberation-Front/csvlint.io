@@ -32,16 +32,3 @@ describe "validation/_message.html.erb", type: :view do
   end
 
 end
-
-describe "validation/_validation.html.erb", type: :view do
-
-  it "Should not revalidate" do
-    mock_file("http://example.com/test.csv", 'csvs/valid.csv')
-    Validation.create_validation('http://example.com/test.csv')
-    validation = Validation.first
-
-    expect(validation).not_to receive(:delay)
-    render :partial => "validation/validation", :locals => { :validation => validation }
-  end
-
-end
