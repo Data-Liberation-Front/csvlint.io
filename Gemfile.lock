@@ -334,7 +334,7 @@ GEM
       nokogiri (>= 1.5.11, < 2.0.0)
     font-awesome-rails (4.7.0.5)
       railties (>= 3.2, < 6.1)
-    foreman (0.87.1)
+    foreman (0.87.2)
     formatador (0.2.5)
     gh (0.14.0)
       addressable
