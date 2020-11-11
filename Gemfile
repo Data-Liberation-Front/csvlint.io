@@ -100,4 +100,4 @@ gem 'rack-cors', '~> 1.0'
 
 gem 'resumable_upload', git: 'https://github.com/Data-Liberation-Front/resumable-upload'
 gem 'pusher', '~> 1.4'
-gem 'cloudflare', '~> 2.1'
+gem 'cloudflare', '~> 4.2'
