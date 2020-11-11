@@ -8,13 +8,12 @@ GIT
 
 GIT
   remote: https://github.com/theodi/cucumber-api-steps.git
-  revision: f8f9254614c64adb76fac3b6065cc9a10dc4f51b
+  revision: de7cf3a3b59fe6fa87a226fd1b7dc8187b28ee3b
   branch: feature-test-content-type
   specs:
-    cucumber-api-steps (0.13)
-      cucumber (>= 1.2.1)
+    cucumber-api-steps (0.14.0)
+      cucumber (>= 2.0.2)
       jsonpath (>= 0.1.2)
-      rspec (>= 2.12.0)
 
 GIT
   remote: https://github.com/theodi/data_kitten.git
@@ -139,18 +138,21 @@ GEM
       thor
       typhoeus
       uri_template
-    cucumber (1.3.20)
+    cucumber (2.0.2)
       builder (>= 2.1.2)
+      cucumber-core (~> 1.2.0)
       diff-lcs (>= 1.1.3)
       gherkin (~> 2.12)
       multi_json (>= 1.7.5, < 2.0)
       multi_test (>= 0.1.2)
-    cucumber-rails (1.4.2)
+    cucumber-core (1.2.0)
+      gherkin (~> 2.12.0)
+    cucumber-rails (1.4.5)
       capybara (>= 1.1.2, < 3)
-      cucumber (>= 1.3.8, < 2)
-      mime-types (>= 1.16, < 3)
+      cucumber (>= 1.3.8, < 4)
+      mime-types (>= 1.16, < 4)
       nokogiri (~> 1.5)
-      rails (>= 3, < 5)
+      railties (>= 3, < 5.1)
     curb (0.9.3)
     daemons (1.2.4)
     data_uri (0.1.0)
