@@ -3,7 +3,7 @@ ruby '2.4.10'
 
 gem 'rake', '~> 13.0'
 gem 'rails', '~> 4.2'
-gem 'dotenv-rails'
+gem 'dotenv-rails', '~> 2.7'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 6.0'
@@ -15,52 +15,52 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer', platforms: :ruby
+gem 'therubyracer', '~> 0.12', platforms: :ruby
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 4.4'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+gem 'turbolinks', '~> 5.2'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.9'
 
 gem 'sdoc', '~> 1.1', group: :doc
 
-gem 'foreman'
+gem 'foreman', '~> 0.87'
 
 group :production do
-  gem 'thin'
-  gem 'rails_12factor'
-  gem 'puma'
+  gem 'thin', '~> 1.7'
+  gem 'rails_12factor', '~> 0.0'
+  gem 'puma', '~> 5.0'
 end
 
 group :development, :test do
   gem 'rspec-rails', "< 4" # version 4 requires rails 5
-  gem 'cucumber-rails', require: false
-  gem 'database_cleaner'
-  gem 'coveralls', require: false
+  gem 'cucumber-rails', '~> 1.4', require: false
+  gem 'database_cleaner', '~> 1.8'
+  gem 'coveralls', '~> 0.8', require: false
   gem 'simplecov', '~> 0.16'
-  gem 'guard-rspec'
-  gem 'guard-cucumber'
-  gem 'guard-bundler'
-  gem 'webmock', require: false
-  gem 'pry'
-  gem 'timecop'
-  gem 'factory_bot_rails'
-  gem 'faker'
-  gem 'poltergeist'
-  gem 'vcr'
+  gem 'guard-rspec', '~> 4.7'
+  gem 'guard-cucumber', '~> 1.5'
+  gem 'guard-bundler', '~> 2.2'
+  gem 'webmock', '~> 3.9', require: false
+  gem 'pry', '~> 0.13'
+  gem 'timecop', '~> 0.9'
+  gem 'factory_bot_rails', '~> 5.2'
+  gem 'faker', '~> 2.2'
+  gem 'poltergeist', '~> 1.6'
+  gem 'vcr', '~> 6.0'
   gem 'cucumber-api-steps', require: false, git: 'https://github.com/theodi/cucumber-api-steps.git', branch: 'feature-test-content-type'
   # Use sqlite3 as the database for Active Record
-  gem 'sqlite3'
+  gem 'sqlite3', '~> 1.4'
 end
 
 group :development do
-  gem 'travis'
+  gem 'travis', '~> 1.8'
   gem 'web-console', '~> 3.3'
-  gem 'spring'
+  gem 'spring', '~> 2.1'
 end
 
 # Use ActiveModel has_secure_password
@@ -73,31 +73,31 @@ end
 # gem 'capistrano', group: :development
 
 gem 'bootstrap-sass', '~> 3.4'
-gem 'rack-google-analytics'
+gem 'rack-google-analytics', '~> 1.2'
 gem 'mongoid', '~> 5.1'
-gem 'kaminari-mongoid'
+gem 'kaminari-mongoid', '~> 1.0'
 gem 'bson', '~> 3.2'
 gem 'mongoid-grid_fs', '~> 2.4'
-gem 'bson_ext'
-gem 'kaminari'
-gem 'bootstrap-kaminari-views'
+gem 'bson_ext', '~> 1.5'
+gem 'kaminari', '~> 1.2'
+gem 'bootstrap-kaminari-views', '~> 0.0'
 gem 'data_kitten', git: 'https://github.com/theodi/data_kitten.git', ref: "e343510bd15e3329c1f2fab35035e248195348be", require: false
-gem 'rubyzip'
+gem 'rubyzip', '~> 2.3'
 
 gem 'csvlint', '~> 0.4'
 gem 'datapackage', '0.0.4' # temporarily pinned to avoid breaking the build
-gem 'rest-client'
+gem 'rest-client', '~> 2.0'
 
 gem 'nokogiri', '~> 1.10'
 
-gem 'airbrake'
-gem 'font-awesome-rails'
+gem 'airbrake', '~> 11.0'
+gem 'font-awesome-rails', '~> 4.7'
 gem 'sidekiq', '~> 4.2'
-gem 'data_uri'
-gem 'jquery-dotdotdot-rails'
+gem 'data_uri', '~> 0.1'
+gem 'jquery-dotdotdot-rails', '~> 1.6'
 gem 'alternate_rails', git: 'https://github.com/theodi/alternate-rails.git', ref: 'v4.2.0'
-gem 'rack-cors'
+gem 'rack-cors', '~> 1.0'
 
 gem 'resumable_upload', git: 'https://github.com/theodi/resumable-upload'
-gem 'pusher'
-gem 'cloudflare'
+gem 'pusher', '~> 1.4'
+gem 'cloudflare', '~> 2.1'
