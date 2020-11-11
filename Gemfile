@@ -86,7 +86,7 @@ gem 'rubyzip', '~> 2.3'
 
 gem 'csvlint', '~> 0.4'
 gem 'datapackage', '0.0.4' # temporarily pinned to avoid breaking the build
-gem 'rest-client', '~> 2.0'
+gem 'rest-client', '~> 2.1'
 
 gem 'nokogiri', '~> 1.10'
 
