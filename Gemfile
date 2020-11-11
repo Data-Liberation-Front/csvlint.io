@@ -38,7 +38,7 @@ end
 
 group :development, :test do
   gem 'rspec-rails', "< 4" # version 4 requires rails 5
-  gem 'cucumber-rails', '~> 1.4', require: false
+  gem 'cucumber-rails', '~> 2.1', require: false
   gem 'database_cleaner', '~> 1.8'
   gem 'coveralls', '~> 0.8', require: false
   gem 'simplecov', '~> 0.16'
