@@ -52,7 +52,7 @@ group :development, :test do
   gem 'faker', '~> 2.2'
   gem 'poltergeist', '~> 1.6'
   gem 'vcr', '~> 6.0'
-  gem 'cucumber-api-steps', require: false, git: 'https://github.com/theodi/cucumber-api-steps.git', branch: 'feature-test-content-type'
+  gem 'cucumber-api-steps', require: false, git: 'https://github.com/Data-Liberation-Front/cucumber-api-steps.git', branch: 'feature-test-content-type'
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3', '~> 1.4'
 end
@@ -81,7 +81,7 @@ gem 'mongoid-grid_fs', '~> 2.4'
 gem 'bson_ext', '~> 1.5'
 gem 'kaminari', '~> 1.2'
 gem 'bootstrap-kaminari-views', '~> 0.0'
-gem 'data_kitten', git: 'https://github.com/theodi/data_kitten.git', ref: "e343510bd15e3329c1f2fab35035e248195348be", require: false
+gem 'data_kitten', git: 'https://github.com/Data-Liberation-Front/data_kitten.git', ref: "e343510bd15e3329c1f2fab35035e248195348be", require: false
 gem 'rubyzip', '~> 2.3'
 
 gem 'csvlint', '~> 0.4'
@@ -95,9 +95,9 @@ gem 'font-awesome-rails', '~> 4.7'
 gem 'sidekiq', '~> 4.2'
 gem 'data_uri', '~> 0.1'
 gem 'jquery-dotdotdot-rails', '~> 1.6'
-gem 'alternate_rails', git: 'https://github.com/theodi/alternate-rails.git', ref: 'v4.2.0'
+gem 'alternate_rails', git: 'https://github.com/Data-Liberation-Front/alternate-rails.git', ref: 'v4.2.0'
 gem 'rack-cors', '~> 1.0'
 
-gem 'resumable_upload', git: 'https://github.com/theodi/resumable-upload'
+gem 'resumable_upload', git: 'https://github.com/Data-Liberation-Front/resumable-upload'
 gem 'pusher', '~> 1.4'
 gem 'cloudflare', '~> 2.1'
