@@ -50,7 +50,7 @@ group :development, :test do
   gem 'timecop', '~> 0.9'
   gem 'factory_bot_rails', '~> 5.2'
   gem 'faker', '~> 2.2'
-  gem 'poltergeist', '~> 1.6'
+  gem 'poltergeist', '~> 1.18'
   gem 'vcr', '~> 6.0'
   gem 'cucumber-api-steps', require: false, git: 'https://github.com/Data-Liberation-Front/cucumber-api-steps.git', branch: 'feature-test-content-type'
   # Use sqlite3 as the database for Active Record
