@@ -13,7 +13,7 @@ CSVlint is an online validation tool for CSV files. It validates conformity of C
 
 CSVlint is a rails app designed to act as a continuous validation service, so that when data is changed online, the validation is updated. Data can be online or uploaded for private validation.
 
-The validation code is actually all done in a [Ruby gem](https://github.com/theodi/csvlint.rb) that can also be freely reused in other projects
+The validation code is actually all done in a [Ruby gem](https://github.com/Data-Liberation-Front/csvlint.rb) that can also be freely reused in other projects
 
 Follow the [public feature roadmap for CSVLint](https://trello.com/b/2xc7Q0kd/labs-public-toolbox-roadmap?menu=filter&filter=label:CSVlint)
 
