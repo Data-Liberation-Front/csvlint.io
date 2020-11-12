@@ -43,7 +43,7 @@ group :development, :test do
   gem 'coveralls', '~> 0.8', require: false
   gem 'simplecov', '~> 0.16'
   gem 'guard-rspec', '~> 4.7'
-  gem 'guard-cucumber', '~> 1.5'
+  gem 'guard-cucumber', '~> 3.0'
   gem 'guard-bundler', '~> 2.2'
   gem 'webmock', '~> 3.9', require: false
   gem 'pry', '~> 0.13'
