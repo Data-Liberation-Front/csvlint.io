@@ -31,7 +31,7 @@ gem 'sdoc', '~> 2.0', group: :doc
 gem 'foreman', '~> 0.87'
 
 group :production do
-  gem 'thin', '~> 1.7'
+  gem 'thin', '~> 1.8'
   gem 'rails_12factor', '~> 0.0'
   gem 'puma', '~> 5.0'
 end
