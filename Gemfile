@@ -45,7 +45,7 @@ group :development, :test do
   gem 'guard-rspec', '~> 4.7'
   gem 'guard-cucumber', '~> 3.0'
   gem 'guard-bundler', '~> 2.2'
-  gem 'webmock', '~> 3.9', require: false
+  gem 'webmock', '~> 3.10', require: false
   gem 'pry', '~> 0.13'
   gem 'timecop', '~> 0.9'
   gem 'factory_bot_rails', '~> 5.2'
