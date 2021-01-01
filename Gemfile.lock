@@ -817,6 +817,7 @@ DEPENDENCIES
   jquery-rails (~> 4.4)
   kaminari (~> 1.2)
   kaminari-mongoid (~> 1.0)
+  mongo (~> 2.1)
   mongoid (~> 5.1)
   mongoid-grid_fs (~> 2.4)
   nokogiri (~> 1.10)

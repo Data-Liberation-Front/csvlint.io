@@ -74,6 +74,7 @@ end
 
 gem 'bootstrap-sass', '~> 3.4'
 gem 'rack-google-analytics', '~> 1.2'
+gem 'mongo', '~> 2.1'
 gem 'mongoid', '~> 5.1'
 gem 'kaminari-mongoid', '~> 1.0'
 gem 'bson', '~> 3.2'
