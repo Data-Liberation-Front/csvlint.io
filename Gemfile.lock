@@ -99,7 +99,6 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
     bson (3.2.7)
-    bson_ext (1.5.1)
     builder (3.2.4)
     capybara (2.4.4)
       mime-types (>= 1.16)
@@ -792,8 +791,6 @@ DEPENDENCIES
   alternate_rails!
   bootstrap-kaminari-views (~> 0.0)
   bootstrap-sass (~> 3.4)
-  bson (~> 3.2)
-  bson_ext (~> 1.5)
   cloudflare (~> 2.1)
   coffee-rails (~> 4.2)
   coveralls (~> 0.8)
