@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210108235223) do
+ActiveRecord::Schema.define(version: 20210108235641) do
 
   create_table "packages", force: :cascade do |t|
     t.string   "url"
@@ -25,6 +25,20 @@ ActiveRecord::Schema.define(version: 20210108235223) do
     t.string   "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "summaries", force: :cascade do |t|
+    t.integer  "sources"
+    t.string   "states"
+    t.string   "hosts"
+    t.string   "errors_breakdown"
+    t.string   "warnings_breakdown"
+    t.string   "info_messages_breakdown"
+    t.string   "structure_breakdown"
+    t.string   "schema_breakdown"
+    t.string   "context_breakdown"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "validations", force: :cascade do |t|
