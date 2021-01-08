@@ -54,7 +54,7 @@ group :development, :test do
   gem 'vcr', '~> 6.0'
   gem 'cucumber-api-steps', require: false, git: 'https://github.com/Data-Liberation-Front/cucumber-api-steps.git', branch: 'feature-test-content-type'
   # Use sqlite3 as the database for Active Record
-  gem 'sqlite3', '~> 1.4'
+  gem 'sqlite3', '~> 1.3.13'
 end
 
 group :development do
