@@ -36,13 +36,11 @@ class RemoteDataset < DataKitten::Dataset
   end
 end
 
-class Package
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class Package < ActiveRecord::Base
 
-  field :url, type: String
-  field :dataset, type: String
-  field :type, type: String
+  validate :url, presence: true
+  validate :dataset, presence: true
+  validate :type, presence: true
 
   has_many :validations
 
@@ -53,7 +51,6 @@ class Package
       :validations => validations,
       :type => dataset.publishing_format
     }
-
     return attributes
   end
 
