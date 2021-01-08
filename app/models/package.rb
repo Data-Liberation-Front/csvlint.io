@@ -38,9 +38,9 @@ end
 
 class Package < ActiveRecord::Base
 
-  validate :url, presence: true
-  validate :dataset, presence: true
-  validate :type, presence: true
+  validates :url, presence: true
+  validates :dataset, presence: true
+  validates :type, presence: true
 
   has_many :validations
 
