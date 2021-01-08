@@ -1,19 +1,11 @@
-class Validation
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class Validation < ActiveRecord::Base
 
-  field :filename, type: String
-  field :url, type: String
-  field :state, type: String
-  field :result, type: String
-  field :csv_id, type: String
-  field :parse_options, type: Hash
-  field :expirable_created_at, type: Time
-
-  index :created_at => 1
-  index({expirable_created_at: 1}, {expire_after_seconds: 24.hours})
-  # automatically expire entries
-  # - this index is only enabled for a subset of validations, which are validations uploaded as file
+  validate :filename, presence: true
+  validate :url, presence: true
+  validate :state, presence: true
+  validate :result, presence: true
+  validate :csv_id, presence: true
+  validate :parse_options, presence: true
 
   belongs_to :schema
   accepts_nested_attributes_for :schema
