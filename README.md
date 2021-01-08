@@ -23,7 +23,7 @@ Follow the [public feature roadmap for CSVLint](https://trello.com/b/2xc7Q0kd/la
 
 Ruby version 2.3.1
 
-The application uses mongod and redis databases as background jobs for data persistence
+The application uses SQL and redis databases as background jobs for data persistence
 
 `.env` file (see below)
 
@@ -103,14 +103,8 @@ S3_BUCKET=<YOURNEWS3BUCKETNAME>
 
 ## System dependencies and Configuration
 
-Install mongo:
-    `brew install mongo redis` (if using brew)
-
-make a data directory for mongo databases
-  `sudo mkdir -p /data/db`
-
-change directory ownership so that mongodb can operate
-  `sudo chown -R $USERNAME /data/`
+Install redis:
+    `brew install redis` (if using brew)
 
 ### Development: Running the full application locally
 
@@ -119,8 +113,6 @@ Pre-requisites: AWS account, Pusher Account - these instructions assume you have
 Checkout the repository and run ```bundle``` in the checked out directory.
 
 #### Database initialization
-
-run mongo  : `mongod`
 
 run redis  : `redis-server`
 

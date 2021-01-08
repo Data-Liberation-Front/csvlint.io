@@ -12,7 +12,7 @@ class Validation
 
   index :created_at => 1
   index({expirable_created_at: 1}, {expire_after_seconds: 24.hours})
-  # invoke the mongo time-to-live feature which will automatically expire entries
+  # automatically expire entries
   # - this index is only enabled for a subset of validations, which are validations uploaded as file
 
   belongs_to :schema
@@ -92,7 +92,6 @@ class Validation
 
 
   def self.fetch_validation(id, format, revalidate = nil)
-    # returns a mongo database record
     v = self.find(id)
 
     unless revalidate.to_s == "false"
@@ -170,7 +169,6 @@ class Validation
   def validate(io, schema_url = nil, schema = nil, expiry)
     validation = Validation.validate(io, schema_url, schema, nil, expiry)
     self.update_attributes(validation)
-    # update_attributes is a method from Mongoid
   end
 
   def update_validation(dialect = nil, expiry=nil)
@@ -178,12 +176,11 @@ class Validation
     io = self.url.nil? ? StoredCSV.fetch(self.filename) : self.url
     validation = Validation.validate(io, schema.try(:url), loaded_schema, dialect, expiry)
     self.update_attributes(validation)
-    # update mongoDB record
     self
   end
 
   def csv
-    # method that retrieves stored entire CSV file from mongoDB
+    # method that retrieves stored entire CSV file
     if self.url
       csv = open(self.url).read
     else

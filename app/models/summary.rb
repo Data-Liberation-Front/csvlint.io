@@ -29,7 +29,7 @@ class Summary
     summary = Summary.create
 
     validations = Validation.where(:url.ne => nil).order_by(:created_at.desc)
-    # retrieve validations from Mongo Datastore, ordered in reverse by date created
+    # retrieve validations ordered in reverse by date created
 
     summary.sources = validations.length
     summary.states = {"warnings"=>0, "valid"=>0, "not_found"=>0, "invalid"=>0}

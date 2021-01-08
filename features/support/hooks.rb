@@ -1,5 +1,4 @@
 require 'csvlint'
-require 'mongoid'
 
 Before ('@data_expiry') do
   # Mongoid only supports a truncation strategy, which means that any indices created will persist - the following code

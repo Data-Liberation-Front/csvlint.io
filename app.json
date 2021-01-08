@@ -38,7 +38,6 @@
     }
   },
   "addons": [
-    "mongolab:sandbox",
     "heroku-postgresql",
     "redistogo:nano",
     "pusher:sandbox"
