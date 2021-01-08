@@ -1,11 +1,11 @@
 class Validation < ActiveRecord::Base
 
-  validate :filename, presence: true
-  validate :url, presence: true
-  validate :state, presence: true
-  validate :result, presence: true
-  validate :csv_id, presence: true
-  validate :parse_options, presence: true
+  validates :filename, presence: true
+  validates :url, presence: true
+  validates :state, presence: true
+  validates :result, presence: true
+  validates :csv_id, presence: true
+  validates :parse_options, presence: true
 
   belongs_to :schema
   accepts_nested_attributes_for :schema
