@@ -4,6 +4,8 @@ require "spec_helper"
 describe Validation, type: :model do
 
   describe '#expiry_fields' do
+    pending
+
     it "should assign a TTL field to any validation formed from an uploaded CSV file" do
       @file = mock_uploaded_file('csvs/valid.csv')
       validation = Validation.create_validation(@file)
@@ -25,12 +27,12 @@ describe Validation, type: :model do
       validation.collection.indexes.get(expirable_created_at: 1).select{|k,v| k=="expireAfterSeconds"}.has_value?(24.hours.to_i)
     end
 
-  end
+    it "should not assign a TTL field to any validation formed from a hyperlinked CSV file" do
+      mock_file("http://example.com/test.csv", 'csvs/valid.csv')
+      validation = Validation.create_validation("http://example.com/test.csv")
+      expect(validation.expirable_created_at).to eq(nil)
+    end
 
-  it "should not assign a TTL field to any validation formed from a hyperlinked CSV file" do
-    mock_file("http://example.com/test.csv", 'csvs/valid.csv')
-    validation = Validation.create_validation("http://example.com/test.csv")
-    expect(validation.expirable_created_at).to eq(nil)
   end
 
   it "should recheck validations after two hours" do
