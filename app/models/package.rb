@@ -47,7 +47,7 @@ class Package < ActiveRecord::Base
   def parse_package(dataset, validations)
     attributes = {
       :url => dataset.origin == :local ? nil : dataset.access_url,
-      :dataset => Marshal.dump(dataset),
+      :dataset => '',#Marshal.dump(dataset),
       :validations => validations,
       :type => dataset.publishing_format
     }

@@ -26,7 +26,7 @@ class PackageController < ApplicationController
       redirect_to validation_path(@package.validations.first)
     end
 
-    @dataset = Marshal.load(@package.dataset) rescue nil
+    @dataset = nil#Marshal.load(@package.dataset) rescue nil
     @validations = @package.validations
   end
 

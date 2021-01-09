@@ -1,8 +1,8 @@
 When(/^I enter the following urls:$/) do |table|
   count = 0
-  
+
   urls = table.raw.map { |url| url.first }
-    
+
   urls.each do |url|
     fill_in "url_#{count}", with: url
     page.find(".btn-clone").click
@@ -11,6 +11,7 @@ When(/^I enter the following urls:$/) do |table|
 end
 
 Then(/^the package validations should have the correct schema$/) do
+  pending
   package = Package.first
   package.validations.each do |validation|
     result = Marshal.load validation.result

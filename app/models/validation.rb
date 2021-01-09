@@ -62,7 +62,7 @@ class Validation < ActiveRecord::Base
       :url => url,
       :filename => filename,
       :state => state,
-      :result => Marshal.dump(validator).force_encoding("UTF-8"),
+      :result => '',#Marshal.dump(validator).force_encoding("UTF-8"),
       :parse_options => Validation.generate_options(validator.dialect)
     }
 
@@ -216,7 +216,7 @@ class Validation < ActiveRecord::Base
   end
 
   def validator
-    Marshal.load(self.result)
+    nil #Marshal.load(self.result)
   end
 
   # Empty method? Intended functionality?

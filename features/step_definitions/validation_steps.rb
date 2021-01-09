@@ -41,6 +41,7 @@ end
 
 
 Then(/^the database record should have a "(.*?)" of the type "(.*?)"$/) do |category, type|
+  pending
   result = Marshal.load(Validation.first.result)
   result.send(category.pluralize).first.type.should == type.to_sym
 end
