@@ -74,7 +74,7 @@ end
 
 gem 'bootstrap-sass', '~> 3.4'
 gem 'rack-google-analytics', '~> 1.2'
-gem 'mongo', '~> 2.1'
+gem 'mongo', '~> 2.1', git: 'https://github.com/Data-Liberation-Front/mongo-ruby-driver.git', ref: "212-with-authsource-fix"
 gem 'mongoid', '~> 5.1'
 gem 'kaminari-mongoid', '~> 1.0'
 gem 'mongoid-grid_fs', '~> 2.4'
