@@ -26,7 +26,7 @@ gem 'turbolinks', '~> 5.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.9'
 
-gem 'sdoc', '~> 2.0', group: :doc
+gem 'sdoc', '~> 2.1', group: :doc
 
 gem 'foreman', '~> 0.87'
 
