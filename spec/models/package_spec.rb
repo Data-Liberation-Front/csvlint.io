@@ -12,7 +12,7 @@ describe Package, type: :model do
 
   it "creates a single validation" do
     mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
-    package = Package.new
+    package = described_class.new
     package = package.create_package(['http://example.org/valid.csv'])
     expect(package.validations.length).to eq(1)
   end
@@ -33,13 +33,13 @@ describe Package, type: :model do
     end
 
     it "creates multiple validations" do
-      package = Package.new
+      package = described_class.new
       package = package.create_package(@urls)
       expect(package.validations.length).to eq(4)
     end
 
     it "sets the right type" do
-      package = Package.new
+      package = described_class.new
       package = package.create_package(@urls)
       expect(package.type).to eq("urls")
     end
@@ -49,7 +49,7 @@ describe Package, type: :model do
       mock_file(schema_url, 'schemas/valid.json', 'application/javascript')
 
       schema = Csvlint::Schema.load_from_uri(schema_url)
-      package = Package.new
+      package = described_class.new
       package = package.create_package(@urls, schema_url, schema)
 
       package.validations.each do |validation|
@@ -72,13 +72,13 @@ describe Package, type: :model do
     end
 
     it "creates multiple validations" do
-      package = Package.new
+      package = described_class.new
       package = package.create_package(@files)
       expect(package.validations.length).to eq(4)
     end
 
     it "sets the right type" do
-      package = Package.new
+      package = described_class.new
       package = package.create_package(@files)
       expect(package.type).to eq("files")
     end
@@ -88,7 +88,7 @@ describe Package, type: :model do
       mock_file(schema_url, 'schemas/valid.json', 'application/javascript')
 
       schema = Csvlint::Schema.load_from_uri(schema_url)
-      package = Package.new
+      package = described_class.new
       package = package.create_package(@files, schema_url, schema)
 
       package.validations.each do |validation|
@@ -107,7 +107,7 @@ describe Package, type: :model do
       mock_file(url, 'datapackages/single-datapackage.json', 'application/javascript')
       mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
 
-      package = Package.new
+      package = described_class.new
       package = package.create_package([url])
       dataset = DataKitten::Dataset.new(access_url: url)
       package_dataset = Marshal.load(package.dataset)
@@ -127,7 +127,7 @@ describe Package, type: :model do
       mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
       mock_file("http://example.org/valid2.csv", 'csvs/valid.csv')
 
-      package = Package.new
+      package = described_class.new
       package = package.create_package([url])
 
       expect(package.validations.length).to eq(2)
@@ -138,7 +138,7 @@ describe Package, type: :model do
       mock_file(url, 'datapackages/datapackage-with-schema.json', 'application/javascript')
       mock_file("http://example.org/all_constraints.csv", 'csvs/all_constraints.csv')
 
-      package = Package.new
+      package = described_class.new
       package = package.create_package([url])
       result = Marshal.load package.validations.first.result
 
@@ -160,7 +160,7 @@ describe Package, type: :model do
         mock_file(url, 'datapackages/non-csv-datapackage.json', 'application/javascript')
         mock_file("http://example.org/some-json.json", 'datapackages/non-csv-datapackage.json')
 
-        package = Package.new
+        package = described_class.new
         package = package.create_package([url])
 
         expect(package).to eq(nil)
@@ -172,7 +172,7 @@ describe Package, type: :model do
         mock_file("http://example.org/some-json.json", 'csvs/valid.csv')
         mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
 
-        package = Package.new
+        package = described_class.new
         package = package.create_package([url])
 
         expect(package.validations.length).to eq(1)
@@ -186,7 +186,7 @@ describe Package, type: :model do
       files = [ mock_uploaded_file('datapackages/single-datapackage.json') ]
       mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
 
-      package = Package.new
+      package = described_class.new
       package = package.create_package(files)
       expect(package.validations.length).to eq(1)
 
@@ -196,7 +196,7 @@ describe Package, type: :model do
       files = [ mock_uploaded_file('datapackages/local-and-remote-datapackage.json') ]
       mock_file("http://example.org/valid.csv", 'csvs/valid.csv')
 
-      package = Package.new
+      package = described_class.new
       package = package.create_package(files)
       expect(package.validations.length).to eq(1)
 
@@ -216,7 +216,7 @@ describe Package, type: :model do
     it "creates a validation for a CKAN package with a single CSV", :vcr do
       url = 'http://data.gov.uk/dataset/uk-open-access-non-vosa-sites'
 
-      package = Package.new
+      package = described_class.new
       package = package.create_package([url])
       dataset = DataKitten::Dataset.new(access_url: url)
       package_dataset = Marshal.load(package.dataset)
@@ -233,7 +233,7 @@ describe Package, type: :model do
     it "creates multiple validations for a datapackage with multiple CSVs", :vcr do
       url = 'http://data.gov.uk/dataset/uk-civil-service-high-earners'
 
-      package = Package.new
+      package = described_class.new
       package = package.create_package([url])
 
       expect(package.validations.length).to eq(4)
@@ -242,7 +242,7 @@ describe Package, type: :model do
     it "returns nil if there are no CSVs", :vcr do
       url = 'http://data.gov.uk/dataset/ratio-of-median-house-price-to-median-earnings'
 
-      package = Package.new
+      package = described_class.new
       package = package.create_package([url])
       expect(package).to eq(nil)
     end
