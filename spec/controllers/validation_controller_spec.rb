@@ -15,17 +15,17 @@ describe ValidationController, type: :controller do
 
     it "updates a CSV sucessfully" do
        mock_file("http://example.com/test.csv", 'csvs/valid.csv')
-       Validation.create_validation('http://example.com/test.csv')
-       put 'update', id: Validation.first.id
+       Legacy::Validation.create_validation('http://example.com/test.csv')
+       put 'update', id: Legacy::Validation.first.id
        expect(response).to be_redirect
     end
 
     it "updates a CSV with a new schema sucessfully" do
        mock_file("http://example.com/revalidate.csv", 'csvs/revalidate.csv')
-       Validation.create_validation('http://example.com/revalidate.csv')
+       Legacy::Validation.create_validation('http://example.com/revalidate.csv')
 
        params = {
-         :id => Validation.first.id,
+         :id => Legacy::Validation.first.id,
          :header => "true",
          :delimiter => ";",
          :skip_initial_space => "true",
@@ -35,7 +35,7 @@ describe ValidationController, type: :controller do
 
        put 'update', params
 
-       validator = Marshal.load Validation.first.result
+       validator = Marshal.load Legacy::Validation.first.result
        expect(validator.warnings.select { |warning| warning.type == :check_options }.count).to eq(0)
 
        expect(response).to be_redirect
@@ -43,9 +43,9 @@ describe ValidationController, type: :controller do
 
     it 'purges the cache when updating' do
       mock_file("http://example.com/test.csv", 'csvs/valid.csv')
-      Validation.create_validation('http://example.com/test.csv')
-      expect(@connection).to receive(:zone_file_purge).with('csvlint.io', validation_url(Validation.first))
-      put 'update', id: Validation.first.id
+      Legacy::Validation.create_validation('http://example.com/test.csv')
+      expect(@connection).to receive(:zone_file_purge).with('csvlint.io', validation_url(Legacy::Validation.first))
+      put 'update', id: Legacy::Validation.first.id
     end
 
   end
@@ -54,8 +54,8 @@ describe ValidationController, type: :controller do
 
     it "returns valid image for a good CSV" do
       mock_file("http://example.com/test.csv", 'csvs/valid.csv')
-      Validation.create_validation('http://example.com/test.csv')
-      validation = Validation.first
+      Legacy::Validation.create_validation('http://example.com/test.csv')
+      validation = Legacy::Validation.first
       get 'show', id: validation.id, format: :png
       expect(response).to be_success
       expect(response.body.length).to eq(1588)
@@ -63,8 +63,8 @@ describe ValidationController, type: :controller do
 
     it "returns invalid image for a CSV with errors" do
       mock_file("http://example.com/test.csv", 'csvs/errors.csv')
-      Validation.create_validation('http://example.com/test.csv')
-      validation = Validation.first
+      Legacy::Validation.create_validation('http://example.com/test.csv')
+      validation = Legacy::Validation.first
       get 'show', id: validation.id, format: :png
       expect(response).to be_success
       expect(response.body.length).to eq(1760)
@@ -72,8 +72,8 @@ describe ValidationController, type: :controller do
 
     it "returns warning image for a CSV with warnings" do
       mock_file("http://example.com/test.csv", 'csvs/warnings.csv')
-      Validation.create_validation('http://example.com/test.csv')
-      validation = Validation.first
+      Legacy::Validation.create_validation('http://example.com/test.csv')
+      validation = Legacy::Validation.first
       get 'show', id: validation.id, format: :png
       expect(response).to be_success
       expect(response.body.length).to eq(2099)
@@ -85,8 +85,8 @@ describe ValidationController, type: :controller do
 
     it "returns valid image for a good CSV" do
       mock_file("http://example.com/test.csv", 'csvs/valid.csv')
-      Validation.create_validation('http://example.com/test.csv')
-      validation = Validation.first
+      Legacy::Validation.create_validation('http://example.com/test.csv')
+      validation = Legacy::Validation.first
       get 'show', id: validation.id, format: :svg
       expect(response).to be_success
       expect(response.body).to include(">valid<")
@@ -94,8 +94,8 @@ describe ValidationController, type: :controller do
 
     it "returns invalid image for a CSV with errors" do
       mock_file("http://example.com/test.csv", 'csvs/errors.csv')
-      Validation.create_validation('http://example.com/test.csv')
-      validation = Validation.first
+      Legacy::Validation.create_validation('http://example.com/test.csv')
+      validation = Legacy::Validation.first
       get 'show', id: validation.id, format: :svg
       expect(response).to be_success
       expect(response.body).to include(">invalid<")
@@ -103,8 +103,8 @@ describe ValidationController, type: :controller do
 
     it "returns warning image for a CSV with warnings" do
       mock_file("http://example.com/test.csv", 'csvs/warnings.csv')
-      Validation.create_validation('http://example.com/test.csv')
-      validation = Validation.first
+      Legacy::Validation.create_validation('http://example.com/test.csv')
+      validation = Legacy::Validation.first
       get 'show', id: validation.id, format: :svg
       expect(response).to be_success
       expect(response.body).to include(">warnings<")
@@ -112,8 +112,8 @@ describe ValidationController, type: :controller do
 
     it "queues another check when the image is loaded" do
       mock_file("http://example.com/test.csv", 'csvs/valid.csv')
-      Validation.create_validation('http://example.com/test.csv')
-      validation = Validation.first
+      Legacy::Validation.create_validation('http://example.com/test.csv')
+      validation = Legacy::Validation.first
       expect {
         get 'show', id: validation.id, format: :svg
       }.to change(Sidekiq::Extensions::DelayedClass.jobs, :size).by(1)
@@ -121,9 +121,9 @@ describe ValidationController, type: :controller do
 
     it "doesn't queue another check when the image is loaded if revalidate is false" do
       mock_file("http://example.com/test.csv", 'csvs/valid.csv')
-      Validation.create_validation('http://example.com/test.csv')
-      validation = Validation.first
-      expect(Validation).to_not receive(:delay)
+      Legacy::Validation.create_validation('http://example.com/test.csv')
+      validation = Legacy::Validation.first
+      expect(Legacy::Validation).to_not receive(:delay)
       expect {
         get 'show', id: validation.id, format: :svg, revalidate: false
       }.to change(Sidekiq::Extensions::DelayedClass.jobs, :size).by(0)

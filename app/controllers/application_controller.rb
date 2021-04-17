@@ -8,10 +8,10 @@ class ApplicationController < ActionController::Base
 
   def index
     if params[:uri]
-      validator = Validation.where(:url => params[:uri]).first
+      validator = Legacy::Validation.where(:url => params[:uri]).first
       if validator.nil?
 
-        Validation.delay.create_validation(params[:uri])
+        Legacy::Validation.delay.create_validation(params[:uri])
         respond_to do |wants|
           wants.html { render status: 202 }
           wants.json { render status: 202 }

@@ -19,38 +19,38 @@ end
 
 
 Then(/^my file should be persisted in the database$/) do
-  Validation.count.should == 1
-  Validation.first.filename.should =~ /#{File.basename(@file)}/
+  Legacy::Validation.count.should == 1
+  Legacy::Validation.first.filename.should =~ /#{File.basename(@file)}/
 end
 
 Then(/^"(.*?)" should be persisted in the database$/) do |filename|
-  Validation.count.should == 1
-  Validation.first.filename.should =~ /#{filename}/
+  Legacy::Validation.count.should == 1
+  Legacy::Validation.first.filename.should =~ /#{filename}/
 end
 
 Then(/^my file should not be saved in the database$/) do
-  Validation.count.should == 0
+  Legacy::Validation.count.should == 0
 end
 
 Then(/^my url should be persisted in the database$/) do
-  Validation.count.should == 1
-  Validation.first.url.should == @url
+  Legacy::Validation.count.should == 1
+  Legacy::Validation.first.url.should == @url
   filename = File.basename(URI.parse(@url).path)
-  Validation.first.filename.should == filename
+  Legacy::Validation.first.filename.should == filename
 end
 
 
 Then(/^the database record should have a "(.*?)" of the type "(.*?)"$/) do |category, type|
-  result = Marshal.load(Validation.first.result)
+  result = Marshal.load(Legacy::Validation.first.result)
   result.send(category.pluralize).first.type.should == type.to_sym
 end
 
 Then(/^the validation should be updated$/) do
-  Validation.any_instance.should_receive(:update_attributes).once
+  Legacy::Validation.any_instance.should_receive(:update_attributes).once
 end
 
 Then(/^the validation should not be updated$/) do
-  Validation.any_instance.should_not_receive(:update_attributes)
+  Legacy::Validation.any_instance.should_not_receive(:update_attributes)
 end
 
 Then(/^I should be given the option to revalidate using a different dialect$/) do

@@ -1,17 +1,17 @@
 require "spec_helper"
 
-describe Summary, type: :model do
+describe Legacy::Summary, type: :model do
 
   context "when generating summary" do
     before(:each) do
       mock_file("http://example.com/test.csv", 'csvs/valid.csv')
-      validation = Validation.create_validation("http://example.com/test.csv")
+      validation = Legacy::Validation.create_validation("http://example.com/test.csv")
 
       mock_file("http://example.com/test2.csv", 'csvs/errors.csv')
-      validation = Validation.create_validation("http://example.com/test2.csv")
+      validation = Legacy::Validation.create_validation("http://example.com/test2.csv")
 
       mock_file("http://www.example.com/test3.csv", 'csvs/warnings.csv')
-      validation = Validation.create_validation("http://www.example.com/test3.csv")
+      validation = Legacy::Validation.create_validation("http://www.example.com/test3.csv")
 
       @summary = described_class.generate
     end
@@ -48,7 +48,7 @@ describe Summary, type: :model do
 
     it "should count occurences across population of sources" do
       mock_file("http://example.com/test4.csv", 'csvs/multiple_errors.csv')
-      validation = Validation.create_validation("http://example.com/test4.csv")
+      validation = Legacy::Validation.create_validation("http://example.com/test4.csv")
       @summary = described_class.generate
       expect(@summary.sources).to eq(4)
       expect(@summary.states["invalid"]).to eq(2)
@@ -58,7 +58,7 @@ describe Summary, type: :model do
 
     it "should record categories of problem" do
       mock_file("http://example.com/test4.csv", 'csvs/multiple_errors.csv')
-      validation = Validation.create_validation("http://example.com/test4.csv")
+      validation = Legacy::Validation.create_validation("http://example.com/test4.csv")
       @summary = described_class.generate
       expect(@summary.sources).to eq(4)
       expect(@summary.level_summary.errors_breakdown[:ragged_rows]).to eq(2)

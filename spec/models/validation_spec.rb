@@ -1,7 +1,7 @@
 require "spec_helper"
 # require "byebug"
 
-describe Validation, type: :model do
+describe Legacy::Validation, type: :model do
 
   describe '#expiry_fields' do
     it "should assign a TTL field to any validation formed from an uploaded CSV file" do

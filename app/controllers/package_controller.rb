@@ -6,11 +6,11 @@ class PackageController < ApplicationController
   before_filter(:only => [:show]) { alternate_formats [:json] }
 
   def create
-    @package = Package.create
+    @package = Legacy::Package.create
     if params[:format] == "json"
-      Package.delay.process(@package.id, params)
+      Legacy::Package.delay.process(@package.id, params)
     else
-      Package.process(@package.id, params)
+      Legacy::Package.process(@package.id, params)
       if @package.validations.count == 1
         redirect_to validation_path(@package.validations.first)
       else
@@ -20,7 +20,7 @@ class PackageController < ApplicationController
   end
 
   def show
-    @package = Package.find( params[:id] )
+    @package = Legacy::Package.find( params[:id] )
 
     if @package.validations.count == 1 && params[:format] != "json"
       redirect_to validation_path(@package.validations.first)
