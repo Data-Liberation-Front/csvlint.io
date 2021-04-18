@@ -49,7 +49,7 @@ RSpec.configure do |config|
   #config.treat_symbols_as_metadata_keys_with_true_values = true
 
   config.before(:all) do
-    Validation.create_indexes
+    Legacy::Validation.create_indexes
     Fog.mock!
   end
 
@@ -85,7 +85,7 @@ RSpec.configure do |config|
   end
 
   config.after(:all) do
-    Validation.remove_indexes
+    Legacy::Validation.remove_indexes
   end
 
 

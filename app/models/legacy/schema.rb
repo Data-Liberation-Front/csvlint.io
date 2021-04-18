@@ -5,7 +5,7 @@ class Legacy::Schema
 
   field :url, type: String
 
-  has_many :validations
+  has_many :validations, class_name: 'Legacy::Validation'
 
   def to_param
     id.to_s

@@ -4,7 +4,7 @@ require "package_processor"
 describe PackageProcessor do
 
   before(:each) do
-    @package = Package.create
+    @package = Legacy::Package.create
     mock_client = double(Pusher::Channel)
     allow(Pusher).to receive(:[]) { mock_client }
     allow(mock_client).to receive(:trigger)

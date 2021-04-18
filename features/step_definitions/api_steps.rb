@@ -17,7 +17,7 @@ end
 
 Given(/^I have a package with the following URLs:$/) do |table|
   urls = table.raw.map! { |url| url[0] }
-  @package = Package.create
+  @package = Legacy::Package.create
   @package.create_package(urls)
   @package.save
 end
