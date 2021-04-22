@@ -9,7 +9,7 @@ describe ApplicationController, type: :controller do
     end
 
     it "returns 303 redirect if validation is in DB" do
-      validation = FactoryBot.create :validation, url: "http://data.com/data.csv"
+      validation = FactoryBot.create :legacy_validation, url: "http://data.com/data.csv"
       get 'index', uri: "http://data.com/data.csv"
       expect(response).to be_redirect
       expect(response.code).to eq("303")
