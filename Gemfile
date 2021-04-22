@@ -29,7 +29,7 @@ gem 'jbuilder', '~> 2.9'
 gem 'sdoc', '~> 2.1', group: :doc
 
 gem 'foreman', '~> 0.87'
-gem 'pg', '~> 1.2'
+gem 'pg', '~> 0.18'
 
 group :production do
   gem 'thin', '~> 1.8'
