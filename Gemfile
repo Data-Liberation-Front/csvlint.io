@@ -34,6 +34,7 @@ group :production do
   gem 'thin', '~> 1.8'
   gem 'rails_12factor', '~> 0.0'
   gem 'puma', '~> 5.2'
+  gem 'pg', '~> 1.2'
 end
 
 group :development, :test do
@@ -53,8 +54,7 @@ group :development, :test do
   gem 'poltergeist', '~> 1.6'
   gem 'vcr', '~> 6.0'
   gem 'cucumber-api-steps', require: false, git: 'https://github.com/Data-Liberation-Front/cucumber-api-steps.git', branch: 'feature-test-content-type'
-  # Use sqlite3 as the database for Active Record
-  gem 'sqlite3', '~> 1.4'
+  gem 'sqlite3', '~> 1.3.0'
 end
 
 group :development do
