@@ -30,9 +30,9 @@ module Csvlint
       config.middleware.use("Rack::GoogleAnalytics", :tracker => ENV['CSVLINT_ANALYTICS_KEY'])
     end
 
-    # config.generators do |g|
-    #   g.orm :active_record
-    # end
+    config.generators do |g|
+      g.orm :active_record
+    end
 
     config.middleware.use Rack::Cors do
       allow do
