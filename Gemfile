@@ -77,7 +77,6 @@ gem 'rack-google-analytics', '~> 1.2'
 gem 'mongo', '~> 2.1', git: 'https://github.com/Data-Liberation-Front/mongo-ruby-driver.git', ref: "212-with-authsource-fix"
 gem 'mongoid', '~> 5.1'
 gem 'kaminari-mongoid', '~> 1.0'
-gem 'mongoid-grid_fs', '~> 2.4'
 gem 'kaminari', '~> 1.2'
 gem 'bootstrap-kaminari-views', '~> 0.0'
 gem 'data_kitten', git: 'https://github.com/Data-Liberation-Front/data_kitten.git', ref: "e343510bd15e3329c1f2fab35035e248195348be", require: false
