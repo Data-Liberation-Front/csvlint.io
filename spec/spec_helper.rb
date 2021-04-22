@@ -21,7 +21,7 @@ ENV['AWS_ACCESS_KEY'] = 'fakeaccesskey'
 ENV['AWS_SECRET_ACCESS_KEY'] = 'fakesecret'
 ENV['AWS_BUCKET_NAME'] = 'buckethead'
 
-DatabaseCleaner.strategy = :truncation
+DatabaseCleaner[:mongoid].strategy = :truncation
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -81,7 +81,7 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.after(:each) do
-    DatabaseCleaner.clean
+    DatabaseCleaner[:mongoid].clean
   end
 
   config.after(:all) do
