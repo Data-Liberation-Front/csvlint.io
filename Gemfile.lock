@@ -522,7 +522,7 @@ GEM
     open_uri_redirections (0.2.1)
     optimist (3.0.1)
     origin (2.3.1)
-    pg (1.2.3)
+    pg (0.21.0)
     poltergeist (1.6.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -822,7 +822,7 @@ DEPENDENCIES
   mongo (~> 2.1)!
   mongoid (~> 5.1)
   nokogiri (~> 1.10)
-  pg (~> 1.2)
+  pg (~> 0.18)
   poltergeist (~> 1.6)
   pry (~> 0.14)
   puma (~> 5.2)
