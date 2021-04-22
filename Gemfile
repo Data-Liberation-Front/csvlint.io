@@ -29,12 +29,12 @@ gem 'jbuilder', '~> 2.9'
 gem 'sdoc', '~> 2.1', group: :doc
 
 gem 'foreman', '~> 0.87'
+gem 'pg', '~> 1.2'
 
 group :production do
   gem 'thin', '~> 1.8'
   gem 'rails_12factor', '~> 0.0'
   gem 'puma', '~> 5.2'
-  gem 'pg', '~> 1.2'
 end
 
 group :development, :test do
