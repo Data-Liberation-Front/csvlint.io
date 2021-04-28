@@ -1,7 +1,7 @@
 require 'package_processor'
 
 Then(/^my CSV should be placed in a background job$/) do
-  Package.should_receive(:delay).and_call_original
+  Legacy::Package.should_receive(:delay).and_call_original
 end
 
 When(/^I wait for the ajax request to finish$/) do
@@ -18,7 +18,7 @@ end
 
 When(/^I wait for the package to be created$/) do
   patiently do
-    Package.first.should_not be_nil
+    Legacy::Package.first.should_not be_nil
   end
 end
 
@@ -30,6 +30,6 @@ end
 
 Then(/^I should be redirected to my validation results$/) do
   patiently do
-    current_path.should == validation_path(Validation.first)
+    current_path.should == validation_path(Legacy::Validation.first)
   end
 end

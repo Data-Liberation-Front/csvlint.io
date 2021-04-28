@@ -11,7 +11,7 @@ describe SchemaProcessor do
     schema_url = "http://example.org/schema.json"
     mock_file(schema_url, @schema, 'application/javascript')
 
-    schema = SchemaProcessor.new(url: schema_url).schema
+    schema = described_class.new(url: schema_url).schema
 
     expect(schema.fields.count).to eq(3)
     expect(schema.fields[0].name).to eq("FirstName")
@@ -21,7 +21,7 @@ describe SchemaProcessor do
 
   it "reads a schema from a data URI" do
     schema_data = create_data_uri(@schema, 'application/json')
-    schema = SchemaProcessor.new(data: schema_data).schema
+    schema = described_class.new(data: schema_data).schema
 
     expect(schema.fields.count).to eq(3)
     expect(schema.fields[0].name).to eq("FirstName")
@@ -31,7 +31,7 @@ describe SchemaProcessor do
 
   it "reads a schema from a file" do
     file = mock_uploaded_file(@schema, 'application/json')
-    schema = SchemaProcessor.new(file: file).schema
+    schema = described_class.new(file: file).schema
 
     expect(schema.fields.count).to eq(3)
     expect(schema.fields[0].name).to eq("FirstName")
@@ -42,7 +42,7 @@ describe SchemaProcessor do
   context "with datapackage" do
     before(:each) do
       @file = mock_uploaded_file('datapackages/datapackage-with-schema.json', 'application/json')
-      @schema = SchemaProcessor.new(file: @file)
+      @schema = described_class.new(file: @file)
     end
 
     it "detects a datapackage" do

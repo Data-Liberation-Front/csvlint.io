@@ -35,7 +35,7 @@ class PackageProcessor
   end
 
   def package
-    Package.find(@package_id)
+    Legacy::Package.find(@package_id)
   end
 
   def create_package

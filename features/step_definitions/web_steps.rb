@@ -62,5 +62,5 @@ Given(/^Javascript is enabled$/) do
 end
 
 When(/^I access my page of validation results$/) do
-  visit('/package/'+ Package.first.id)
+  visit('/package/'+ Legacy::Package.first.id)
 end

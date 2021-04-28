@@ -29,6 +29,7 @@ gem 'jbuilder', '~> 2.9'
 gem 'sdoc', '~> 2.1', group: :doc
 
 gem 'foreman', '~> 0.87'
+gem 'pg', '~> 0.18'
 
 group :production do
   gem 'thin', '~> 1.8'
@@ -53,8 +54,7 @@ group :development, :test do
   gem 'poltergeist', '~> 1.6'
   gem 'vcr', '~> 6.0'
   gem 'cucumber-api-steps', require: false, git: 'https://github.com/Data-Liberation-Front/cucumber-api-steps.git', branch: 'feature-test-content-type'
-  # Use sqlite3 as the database for Active Record
-  gem 'sqlite3', '~> 1.4'
+  gem 'sqlite3', '~> 1.3.0'
 end
 
 group :development do
@@ -77,7 +77,6 @@ gem 'rack-google-analytics', '~> 1.2'
 gem 'mongo', '~> 2.1', git: 'https://github.com/Data-Liberation-Front/mongo-ruby-driver.git', ref: "212-with-authsource-fix"
 gem 'mongoid', '~> 5.1'
 gem 'kaminari-mongoid', '~> 1.0'
-gem 'mongoid-grid_fs', '~> 2.4'
 gem 'kaminari', '~> 1.2'
 gem 'bootstrap-kaminari-views', '~> 0.0'
 gem 'data_kitten', git: 'https://github.com/Data-Liberation-Front/data_kitten.git', ref: "e343510bd15e3329c1f2fab35035e248195348be", require: false

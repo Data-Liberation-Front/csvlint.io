@@ -38,7 +38,7 @@ describe PackageController, type: :controller do
       mock_file("http://example.com/test.csv", 'csvs/valid.csv')
       post 'create', urls: ['http://example.com/test.csv']
       expect(response).to be_redirect
-      validation = Validation.first
+      validation = Legacy::Validation.first
       expect(response.location).to eq(validation_url(validation))
     end
 
@@ -52,7 +52,7 @@ describe PackageController, type: :controller do
                               'http://example.com/test3.csv'
                             ]
        expect(response).to be_redirect
-       package = Package.first
+       package = Legacy::Package.first
        expect(package.validations.count).to eq(3)
        expect(response.location).to eq(package_url(package))
     end
@@ -64,7 +64,7 @@ describe PackageController, type: :controller do
                         mock_upload('valid.csv')
                       ]
       expect(response).to be_redirect
-      package = Package.first
+      package = Legacy::Package.first
       expect(package.validations.count).to eq(3)
       expect(response.location).to eq(package_url(package))
     end
@@ -77,7 +77,7 @@ describe PackageController, type: :controller do
                               'http://example.com/multiple_files.zip',
                             ]
        expect(response).to be_redirect
-       package = Package.first
+       package = Legacy::Package.first
        expect(package.validations.count).to eq(4)
        expect(response.location).to eq(package_url(package))
     end
@@ -88,7 +88,7 @@ describe PackageController, type: :controller do
                         mock_upload('multiple_files.zip'),
                       ]
       expect(response).to be_redirect
-      package = Package.first
+      package = Legacy::Package.first
       expect(package.validations.count).to eq(4)
       expect(response.location).to eq(package_url(package))
     end
@@ -99,7 +99,7 @@ describe PackageController, type: :controller do
                           ]
 
       expect(response).to be_redirect
-      package = Package.first
+      package = Legacy::Package.first
       expect(package.validations.count).to eq(1)
       expect(response.location).to eq(validation_url(package.validations.first))
     end
@@ -113,7 +113,7 @@ describe PackageController, type: :controller do
                           ]
 
       expect(response).to be_redirect
-      package = Package.first
+      package = Legacy::Package.first
       expect(package.validations.count).to eq(4)
       expect(response.location).to eq(package_url(package))
     end
@@ -123,7 +123,7 @@ describe PackageController, type: :controller do
                         create_data_uri('csvs/valid.zip', 'application/zip'),
                       ]
       expect(response).to be_redirect
-      package = Package.first
+      package = Legacy::Package.first
       expect(package.validations.count).to eq(1)
       expect(response.location).to eq(validation_url(package.validations.first))
     end
@@ -134,7 +134,7 @@ describe PackageController, type: :controller do
                         create_data_uri('csvs/multiple_files.zip', 'application/zip'),
                       ]
       expect(response).to be_redirect
-      package = Package.first
+      package = Legacy::Package.first
       expect(package.validations.count).to eq(4)
       expect(response.location).to eq(package_url(package))
     end
@@ -148,7 +148,7 @@ describe PackageController, type: :controller do
                      schema_data: create_data_uri('schemas/all_constraints.json', 'application/json')
       # above accurately emulates how the file upload works by a user
       expect(response).to be_redirect
-      package = Package.first
+      package = Legacy::Package.first
       validation = package.validations.first
       validator = validation.validator
       expect(response.location).to eq(validation_url(validation))
@@ -175,7 +175,7 @@ describe PackageController, type: :controller do
       mock_file("http://example.com/test.csv", 'csvs/valid.csv')
       post 'create', urls: ['http://example.com/test.csv']
       expect(response).to be_redirect
-      validation = Marshal.load(Validation.first.result)
+      validation = Marshal.load(Legacy::Validation.first.result)
       expect(validation.warnings).to be_empty
       expect(validation.errors).to be_empty
     end
@@ -184,7 +184,7 @@ describe PackageController, type: :controller do
       mock_file("http://example.com/test.csv", 'csvs/warnings.csv')
       post 'create', urls: ['http://example.com/test.csv']
       expect(response).to be_redirect
-      validation = Marshal.load(Validation.first.result)
+      validation = Marshal.load(Legacy::Validation.first.result)
       expect(validation.warnings).not_to be_empty
       expect(validation.errors).to be_empty
     end
@@ -193,7 +193,7 @@ describe PackageController, type: :controller do
       mock_file("http://example.com/test.csv", 'csvs/errors.csv')
       post 'create', urls: ['http://example.com/test.csv']
       expect(response).to be_redirect
-      validation = Marshal.load(Validation.first.result)
+      validation = Marshal.load(Legacy::Validation.first.result)
       expect(validation.errors).not_to be_empty
     end
 

@@ -1,11 +1,11 @@
 Given(/^I have already validated the URL "(.*?)"$/) do |url|
   @url = url
-  @validation = Validation.create_validation(@url)
+  @validation = Legacy::Validation.create_validation(@url)
 end
 
 Given(/^I have not already validated the URL "(.*?)"$/) do |url|
   @url = url
-  validation = Validation.where(:url => @url).first
+  validation = Legacy::Validation.where(:url => @url).first
   expect(validation).to eq(nil)
 end
 

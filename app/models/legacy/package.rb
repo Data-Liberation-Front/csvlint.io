@@ -36,15 +36,16 @@ class RemoteDataset < DataKitten::Dataset
   end
 end
 
-class Package
+class Legacy::Package
   include Mongoid::Document
+  store_in collection: "packages"
   include Mongoid::Timestamps
 
   field :url, type: String
   field :dataset, type: String
   field :type, type: String
 
-  has_many :validations
+  has_many :validations, class_name: 'Legacy::Validation'
 
   def parse_package(dataset, validations)
     attributes = {
@@ -72,7 +73,7 @@ class Package
     update_attributes({ type: set_type(sources) })
 
     sources.each do |source|
-      validations << Validation.create_validation(source, schema_url, schema)
+      validations << Legacy::Validation.create_validation(source, schema_url, schema)
     end
 
     save
@@ -103,7 +104,7 @@ class Package
     validations = []
     dataset.distributions.each do |distribution|
       if can_validate?(distribution)
-        validations << Validation.create_validation(distribution.access_url, nil, create_schema(distribution) )
+        validations << Legacy::Validation.create_validation(distribution.access_url, nil, create_schema(distribution) )
       end
     end
    validations

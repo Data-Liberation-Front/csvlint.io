@@ -6,13 +6,13 @@ class ValidationController < ApplicationController
   before_filter(:only => [:show]) { alternate_formats [:json] }
 
   def show
-    @validation = Validation.fetch_validation(params[:id], params[:format], params[:revalidate])
+    @validation = Legacy::Validation.fetch_validation(params[:id], params[:format], params[:revalidate])
 
     raise ActionController::RoutingError.new('Not Found') if @validation.state.nil?
     # @result stores all the validation errors, warnings and information messages
     @result = @validation.validator
     # byebug
-    @dialect = @result.dialect || Validation.standard_dialect
+    @dialect = @result.dialect || Legacy::Validation.standard_dialect
     # Responses
     respond_to do |wants|
       wants.html
@@ -27,7 +27,7 @@ class ValidationController < ApplicationController
     # this method is triggered when user revalidates a schema
     dialect = build_dialect(params)
     # build a fresh dialect for comparing a file against
-    v = Validation.find(params[:id])
+    v = Legacy::Validation.find(params[:id])
     if v.has_attribute?(:expirable_created_at)
       # has expirable_created_at value
       v.update_validation(dialect, expiry=true)

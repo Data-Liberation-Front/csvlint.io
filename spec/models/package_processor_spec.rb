@@ -4,7 +4,7 @@ require "package_processor"
 describe PackageProcessor do
 
   before(:each) do
-    @package = Package.create
+    @package = Legacy::Package.create
     mock_client = double(Pusher::Channel)
     allow(Pusher).to receive(:[]) { mock_client }
     allow(mock_client).to receive(:trigger)
@@ -12,7 +12,7 @@ describe PackageProcessor do
 
   it "creates a package from a url" do
     mock_file("http://example.com/test.csv", 'csvs/valid.csv')
-    processor = PackageProcessor.new({
+    processor = described_class.new({
       urls: ['http://example.com/test.csv']
     }, @package.id)
     processor.process
@@ -21,7 +21,7 @@ describe PackageProcessor do
   end
 
   it "creates a package from a data url" do
-    processor = PackageProcessor.new({
+    processor = described_class.new({
       files_data: create_data_uri('csvs/valid.csv')
     }, @package.id)
     processor.process
@@ -30,7 +30,7 @@ describe PackageProcessor do
   end
 
   it "creates a package from an uploaded file" do
-    processor = PackageProcessor.new({
+    processor = described_class.new({
       file_ids: [
         mock_upload('valid.csv')
       ]
@@ -41,7 +41,7 @@ describe PackageProcessor do
   end
 
   it "creates a package from a vanilla file upload" do
-    processor = PackageProcessor.new({
+    processor = described_class.new({
       files: [
         mock_uploaded_file('csvs/valid.csv')
       ]
@@ -53,7 +53,7 @@ describe PackageProcessor do
 
   it "creates a package from a zipped url" do
     mock_file("http://example.com/valid.zip", 'csvs/valid.zip')
-    processor = PackageProcessor.new({
+    processor = described_class.new({
       urls: ['http://example.com/valid.zip']
     }, @package.id)
     processor.process
@@ -66,7 +66,7 @@ describe PackageProcessor do
       StoredChunk.save('chunked_file', i.to_s, i)
     end
 
-    processor = PackageProcessor.new({
+    processor = described_class.new({
       file_ids: [
         'chunked_file,10'
       ]

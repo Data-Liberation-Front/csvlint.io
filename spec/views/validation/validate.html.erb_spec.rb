@@ -22,7 +22,7 @@ describe "validation/_message.html.erb", type: :view do
       allow(validator).to receive(:line_breaks) { "\n" }
       allow(validator).to receive(:schema) { nil }
 
-      @validation = Validation.create(result: validator)
+      @validation = Legacy::Validation.create(result: validator)
 
       render :partial => "validation/message", :locals => { :message => message, :validator => validator }
 

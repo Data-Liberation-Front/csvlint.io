@@ -1,5 +1,6 @@
-class Validation
+class Legacy::Validation
   include Mongoid::Document
+  store_in collection: "validations"
   include Mongoid::Timestamps
 
   field :filename, type: String
@@ -15,10 +16,10 @@ class Validation
   # invoke the mongo time-to-live feature which will automatically expire entries
   # - this index is only enabled for a subset of validations, which are validations uploaded as file
 
-  belongs_to :schema
-  accepts_nested_attributes_for :schema
+  belongs_to :schema, class_name: 'Legacy::Schema'
+  accepts_nested_attributes_for :schema, class_name: 'Legacy::Schema'
 
-  belongs_to :package
+  belongs_to :package, class_name: 'Legacy::Package'
 
   def self.validate(io, schema_url = nil, schema = nil, dialect = nil, expiry)
     if io.respond_to?(:tempfile)
@@ -71,7 +72,7 @@ class Validation
       :filename => filename,
       :state => state,
       :result => Marshal.dump(validator).force_encoding("UTF-8"),
-      :parse_options => Validation.generate_options(validator.dialect)
+      :parse_options => Legacy::Validation.generate_options(validator.dialect)
     }
 
     attributes[:expirable_created_at] = Time.now if expiry.eql?(true)
@@ -82,7 +83,7 @@ class Validation
 
     if schema_url.present?
       # Find matching schema if possible and retrieve
-      schema = Schema.where(url: schema_url).first
+      schema = Legacy::Schema.where(url: schema_url).first
       attributes[:schema] = schema || { :url => schema_url }
     end
     # byebug
@@ -98,7 +99,7 @@ class Validation
     unless revalidate.to_s == "false"
       if ["png", "svg"].include?(format)
         # suspect the above functions tied to the use of badges as hyperlinks to valid schemas & csvs
-        Validation.delay.check_validation(v.id)
+        Legacy::Validation.delay.check_validation(v.id)
       else
         v.check_validation
       end
@@ -156,10 +157,10 @@ class Validation
     # this method invokes the validate method below rather than self.validate
     # returns validation object
     if io.class == String
-      validation = Validation.find_or_initialize_by(url: io)
+      validation = Legacy::Validation.find_or_initialize_by(url: io)
       expiry = false
     else
-      validation = Validation.create
+      validation = Legacy::Validation.create
       expiry = true
     end
     validation.validate(io, schema_url, schema, expiry)
@@ -168,7 +169,7 @@ class Validation
   end
 
   def validate(io, schema_url = nil, schema = nil, expiry)
-    validation = Validation.validate(io, schema_url, schema, nil, expiry)
+    validation = Legacy::Validation.validate(io, schema_url, schema, nil, expiry)
     self.update_attributes(validation)
     # update_attributes is a method from Mongoid
   end
@@ -176,7 +177,7 @@ class Validation
   def update_validation(dialect = nil, expiry=nil)
     loaded_schema = schema ? Csvlint::Schema.load_from_uri(schema.url) : nil
     io = self.url.nil? ? StoredCSV.fetch(self.filename) : self.url
-    validation = Validation.validate(io, schema.try(:url), loaded_schema, dialect, expiry)
+    validation = Legacy::Validation.validate(io, schema.try(:url), loaded_schema, dialect, expiry)
     self.update_attributes(validation)
     # update mongoDB record
     self
@@ -202,14 +203,14 @@ class Validation
 
   def parse_options
     if self.read_attribute(:parse_options).nil?
-      self.parse_options = Validation.generate_options(self.validator.dialect)
+      self.parse_options = Legacy::Validation.generate_options(self.validator.dialect)
       save
     end
     self.read_attribute(:parse_options)
   end
 
   def self.check_validation(id)
-    Validation.find(id).check_validation
+    Legacy::Validation.find(id).check_validation
   end
 
   def check_validation
@@ -236,7 +237,7 @@ class Validation
   end
 
   def self.clean_up(hours)
-    delete_validations Validation.where(:created_at.lte => hours.hours.ago, :url => nil)
+    delete_validations Legacy::Validation.where(:created_at.lte => hours.hours.ago, :url => nil)
   rescue => e
     Airbrake.notify(e) if ENV['CSVLINT_AIRBRAKE_KEY'] # Exit cleanly, but still notify airbrake
   end

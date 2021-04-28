@@ -14,8 +14,9 @@ class CategorySummary
   field :context_breakdown, type: Hash
 end
 
-class Summary
+class Legacy::Summary
   include Mongoid::Document
+  store_in collection: "summaries"
   include Mongoid::Timestamps
 
   field :sources, type: Integer
@@ -26,9 +27,9 @@ class Summary
   embeds_one :category_summary
 
   def self.generate
-    summary = Summary.create
+    summary = Legacy::Summary.create
 
-    validations = Validation.where(:url.ne => nil).order_by(:created_at.desc)
+    validations = Legacy::Validation.where(:url.ne => nil).order_by(:created_at.desc)
     # retrieve validations from Mongo Datastore, ordered in reverse by date created
 
     summary.sources = validations.length

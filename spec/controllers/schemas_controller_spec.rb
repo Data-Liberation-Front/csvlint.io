@@ -12,7 +12,7 @@ describe SchemasController, type: :controller do
   describe "GET 'index' with uri arg" do
 
     it "returns 303 redirect if schema is in DB" do
-      schema = FactoryBot.create :schema, url: "http://data.com/schema.json"
+      schema = FactoryBot.create :legacy_schema, url: "http://data.com/schema.json"
       get 'index', uri: "http://data.com/schema.json"
       expect(response).to be_redirect
       expect(response.code).to eq("303")
