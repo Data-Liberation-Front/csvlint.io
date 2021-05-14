@@ -33,7 +33,7 @@ gem 'foreman', '~> 0.87'
 group :production do
   gem 'thin', '~> 1.8'
   gem 'rails_12factor', '~> 0.0'
-  gem 'puma', '~> 5.2'
+  gem 'puma', '~> 5.3'
 end
 
 group :development, :test do
