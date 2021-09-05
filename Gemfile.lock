@@ -686,7 +686,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sdoc (2.1.0)
+    sdoc (2.2.0)
       rdoc (>= 5.0)
     shellany (0.0.1)
     shex (0.5.2)
@@ -835,7 +835,7 @@ DEPENDENCIES
   rspec-rails (< 4)
   rubyzip (~> 2.3)
   sass-rails (~> 6.0)
-  sdoc (~> 2.1)
+  sdoc (~> 2.2)
   sidekiq (~> 4.2)
   simplecov (~> 0.16)
   spring (~> 2.1)
