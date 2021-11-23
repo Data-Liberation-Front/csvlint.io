@@ -60,7 +60,7 @@ end
 group :development do
   gem 'travis', '~> 1.8'
   gem 'web-console', '~> 3.3'
-  gem 'spring', '~> 2.1'
+  gem 'spring', '~> 3.1'
 end
 
 # Use ActiveModel has_secure_password
