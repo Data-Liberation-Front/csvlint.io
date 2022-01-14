@@ -88,7 +88,7 @@ gem 'rest-client', '~> 2.0'
 
 gem 'nokogiri', '~> 1.13'
 
-gem 'airbrake', '~> 11.0'
+gem 'airbrake', '~> 12.0'
 gem 'font-awesome-rails', '~> 4.7'
 gem 'sidekiq', '~> 4.2'
 gem 'data_uri', '~> 0.1'
