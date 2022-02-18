@@ -533,7 +533,7 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     public_suffix (4.0.6)
-    puma (5.6.1)
+    puma (5.6.2)
       nio4r (~> 2.0)
     pusher (1.4.3)
       httpclient (~> 2.8)
