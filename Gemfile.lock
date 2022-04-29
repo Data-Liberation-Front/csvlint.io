@@ -376,7 +376,7 @@ GEM
       net-http-persistent (>= 2.7)
       net-http-pipeline
     gherkin (5.1.0)
-    git (1.7.0)
+    git (1.11.0)
       rchardet (~> 1.8)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
