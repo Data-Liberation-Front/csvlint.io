@@ -532,7 +532,7 @@ GEM
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    psych (4.0.3)
+    psych (4.0.4)
       stringio
     public_suffix (4.0.6)
     puma (5.6.4)
@@ -693,7 +693,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sdoc (2.3.2)
+    sdoc (2.4.0)
       rdoc (>= 5.0)
     shellany (0.0.1)
     shex (0.5.2)
@@ -734,7 +734,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.4.2)
-    stringio (3.0.1)
+    stringio (3.0.2)
     sxp (1.1.0)
       rdf (~> 3.1)
     sync (0.5.0)
@@ -843,7 +843,7 @@ DEPENDENCIES
   rspec-rails (< 4)
   rubyzip (~> 2.3)
   sass-rails (~> 6.0)
-  sdoc (~> 2.3)
+  sdoc (~> 2.4)
   sidekiq (~> 4.2)
   simplecov (~> 0.16)
   spring (~> 2.1)
