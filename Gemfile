@@ -58,7 +58,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'travis', '~> 1.8'
   gem 'web-console', '~> 3.3'
   gem 'spring', '~> 2.1'
 end
