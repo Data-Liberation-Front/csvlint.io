@@ -540,6 +540,7 @@ GEM
       json
       websocket (~> 1.0)
     pusher-signature (0.1.8)
+    racc (1.5.0)
     rack (1.6.13)
     rack-cors (1.0.6)
       rack (>= 1.6.0)
@@ -825,6 +826,7 @@ DEPENDENCIES
   pry (~> 0.14)
   puma (~> 5.3)
   pusher (~> 1.4)
+  racc (= 1.5)
   rack-cors (~> 1.0)
   rack-google-analytics (~> 1.2)
   rails (~> 4.2)

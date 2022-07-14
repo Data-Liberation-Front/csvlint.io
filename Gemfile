@@ -99,3 +99,5 @@ gem 'rack-cors', '~> 1.0'
 gem 'resumable_upload', git: 'https://github.com/Data-Liberation-Front/resumable-upload'
 gem 'pusher', '~> 1.4'
 gem 'cloudflare', '~> 2.1'
+
+gem "racc", "= 1.5" # temporary pin to build on ruby 2.4, can remove when ruby is upgraded
