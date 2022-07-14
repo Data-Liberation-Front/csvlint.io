@@ -13,6 +13,10 @@ jobs:
         with:
           bundler-cache: true
           ruby-version: 2.4
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.7.0
+        with:
+          mongodb-version: 4.2
       - name: Install dependencies
         run: bundle install
       - name: Run the tests
