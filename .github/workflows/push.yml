@@ -1,0 +1,28 @@
+name: CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+env:
+  PUSHER_APP_ID: abc123
+  PUSHER_KEY: abc123
+  PUSHER_SECRET: abc123
+  PUSHER_CLUSTER: eu
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: 2.4
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.7.0
+        with:
+          mongodb-version: 4.2
+      - name: Install dependencies
+        run: bundle install
+      - name: Run the tests
+        run: bundle exec rake
