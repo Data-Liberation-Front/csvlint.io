@@ -19,8 +19,8 @@ To increase your chances of your push being accepted please be aware of the foll
 - Follow our [style guide recommendations](https://github.com/theodi/toolbox/blob/master/README.md#code-style-guide)
 - Write tests for all changes (additions or refactors of existing code).
 - Of the github integrations we use two will be utilised to check appraise your contribution. In order of priority these are
-    - Travis ensures that all tests (existing and additions) pass
-    - Travis/Coveralls ensures that overall test coverage for lines of code meets a certain threshold. If this metric dips below what it previously was for the repository you’re pushing to then your PR will be rejected
+    - Github Actions ensures that all tests (existing and additions) pass
+    - Github Actions / Coveralls ensures that overall test coverage for lines of code meets a certain threshold. If this metric dips below what it previously was for the repository you’re pushing to then your PR will be rejected
     - Gemnasium ensures dependencies are up to date
 - Once your PR is published and passes the above checks a repository administrator will review your contribution. Where appropriate comments may be provided and amendments suggested before your PR is merged into Master.
 - Once your PR is accepted you will be granted push access to the repository you have contributed to! Congratulations on joining our community, you’ll no longer need to work from forks.
