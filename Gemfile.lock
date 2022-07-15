@@ -126,7 +126,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     colorize (0.8.1)
-    concurrent-ruby (1.1.8)
+    concurrent-ruby (1.1.10)
     connection_pool (2.2.1)
     coveralls (0.8.23)
       json (>= 1.8, < 3)
@@ -436,7 +436,7 @@ GEM
       activerecord
       kaminari-core (= 1.2.1)
     kaminari-core (1.2.1)
-    kaminari-mongoid (1.0.1)
+    kaminari-mongoid (1.0.2)
       kaminari-core (~> 1.0)
       mongoid
     ld-patch (0.3.3)
@@ -485,7 +485,7 @@ GEM
     mime-types (2.99.3)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-    minitest (5.14.3)
+    minitest (5.16.2)
     mongoid (5.1.6)
       activemodel (~> 4.0)
       mongo (~> 2.1)
