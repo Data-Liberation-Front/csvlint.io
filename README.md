@@ -1,4 +1,4 @@
-[![Build Status](https://img.shields.io/github/workflow/status/Data-Liberation-Front/csvlint.rb/CI/main)](https://github.com/Data-Liberation-Front/csvlint.io)
+[![Build Status](https://img.shields.io/github/workflow/status/Data-Liberation-Front/csvlint.io/CI/main)](https://github.com/Data-Liberation-Front/csvlint.io)
 [![Coverage Status](https://img.shields.io/coveralls/Data-Liberation-Front/csvlint.io/badge.png)](https://coveralls.io/r/Data-Liberation-Front/csvlint.io)
 [![Code Climate](https://codeclimate.com/github/Data-Liberation-Front/csvlint.io.png)](https://codeclimate.com/github/Data-Liberation-Front/csvlint.io)
 [![Dependency Status](https://img.shields.io/librariesio/github/Data-Liberation-Front/csvlint.io)](https://libraries.io/github/Data-Liberation-Front/csvlint.io)
