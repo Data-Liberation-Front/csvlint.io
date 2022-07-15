@@ -2,8 +2,8 @@
 [![Coverage Status](https://img.shields.io/coveralls/Data-Liberation-Front/csvlint.io/badge.png)](https://coveralls.io/r/Data-Liberation-Front/csvlint.io)
 [![Code Climate](https://codeclimate.com/github/Data-Liberation-Front/csvlint.io.png)](https://codeclimate.com/github/Data-Liberation-Front/csvlint.io)
 [![Dependency Status](https://img.shields.io/librariesio/github/Data-Liberation-Front/csvlint.io)](https://libraries.io/github/Data-Liberation-Front/csvlint.io)
-[![License](https://img.shields.io/:license-mit-gre en.svg)](https://theodi.mit-license.org/)
-[![Documentation](https://inch-ci.org/github/Data-Liberation-Front/csvlint.io.svg?branch=master&style=shields)](https://inch-ci.org/github/Data-Liberation-Front/csvlint.io)
+[![License](https://img.shields.io/:license-mit-green.svg)](https://theodi.mit-license.org/)
+[![Documentation](https://inch-ci.org/github/Data-Liberation-Front/csvlint.io.svg?branch=main&style=shields)](https://inch-ci.org/github/Data-Liberation-Front/csvlint.io)
 
 # CSVLint
 
