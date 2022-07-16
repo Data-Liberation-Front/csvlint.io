@@ -85,7 +85,7 @@ gem 'csvlint', '~> 1.0'
 gem 'datapackage', '0.0.4' # temporarily pinned to avoid breaking the build
 gem 'rest-client', '~> 2.0'
 
-gem 'nokogiri', '~> 1.10'
+gem 'nokogiri', '~> 1.13'
 
 gem 'airbrake', '~> 11.0'
 gem 'font-awesome-rails', '~> 4.7'
