@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '~> 2.4'
+ruby '~> 2.6'
 
 gem 'rake', '~> 13.0'
 gem 'rails', '~> 4.2'
@@ -45,7 +45,7 @@ group :development, :test do
   gem 'guard-rspec', '~> 4.7'
   gem 'guard-cucumber', '~> 3.0'
   gem 'guard-bundler', '~> 2.2'
-  gem 'webmock', '~> 3.12', require: false
+  gem 'webmock', '~> 3.14', require: false
   gem 'pry', '~> 0.14'
   gem 'timecop', '~> 0.9'
   gem 'factory_bot_rails', '~> 5.2'
@@ -81,11 +81,11 @@ gem 'bootstrap-kaminari-views', '~> 0.0'
 gem 'data_kitten', git: 'https://github.com/Data-Liberation-Front/data_kitten.git', ref: "e343510bd15e3329c1f2fab35035e248195348be", require: false
 gem 'rubyzip', '~> 2.3'
 
-gem 'csvlint', '~> 0.4'
+gem 'csvlint', '~> 1.0'
 gem 'datapackage', '0.0.4' # temporarily pinned to avoid breaking the build
 gem 'rest-client', '~> 2.0'
 
-gem 'nokogiri', '~> 1.10'
+gem 'nokogiri', '~> 1.13'
 
 gem 'airbrake', '~> 11.0'
 gem 'font-awesome-rails', '~> 4.7'
@@ -95,8 +95,8 @@ gem 'jquery-dotdotdot-rails', '~> 1.6'
 gem 'alternate_rails', git: 'https://github.com/Data-Liberation-Front/alternate-rails.git', ref: 'v4.2.0'
 gem 'rack-cors', '~> 1.0'
 
-gem 'resumable_upload', git: 'https://github.com/Data-Liberation-Front/resumable-upload.git', ref: 'v0.1.0'
-gem 'pusher', '~> 1.4'
+gem 'resumable_upload', git: 'https://github.com/Data-Liberation-Front/resumable-upload.git', ref: 'v0.2.0'
+gem 'pusher', '~> 2.0'
 gem 'cloudflare', '~> 2.1'
 
 gem "racc", "= 1.5" # temporary pin to build on ruby 2.4, can remove when ruby is upgraded
