@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '~> 2.5'
+ruby '~> 2.6'
 
 gem 'rake', '~> 13.0'
 gem 'rails', '~> 4.2'
@@ -95,7 +95,7 @@ gem 'jquery-dotdotdot-rails', '~> 1.6'
 gem 'alternate_rails', git: 'https://github.com/Data-Liberation-Front/alternate-rails.git', ref: 'v4.2.0'
 gem 'rack-cors', '~> 1.0'
 
-gem 'resumable_upload', git: 'https://github.com/Data-Liberation-Front/resumable-upload.git', ref: 'v0.1.0'
+gem 'resumable_upload', git: 'https://github.com/Data-Liberation-Front/resumable-upload.git', ref: 'v0.2.0'
 gem 'pusher', '~> 1.4'
 gem 'cloudflare', '~> 2.1'
 

@@ -40,10 +40,10 @@ GIT
 
 GIT
   remote: https://github.com/Data-Liberation-Front/resumable-upload.git
-  revision: e3f043392da456bf57a8b1696bae4434d215183b
-  ref: v0.1.0
+  revision: 6350c156cbae90f3a49af4f900cfbed35904ad90
+  ref: v0.2.0
   specs:
-    resumable_upload (0.1.0)
+    resumable_upload (0.2.0)
       dotenv
       fog (~> 1.36)
       rails (~> 4.0)
@@ -188,7 +188,7 @@ GEM
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
-    dry-inflector (0.2.0)
+    dry-inflector (0.2.1)
     ebnf (1.2.0)
       rdf (~> 3.1)
       sxp (~> 1.1)
@@ -830,7 +830,7 @@ DEPENDENCIES
   webmock (~> 3.12)
 
 RUBY VERSION
-   ruby 2.5.9p229
+   ruby 2.6.9p207
 
 BUNDLED WITH
    1.17.3
