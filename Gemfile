@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '~> 2.4'
+ruby '~> 2.5'
 
 gem 'rake', '~> 13.0'
 gem 'rails', '~> 4.2'
@@ -81,7 +81,7 @@ gem 'bootstrap-kaminari-views', '~> 0.0'
 gem 'data_kitten', git: 'https://github.com/Data-Liberation-Front/data_kitten.git', ref: "e343510bd15e3329c1f2fab35035e248195348be", require: false
 gem 'rubyzip', '~> 2.3'
 
-gem 'csvlint', '~> 0.4'
+gem 'csvlint', '~> 1.0'
 gem 'datapackage', '0.0.4' # temporarily pinned to avoid breaking the build
 gem 'rest-client', '~> 2.0'
 
