@@ -39,7 +39,7 @@ GIT
       bson (~> 3.0)
 
 GIT
-  remote: https://github.com/Data-Liberation-Front/resumable-upload
+  remote: https://github.com/Data-Liberation-Front/resumable-upload.git
   revision: 6350c156cbae90f3a49af4f900cfbed35904ad90
   ref: v0.2.0
   specs:
