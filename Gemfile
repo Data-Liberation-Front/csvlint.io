@@ -51,7 +51,7 @@ group :development, :test do
   gem 'factory_bot_rails', '~> 5.2'
   gem 'faker', '~> 2.2'
   gem 'poltergeist', '~> 1.6'
-  gem 'vcr', '~> 6.0'
+  gem 'vcr', '~> 6.1'
   gem 'cucumber-api-steps', require: false, git: 'https://github.com/Data-Liberation-Front/cucumber-api-steps.git', branch: 'feature-test-content-type'
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3', '~> 1.4'

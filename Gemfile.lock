@@ -750,7 +750,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.4)
     uri_template (0.7.0)
-    vcr (6.0.0)
+    vcr (6.1.0)
     web-console (3.3.0)
       activemodel (>= 4.2)
       debug_inspector
@@ -829,7 +829,7 @@ DEPENDENCIES
   timecop (~> 0.9)
   turbolinks (~> 5.2)
   uglifier (>= 1.3.0)
-  vcr (~> 6.0)
+  vcr (~> 6.1)
   web-console (~> 3.3)
   webmock (~> 3.14)
 
