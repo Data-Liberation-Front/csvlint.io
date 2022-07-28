@@ -3,7 +3,7 @@ ruby '~> 2.6'
 
 gem 'rake', '~> 13.0'
 gem 'rails', '~> 4.2'
-gem 'dotenv-rails', '~> 2.7'
+gem 'dotenv-rails', '~> 2.8'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 6.0'
