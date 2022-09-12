@@ -59,7 +59,7 @@ end
 
 group :development do
   gem 'web-console', '~> 3.3'
-  gem 'spring', '~> 2.1'
+  gem 'spring', '~> 4.0'
 end
 
 # Use ActiveModel has_secure_password
