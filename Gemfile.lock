@@ -128,7 +128,7 @@ GEM
     coffee-script-source (1.12.2)
     colorize (0.8.1)
     concurrent-ruby (1.1.10)
-    connection_pool (2.2.5)
+    connection_pool (2.3.0)
     coveralls (0.8.23)
       json (>= 1.8, < 3)
       simplecov (~> 0.16.1)
@@ -138,7 +138,7 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
-    csvlint (1.0.0)
+    csvlint (1.1.0)
       activesupport
       addressable
       escape_utils
@@ -197,7 +197,7 @@ GEM
       nokogiri (>= 1.4.3)
     erubis (2.7.0)
     escape_utils (1.3.0)
-    ethon (0.15.0)
+    ethon (0.16.0)
       ffi (>= 1.15.0)
     eventmachine (1.2.7)
     excon (0.92.3)
@@ -486,7 +486,7 @@ GEM
     mime-types-data (3.2022.0105)
     mini_mime (1.0.2)
     mini_portile2 (2.8.1)
-    minitest (5.16.3)
+    minitest (5.17.0)
     mongoid (5.1.6)
       activemodel (~> 4.0)
       mongo (~> 2.1)
@@ -520,7 +520,7 @@ GEM
       method_source (~> 1.0)
     psych (5.0.1)
       stringio
-    public_suffix (5.0.0)
+    public_suffix (5.0.1)
     puma (6.0.2)
       nio4r (~> 2.0)
     pusher (2.0.3)
@@ -786,7 +786,7 @@ DEPENDENCIES
   cloudflare (~> 2.1)
   coffee-rails (~> 4.2)
   coveralls (~> 0.8)
-  csvlint (~> 1.0)
+  csvlint (~> 1.1)
   cucumber-api-steps!
   cucumber-rails (~> 1.4)
   data_kitten!
