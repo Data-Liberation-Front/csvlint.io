@@ -519,7 +519,7 @@ GEM
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    psych (5.0.1)
+    psych (5.0.2)
       stringio
     public_suffix (5.0.1)
     puma (6.0.2)
@@ -679,7 +679,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sdoc (2.5.0)
+    sdoc (2.6.0)
       rdoc (>= 5.0)
     shellany (0.0.1)
     shex (0.5.2)
@@ -825,7 +825,7 @@ DEPENDENCIES
   rspec-rails (< 4)
   rubyzip (~> 2.3)
   sass-rails (~> 6.0)
-  sdoc (~> 2.5)
+  sdoc (~> 2.6)
   sidekiq (~> 4.2)
   simplecov (~> 0.16)
   spring (~> 2.1)
