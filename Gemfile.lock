@@ -500,7 +500,7 @@ GEM
       connection_pool (~> 2.2)
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.13.10)
+    nokogiri (1.14.1)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     nokogumbo (2.0.5)
@@ -809,7 +809,7 @@ DEPENDENCIES
   kaminari-mongoid (~> 1.0)
   mongo (~> 2.1)!
   mongoid (~> 5.1)
-  nokogiri (~> 1.13)
+  nokogiri (~> 1.14)
   poltergeist (~> 1.6)
   pry (~> 0.14)
   puma (~> 6.0)
