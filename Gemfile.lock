@@ -519,7 +519,7 @@ GEM
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    psych (5.0.2)
+    psych (5.1.0)
       stringio
     public_suffix (5.0.1)
     puma (6.0.2)
@@ -679,7 +679,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sdoc (2.6.0)
+    sdoc (2.6.1)
       rdoc (>= 5.0)
     shellany (0.0.1)
     shex (0.5.2)
@@ -721,7 +721,7 @@ GEM
       sprockets (>= 3.0.0)
     sqlite3 (1.6.0)
       mini_portile2 (~> 2.8.0)
-    stringio (3.0.4)
+    stringio (3.0.5)
     sxp (1.2.2)
       matrix
       rdf (~> 3.2)
