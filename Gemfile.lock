@@ -522,7 +522,7 @@ GEM
     psych (5.1.0)
       stringio
     public_suffix (5.0.1)
-    puma (6.0.2)
+    puma (6.1.0)
       nio4r (~> 2.0)
     pusher (2.0.3)
       httpclient (~> 2.8)
@@ -812,7 +812,7 @@ DEPENDENCIES
   nokogiri (~> 1.14)
   poltergeist (~> 1.6)
   pry (~> 0.14)
-  puma (~> 6.0)
+  puma (~> 6.1)
   pusher (~> 2.0)
   racc (= 1.6.2)
   rack-cors (~> 1.0)
