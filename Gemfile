@@ -89,7 +89,7 @@ gem 'nokogiri', '~> 1.14'
 
 gem 'airbrake', '~> 11.0'
 gem 'font-awesome-rails', '~> 4.7'
-gem 'sidekiq', '~> 4.2'
+gem 'sidekiq', '~> 5.2'
 gem 'data_uri', '~> 0.1'
 gem 'jquery-dotdotdot-rails', '~> 1.6'
 gem 'alternate_rails', git: 'https://github.com/Data-Liberation-Front/alternate-rails.git', ref: 'v4.2.0'
