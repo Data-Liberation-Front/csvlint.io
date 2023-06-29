@@ -99,4 +99,4 @@ gem 'resumable_upload', git: 'https://github.com/Data-Liberation-Front/resumable
 gem 'pusher', '~> 2.0'
 gem 'cloudflare', '~> 2.1'
 
-gem "racc", "1.6.2" # temporary pin to build on ruby 2.4, can remove when ruby is upgraded
+gem "racc", "1.7.1" # temporary pin to build on ruby 2.4, can remove when ruby is upgraded
