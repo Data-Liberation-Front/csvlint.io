@@ -499,7 +499,7 @@ GEM
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
     netrc (0.11.0)
-    nio4r (2.5.9)
+    nio4r (2.7.0)
     nokogiri (1.15.5)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
@@ -522,7 +522,7 @@ GEM
     psych (5.1.0)
       stringio
     public_suffix (5.0.3)
-    puma (6.4.0)
+    puma (6.4.2)
       nio4r (~> 2.0)
     pusher (2.0.3)
       httpclient (~> 2.8)
