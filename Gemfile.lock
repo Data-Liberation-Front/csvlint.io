@@ -519,7 +519,7 @@ GEM
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    psych (5.1.0)
+    psych (5.1.2)
       stringio
     public_suffix (5.0.3)
     puma (6.4.2)
@@ -638,7 +638,7 @@ GEM
     rdf-xsd (3.2.1)
       rdf (~> 3.2)
       rexml (~> 3.2)
-    rdoc (6.5.0)
+    rdoc (6.6.3.1)
       psych (>= 4.0.0)
     redis (3.3.1)
     ref (2.0.0)
@@ -721,7 +721,7 @@ GEM
       sprockets (>= 3.0.0)
     sqlite3 (1.6.9)
       mini_portile2 (~> 2.8.0)
-    stringio (3.0.5)
+    stringio (3.1.0)
     sxp (1.2.2)
       matrix
       rdf (~> 3.2)
